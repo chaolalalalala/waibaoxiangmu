@@ -1,0 +1,64 @@
+#all_mask_loginbox .login_title{
+	position: relative!important;
+	padding-bottom: 5px;
+	height: 40px!important;
+	border-bottom: 2px solid #313131!important;
+	font-size: 18px!important;
+    font-weight: bold!important;
+}
+#all_mask_loginbox .login_text{
+	width: 386px!important;
+	margin-bottom: 25px!important;
+}
+#all_mask_loginbox .login_text .texts{
+	width: 380px!important;
+	height: 50px!important;
+	line-height: 34px!important;
+	padding-top: 9px!important;
+	padding-bottom: 9px!important;
+	box-sizing: border-box!important;
+	background: #181818;
+	color: #c8c8c8;
+}
+#all_mask_loginbox .login_text .texts.w145.hg40{
+	width: 275px!important;
+}
+#all_mask_loginbox .login_button{
+	width: 380px!important;
+}
+#all_mask_loginbox .login_button input[type="button"]{
+	width: 380px!important;
+    height: 42px!important;
+    background: #9E0707!important;
+    color: #c8c8c8!important;
+    font-size: 16px!important;
+    transition: background 0.3s;
+    -webkit-appearance: none!important;
+}
+#all_mask_loginbox .login_button input[type="button"]:hover{
+	background: #f58d60!important;
+}
+#all_mask_loginbox .mask_wrap_close{
+	width: 40px!important;
+	height: 40px!important;
+	right: -14px!important;
+	top: -14px!important;
+	border: 5px solid #444!important;
+	border-radius: 50%!important;
+	transition: transform 0.3s!important;
+	background: url(../style/img/icon_delate_.png) no-repeat center!important;
+	background-size: 32px 32px!important;
+    background-color: #fff!important;
+}
+#all_mask_loginbox .mask_wrap_close:hover{
+	transform: rotate(180deg)!important;
+}
+#all_mask_loginbox .login-footer.wwxwwx{
+	margin-left: 40px!important;
+}
+#all_mask_loginbox .login-footer.wwxwwx span a{
+	color: #9E0707!important;
+}
+#all_mask_loginbox .mask_wrap_close img{
+	display: none!important;
+}

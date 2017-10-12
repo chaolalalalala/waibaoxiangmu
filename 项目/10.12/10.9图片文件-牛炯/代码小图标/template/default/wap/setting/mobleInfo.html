@@ -1,0 +1,53 @@
+{include file="public:header"}
+<title>手机绑定信息</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+	<style>
+        .list-btn{
+            margin: 1rem 1rem;
+             color: #ffffff !important;
+             background-color: #03a9f4 !important;
+            width: auto !important;
+        }
+	</style>
+</head>
+<body>
+<div class="aui-content aui-margin-b-15">
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-text" style="font-size: 0.8rem">您的账号已启用手机绑定</div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">手机号码:</div>
+                <div class="aui-list-item-text" id="user_mobile"></div>
+            </div>
+        </li>
+    </ul>
+    <div class="aui-btn aui-btn-info aui-btn-block list-btn" onclick="show_mobile()">更换绑定</div>
+</div>
+</body>
+<script type = "text/javascript" >
+    apiready = function () {
+        onerror = error_handel;
+        requestData();
+    }
+
+    function show_mobile(){
+        openWinWithParams('moble_h','setting',{"mobile":$("#user_mobile").html()});
+    }
+
+    function requestData() {
+        loading();
+        UserAjax('user/moble', 'get', '', function (ret) {
+            toast.hide();
+            if (ret.status == 1) {
+                $("#user_mobile").html(ret.info.moble);
+            } else {
+                art("获取绑定手机号失败");
+            }
+        });
+    }
+</script>
+</html>

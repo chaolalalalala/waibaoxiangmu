@@ -1,0 +1,195 @@
+{include file="header"}
+<div class="content">
+	<div id="intro">
+		{#slider("ico")}
+		<div id="intro_desc">
+			<div class="wrapper clearfix">
+				<!--ICO记录-->
+				<div class="calendar">
+					<div class="wrapper-head clearfix">
+						<span class="head-span">{#lang('ICO日历')}</span> <a href="{#url('/ico/lists')}" class="intro_desc_more"> 查看更多
+                                <span class="head_arrow-right">
+                                    <i class="fa fa-angle-right"></i>
+                                </span> </a>
+					</div>
+					<div class="wrapper-body" id="calendar_list_body">
+						{foreach $new_ico as $k=>$v} {if $k < 6}
+						<div class="calendar_list">
+							<span class="calendar_data">{$v['addtime']}</span>
+							<span class="calendar_content">
+								<a href="{#url('ico/details/id/'.$v['id'])}" target="_blank" class="title calendar_title" title="{$v['title']}">{$v['title']}</a></span><span style="font-size: 14px;padding-left: 5px;color:#3F4696;">[平台]</span>
+						</div>
+						{/if} {/foreach}
+					</div>
+				</div>
+				<!--文章部分-->
+				<div class="hot-news">
+					<div class="wrapper-head clearfix">
+						<span class="head-span">{#lang('新闻公告')}</span>
+						<a href="{#url('/article/index/typeid/2')}" class="intro_desc_more">{#lang('查看更多')}
+                                <span class="head_arrow-right">
+									<i class="fa fa-angle-right"></i>
+                                </span> </a>
+					</div>
+					<div class="wrapper-body">
+						{foreach $news_type_list[1]['list'] as $k=>$v} {if $k<6}
+						<div class="news_item clearfix">
+							<div class="news_title dot">
+								<a href="{#url('/article/detail/id/'.$v['id'])}" target="_blank" class="title" title="{$v['title']}">{$v['title']}</a>
+							</div>
+							<div class="news_time">
+                                        <span class="time_sing">
+                                            <svg width="12px" height="12px" class="">
+	                                            <use xlink:href="#icon-news-time"></use>
+                                            </svg>
+                                        </span> <span class="time">{#addtime('Y-m-d'),$v['addtime']}</span>
+							</div>
+						</div>
+						{/if} {/foreach}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="intro_project">
+			<div class="wrapper">
+				<div class="flex-row">
+					<!--项目列表-->
+					{if $now_ico}{foreach $now_ico as $v}
+					<div class="li-item">
+						<div class="block-top">
+                                <span class="status-tag">
+									{if $v["kaishi"]==1}
+									 <img src="__HOME__/ico/img/ready.png" alt="" >
+									{else if $v["kaishi"]==2}
+                               <img src="__HOME__/ico/img/ing.png" alt="" >
+									{/if}
+
+                                </span> <a href="{#url('/ico/details/id/'.$v['id'])}" class="pro-pic">
+							<img src="__UP__/{$v['img']}" alt=""></a>
+						</div>
+						<div class="block-bottom">
+							<h4>
+								<a href="{#url('ico/details/id/'.$v['id'])}" class="pro-title" title="$v['ttile']">{$v['title']}</a>
+							</h4>
+							<h5>{$v["f_title"]}</h5>
+							<div class="raise-funds">
+								<div class="raise-money">
+									<a class="raise-already btc-font-family  ">{#strtoupper($v["coin"])}&nbsp;{$v["gete"]}</a>
+								</div>
+								<div class="raise-progress">
+									<div class="meter ">
+										<span class="current-percent  " data-number="0" style="width:{$v['bili']}%"></span>
+									</div>
+									<a class="progress-percent ">{$v["gete"]/$v["mum"]*100}%</a>
+								</div>
+							</div>
+							<ul class="raise-info clearfix">
+								<li class="right-bar">
+									<a class="raise-info-val">{$v["mum"]} {#strtoupper($v["coin"])}</a> <span>{#lang('目标金额')}</span>
+								</li>
+								<li class="right-bar pl15">
+									<a class="raise-info-val">{$v["day"]}</a> <span>{#lang('剩余天数')}</span>
+								</li>
+								<li class="pl15">
+									<a class="raise-info-val">{$v["num"]}</a> <span>{#lang('支持者')}</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+					{/foreach}{/if}
+				</div>
+				<div class="flex-row">
+					<div class="btn-row">
+						<a href="{#url('/ico/lists')}">
+							<button>{#lang('查看更多')} ▶
+							</button>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="intro_promise">
+			<div class="wrapper">
+				<div class="flex-row">
+					<div class="flex-item">
+						<img src="__HOME__/ico/img/safe.png" alt="">
+						<div class="promise">
+							<strong>安全</strong>
+						</div>
+					</div>
+					<div class="flex-item">
+						<img src="__HOME__/ico/img/award.png" alt="">
+						<div class="promise">
+							<strong>诚信</strong>
+						</div>
+					</div>
+					<div class="flex-item">
+						<img src="__HOME__/ico/img/justice.png" alt="">
+						<div class="promise">
+							<strong>公平</strong>
+						</div>
+					</div>
+					<div class="flex-item">
+						<img src="__HOME__/ico/img/lock.png" alt="">
+						<div class="promise">
+							<strong>透明</strong>
+						</div>
+					</div>
+				</div>
+				<div id="promise_desc">
+					<p> 企业植根于互联网金融领域，历经五年技术沉淀， 目前已成为国内拥有丰富互联网金融(数字货币, P2P信贷,众筹等)平台建设经验的高端服务商， 先后研发出多项拥有独立知识产权的交易系统,钱包应用,APP应用以及各类对接于系统的大小功能组件。</p>
+				</div>
+			</div>
+		</div>
+		<div id="intro_feature">
+			<div class="wrapper">
+				<div class="flex-row">
+					<div class="flex-item team">
+						<div class="item-head">
+							<img src="__HOME__/ico/img/team.png" alt="">
+							<div class="feature">
+								<strong>专业团队</strong>
+							</div>
+						</div>
+						<div class="item-body">
+							我们由一支熟悉数字货币、区块链、互联网金融运作方式的团队开发并运营。
+						</div>
+					</div>
+					<div class="flex-item resources">
+						<div class="item-head">
+							<img src="__HOME__/ico/img/money.png" alt="">
+							<div class="feature">
+								<strong>投资资源</strong>
+							</div>
+						</div>
+						<div class="item-body">
+							我们拥有一批来自于数字货币、区块链、金融、科技、基金领域的投资资源。
+						</div>
+					</div>
+					<div class="flex-item services">
+						<div class="item-head">
+							<img src="__HOME__/ico/img/people.png" alt="" style="margin-top:10px;">
+							<div class="feature">
+								<strong>用户体验</strong>
+							</div>
+						</div>
+						<div class="item-body">
+							我们提供7 × 24小时客服在线及技术支持，确保产品每一环节使用流畅。
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	if ($("#ico_box").length > 0) {
+		$('#ico_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}
+
+
+

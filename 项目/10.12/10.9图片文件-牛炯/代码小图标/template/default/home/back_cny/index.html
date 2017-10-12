@@ -1,0 +1,79 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<div class="autobox">
+    <div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('返利中心')}
+    </div>
+    <div class="main-content mb20">
+        <div class=" assets_content bg_w" style="min-height:30px;">
+            <div class="safe_center clear">
+                <h1>
+					<span>
+						{#lang('返利中心')}
+					</span>
+	                <span>
+                        <a href="{#url('back_cny/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('返利列表')}</a>
+                        <a href="{#url('back_cny/log')}" id="step2" class="step fz_12 ml20 pd6">{#lang('返利记录')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+                </h1>
+            </div>
+            <div id="hints" class="mytips" style="display:none;">
+                <script>
+                    var hints = "{$hints['show']}";
+                    if (hints == 1) {
+                        $('#hints').show();
+                    }
+                </script>
+                {$hints["value"] nofilter}
+            </div>
+            {#slider("issue")}
+        </div>
+    </div>
+    {if $pages["list"]} {foreach $pages["list"] as $k => $v}
+    <div class="crowd_con crowd_con_list clear "  style="border: 6px solid #e8e9ea;">
+        <div class="crowd_con_l ">
+            <ul class="crowd_subscribe clear">
+                <li style="margin-left:10px;width:180px">
+                    <p>{#lang('返现名称')}</p><span class="">{$v['title']}</span>
+                </li>
+                <li style="margin-right:60px;width:auto">
+                    <p>{#lang('返利币种')}</p><span class="red"> {#strtoupper($v['coin'])}</span>
+                </li>
+                <li style="margin-right:60px;width:auto">
+                    <p>{#lang('返现数量')}</p><span class="red"> {#num($v['num'])}</span>
+                </li>
+                <li style="margin-right:60px;width:auto">
+                    <p style="text-align: center">{#lang('返利次数')}</p><span class="red">
+				第{$v["jd"]}次/共{$v['ci']}次</span>
+                </li>
+                <li style="width:170px;margin-right: 50px">
+                    <p style="text-align: center">{#lang('返利日期')}</p><span class="red" style="font-size: 10px">{$v[week]}</span>
+                </li>
+                <li style="margin-right:60px;width:auto">
+                    <p>{#lang('上次返利时间')}</p><span class="red">{#addtime($v['endtime'],'Y/m/d')}</span>
+                </li>
+                <li style="margin-top: 5px;">
+                    <a href="/back_cny/log/pid/{$v['id']}" class="btns"  style="padding: 10px 30px;">{#lang('查看记录')}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {/foreach}{/if}
+    {if $pages['show']}
+    <div class="pages">{$pages['show'] nofilter}</div>
+    {/if}
+</div>
+
+<script>
+    if ($("#back_cny_box").length > 0) {
+        $('#back_cny_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}

@@ -1,0 +1,123 @@
+{include file="public:header"}
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;<a href="{#url('bazaar/index')}" class="orange">{#lang('集市交易')}</a>&gt; {#lang('我的委托')}
+	</div>
+	<div class="main-content">
+		<div class="assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('集市交易')}
+					</span>
+					<span>
+                        <a href="{#url('bazaar/market')}" id="step1" class="step fz_12 ml20 pd6 active">{#lang('逛集市')} </a>
+						<a href="{#url('bazaar/index')}" id="step2" class="step fz_12 ml20 pd6 ">{#lang('我的委托')} </a>
+						<a href="{#url('bazaar/log')}" id="step3" class="step fz_12 ml20 pd6 ">{#lang('我的成交')} </a>
+                        <a href="{#url('bazaar/invite')}" id="step4" class="step fz_12 ml20 pd6 ">{#lang('我的奖励')}</a>
+					</span>
+                    <span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="cnyin_record">
+				<div class="f_body">
+					<div class="f_body_main">
+						<div class="f_tab_body">
+							<div>
+
+								<table class="f_table" id="investLog_content">
+									<tr>
+										<th>
+											<select id="market-select">
+												<option value="">---{#lang('全部市场')}---</option>
+												{foreach $market_list as $k => $v}
+												<option value="{$v['name']}">{$v['title']}</option>
+												{/foreach} </select></th>
+										<th>{#lang('委托时间')}</th>
+										<th>
+											<select id="type-select">
+												<option value="">-{#lang('全部')}-</option>
+												<option value="1">{#lang('买入')}</option>
+												<option value="2">{#lang('卖出')}</option>
+											</select></th>
+										<th>{#lang('委托价格')}</th>
+										<th>{#lang('委托数量')}</th>
+										<th>{#lang('已成交量')}</th>
+										<th>{#lang('成交总额')}</th>
+										<!--<th>买入手续费</th>-->
+										<!--<th>卖出手续费</th>-->
+										<th>
+											<select id="deal-select">
+												<option value="">-{#lang('全部')}-</option>
+												<option value="1">{#lang('已完成')}</option>
+												<option value="2">{#lang('交易中')}</option>
+												<option value="3">{#lang('已撤销')}</option>
+											</select></th>
+									</tr>
+									{foreach  $pages['list'] as $v}
+									<tr>
+										<td><img src="__UP__/{$market_list[$v['market']]['img']}" class="mr5" style="margin-bottom: -5px; width: 22px;"/>{$market_list[$v['market']]['title']}</td>
+										<td>{#addtime($v["addtime"])}</td>
+
+										<td>{$v["type"]}</td>
+										<td>{$v["price"]}</td>
+										<td>{$v["num"]}</td>
+										<td>{$v["deal"]}</td>
+										<td>{$v["mum"]}</td>
+										<td>{ $v["status"]}</td>
+
+									</tr>
+									{/foreach}
+								</table>
+								<div class="pages">{$pages['show'] nofilter}</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function bazaar_up() {
+
+		$.post("{#url('bazaar/up')}", {}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout(function(){
+					window.location = "/bazaar/index";
+				},1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+</script>
+
+<script>
+	if ($("#bazaar_box").length > 0) {
+		$('#bazaar_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

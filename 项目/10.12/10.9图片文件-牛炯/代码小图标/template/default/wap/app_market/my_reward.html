@@ -1,0 +1,184 @@
+{include file="public:header"}
+<title>记录</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+	.my_body{
+		margin: 10px 10px 60px 10px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background-color: #FFF;
+	}
+	.bank_title{
+		margin: 0 0 0 1rem;
+		height: 3rem;
+		line-height: 3rem;
+		color:#a59494;
+	}
+	.bank_title img{
+		height: 1.6rem;
+		margin: 0.7rem 1rem 0 0;
+		vertical-align: middle;
+		float: right;
+	}
+	.bank_body{
+		margin: 0 0 0 1rem;
+	}
+	.bank_body span{
+		display: block;
+	}
+	.bank_body .g{
+		color: gray;
+	}
+	.r{
+		float: right;
+		margin-right: 1rem;
+	}
+	.red{
+		color: #e55600;
+	}
+	.green{
+		color:green;
+	}
+	select{
+		color: #a59494;
+		display: block;
+		outline: none;
+		/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+		/*很关键：将默认的select选择框样式清除*/
+		appearance:none;
+		-moz-appearance:none;
+		-webkit-appearance: listbox;
+		background-color: #FFF;
+		height:3rem;
+		line-height:2rem;
+		text-align: left;
+		border: 0;
+	}
+</style>
+<body>
+<section class="aui-refresh-content">
+<div class="wrap">
+	<div class="my_body">
+		<div id="log-list"></div>
+	</div>
+</div>
+	<section class="aui-refresh-content">
+		<script id="log-list-template" type="text/x-dot-template">
+			{{? it.length>0}}
+			{{ for(var i in it) { }}
+			<ul class="aui-border">
+				<li class="bank_title aui-border-b">
+					下家用户名:<span>{{=it[i].invitname}}</span>
+					{{? it[i].status == 1}}
+					<span class="r red">已到账</span>
+					{{??}}
+					<span class="r green">未到账</span>
+					{{?}}
+				</li>
+				<li class="bank_body">
+					<span class="g">奖励类型:<em>{{=it[i].type}}</em></span>
+					<span class="g">奖励说明:<em>{{=it[i].name}}</em></span>
+					<span class="g">操作数量:<em>{{=it[i].num}}</em></span>
+					<span class="g">奖励数量:<em>{{=it[i].fee}}</em></span>
+					<span class="g">奖励币种:<em>{{=it[i].feecoin}}</em></span>
+					<span class="g">操作时间:<em>{{=it[i].addtime}}</em></span>
+				</li>
+			</ul>
+			{{ } }}
+			{{??}}
+			<div style="padding: 10px 0"><ul style="text-align: center;color: #535C6F">暂无内容 </ul></div>
+			{{? }}
+		</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript">
+	var coin_name;
+	var callback;
+	var pid=1;
+	apiready = function(){
+		onerror = error_handel;
+		flash_wtlog(callback)
+	}
+
+	function flash_wtlog(callback){
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			emptyData($("#log-list"))
+			return false;
+		}
+		loading("努力加载中……")
+		UserAjax('bazaar/invit','get', {
+			'pid':pid,
+		},
+			function (ret) {
+			toast.hide()
+			if (ret.status == 1)
+			{
+				var temp = doT.template($("#log-list-template").text());
+				if(pid==1){
+					art('第'+pid+'页')
+					$("#log-list").html(temp(ret.info.list))
+				}
+				else if(pid>Math.ceil(Number(ret.info.count)/Number(ret.info.pageSize))){
+					art("没有更多数据了")
+				}
+				else{
+					art('第'+pid+'页')
+					$("#log-list").html($("#log-list").html()+temp(ret.info.list))};
+				if(typeof callback == "function"){
+					setTimeout(function () {
+						callback("刷新完成");
+					}, 1000)
+				}
+				parseTapmode();
+			}else {
+				if (typeof callback == "function") {
+					setTimeout(function () {
+						callback("刷新失败");
+					}, 1000)
+				}
+			}
+		},'json');
+	}
+
+	window.onscroll = function() {
+		if (getScrollTop() + getWindowHeight() == getScrollHeight()) {
+			++pid;
+			flash_wtlog(callback);
+		}
+	}
+	//下拉刷新
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			if(getScrollTop()<10) {
+				pid=1
+				flash_wtlog(function (msg) {
+					art(msg);
+					pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+				})
+			}
+			else {
+				pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+			}
+		}
+	})
+</script>
+</html>

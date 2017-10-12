@@ -1,0 +1,296 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/index.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+	<style>
+		.floor_body ul li .price .price_pro{
+			font-size:10px !important;
+		}
+	</style>
+</head>
+<body>
+   <div id="page" class="showpage">
+	<div>
+		<div id="aui-slide" >
+			<div class="aui-slide-wrap" id="slider">
+			</div>
+			<div class="aui-slide-page-wrap"><!--分页容器--></div>
+		</div>
+
+		<script id="slider-template" type="text/x-dot-template">
+			{{? it.length>0}}
+				{{ for(var i in it) { }}
+					<div class="aui-slide-node aui-slide-node-middle aui-slide-node-center">
+						<img src="{{=it[i]}}"/>
+					</div>
+				{{ } }}
+			{{? }}
+		</script>
+		<!--块状导航-->
+		<div class="entry-list clearfix">
+			<nav>
+				<ul>
+					<li onclick="open_type_list()" tapmod="">
+						<a href="javascript:void(0)">
+							<img alt="全部分类" src="__WAP__/image/shop/fenlei.png">
+							<span>全部分类</span> </a>
+					</li>
+					<li onclick="open_orderList()">
+						<a href="javascript:void(0)">
+							<img alt="我的订单" src="__WAP__/image/shop/tuangou.png">
+							<span>购物记录</span> </a>
+					</li>
+					<li onclick="open_goodsCar()">
+						<a href="javascript:void(0)">
+							<img alt="购物车" src="__WAP__/image/shop/car.png">
+							<span>购物车</span> </a>
+					</li>
+					<li onclick="open_personCenter ()">
+						<a href="javascript:void(0)">
+							<img alt="个人中心" src="__WAP__/image/shop/my.png">
+							<span>个人中心</span> </a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+
+		<div id="shop_list">
+
+		</div>
+		<!--开始分类显示-->
+		<section class="index_floor_lou">
+<!--			<div class="floor_body">-->
+<!--				<h2>-->
+<!--					<em></em>畅销商品-->
+<!--					<div class="geng">-->
+<!--						<a href="/index.php/Mobile/Goods/search/q/%E4%BF%83%E9%94%80.html">更多</a><span></span></div>-->
+<!--				</h2>-->
+<!--				<div id="scroll_promotion">-->
+<!--					<ul>-->
+<!--						<li>-->
+<!--							<a href="/index.php/Mobile/Goods/goodsInfo/id/136.html" title="小米旗舰店正品手机平板通用迷你充电宝 移动电源10000毫安大容量"></a>-->
+<!--							<div class="index_pro">-->
+<!--								<a href="/index.php/Mobile/Goods/goodsInfo/id/119.html" title="小米旗舰店正品手机平板通用迷你充电宝 移动电源10000毫安大容量">-->
+<!--									<div class="products_kuang">-->
+<!--										<div class="timerBox" id="surplus_text119">活动已结束</div>-->
+<!--										<img src="/Public/upload/goods/thumb/119/goods_thumb_119_400_400.jpeg">-->
+<!--									</div>-->
+<!--									<div class="goods_name">小米旗舰店正品手机平板通用迷你充电宝 移动电源10000毫安大容量</div>-->
+<!--								</a>-->
+<!--								<div class="price">-->
+<!--									<a href="javascript:AjaxAddCart(119,1,0);" class="btns">-->
+<!--										<img src="/Template/mobile/new/Static/images/index_flow.png"> </a>-->
+<!--									<span class="price_pro">￥59.00元</span>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</li>-->
+<!--						<li>-->
+<!--							<a href="/index.php/Mobile/Goods/goodsInfo/id/136.html" title="三星 Galaxy A9高配版 (A9100) 精灵黑 全网通4G手机 双卡双待"></a>-->
+<!--							<div class="index_pro">-->
+<!--								<a href="/index.php/Mobile/Goods/goodsInfo/id/141.html" title="三星 Galaxy A9高配版 (A9100) 精灵黑 全网通4G手机 双卡双待">-->
+<!--									<div class="products_kuang">-->
+<!--										<div class="timerBox" id="surplus_text141">858天8小时36分16秒</div>-->
+<!--										<img src="/Public/upload/goods/thumb/141/goods_thumb_141_400_400.jpeg">-->
+<!--									</div>-->
+<!--									<div class="goods_name">三星 Galaxy A9高配版 (A9100) 精灵黑 全网通4G手机 双卡双待</div>-->
+<!--								</a>-->
+<!--								<div class="price">-->
+<!--									<a href="javascript:AjaxAddCart(141,1,0);" class="btns">-->
+<!--										<img src="/Template/mobile/new/Static/images/index_flow.png"> </a>-->
+<!--									<span class="price_pro">￥3400.00元</span>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</li>-->
+<!--						<li>-->
+<!--							<a href="/index.php/Mobile/Goods/goodsInfo/id/136.html" title="靓号0元送广东联通4G/3G手机卡上网卡大流量套餐全国无漫游选号"></a>-->
+<!--							<div class="index_pro">-->
+<!--								<a href="/index.php/Mobile/Goods/goodsInfo/id/136.html" title="靓号0元送广东联通4G/3G手机卡上网卡大流量套餐全国无漫游选号">-->
+<!--									<div class="products_kuang">-->
+<!--										<div class="timerBox" id="surplus_text136">882天8小时36分16秒</div>-->
+<!--										<img src="/Public/upload/goods/thumb/136/goods_thumb_136_400_400.jpeg">-->
+<!--									</div>-->
+<!--									<div class="goods_name">靓号0元送广东联通4G/3G手机卡上网卡大流量套餐全国无漫游选号</div>-->
+<!--								</a>-->
+<!--								<div class="price">-->
+<!--									<a href="javascript:AjaxAddCart(136,1,0);" class="btns">-->
+<!--										<img src="/Template/mobile/new/Static/images/index_flow.png"> </a>-->
+<!--									<span class="price_pro">￥50.00元</span>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</li>-->
+<!--					</ul>-->
+<!--				</div>-->
+<!--			</div>-->
+		</section>
+
+		<script id="shop_list-template" type="text/x-dot-template">
+			{{? it.length>0}}
+			{{ for(var i in it) { }}
+			<section class="index_floor_lou">
+			<div class="floor_body">
+				<h2>
+					<em></em>{{=it[i]["name"]}}
+					<div class="geng">
+						<a href="javascript:void(0);" onclick="open_win('type_list_h','shop')">更多</a>
+						<span></span>
+					</div>
+				</h2>
+				<div id="scroll_promotion">
+					<ul>
+						{{? it[i]["lists"].length>0}}
+						{{ for(var ii in it[i]["lists"]) { }}
+							<li onclick='open_view({{=it[i]["lists"][ii]["id"]}})' tapmod="">
+								<a href="javascript:void(0);"></a>
+								<div class="index_pro">
+									<a href="javascript:void(0);">
+										<div class="products_kuang" style="height: 7.4rem">
+											<img src="{{=it[i]["lists"][ii]["img"]}}">
+										</div>
+										<div class="goods_name">{{=it[i]["lists"][ii]["title"]}}</div>
+									</a>
+									<div class="price">
+										<a href="javascript:;" class="btns">
+											<img src="__WAP__/image/shop/index_flow.png"> </a>
+										<span class="price_pro">￥{{=it[i]["lists"][ii]["price"]}}元</span>
+									</div>
+								</div>
+							</li>
+						{{ } }}
+						{{? }}
+					</ul>
+				</div>
+			</div>
+				</section>
+			{{ } }}
+			{{? }}
+		</script>
+	</div>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/echo.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-slide.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	apiready = function () {
+		alog("come");
+		onerror = error_handel;
+		flash(function(){
+
+		});
+	};
+
+//
+//	//下拉刷新
+//	var pullRefresh = new auiPullToRefresh({
+//		container: document.querySelector('.aui-refresh-content'),
+//		triggerDistance: 100
+//	}, function (ret) {
+//		if (ret.status == "success") {
+//			flash(function (msg) {
+//				art(msg);
+//				pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+//			});
+//		}
+//	})
+
+    //设置轮播图播放
+    var slide;
+    function setSlidePlay(){
+        slide = new auiSlide({
+            container: document.getElementById("aui-slide"),
+            "height": 180,
+            "speed": 500,
+            "autoPlay": 3000, //自动播放
+            "pageShow": true,
+            "loop": true,
+            "pageStyle": 'dot',
+            'dotPosition': 'center'
+        });
+    }
+
+	function flash(callback) {
+        
+		Ajax('shop/index', 'get', '', function (ret) {
+			if (ret.status == 1) {
+				//轮播图
+				$api.html($api.byId('slider'), doT.template($api.byId('slider-template').text)(ret.info.banner));
+
+				alog(ret.info.shop);
+
+				//商品分类展示
+				$api.html($api.byId('shop_list'), doT.template($api.byId('shop_list-template').text)(ret.info.shop));
+
+                //设置轮播图  必须放在设置轮播图之后,否则不会自动播放
+                setSlidePlay();
+				if (typeof callback == "function") {
+					setTimeout(function () {
+						callback("刷新完成");
+					}, 1000)
+				}else{
+					art("刷新完成");
+				}
+				parseTapmode();
+			} else {
+				if (typeof callback == "function") {
+					setTimeout(function () {
+						callback("刷新完成");
+					}, 1000)
+				}else{
+					art("刷新完成");
+				}
+				parseTapmode();
+			}
+		});
+	}
+
+    //打开全部分类
+	function open_type_list(){
+		openWin({
+			name: 'type_list_h',
+			url: aurl('html/shop/type_list_h'),
+			slidBackEnabled:false,
+			delay: 100
+		});
+	}
+
+	//打开分类商品
+	function open_view(id){
+		if(!id){
+			art("商品id 获取失败");
+			return;
+		}
+		openWin({
+			name: 'goods_info_h',
+			url: aurl('html/shop/goods_info_h'),
+			slidBackEnabled:false,
+			delay: 100,
+			pageParam: {
+				'id': id
+			}
+		});
+	}
+
+    //打开我的订单
+    function open_orderList() {
+        open_win('shopping_log_h','shop');
+    }
+
+    //打开购物车
+    function open_goodsCar () {
+        art("开发中....");
+        return;
+        open_win('goodsCar_h','shop');
+    }
+
+    //打开个人中心
+    function open_personCenter () {
+//        art("开发中....");
+//        return;
+	    open_win('personal_center_h','shop');
+    }
+
+
+</script>
+</html>

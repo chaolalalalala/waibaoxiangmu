@@ -1,0 +1,217 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/goods.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/fontawesome/font-awesome.min.css">
+	<style>
+        .h-mid ul li{ width:20%; float:left; height:45px; text-align:center; }
+        .orderItem li{
+            font-size: 0.65rem;
+            margin: 0.3125rem 0.625rem;
+        }
+        .orderItem ul{
+            clear: both;
+        }
+        .orderOptionBtns span {
+            margin: 0.325rem 0.325rem;
+            border: #999 1px solid;
+            padding: 0.125rem 0.325rem;
+            border-radius: 0.125rem;
+        }
+        #LC_canUseTitle {
+            width: 11.5rem;
+        }
+	</style>
+</head>
+<body>
+<div class="aui-content aui-margin-b-15">
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">主要内容</li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">理财名称:</div>
+                <div class="aui-list-item-text" id="LC_name">
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">日化利率:</div>
+                <div class="aui-list-item-text" id = "LC_lilv"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">理财总量:</div>
+                <div class="aui-list-item-text" id = "LC_total"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">起投数量:</div>
+                <div class="aui-list-item-text" id = "LC_limitNum"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">累计已理财:</div>
+                <div class="aui-list-item-text" id = "LC_finish"></div>
+            </div>
+        </li>
+    </ul>
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">理财介绍</li>
+	    <li  class="aui-list-item" style="height:300px">
+		    <div  id="LC_description"
+		          style="
+                 position:relative;
+                 left:10px;right:10px;
+                 overflow-x:auto;
+                 overflow-y:auto;
+                 width:100%;
+                 /*overflow:scroll;*/
+                 height:auto;
+                 padding:10px 10px;
+                 " >
+		    </div>
+        </li>
+    </ul>
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">其他内容</li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">开始时间:</div>
+                <div class="aui-list-item-text" id = "LC_startTime"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">结束时间:</div>
+                <div class="aui-list-item-text" id="LC_endTime"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">理财币种:</div>
+                <div class="aui-list-item-text" id="LC_coin"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">收益币种:</div>
+                <div class="aui-list-item-text" id="LC_gainCoin"></div>
+            </div>
+        </li>
+    </ul>
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">我要理财</li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label" id="LC_canUseTitle">您目前可用：</div>
+                <div class="aui-list-item-text" id="LC_canUseValue"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    理财数量:
+                </div>
+                <div class="aui-list-item-input">
+                    <input id="LC_buyNum" type="text" placeholder="请输入理财数量">
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    交易密码:
+                </div>
+                <div class="aui-list-item-input">
+                    <input id="paypassword" type="password" placeholder="请输入交易密码">
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="aui-content-padded">
+    <p><div class="aui-btn aui-btn-info" onclick="buyNow()" style="width: 100%;line-height: 1.5rem">立即理财</div></p>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/echo.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-slide.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	apiready = function () {
+		flash();
+	};
+
+	function flash() {
+        var params = { 'id':iv('itemId') };
+
+		if(!chkLogin()){
+			var req = Ajax
+		}else {
+			var req = UserAjax;
+		}
+
+        req('money/buy', 'get', params, function (ret) {
+            alog(ret);
+	        alog(params);
+            var data = ret.info.money;
+            if (ret.status == 1) {
+                $('#LC_name').html(data.name);
+                $('#LC_lilv').html(data.fee+'%');
+                $('#LC_total').html(data.num);
+                $('#LC_limitNum').html(data.min);
+                $('#LC_finish').html(data.deal);
+                $('#LC_description').html(data.content);
+                $('#LC_startTime').html(data.strtime);
+                $('#LC_endTime').html(data.endtime);
+                $('#LC_coin').html(data.coinname);
+                $('#LC_gainCoin').html(data.feecoin);
+                $('#LC_canUseTitle').html('您当前可用'+data.coinname+':');
+                $('#LC_canUseValue').html(data.mycoin);
+            }else {
+                art(ret.info);
+            }
+        });
+	}
+
+    function buyNow() {
+	    if (!chkLogin()) {
+		    art("您目前未登录,请先登录");
+		    return false;
+	    }
+        var params = {};
+        params.id = iv('itemId');
+        params.num = $('#LC_buyNum').val();
+        params.paypassword = $('#paypassword').val();
+        if (  isNull( params.id ) )
+        {
+            art('理财产品id错误');
+            return;
+        }
+        if ( isNull( params.num ) || !isInteger(params.num) ){
+            art('请输入合法的数量');
+            return;
+        }
+        if( isNull( params.paypassword ) ){
+            art('请输入支付密码');
+            return;
+        }
+        loading('提交中...')
+        Ajax('money/up', 'post', params, function (ret) {
+            toast.hide();
+            if ( ret.status == 1 ){
+                art("购买成功");
+                setTimeout("back()",2000);
+            }
+            else {
+                art("购买失败");
+            }
+        });
+    }
+</script>
+</html>

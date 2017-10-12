@@ -1,0 +1,63 @@
+{include file="public:header"}
+<title>认购详情</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/fontawesome/font-awesome.min.css">
+</head>
+<body>
+<header  id="header"  class="aui-bar aui-bar-nav aui-bar-dark">
+	<a class="aui-pull-left" onclick="back();">
+		<span class="aui-iconfont aui-icon-left"></span>返回
+	</a>
+	<div id="title" class="aui-title">认购详情</div>
+	<a class="aui-pull-right" id="logBtn" style="display:none" onclick="open_subscribe_detail_log()" tapmod="">
+		记录
+	</a>
+</header>
+</body>
+<script>
+	apiready = function(){
+		onerror       = error_handel;
+		var header    = $api.byId('header');
+		var width     = getWinWidth();
+		var headerPos = $api.offset(header);
+		var height    = getWinHight() - headerPos.h;
+
+
+		var isShowLog = iv('isShowLog');
+		if(isShowLog != 0){
+			$('#logBtn').css('display','block');
+		}
+
+		openFrame({
+			name: 'subscribe_detail',
+			url: aurl('app_subscribe/subscribe_detail'),
+			allowEdit : true,
+			bounces: false,
+			opaque: true,
+			reload: true,
+			vScrollBarEnabled: true,
+			hScrollBarEnabled:false,
+			rect: {
+				x: 0,
+				y: headerPos.h,
+				w: width,
+				h: height
+			},
+            pageParam: {
+	            'id':iv('id')
+            }
+		});
+	}
+	function open_subscribe_detail_log(id){
+		openWin({
+			name: 'subscribe_detail_log_h',
+			url: aurl('app_subscribe/subscribe_detail_log_h'),
+			slidBackEnabled: false,
+			delay: 100,
+			pageParam:{
+				'id':iv('id'),
+			}
+		})
+	}
+</script>
+</html>

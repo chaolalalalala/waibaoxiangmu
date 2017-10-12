@@ -1,0 +1,170 @@
+{include file="shop:header"}
+<link rel="stylesheet" href="__CSS__/shop.css"/>
+<div class="autobox">
+	<div class="autobox">
+		<div class="now">
+			<a href="/" class=""><i class="fa fa-home fa-lg move mr5"></i>{#lang('首页')}</a> &gt; <a href="{#url('shop/index')}" class="">{#lang('购物中心')}</a> &gt; {#lang('确认订单')}
+		</div>
+
+		<div class="assets_center clear po_re ">
+			<div class="assets_content   ">
+				<div class="page-content bg_w">
+					<h3>{#lang('选择收货地址')}
+						<span class="addr-tools">
+							<a href="{#url('user/goods')}" class="mgr-addrs" target="_blank">{#lang('管理收货地址')}</a>
+						</span>
+					</h3>
+					<div class="addr-list clearfix mb30">
+						{foreach $user_goods as $k => $v}
+						<div id="{$v['id']}" class="addr-tag checked">
+							<div class="addr-tag-content">
+								{if $v['default']} <span class="default-addr">{#lang('默认地址')}</span> {/if}
+								<h4>
+									<em class="addr-province-city">{$v['prov']} {$v['city']}</em>
+									（<em class="addr-name">{$v['truename']}</em> {#lang('收')}）
+								</h4>
+								<p>
+									<em class="addr-detail">{$v['addr']}</em>
+									<em class="addr-tel">{$v['moble']}</em>
+								</p>
+							</div>
+							<i class="addr-checked"></i>
+						</div>
+						{/foreach}
+					</div>
+					<h3>{#lang('确认订单信息')}</h3>
+					<input type="hidden" id="voucherName" value="">
+					<table class="order-table">
+						<tbody>
+						<tr class="order-table-header">
+							<th class="green-bt">{#lang('商品名称')}</th>
+							<th>{#lang('数量')}</th>
+							<th>{#lang('单价')}</th>
+							<th>{#lang('库存')}</th>
+							<th>{#lang('付款币种')}</th>
+						</tr>
+						<tr id="3">
+							<td class="td-left">{$shop['title']}</td>
+							<td>
+								<div class="num-picker">
+									{$num}
+								</div>
+							</td>
+							<td>
+								<em class=" goods-aruos">{#num($shop['price'])} </em>
+								{$shop['price_coin']}
+							</td>
+							<td>
+								<em class="stock">{#num($shop['num'],0)}</em>
+								{#lang('件')}
+							</td>
+							<td>
+								{$shop['coin_title']}
+							</td>
+						</tr>
+						</tbody>
+					</table>
+					<div class="order-count clearfix">
+						<p class="float-l">
+							<textarea maxlength="80" id="liuyan" placeholder="{#lang('给卖家留言：最多输入80字')}" class="sayto-seller"></textarea>
+						</p>
+						<p class="float-r" style="text-align: right;">
+							{#lang('合计')}:<em class="total-aruo red  jisuana"> {$heji}</em> {$shop['price_coin']} <br> {if $bili!='cny'}
+							<span class="right mt30">
+								{#lang('最新行情')}: 1 {$shop['coin_title']} =<span class="red"> {$bili} </span>{$shop['price_coin']}
+							</span> {/if}
+						</p>
+					</div>
+					<div class="order-submit">
+						<p>
+							{#lang('实付')}{$shop['coin_title']}：<strong class="red"><span style="" id="shiji" class="actual-aruo-count mr10 jisuanb">{$shiji}</span> </strong>
+						</p>
+						<p class="dark goods-receiver">
+							<em>{#lang('收货人')}：</em>--
+						</p>
+						<p class="dark goods-sendto">
+							<em>{#lang('寄送至')}：</em>--
+						</p>
+						<a href="javascript:;" class="submit-btn">{#lang('提交订单')}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	// 收货地址id
+	var addrId = _addrId = $('.addr-tag').first().attr('id');
+	// 选中收货地址
+	$('.addr-list').on('click', '.addr-tag', function () {
+		$('.addr-tag').removeClass('checked');
+		$(this).addClass('checked');
+		addrId = _addrId = this.id;
+		modifyOrderInfo($(this));
+	});
+
+	// 默认选中第一个收货地址
+	$('.addr-tag').first().click();
+
+
+	// 修改右下角收货人信息
+	function modifyOrderInfo(elem) {
+		var html1 = '<em>{#lang("收货人")}：</em> ' + elem.find('.addr-name').html() + ' ' + elem.find('.addr-tel').html();
+		var html2 = '<em>{#lang("寄送至")}：</em> ' + elem.find('.addr-province-city').html() + ' ' + elem.find('.addr-detail').html();
+		$('.goods-receiver').html(html1);
+		$('.goods-sendto').html(html2);
+	}
+
+	// 提交订单
+    $('.submit-btn').click(function () {
+        var num ="{$num}";
+        var coinpay = "{$coinpay}";
+        var shop_id="{$id}";
+        var user_goods_id = _addrId;
+        var liuyan = $('#liuyan').val();
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        layer.ready(function () {
+            layer.prompt({
+                title: "{#lang('请输入交易密码')}",
+                formType: 1
+            }, function (val) {
+                if (val) {
+                    $.post("{#url('shop/order_up')}", {
+                        num: num,
+                        coinpay: coinpay,
+                        shop_id:shop_id,
+                        user_goods_id:user_goods_id,
+                        liuyan:liuyan,
+                        token: "{$token}",
+	                    paypassword:val
+                    }, function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                        setTimeout(function(){
+	                        window.location ="{#url('shop/log')}"
+                        },1000);
+
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, "json");
+                }
+                ;
+            });
+        });
+    });
+
+</script>
+<script>
+	if ($("#shop_box").length > 0) {
+		$('#shop_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

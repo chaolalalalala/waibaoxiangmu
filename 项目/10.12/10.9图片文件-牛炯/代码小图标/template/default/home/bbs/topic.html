@@ -1,0 +1,222 @@
+{include file="my_header"}
+<script>
+	$('.navbar-nav li').eq(1).find('a').addClass('active');
+</script>
+<div class="aw-container-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="aw-global-tips">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="aw-content-wrap clearfix">
+                <div class="col-sm-12 col-md-9 aw-main-content">
+                    <div class="aw-mod aw-topic-detail-title">
+                        <div class="mod-body">
+                            {if $bbs['logo']}
+                            <img style="width:60px;height:60px" src="__UP__/{$bbs['logo']}" alt="bug"/>
+                            {else}
+                            <img src="__IMG__/bbs/topic-mid-img.png" alt="bug"/>
+                            {/if}
+                            <h2 class="pull-left">{$bbs["title"]} </h2>
+                            <div class="aw-topic-operate text-color-999">
+                                <a class="follow btn btn-normal btn-success" onclick="like($(this))"><span>关注</span> <em>|</em> <b>{$bbs["zan"]}</b></a>
+                            </div>
+                        </div>
+                    </div>
+	                <script>
+		                function like(a){
+			                var id={$bbs['id']};
+			                var count=parseInt(a.find('b').text());
+			                $.post('{#url("bbs/collection")}',{
+				                id:id
+			                },function(data){
+				                if(data.status == 1){
+					                layer.msg(data.info, {type:1},1000);
+					                setTimeout('window.location.reload()',1000)
+				                }else{
+					                layer.msg(data.info, {type:1})
+				                }
+			                },'json')
+		                }
+	                </script>
+
+                    <div class="aw-mod aw-topic-list-mod">
+                        <div class="mod-head">
+                            <div class="tabbable">
+                                <!-- tab 切换 -->
+                                <ul class="nav nav-tabs aw-nav-tabs hidden-xs">
+                                   {if!$key &&!$value}
+                                    <li class="active">
+                                    {else} <li>
+                                        {/if}
+                                    <a href="/bbs/topic/id/{$bbs['id']}.html" >全部内容</a></li>
+                                    {if $key=="jh" &&$value==1}
+                                    <li class="active">
+                                        {else} <li>{/if}
+                                        <a href="/bbs/topic/id/{$bbs['id']}/key/jh/value/1.html" >精华</a></li>
+                                   {if $key=="tj" &&$value==1}
+                                    <li class="active">
+                                        {else} <li>{/if}
+                                        <a href="/bbs/topic/id/{$bbs['id']}/key/tj/value/1.html" >推荐</a></li>
+                                   {if $key=="type" &&$value==1}
+                                    <li class="active">
+                                        {else} <li>{/if}<a href="/bbs/topic/id/{$bbs['id']}/key/type/value/1.html" >问题</a></li>
+                                   {if $key=="type" &&$value==2}
+                                    <li class="active">
+                                        {else} <li>{/if}<a href="/bbs/topic/id/{$bbs['id']}/key/type/value/2.html" >文章</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mod-body">
+                            <!-- tab 切换内容 -->
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="all">
+                                    <div class="aw-mod">
+                                        <div class="mod-body">
+                                            <div class="aw-common-list" id="c_all_list">
+                                                {foreach $pages["list"] as $v}
+                                                <div class="aw-item " data-topic-id="2154,3425,571,">
+                                                    <a class="aw-user-name hidden-xs" data-id="36233" href="/bbs/view/id/{$v['id']}.html" rel="nofollow">
+                                                        {if $v["userimg"]}
+                                                        <img src="__UP__/{$v['userimg']}" alt=""/>
+                                                        {else}
+                                                        <img src="__IMG__/bbs/avatar-max-img.png" alt=""/>
+                                                        {/if}
+                                                    </a>
+                                                    <div class="aw-question-content">
+                                                        <h4>
+                                                            <a href="/bbs/view/id/{$v['id']}.html">{$v["title"]}</a>
+                                                        </h4>
+                                                        <div class="pull-right hidden-xs contribute">
+                                                            {if $v["new_ans"]["username"]}
+                                                            <span class="pull-right text-color-999">贡献</span>
+                                                            <a class="aw-user-name" data-id="36110" href="" rel="nofollow">
+                                                                {if $v["new_ans"]["userimg"]}
+                                                                <img src="" alt=""/>
+                                                                {else}
+                                                                <img src="__IMG__/bbs/avatar-max-img.png" alt=""/>
+                                                                {/if}
+                                                            </a>
+                                                            {/if}
+                                                        </div>
+                                                        <p>
+                                                            {if $v["new_ans"]["username"]}
+                                                            <a href="/" class="aw-user-name" data-id="36110">{$v["new_ans"]["username"]}</a><span class="text-color-999">回复了问题 • {$v["zan"]} 人关注 • {$v["num"]} 个回复 • {$v["view"]} 次浏览 • {#addtime($v["addtime"])}	</span>
+                                                            {else}
+                                                            <a href="/" class="aw-user-name" data-id="36110"></a><span class="text-color-999">还没有人回复 • {$v["zan"]} 人关注 • {$v["num"]} 个回复 • {$v["view"]} 次浏览 • {#addtime($v["addtime"])}	</span>
+                                                            {/if}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                {/foreach}
+                                            </div>
+                                            <div class="pages" style="height:40px">{$pages['show'] nofilter}</div>
+                                        </div>
+                                        <div class="mod-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end tab 切换内容 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 侧边栏 -->
+                <div class="col-sm-12 col-md-3 aw-side-bar hidden-xs">
+                    <!-- 话题描述 -->
+                    <div class="aw-mod aw-text-align-justify" >
+                        <div class="mod-head">
+                            <h3>话题描述</h3>
+                        </div>
+                        <div class="mod-body">
+                            <p> {$bbs["content"] nofilter}</p>
+                        </div>
+                    </div>
+                    <!-- end 话题描述 -->
+                    <div class="aw-mod topic-about">
+                        <div class="mod-head">
+                            <h3>相关话题</h3>
+                        </div>
+                        <div class="mod-body" data-type="topic">
+                            <div class="aw-topic-bar" data-type="topic" data-id="5">
+                                <div class="tag-bar clearfix">
+                                    {foreach $bbs_data as $v}
+                                    <span class="topic-tag" data-id="571">
+					                   <a class="text" href="/bbs/topic/id/{$v['id']}.html">{$v["title"]}</a>
+					                </span>
+                                    {/foreach}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 最佳回复者 -->
+                    <div class="aw-mod">
+                        <div class="mod-head">
+                            <h3>最佳回复者</h3>
+                        </div>
+                        <div class="mod-body">
+                            {foreach $hot_user as $v}
+                            <dl>
+                                <dt class="pull-left aw-border-radius-5">
+                                    <a href="/">
+                                        {if $v["userimg"]}
+                                        <img src="__UP__/{$v['userimg']}" alt="">
+                                        {else}
+                                        <img src="__IMG__/bbs/avatar-max-img.png" alt=""/>
+                                        {/if}
+                                    </a>
+                                </dt>
+
+                                <dd class="pull-left">
+                                    <a class="aw-user-name" href="/" data-id="2">{$v["username"]} </a>
+                                    <p>获得 <b>{$v["zan"]}</b> 次赞同, <b>{$v["ans"]}</b> 次回复</p>
+                                </dd>
+                            </dl>
+                            {/foreach}
+                        </div>
+                    </div>
+                    <!-- end 最佳回复者 -->
+
+                    <!-- xx人关注该话题 -->
+                    <div class="aw-mod topic-status">
+                        <div class="mod-head">
+                            <!--<h3>485 人关注该话题</h3>-->
+                        </div>
+                        <div class="mod-body">
+                            <div id="focus_users" class="aw-border-radius-5"></div>
+                        </div>
+                    </div>
+                    <!-- end xx人关注该话题 -->
+                    <!-- 话题修改记录 -->
+                    <!-- end 话题修改记录 -->
+                </div>
+                <!-- end 侧边栏 -->
+            </div>
+        </div>
+    </div>
+</div>
+<a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});"><i class="icon icon-up"></i></a>
+
+<!-- DO NOT REMOVE -->
+<div id="aw-ajax-box" class="aw-ajax-box"></div>
+
+<div style="display:none;" id="__crond">
+
+</div>
+
+<script>
+    if ($("#bbs_box").length > 0) {
+        $('#bbs_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}

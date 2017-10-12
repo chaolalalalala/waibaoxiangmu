@@ -1,0 +1,244 @@
+{include file="public:header"}
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="movesay">{#lang('首页')}</a> &gt; <a href="{#url('finan/index')}" class="movesay">{#lang('财务中心')} </a> &gt; {#lang('人民币提现')}
+	</div>
+	<div class="main-content">
+		{include file="guoji:left"}
+		<div class="tag-list-content assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('人民币提现')}
+					</span>
+					 <span>
+                        <a href="/finan/out" class="step fz_12 ml50 pd6 active">{#lang('人民币提现')}</a>
+                        <a href="/finan/outlog" class="step fz_12 ml20 pd6">{#lang('提现记录')}</a>
+                        <a href="/finan/bank" class="step fz_12 ml20 pd6">{#lang('提现地址管理')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="mytable-body ">
+				<div class="step1  pwtrade  pw  mt50">
+					<dl>
+						<dt>{#lang('可用人民币')}：</dt>
+						<dd>
+							<div class="w2">
+								<i class="fa fa-cny fa-lg mr5 move"></i><span><font class="coin-balance fz_14">{#num($user_coin['cny'])}</font></span>
+							</div>
+						</dd>
+					</dl>
+					<dl>
+						<dt>{#lang('提现地址')}：</dt>
+						<dd>
+							<span>
+								<select id="out_bank" class="texts">
+									<option value="">--{#lang('选择提现地址')}--</option>
+									{if $user['alipay']}
+									<option value="alipay">{#lang('绑定的支付宝')}</option>
+									{/if} {foreach $user_bank as $k => $v}
+									<option value="{$v.id}">{$v.name}</option>
+									{/foreach}
+									<option value="tianjia">{#lang('新添加一个提现地址')}</option>
+								</select>
+							</span>
+						</dd>
+					</dl>
+					<dl>
+						<dt>{#lang('提现金额')}：</dt>
+						<dd style="position: relative;">
+							<input type="text" class="texts" id="out_num" maxlength="12" value="">
+							{#lang('手续费')}{$out_fee}%
+						</dd>
+					</dl>
+					<dl class="step5">
+						<dt>{#lang('短信验证码')}：</dt>
+						<dd class="yuyin">
+							<div class="clear">
+								<input type="button" value="{#lang('发送短信验证码')}" class="btns" onclick="send_moble_out('sms')" style="width: 100px;font-size: 12px;"/> <input type="button" value="{#lang('发送语音验证码')}" class="btns" onclick="send_moble_out('tel')" style="width: 100px;font-size: 12px;"/> {$user['moble']} ({#lang('接收验证码')})
+							</div>
+						</dd>
+					</dl>
+					<dl class="step6" style="display:none;">
+						<dt>{#lang('短信验证码')}：</dt>
+						<dd>
+							<input type="text" id="out_moble_verify" value="" class="texts" placeholder="{#lang('请输入短信验证码')}"/> <span id="reg_moble_new"></span>
+						</dd>
+					</dl>
+					<dl>
+						<dt>{#lang('交易密码')}：</dt>
+						<dd>
+							<input type="password" class="texts" id="out_paypassword"  value=""><a href="/findpwd/paypassword" class="move ml5">{#lang('忘记')}?</a>
+						</dd>
+					</dl>
+					<dl>
+						<dt></dt>
+						<dd>
+							<input type="button" class="btns2" value="{#lang('立即提现')}" onclick="out_up()">
+						</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$("#out_bank").change(function () {
+		var type = $("#out_bank option:selected").val();
+		if (type == 'tianjia') {
+			window.location = "{#url('finan/bank')}";
+		}
+	});
+
+	function send_new() {
+		$(".step6").hide();
+		$(".step5").show();
+	}
+
+
+	function send_moble_out(type) {
+		$.post("{#url('verify/moble_out')}", {
+			type: type,
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				$(".step5").hide();
+				$(".step6").show();
+				$("#out_moble_verify").focus();
+				$('#moble_new').attr("disabled", "disabled");
+				var obj      = $('#reg_moble_new');
+				var wait     = 60;
+				var interval = setInterval(function () {
+					obj.html(wait + "{#lang('秒可再次发送')}");
+					wait--;
+					if (wait < 0) {
+						clearInterval(interval);
+						$(".reloadverify_new").click();
+						$("#verify_new").val('');
+						obj.html('<a class="move" onclick="send_new()">{#lang("没有收到？重新发送")}</a>');
+					}
+					;
+				}, 1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+	function out_up() {
+		var num          = $("#out_num").val();
+		var paypassword  = $("#out_paypassword").val();
+		var moble_verify = $("#out_moble_verify").val();
+		var bank         = $('#out_bank option:selected').val();
+		if (moble_verify == "" || moble_verify == null) {
+			//layer.tips('请输入短信验证码', '#out_moble_verify', {tips: 2});
+			layer.msg('{#lang("请输入短信验证码")}', {
+				icon: 2
+			});
+			return false;
+		}
+		if (num == "" || num == null) {
+			layer.tips('{#lang("请输入提现金额")}', '#out_num', {tips: 2});
+			return false;
+		}
+		if (bank == "" || bank == null) {
+			layer.tips('{#lang("请输入提现金额")}', '#out_bank', {tips: 2});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips('{#lang("请输入交易密码")}', '#out_paypassword', {tips: 2});
+			return false;
+		}
+
+		var goole ="{$goole}";
+		if(goole == 1){
+			layer.config({
+				extend: 'extend/layer.ext.js'
+			});
+			layer.ready(function () {
+				//默认prompt
+				layer.prompt({
+					title: '{#lang("输入谷歌验证码，并确认")}',
+					formType: 1
+				}, function (val) {
+					if (val) {
+						//需要执行的方法
+
+						$.post("/finan/out_up", {
+							num: num,
+							paypassword: paypassword,
+							moble_verify: moble_verify,
+							bank: bank,
+							goole:val,
+						}, function (data) {
+							if (data.status == 1) {
+								layer.msg(data.info, {icon: 1});
+								setTimeout(function(){
+									window.location = '/finan/outlog';
+								},1000)
+							} else {
+								layer.msg(data.info, {icon: 2});
+								if (data.url) {
+									setTimeout(function(){
+										window.location = data.url;
+									},1000)
+								}
+							}
+						}, "json");
+
+
+					}
+					;
+				});
+			});
+		}else{
+			$.post("/finan/out_up", {
+				num: num,
+				paypassword: paypassword,
+				moble_verify: moble_verify,
+				bank: bank
+			}, function (data) {
+				if (data.status == 1) {
+					layer.msg(data.info, {icon: 1});
+					setTimeout(function(){
+						window.location = '/finan/outlog';
+					},1000)
+				} else {
+					layer.msg(data.info, {icon: 2});
+					if (data.url) {
+						setTimeout(function(){
+							window.location = data.url;
+						},1000)
+
+					}
+				}
+			}, "json");
+		}
+
+
+
+
+
+
+	}
+</script>
+<script>
+	$('.finan_out').addClass('active');
+</script>
+{include file="public:footer"}

@@ -1,0 +1,152 @@
+{include file="smoney:header"}
+<script>
+	$('.common-nav-list li').eq(0).children().css({'color':'#0d66bf'});
+</script>
+<div style="width:100%; background:#F5F5F5;">
+    <div class="w1130 redian" style="height: auto!important;">
+        <div class="cle p20"></div>
+        <div class="content1130 mb20">
+            <div class="ban_top w1080">
+                <div class="website-description-con clearfix">
+                    <div class="w-d-c-txt"><span id="wdct1" class="w-d-c-t-1 pngfile"><b></b></span>
+
+                        <h3>{#lang('低门槛、好收益')}</h3>
+
+                        <p>{#lang('日化收益率稳健投资收益')}</p>
+                    </div>
+                    <div class="w-d-c-txt"><span id="wdct3" class="w-d-c-t-4 pngfile"><b></b></span>
+
+                        <h3>{#lang('本金保障、先行赔付')}</h3>
+
+                        <p>{#lang('本息安全，放心投资 先行赔付，安心无忧')} </p>
+                    </div>
+                    <div class="w-d-c-txt"><span id="" class="w-d-c-t-2 pngfile"><b></b></span>
+
+                        <h3>{#lang('灵活投资')}</h3>
+
+                        <p>{#lang('项目多元化、起点低、期限短、提出快速到账')}</p>
+                    </div>
+                    <div class="w-d-c-txt"><span id="wdct4" class="w-d-c-t-5 pngfile"><b></b><i></i></span>
+
+                        <h3>{#lang('一站式投资分红')}</h3>
+
+                        <p>{#lang('固定收益、按日付息、随存随取、轻松投资')}</p>
+                    </div>
+                    <div class="w-d-c-txt"><span id="wdct2" class="w-d-c-t-3 pngfile"><b></b><i></i></span>
+
+                        <h3>{#lang('实力担保、法律保障')}</h3>
+
+                        <p>{#lang('实力雄厚的第三方担保公司、亚太地区最大的律师事务所')}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="add_index_con">
+        <!--S 会员福利  -->
+    </div>
+    <!--S 投资理财 资金托管 -->
+    <div class="add_index_investing">
+        <a href="">
+            <p>{#lang('投资理财')}</p>
+				<span>{#lang('高于银行存款利息')}，<br>
+				{#lang('低起投点，低手续费，高收益')}</span> </a> <a class="index_investing_a" href="">
+        <p>{#lang('资金托管')}</p>
+				<span>{#lang('第三方平台资金托管，专款专用，只为投资人')}<br>
+				{#lang('常备风险备用金')}</span> </a> <a class="index_investing_a" href="">
+        <p>{#lang('安全保障')}</p>
+				<span>{#lang('本息安全,银行级别的信息安全保障,完善的内控')}<br>
+				{#lang('管理流程')}</span> </a>
+    </div>
+
+    <!--E 投资理财 资金托管 -->
+    <div class="w1130 mxyh-xm pt50" id="tabsholder" align="center">
+        <div class="mxyh-xm_tit" style="color:#FFF; ">
+            <ul class="tabs" style="color:#FFF;">
+                <font style="font-size:18px" color="#fff">{#lang('精选项目列表')}</font>
+            </ul>
+            <!--<a href="/Product/list-19-1.html" target="_blank">更多&gt;&gt;</a>-->
+        </div>
+        <div class="mxyh-xm_main tabscontent " id="content1">
+            {foreach $pages['list'] as $v}
+            <div class="mxyh-xm_li"><span class="lock_ico"> <img src="__IMG__/smoney/index/7808.png"> </span>
+
+                <div style="float:right; background: none;"></div>
+                <div class="mxyh-xm_li_tit">
+                    <table id="table1" width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                        <tr>
+                            <td width="50%">
+                                <a href="{#url('smoney/details/id/'.$v['id'])}" class="f20px" style="font-size:22px"> {$v['name']}</a> ({#('理财币种：')}<font style="color:blue">{#strtoupper($v['coinname'])}</font>)
+                            </td>
+                            <td class="f15px" width="50%">
+                                <p align="right"><img src="__IMG__/smoney/index/listicon_07.png">
+                                    <font style="font-size:15px; color:#F00">{#lang('按日计算收益，到期还本')}</font> &nbsp;</p></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mxyh-xm_li_tab">
+                    <div class="mxyh-xm_li_tab_l">
+                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                            <tr>
+                                <td class="f15px" width="9%">{#lang('日化利率')}</td>
+                                <td width="23%"><em class="fs25 cl_d33f3f">{$v['fee']}%</em></td>
+                                <td class="f15px" width="9%">{#lang('项目期限')}</td>
+                                <td width="23%"><em class="fs25 cl_7dab6a">{$v['tian']}</em>{#lang('个自然日')}</td>
+                                <td class="f15px" width="9%"></td>
+                                <td class="f15px" width="27%">
+                                    <em class="f15px cl_571991" style="font-size:14px"> {#lang('满24小时自动算息')}</em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="f15px">{#lang('项目总量')}</td>
+                                <td><em class="fs25 cl_ee804d">{$v['num']}</em></td>
+                                <td class="f15px">{#lang('起投数量')}</td>
+                                <td><em class="fs25 cl_ee804d">{$v['min']}</em></td>
+                                <td class="f15px">{#lang('进度')}</td>
+                                <td>
+                                    <div class="mxyh-jdt_1">
+                                        <div class="mxyh-jdt_2" style="width:{#round($v['bili'],2)}%"></div>
+                                    </div>
+                                    <div class="mxyh-jdt_3">{#round($v['bili'],2)}%</div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mxyh-xm_li_tab_r" style="padding-top:20px">
+                        <div class="icon_top bg_de4a4a" style="margin-top:20px">
+                            <a href="{#url('smoney/details/id/'.$v['id'])}" style="font-size:16px">{#lang('了解项目')}</a></div>
+                    </div>
+                </div>
+            </div>
+            {/foreach}
+            <div class="pages">{$pages['show'] nofilter}</div>
+        </div>
+
+    </div>
+    {if $links}
+    <!--合作伙伴-->
+    <div class="index_news mt20 index_news1 " style="    margin-bottom: -20px;">
+        <ul class="index_media_ul index_media_ul4 ml35">
+            <li class="index_media_li active">{#lang('合作伙伴')}</li>
+        </ul>
+        <ul class="index_pernter_logo ml25 mt20">
+            {foreach $links as $vo} {if $vo["img"]}
+            <li>
+                <a href="{$vo['value']}" class="partner1" alt="{$vo['title']}" target="_blank" rel="nofollow">
+                    <img class="links_img" src="__UP__{$vo['img']}" title="{$vo['title']}"> </a>
+            </li>
+            {else}
+            <li>
+                <a href="{$vo['value']}" class="partner1" alt="{$vo['title']}" target="_blank" rel="nofollow"> {$vo['title']} </a>
+            </li>
+            {/if} {/foreach}
+        </ul>
+    </div>
+    {/if}
+    {include file="public:footer"}

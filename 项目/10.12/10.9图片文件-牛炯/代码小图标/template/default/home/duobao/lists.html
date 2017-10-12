@@ -1,0 +1,203 @@
+{include file="public:top"}
+<!--<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1,maximum-scale=1">-->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="/static/default/home/css/duobao_list.css">
+<script src="/static/default/home/js/duobao1/b.js"></script>
+<style>
+	@media screen and (max-width:1200px){
+		/*.boxs{*/
+		/*border:5px solid red;*/
+		/*}*/
+		#footer{
+			height:475px;
+		}
+
+		.footer .main{
+			margin-top:72px;
+		}
+
+		.move-logo2{
+			margin-left:-349px;
+		}
+
+		.search1{
+			left:952px;
+			position:absolute;
+		}
+
+		.submit_quan{
+			position:absolute;
+			border:1px solid greenyellow;
+			left:211px;
+		}
+	}
+</style>
+<div class="title_center">
+	<div class="logo" style="margin-top: 12px;">
+		{if $config['web_logo']} <a href="/"><img src="__UP__/{$config['web_logo']}" alt=""/></a> {else}
+		<a href="/" class="xiaozhu-logo">
+			<i class="move-self move-logo2 move" style="position:absolute;left:352px;top:70px;"></i> </a> {/if}
+	</div>
+	<form action="/duobao/lists" class="search1" method="get">
+		<div class="pull-left g-taskmaininp hidden-xs">
+			<input type="text" name="keyword" class="guanjianzi" placeholder="{#lang('搜索商品')}">
+		</div>
+		<button type="submit" class="submit_quan">
+		</button>
+	</form>
+</div>
+<div class="line">
+</div>
+<div class="w_con">
+	<h4 class="w_guide">
+		<a href="/">{#lang('首页')}</a> <a href="/duobao/">{#lang('一元夺宝')}</a> <a class="w_accord" href="/duobao/lists">{#lang('全部商品')}</a>
+	</h4>
+	<div class="w_goods_nav">
+		<h2>{#lang('全部商品')}<span>（{#lang('共')}<a href="javascript:void(0)">{$count}</a>{#lang('件商品')}）</span></h2>
+		<div class="w_choose">
+			<div class="w_clear"></div>
+			<dl class="choose_list">
+				<dd>
+					<a href="javascript:void(0);" data-id="9"><span class="w_icon w_icon_one"></span><b style="color:#DD2726;font-size:14px;font-weight:600;">{#lang('分类')}</b></a>
+				</dd>
+				{foreach $typelist1 as $v}
+				<!--<dd><a href="javascript:void(0);" data-id="9"><span class="w_icon w_icon_one"></span><b>{$v["title"]}</b></a>-->
+				<!--</dd>-->
+				<dd>
+					{if $type==$v['id']}
+					<a href="{#url('/duobao/lists/type/'.$v['id'].'/type1/0/type2/0/sort/'.$sort.'/status/'.$status)}" data-id="9"><span class="w_icon w_icon_one"></span><b class="icon_b" style="color:#1A81D6;">{$v["title"]}</b></a> {else}
+					<a href="{#url('/duobao/lists/type/'.$v['id'].'/type1/0/type2/0/sort/'.$sort.'/status/'.$status)}" data-id="9"><span class="w_icon w_icon_one"></span><b class="icon_b">{$v["title"]}</b></a> {/if}
+				</dd>
+				{/foreach}
+				<div class="w_clear"></div>
+			</dl>
+			<div class="one_line"></div>
+			<div class="w_all_class">
+				<div class="w_choose_more">
+					<dl class="w_goods_brand c_newgoods_brand">
+						<!--<dd class="c_newgoods_brand_name">分类</dd>-->
+						{if $typelist2}
+
+						<dd class="w_specific_class1">
+
+							<ul>
+								<li>
+									<a style="color:#DD2726;" href="{#url('/duobao/lists/type/'.$type.'/type1/0/type2/0/sort/'.$sort.$status)}">{#lang('全部')}</a>
+								</li>
+								<!--<li><a class="c_all_effect" href="{#url('/duobao/lists/type/'.$v['id'].'/type1/0/type2/0/sort/'.$sort)}">全部</a></li>-->                                {foreach $typelist2 as $v}
+								<li>
+									{if $type1==$v['id']}
+									<a href="{#url('/duobao/lists/type/'.$type.'/type1/'.$v['id'].'/type2/'.$type2.'/sort/'.$sort.$status)}" data-id="28" class="w_effect" style="color:#1A81D6;">{$v['title']}</a> {else}
+									<a href="{#url('/duobao/lists/type/'.$type.'/type1/'.$v['id'].'/type2/'.$type2.'/sort/'.$sort.$status)}" data-id="28" class="w_effect">{$v['title']}</a> {/if}
+								</li>
+								{/foreach}
+							</ul>
+
+						</dd>
+						<div class="w_clear"></div>
+						<div class="second_line"></div>
+						{/if}
+						{if $typelist3}
+						<div class="w_clear"></div>
+						<ul class="three">
+							<li>
+								<a style="color:#DD2726;" href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/0/sort/'.$sort)}">{#lang('全部')}</a>
+							</li>
+							<!--<li><a class="c_all_effect" href="javascript:void(0);">全部</a></li>-->                                {foreach $typelist3 as $v}
+							<li>
+								{if $type2==$v['id']}
+								<a href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$v['id'].'/sort/'.$sort.$status)}" data-id="28" class="w_effect" style="color:#1A81D6;">{$v['title']}</a> {else}
+								<a href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$v['id'].'/sort/'.$sort.$status)}" data-id="28" class="w_effect">{$v['title']}</a> {/if}
+							</li>
+							{/foreach}
+						</ul>
+						<div class="third_line"></div>
+						{/if}
+						<div class="w_clear"></div>
+						<ol class="four">
+							<li>
+								<a style="color:#DD2726;" href="javascript:void(0);">{#lang('状态')}</a>
+							</li>
+							<li>
+								{if $status==1}
+								<a style="color:#1A81D6;" href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$type2.'/sort/'.$sort.'/status/1')}">{#lang('进行中')}</a> {else}
+								<a href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$type2.'/sort/'.$sort.'/status/1')}">{#lang('进行中')}</a> {/if}
+							</li>
+							<li>
+								{if $status==2}
+								<a style="color:#1A81D6;" href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$type2.'/sort/'.$sort.'/status/2')}">{#lang('已结束')}</a> {else}
+								<a href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$type2.'/sort/'.$sort.'/status/2')}">{#lang('已结束')}</a> {/if}
+							</li>
+							<li>
+								{if $status==3}
+								<a style="color:#1A81D6;" href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$type2.'/sort/'.$sort.'/status/3')}">{#lang('已开奖')}</a> {else}
+								<a href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$type2.'/sort/'.$sort.'/status/3')}">{#lang('已开奖')}</a> {/if}
+							</li>
+						</ol>
+						<div class="w_clear"></div>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="w_product_con">
+		<dl class="w_new">
+			<dd>{#lang('排列')}：</dd>
+			<dd>
+				{if $sort==1}
+				<a style="color:#1A81D6" href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$type2.'/sort/1')}">{#lang('人气商品')}</a> {else}
+				<a href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$type2.'/sort/1')}">{#lang('人气商品')}</a> {/if}
+			</dd>
+			<dd>
+				{if $sort==2}
+				<a style="color:#1A81D6" href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$type2.'/sort/2')}" data-id="takedout">{#lang('剩余人次')}</a> {else}
+				<a href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$type2.'/sort/2')}" data-id="takedout">{#lang('剩余人次')}</a> {/if}
+			</dd>
+			<dd>
+				{if $sort==3}
+				<a style="color:#1A81D6" href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$type2.'/sort/3')}" data-id="takedout">{#lang('最新商品')}</a> {else}
+				<a href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$type2.'/sort/3')}" data-id="takedout">{#lang('最新商品')}</a> {/if}
+			</dd>
+			<dd>
+				{if $sort==4}
+				<a style="color:#1A81D6" href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$type2.'/sort/4')}" data-id="takedout">{#lang('总需人次')}</a> {else}
+				<a href="{#url('/duobao/lists/type/'.$type.'/type1/'.$type1.'/type2/'.$type2.'/sort/4')}" data-id="takedout">{#lang('总需人次')}</a> {/if}
+			</dd>
+		</dl>
+	</div>
+	<div class="w_goods_con">
+		<ul class="w_goods_one">
+			{foreach $pages["list"] as $v}
+			<li class="w_goods_details ">
+				<div class="w_imgOut" data-gid="2823" data-pid="170107092146151">
+					<a data-gid="2823" data-pid="170107092146151" target="_blank" class="w_goods_img" href="/duobao/details/id/{$v['id']}"><img id="img_0" data-gid="2823" data-pid="170107092146151" class="lazy0" data-original="http://img02.ygqq.com/upload/goodsfile/20160511/77_1462960366847.jpg_200x200.png" src="__UP__/{$v['img']}" style="display: inline;">
+						<noscript>&lt;img src="" alt=""/&gt;</noscript>
+					</a></div>
+				<a class="w_goods_three" target="_blank" href="/goods/goods2823-170107092146151.html" data-gid="2823" data-pid="170107092146151" title="honor/荣耀 V8 全网通 高配版 4GB+64GB(颜色随机)【包邮】">{$v["title"]}</a>
+				<div class="w_line"><span style="width:{#round($v['getnum']/$v['mum']*100,2)}%"></span></div>
+				<ul class="w_number">
+					<li class="w_amount">{$v['getnum']}</li>
+					<input type="hidden" id="cart_gid_0" value="2823"><input type="hidden" id="pid_0" value="170107092146151"><input type="hidden" id="priceArea_0" value="1"><input type="hidden" id="period_0" value="170107092146151"><input type="hidden" id="priceTotal_0" value="3499"><input type="hidden" id="surplus_0" value="12"><input type="hidden" id="thumbPath_0" value="undefined"><input type="hidden" id="maxBuy_0" value="0"><input type="hidden" id="title_0" value="honor/荣耀 V8 全网通 高配版 4GB+64GB(颜色随机)【包邮】"><input type="hidden" id="cid_0" value="5">
+					<li class="w_amount">{$v['mum']}</li>
+					<li class="w_amount">{$v['neednum']}</li>
+					<li>{#lang('已夺宝人次')}</li>
+					<li>{#lang('总需人次')}</li>
+					<li>{#lang('剩余人次')}</li>
+				</ul>
+				<div class="c_rob_box">
+					<!--<div class="c_cumulative_box">-->
+					<!--<strong>我要参与：</strong><input id="buyTimes_0" maxlength="6" onafterpaste="checkTimes(0)" onkeyup="checkTimes(0)" onmouseover="this.focus();this.select();" type="text" class="c_detailsinputs" value="1"><span onclick="minusTimes(0)" class="c_addnew_subtracts">-</span><span onclick="addTimes(0)" class="c_addnew_pluss">+</span>-->
+					<!--</div>-->
+					<dl class="w_rob">
+						<dd><a class="w_slip" href="/duobao/details/id/{$v['id']}">{#lang('立即夺宝')}</a>
+						</dd>
+					</dl>
+				</div>
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+	<!--分页-->
+	<div class="pages">{$pages['show'] nofilter}</div>
+</div>
+{include file="public:footer"}

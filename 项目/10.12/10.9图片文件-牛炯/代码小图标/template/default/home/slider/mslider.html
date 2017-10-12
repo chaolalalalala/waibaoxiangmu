@@ -1,0 +1,154 @@
+<!--面板html结构-->
+<script type="text/template" id="slider-set">
+    <div>
+        <ul id="slider-tab">
+            <li class="current">{#lang('基础设置')}</li>
+            <li>{#lang('图片设置')}</li>
+        </ul>
+        <div id="slider-content">
+            <ul class="slider-content-block" style="display:block;">
+                <div class="slider-panel-body" style="">
+                    <label> {#lang('横幅高度值')}</label>
+                    <select class="slider_height">
+                        <option value="350" {if $slider['set']['data_slider_height'] == "350"}selected{/if}>350{#lang('像素')}</option>
+                        <option value="400" {if $slider['set']['data_slider_height'] == "400"}selected{/if}>400{#lang('像素')}</option>
+                        <option value="450" {if $slider['set']['data_slider_height'] == "450"}selected{/if}>450{#lang('像素')}</option>
+                        <option value="500" {if $slider['set']['data_slider_height'] == "500"}selected{/if}>500{#lang('像素')}</option>
+                        <option value="550" {if $slider['set']['data_slider_height'] == "550"}selected{/if}>550{#lang('像素')}</option>
+                        <option value="600" {if $slider['set']['data_slider_height'] == "500"}selected{/if}>600{#lang('像素')}</option>
+                        <option value="650" {if $slider['set']['data_slider_height'] == "650"}selected{/if}>650{#lang('像素')}</option>
+                        <option value="0" {if $slider['set']['data_slider_height'] == "0"}selected{/if}>{#lang('自定义输入')}</option>
+                    </select>
+                </div>
+
+                <div class="slider-panel-body">
+                    <label> {#lang('左右切换样式')}</label>
+                    <select class="slider_arrset">
+                        <option value="999"  {if $slider['set']['data_slider_arrset'] == "999"}selected{/if}>{#lang('不显示')}</option>
+                        <option value="1"  {if $slider['set']['data_slider_arrset'] == "1"}selected{/if}>{#lang('样式')}1</option>
+                        <option value="2"  {if $slider['set']['data_slider_arrset'] == "2"}selected{/if}>{#lang('样式')}2</option>
+                        <option value="3"  {if $slider['set']['data_slider_arrset'] == "3"}selected{/if}>{#lang('样式')}3</option>
+                        <option value="4"  {if $slider['set']['data_slider_arrset'] == "4"}selected{/if}>{#lang('样式')}4</option>
+                        <option value="5"  {if $slider['set']['data_slider_arrset'] == "5"}selected{/if}>{#lang('样式')}5</option>
+                        <option value="6"  {if $slider['set']['data_slider_arrset'] == "6"}selected{/if}>{#lang('样式')}6</option>
+                    </select>
+                </div>
+
+                <div class="slider-panel-body">
+                    <label>  {#lang('横向小标切换模式')}</label>
+                    <select class="slider_navigator">
+                        <option value="999"  {if $slider['set']['data_slider_navigator'] == "999"}selected{/if}>{#lang('不显示')}</option>
+                        <option value="1"  {if $slider['set']['data_slider_navigator'] == "1"}selected{/if}>{#lang('样式')}1</option>
+                        <option value="2"  {if $slider['set']['data_slider_navigator'] == "2"}selected{/if}>{#lang('样式')}2</option>
+                        <option value="3"  {if $slider['set']['data_slider_navigator'] == "3"}selected{/if}>{#lang('样式')}3</option>
+                    </select>
+                </div>
+
+                <div class="slider-panel-body">
+                    <label> {#lang('动画模式')}</label>
+                    <select class="slider_action">
+                        <!--模式动态添加-->
+                    </select>
+                </div>
+            </ul>
+            <ul class="slider-content-block">
+	            {#lang('图片上传设置(拖拽排序)')}
+                <ul id="slider-img-list">
+                    {foreach $slider["data"] as $key=>$val}
+                    <li>
+                        <div data-id="{$key}">
+                            <img src="{$val.img}">
+                            <button type="text" onclick="$(this).parent().remove();">{#lang('删除')}</button>
+                            <input type="text" value="{$val.url}" placeholder="{#lang('输入图片链接')}">
+                            <input type="text" value="{$val.alt}" placeholder="{#lang('输入图片说明')}">
+                        </div>
+                    </li>
+                    {/foreach}
+                </ul>
+                <div class="img-set-add">
+                    <img id="up_img" onclick="getElementById('inputfile').click()"
+                         style="cursor:pointer;max-width:400px;" title="{#lang('点击添加图片')}" alt="{#lang('点击添加图片')}"
+                         src="/static/admin/img/addimg.png">
+                    <input type="hidden" id="img" name="{$v['name']}" value="{$v['value']}">
+                    <input type="file" id="inputfile"
+                           style="height:0;width:0;z-index: -1; position: absolute;left: 10px;top: 5px;"
+                           value=""/>
+                </div>
+
+            </ul>
+        </div>
+        <div class="slide-save btns2" onclick="save_slider()">
+	        {#lang('确定保存')}
+        </div>
+    </div>
+
+</script>
+<!--轮播图主体-->
+<div id="slider" class="slider" style="height: {$slider['set']['data_slider_height']}px">
+    <div class="slide_set_block2">
+        <li onclick="window.location.href='{$pre_view_url}'">{#lang('查看效果')}</li>
+    </div>
+    <!-- Loading Screen -->
+    <div class="slider-loading" data-u="loading">
+        <div class="slider-loading-a"></div>
+        <div class="slider-loading-b"></div>
+    </div>
+    <div class="slider-body" data-u="slides">
+        {foreach $slider["data"] as $val}
+        <div {if $val.url} onclick="window.location.href='{$val.url}'{/if}">
+            <a src="" style="" ><img data-u="image" title="{$val.title}" alt="{$val.alt}" src="{$val.img}"/>
+            </a>
+        </div>
+        {/foreach}
+    </div>
+    {if $slider['set']['data_slider_navigator'] != "999"}
+    <div id="slider-body-navigator" class="sbn-{$slider['set']['data_slider_navigator']}" data-u="navigator" style="position: absolute;
+        bottom: 16px;" data-autocenter="1">
+        <div data-u="prototype" style=""></div>
+    </div>
+    {/if}
+
+    {if $slider['set']['data_slider_arrset'] != "999"}
+    <span id="slider-body-arrow-l" data-u="arrowleft" class="slider-body-arrowleft-{$slider['set']['data_slider_arrset']}" data-autocenter="2"></span>
+    <span id="slider-body-arrow-r" data-u="arrowright" class="slider-body-arrowright-{$slider['set']['data_slider_arrset']}" data-autocenter="2"></span>
+    {/if}
+</div>
+
+<!--加载动态脚本-->
+{#config("slider_first",intval(config("slider_first")) +1)}
+{if  config("slider_first")== 1}
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+{/if}
+
+<!--拖拽插件-->
+<script type="text/javascript" src="__EXT__/slider/js/dragsort.js"></script>
+<script>
+    //保存数值
+    var slider_obj;
+    var data_idname = "{$slider['set']['data_idname']}";//唯一识别号
+    var data_slider_height = "{$slider['set']['data_slider_height']}";
+    var data_slider_arrset = "{$slider['set']['data_slider_arrset']}";
+    var data_slider_navigator = "{$slider['set']['data_slider_navigator']}";
+    var data_slider_action= "{$slider['set']['data_slider_action']}";
+    var data_slider_action_data= JSON.stringify({$slider["set"]["data_slider_action_data"] nofilter});
+    var data_img = "";
+</script>
+<script type="text/javascript" src="__EXT__/slider/js/slider_setting.js"></script>
+
+
+
+
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $('#bg').height($(document).height());
+        $('#bg').show();
+        $("#slider").css("z-index",999);
+        $('html,body').animate({scrollTop: $("#slider").offset().top - ($(window).height() - $("#slider").height())/2}, 800);
+    })
+
+</script>
+
+
+<div id="slide-shadow-bg"></div>

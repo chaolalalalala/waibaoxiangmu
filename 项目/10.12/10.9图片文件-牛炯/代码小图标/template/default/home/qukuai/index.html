@@ -1,0 +1,27 @@
+{include file="header"}
+<div id="wrapper">
+    <div id="latest">
+        <center><img src="__HOME__/qukuai/img/ajax_loader.gif" alt="Loading ..."/></center>
+    </div>
+</div>
+<script qklanguage="JavaScript">
+    function handle_update(response) {
+        $('#latest').fadeOut(500, function () {
+            $('#latest').html(response);
+            $('#latest').fadeIn(500);
+        });
+    }
+
+    function update_page() {
+        ajax_get('/qukuai/getInfo', handle_update, '');
+    }
+
+    $(document).ready(function () {
+        update_page();
+
+
+        update_timer = setInterval(update_page, 5000);
+        update_page();
+    });
+</script>
+{include file="footer"}

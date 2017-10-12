@@ -1,0 +1,156 @@
+{include file="header"}
+<link rel="stylesheet" href="__CSS__/shop.css"/>
+		<div class="assets_center clear po_re ">
+			<div class="assets_content   ">
+				<div class="page-content bg_w">
+					<h3>{#lang('确认订单信息')}</h3>
+					<input type="hidden" id="voucherName" value="">
+					<table class="order-table">
+						<tbody>
+						<tr class="order-table-header">
+							<th class="green-bt">{#lang('套餐名称')}</th>
+							<th>{#lang('数量')}</th>
+							<th>{#lang('单价')}</th>
+							<th>{#lang('用餐人数')}</th>
+							<th>{#lang('联系人')}</th>
+							<th>{#lang('联系方式')}</th>
+							<th>{#lang('付款币种')}</th>
+							<th>{#lang('到店时间')}</th>
+						</tr>
+						<tr id="3">
+							<td class="td-left" style="width:600px;">{$dingcan['title']}----{$dingcan['content']}</td>
+							<td>
+								<div class="num-picker">
+									{$data['num']}
+								</div>
+							</td>
+							<td>
+								<em class=" goods-aruos">{#round($dingcan['price'],2)} </em>
+								¥
+							</td>
+							<td>
+								<em class="stock">{$data['people']}</em>
+								{#lang('人')}
+							</td>
+							<td>
+								{$data['name']}
+							</td>
+
+							<td>
+								{$data['tel']}
+							</td>
+
+							<td>
+									{$data['coinName']}
+							</td>
+
+							<td>
+								{$data['day']} {$data['hour']}
+							</td>
+
+						</tr>
+						</tbody>
+					</table>
+					<div class="order-count clearfix">
+						<p class="float-l">
+							<textarea maxlength="80" id="liuyan" placeholder="{#lang('备注留言：最多输入80字')}" class="sayto-seller"></textarea>
+						</p>
+						<p class="float-r" style="text-align: right;">
+							{#lang('合计')}:<em class="total-aruo red  jisuana"> {$data['mum']}</em> ¥ <br> {if $coinName != 'cny'}
+							<span class="right mt30">
+								{#lang('最新行情')}: 1 {$data['coinName']} =<span class="red"> {$data['bili']} </span>¥
+							</span> {/if}
+						</p>
+					</div>
+					<div class="order-submit">
+						<p>
+							{#lang('实付')}{#round($data['coinmum'],3)}：<strong class="red"><span style="" id="shiji" class="actual-aruo-count mr10 jisuanb">{$data['coinName']}</span> </strong>
+						</p>
+						<a href="javascript:;" class="submit-btn">{#lang('付款')}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	// 默认选中第一个收货地址
+	$('.addr-tag').first().click();
+
+
+	// 修改右下角收货人信息
+	function modifyOrderInfo(elem) {
+		var html1 = '<em>{#lang("收货人")}：</em> ' + elem.find('.addr-name').html() + ' ' + elem.find('.addr-tel').html();
+		var html2 = '<em>{#lang("寄送至")}：</em> ' + elem.find('.addr-province-city').html() + ' ' + elem.find('.addr-detail').html();
+		$('.goods-receiver').html(html1);
+		$('.goods-sendto').html(html2);
+	}
+
+	// 提交订单
+    $('.submit-btn').click(function () {
+	    var id       = "{$dingcan['id']}";
+	    var title    = "{$dingcan['title']}";
+        var num      = "{$data['num']}";
+        var price    = "{$data['price']}";
+	    var people   = "{$data['people']}";
+	    var name     = "{$data['name']}";
+	    var tel      = "{$data['tel']}";
+	    var coinName = "{$data['coinName']}";
+	    var time     = "{$data['day']} {$data['hour']}";
+	    var mum      = "{$data['mum']}";
+        var bili     = "{$data['bili']}";
+        var liuyan   = $('#liuyan').val();
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        layer.ready(function () {
+            layer.prompt({
+                title: "{#lang('请输入交易密码')}",
+                formType: 1
+            }, function (val) {
+                if (val) {
+                    $.post("{#url('dingcan/order_up')}", {
+	                    id :id,
+	                    title: title,
+	                    num: num,
+	                    price:price,
+	                    people:people,
+	                    name:name,
+	                    tel: tel,
+	                    coinName:coinName,
+	                    time:time,
+	                    mum:mum,
+	                    bili:bili,
+	                    liuyan:liuyan,
+	                    paypassword:val,
+                    }, function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+	                        setTimeout(function(){
+		                        window.location ="/dingcan/detail/id/{$data['id']}";
+	                        },3000)
+
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, "json");
+                }
+                ;
+            });
+        });
+    });
+
+</script>
+<script>
+	if ($("#shop_box").length > 0) {
+		$('#shop_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+
+
+{include file="public:footer"}

@@ -1,0 +1,127 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="{#url('fenhong/index')}" class="orange">分红中心</a> &gt; {#lang('分红池记录')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('分红中心')}
+					</span>
+	                <span>
+                        <a href="{#url('fenhong98/index')}" id="step1" class="step fz_12 ml50 pd6">{#lang('分红列表')}</a>
+                        <a href="{#url('fenhong98/pool')}" id="step2" class="step fz_12 ml20 pd6">{#lang('分红池')}</a>
+                        <a href="{#url('fenhong98/poollog')}" id="step3" class="step fz_12 ml20 pd6 active">{#lang('分红池记录')}</a>
+                        <a href="{#url('fenhong98/fenhonglog')}" id="step4" class="step fz_12 ml20 pd6">{#lang('分红记录')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="cnyin_record">
+				<div class="f_body">
+					<div class="f_body_main">
+						<div class="f_tab_body">
+							<div>
+								<table class="f_table" id="investLog_content">
+									<thead>
+									<tr>
+
+										<th>{#lang('分红池名称')}</th>
+										<th>{#lang('存入币种')}</th>
+										<th>{#lang('存入数量')}</th>
+										<th>{#lang('取出手续费')}</th>
+										<th>{#lang('存入时间')}</th>
+										<th>{#lang('持有时间')}</th>
+										<th>{#lang('取出时间')}</th>
+										<th>{#lang('状态')}</th>
+										<th>{#lang('操作')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{foreach $pages['list'] as $k => $v}
+									<tr>
+										<td>{$v['poolname']}</td>
+										<td>{$v['coin']}</td>
+										<td>{$v['num']}</td>
+										<td>{$v['fee']}%</td>
+										<td>{#addtime($v['addtime'])}</td>
+										<td>{$v['holdlong']}</td>
+										<td>
+											{if $v['status']==1}--------
+											{else}
+											{#addtime($v['endtime'])}
+										     {/if}
+										</td>
+
+                                     {if $v['status']==1}
+										<td style="color:#1eae58">已存入</td>
+										<td style="color:red" onclick="take(this)" data="{$v['id']}" info="{$v['fee']}">取出</td>
+									{else}
+										<td>已取出</td>
+										<td></td>
+                                     {/if}
+									</tr>
+									{/foreach}
+									</tbody>
+								</table>
+								<div class="pages">{$pages['show'] nofilter}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	if ($("#fenhong_box").length > 0) {
+		$('#fenhong_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+	function take(_this) {
+		var id = $(_this).attr('data');
+		var fee= $(_this).attr('info');
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+
+		layer.ready(function () {
+			layer.prompt({
+				title: "{#lang('需要扣除')}"+fee+"%{#lang('的手续费,请输入交易密码')}",
+				formType: 1
+			}, function (val) {
+				if (val) {
+					$.post("{#url('fenhong98/take_out')}", {
+						id: id,
+						paypassword: val
+					}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							setTimeout('location.reload()',1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+						}
+					}, 'json');
+				}
+			})
+		})
+	}
+</script>
+{include file="public:footer"}

@@ -1,0 +1,142 @@
+@charset "UTF-8";
+.assets_content h1>span:last-child{
+	background-image: url(../style/img/icon18.png);
+}
+.f_table{
+	background-color: #fff;
+	margin-bottom: 30px;
+}
+.f_table tr{
+	height: 70px;
+}
+.tag-list-content{
+	height: auto!important;
+}
+.mytable-body .step1 dl dd input.btns2{
+	background: #ea5514!important;
+    color: #fff!important;
+    border: 0!important;
+    transition: background 0.3s!important;
+}
+.mytable-body .step1 dl dd input.btns2:hover{
+	background: #f58d60!important;
+}
+#status-select{
+	width: 150px!important;
+}
+.bizhong_select{
+	border: 0!important;
+	padding-left: 73px!important;
+}
+.bizhong_select .bz_btn img{
+	display: none!important;
+}
+.bizhong_type{
+	border: 0!important;
+}
+#random{
+	font-size: 16px!important;
+}
+#cnyin_num{
+	text-align: right!important;
+	padding-right: 40px!important;
+}
+.payment-icon-list ul li.wx{
+	padding: 0!important;
+    margin: 0 10px 0 0px!important;
+    border: 1px solid #ccc!important;
+    width: 122px!important;
+    height: 34px!important;
+    color: #666!important;
+    font-weight: bold!important;
+}
+.payment-icon-list ul li.wx:before{
+	position: absolute;
+	top: 10px;
+	height: 14px;
+	line-height: 14px;
+	width: 75px;
+	color: #666!important;
+	font-weight: bold!important;
+}
+.payment-icon-list ul li.wx:nth-child(1):before{
+	left: 27px;
+	content: "支付宝转账";
+}
+.payment-icon-list ul li.wx:nth-child(2):before{
+	left: 32px;
+	content: "微信支付";
+}
+.payment-icon-list ul li.wx:nth-child(3):before{
+	left: 32px;
+	content: "银行转账";
+}
+.payment-icon-list ul li.wx:after{
+	position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 23px;
+    height: 23px;
+    content: "";
+    background: url(../style/img/right1botbule.png);
+    background-size: 23px 23px;
+    display: none;
+}
+.payment-icon-list ul li.wx.curr{
+	border: 1px solid #ea5514!important;
+	background-color: #fdfafa!important;
+	color: #ea5514!important;
+}
+.payment-icon-list ul li.wx.curr:before{
+	color: #ea5514!important;
+}
+.payment-icon-list ul li.wx.curr:after{
+	display: block;
+}
+.payment-icon-list ul li.wx img{
+	display: none!important;
+}
+.layui-layer-title{
+	position: absolute!important;
+    top: 50px!important;
+    left: 34px!important;
+    right: 35px!important;
+    z-index: 2!important;
+    background: #fff!important;
+    font-size: 16px!important;
+}
+.layui-layer-content{
+	margin-top: 30px!important;
+}
+.layui-layer-setwin{
+	width: 40px!important;
+    height: 40px!important;
+    right: -14px!important;
+    top: -14px!important;
+    border: 5px solid #fff!important;
+    border-radius: 50%!important;
+    transition: transform 0.3s!important;
+    background: url(../style/img/icon_delate_.png) no-repeat center!important;
+    background-size: 32px 32px!important;
+    background-color: #fff!important;
+    z-index: 3!important;
+}
+.layui-layer-setwin:hover{
+	transform: rotate(180deg)!important;
+}
+.layui-layer-setwin .layui-layer-close1{
+	width: 40px!important;
+    height: 40px!important;
+    cursor: pointer!important;
+    background: url()!important;
+}
+.mana-app-title{
+	width: 584px!important;
+}
+#dialog_ali{
+	border: 0!important;
+}
+.layui-layer.layui-anim.layui-layer-iframe {
+    padding-top: 50px;
+    background: #fff!important;
+}

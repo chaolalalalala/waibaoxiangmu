@@ -1,0 +1,66 @@
+.banner ul li:nth-child(2) img{
+	display: block;
+	width: 55%;
+	margin: auto;
+}
+/*<!--		内容区-->*/
+.content{
+	border-top:2px solid #EBEBEB;
+}
+.content ul{
+	padding: 0 0.4rem;
+	margin: 0.8rem 0;
+}
+.content ul li{
+	border-bottom: 1px solid #F6F6F6;
+	margin-bottom: 0.8rem;
+}
+.content ul li>div{
+	
+}
+.content ul li>div div{
+	float: left;
+}
+.content ul li>div div:nth-child(1){
+	width: 4.8rem;
+}
+.content ul li>div div:nth-child(2){
+	width: 8.96rem;
+	color: #727272;
+	font-size: 0.48rem;
+	font-family: pingfangcenter;
+}
+.content ul li>div div:nth-child(2) P{
+	margin-left: 0.5rem;
+}
+.content ul li>div div:nth-child(2) P:nth-child(1){
+	font-size: 0.72rem;
+	color: #5c5b5b;
+	margin-bottom: 0.3rem;
+}
+.content ul li>div div:nth-child(3){
+	text-align: center;
+	width: 3.432rem;
+	font-size: 0.576rem;
+	color: #ff9f41;
+}
+.content ul li>div div:nth-child(3) span{
+	margin-right: 3px;
+	font-size: 0.72rem;
+}
+.content ul li>div div:nth-child(3) a{
+	display: inline-block;
+	color: white;
+	background: #84AB28;
+	font-size: 0.528rem;
+	font-family: pingfangcenter;
+	margin-top: 0.2rem;
+	padding: 3px 4px;
+	border-radius:3px;
+}
+.content ul li>p{
+	font-size: 0.48rem;
+	font-family: pingfangcenter;
+	color: #727272;
+	margin-bottom: 0.5rem;
+}

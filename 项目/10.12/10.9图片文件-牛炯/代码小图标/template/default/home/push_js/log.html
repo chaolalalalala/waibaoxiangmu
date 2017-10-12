@@ -1,0 +1,173 @@
+{include file="public:header"}
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;<a href="{#url('push_js/index')}" class="orange">{#lang('PUSH集市')}</a> &gt; {#lang('PUSH记录')}
+	</div>
+	<div class="main-content">
+		<div class="assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('我的成交')}
+					</span>
+					<span>
+                        <a href="{#url('push_js/index')}" class="step fz_12 ml20 pd6 ">{#lang('逛集市')} </a>
+						<a href="{#url('push_js/log')}" class="step fz_12 ml20 pd6 active">{#lang('PUSH记录')} </a>
+                        <a class="step fz_12 ml50 pd6 btns2 " onclick="showA()" style="width:100px;line-height: inherit;">{#lang('发布求购信息')}</a>
+						 <a class="step fz_12 ml50 pd6 btns2 " onclick="$('#transfer,#step2').show()" style="width:100px;line-height: inherit;">{#lang('转账PUSH')}</a>
+					</span>
+                    <span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="cnyin_record">
+				<div class="f_body">
+					<div class="f_body_main">
+						<div class="f_tab_body">
+							<div>
+								<table class="f_table" id="investLog_content">
+									<thead>
+									<tr>
+										<th>
+											<select id="type-select">
+												<option value="1">{#lang('收到的PUSH')}</option>
+												<option value="2">{#lang('发起的PUSH')}</option>
+											</select></th>
+										<th>{#lang('PUSH时间')}</th>
+										<th>{#lang('成交时间')}</th>
+										<th>{#lang('PUSH币种')}</th>
+										<th>{#lang('成交价格')}</th>
+										<th>{#lang('成交数量')}</th>
+										<th>{#lang('手续费')}</th>
+										<th>{#lang('成交总额')}</th>
+										<th>{#lang('操作')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{if $pages['list']}
+									{foreach $pages['list'] as $k => $v}
+									<tr>
+										<td>
+											<img src="__UP__/{$v['img']}" class="mr5" style="margin-bottom: -5px; width: 22px;"/>{$v['username']}
+										</td>
+										<td>{#addtime($v['addtime'])}</td>
+										<td>{#addtime($v['endtime'])}</td>
+										<td>{#strtoupper($v['coin'])}</td>
+										<td>{$v['price']}</td>
+										<td>{$v['num']}</td>
+										<td>{$v['fee']}</td>
+										<td>{$v['mum']}</td>
+										<td>{if $v["status"]==0 && $v["peerid"] == $userid}
+											<a type="button" class="btns w52" data="{$v['id']}" data-align="1" data-toggle="{$v['price']}"  onclick="sure({$v['id']},1)" href="javascript:void(0)"  style="    padding: 5px;">{#lang('确认')}</a>
+											<a type="button" class="btns w52" data="{$v['id']}" data-align="2" data-toggle="{$v['price']}"  onclick="sure({$v['id']},2)" href="javascript:void(0)"  style=" padding: 5px;">{#lang('取消')}</a>
+											{else if $v["status"]==0 && $v["userid"] == $userid}
+											等待处理中
+											{else if $v["status"]==1}
+											已完成
+											{else if $v["status"]==2}
+											已取消
+											{else}
+                                            状态异常
+											{/if}
+										</td>
+									</tr>
+									{/foreach}
+									{/if}
+									</tbody>
+								</table>
+								{if $pages['show']}
+								<div class="pages">{$pages['show'] nofilter}</div>{/if}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{include file="tanchuang"}
+{include file="public:footer"}
+<script>
+
+function sure(id,type) {
+	layer.config({
+		extend: 'extend/layer.ext.js'
+	});
+	layer.ready(function () {
+		//默认prompt
+		layer.prompt({
+			title: '输入密码，并确认',
+			formType: 1
+		}, function (val) {
+			if (val) {
+				$.post('/push_js/yes',{
+					id:id,
+					type:type,
+					paypassword:val
+				}, function(data){
+					if (data.status == 1) {
+						layer.msg(data.info, {icon: 1});
+						setTimeout('location.reload()',1000);
+
+					} else {
+						layer.msg(data.info, {icon: 2});
+					}
+
+				},'json')
+			}
+
+		})
+	})
+}
+    //处理下拉框链接展示,状态,类型,市场
+	$("#type-select").val("{$type}");
+	$("#market-select").val("{$market}");
+
+	$("#type-select,#market-select").change(function () {
+		var type   = $("#type-select option:selected").val();
+		var market = $("#market-select option:selected").val();
+		var url    = '/push_js/log';
+		if (type) {
+			url += '/type/' + type;
+		}
+		if (market) {
+			url += '/market/' + market;
+		}
+
+		window.location = url;
+	});
+
+	function push_js_up() {
+
+		$.post("{#url('push_js/up')}", {}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				window.location = "/push_js/index";
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+</script>
+<script>
+	if ($("#push_js_box").length > 0) {
+		$('#push_js_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>

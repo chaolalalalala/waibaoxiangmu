@@ -1,0 +1,345 @@
+{include file="bitcoin:header"}
+<link rel="stylesheet" href="__CSS__/trade.css"/>
+<div class="autobox">
+
+	<div class="autobox mt20 clear" id="Kline-change">
+
+		<div class="list-tab-box">
+			<ul class="list-tab">
+				<li id="list-tab_index">
+					<a href="/trade/index/market/{$market}" style="color:block;font-size:15px;font-weight: bolder;">{$market_list[$market]['title']}{#lang('交易')}</a>
+				</li>
+				<li id="list-tab_chart" >
+					<a href="/trade/depth/market/{$market}" style="color:block;font-size:15px;font-weight: bolder;">{$market_list[$market]['title']}{#lang('行情')}</a>
+				</li>
+				<li id="list-tab_info" >
+					<a href="/trade/info/market/{$market}" style="color:block;font-size:15px;font-weight: bolder;">{#lang('了解')}{$coin_list[$xnb]['title']}({#strtoupper($xnb)})</a>
+				</li>
+				<li id="list-tab_comment" class="on">
+					<a href="/trade/discu/market/{$market}" style="color:block;font-size:15px;font-weight: bolder;">{#lang('评价')}{$coin_list[$xnb]['title']}({#strtoupper($xnb)})</a>
+				</li>
+				<li >
+					<a href="/trade/trades/market/{$market}" style="color:block;font-size:15px;font-weight: bolder;">{$market_list[$market]['title']}{#lang('委托')}</a>
+				</li>
+				<li >
+					<a href="/trade/order/market/{$market}" style="color:block;font-size:15px;font-weight: bolder;">{$market_list[$market]['title']}{#lang('成交')}</a>
+				</li>
+				<li class="move_bg"   style="    float: right;
+    margin-right: 2px;
+    color: #FFF;
+    cursor: pointer;
+    color: #FFF;
+    line-height: 30px;
+    font-size: 14px;
+    padding: 0 5px;
+    height: 30px;       padding: 0 10px; top: -6px;">
+					<a href="/trade/chart" target="_blank" style="    color: #FFF;">{#lang('全屏交易')}</a>
+				</li>
+
+
+
+			</ul>
+		</div>
+		<div class="wrapbody">
+			<div class="main">
+				<div class="myright" style="width: 1200px; padding: 0px;">
+					<div class="wraphtml">
+						<div class="autobox mt20 clear" style="padding-top: 0px;">
+							<div class="maintain-content">
+								<div class="coin-intro">
+									<h4 class="intro-title" style="margin-top: 0;">{$coin_list[$xnb]['title']}({#strtoupper($xnb)}){#lang('评分')}</h4>
+									<div class="box-padding-add13">
+										<div class="star-level">
+											{#lang('评价星级')}：
+											<ul id="star" style="width:200px;">
+												{if $aaa>=1 }
+												<li class="active"></li>
+												{else} {if $bba>0}
+												<li><i id="star_bba"></i></li>
+												{else}
+												<li class=""></li>
+												{/if} {/if} {if $aaa>=2 }
+												<li class="active"></li>
+												{else} {if $bbb>0}
+												<li><i id="star_bbb"></i></li>
+												{else}
+												<li class=""></li>
+												{/if} {/if} {if $aaa>=3 }
+												<li class="active"></li>
+												{else} {if $bbc>0}
+												<li><i id="star_bbc"></i></li>
+												{else}
+												<li class=""></li>
+												{/if} {/if} {if $aaa>=4 }
+												<li class="active"></li>
+												{else} {if $bbd>0}
+												<li><i id="star_bbd"></i></li>
+												{else}
+												<li class=""></li>
+												{/if} {/if} {if $aaa>=5 }
+												<li class="active"></li>
+												{else} {if $bbe>0}
+												<li><i id="star_bbe"></i></li>
+												{else}
+												<li class=""></li>
+												{/if} {/if}
+											</ul>
+											（{#lang('共')} <span style="color: #E55600;">{$coin_list[$xnb]['tp_zs']}</span> {#lang('人投票')}）
+										</div>
+										<script type="text/javascript">
+											$('#star_bba').css('width', "{$bba*100}%");
+											$('#star_bbb').css('width', "{$bbb*100}%");
+											$('#star_bbc').css('width', "{$bbc*100}%");
+											$('#star_bbd').css('width', "{$bbd*100}%");
+											$('#star_bbe').css('width', "{$bbe*100}%");
+										</script>
+										<div class="level-content">
+											<ul>
+												<li>{#lang('技术评分')}：
+													<div class="progress">
+														<div class="progress-bar" id="cotrade_jishu"></div>
+													</div>
+													<span style="color: #E55600;">{$jishu}{#lang('分')}</span>
+												</li>
+												<li>{#lang('应用评分')}：
+													<div class="progress">
+														<div class="progress-bar" id="cotrade_yingyong"></div>
+													</div>
+													<span style="color: #E55600;">{$yingyong}{#lang('分')}</span>
+												</li>
+												<li>{#lang('前景评分')}：
+													<div class="progress">
+														<div class="progress-bar" id="cotrade_qianjing"></div>
+													</div>
+													<span style="color: #E55600;">{$qianjing}{#lang('分')}</span>
+												</li>
+												<script type="text/javascript">
+													$('#cotrade_jishu').css('width', "{$jishu*20}%");
+													$('#cotrade_yingyong').css('width', "{$yingyong*20}%");
+													$('#cotrade_qianjing').css('width', "{$qianjing*20}%");
+												</script>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="link-cc">
+									<h4 class="intro-title">{#lang('我来讲两句')}</h4>
+									<div class="box-padding-add13">
+										<div style="width: 50%; float: left;">
+											<textarea id="msgaaa" class="text-area"></textarea>
+											<div class="pinglun-bonus" style="margin-top: 15px;">
+												<a onclick="upcomment()" class="sub-comment btns2">{#lang('提交评论')}</a>
+											</div>
+										</div>
+										<div style="width: 50%; float: left;">
+											<ol class="score-ol">
+												<li>{#lang('技术评分')}：<label><input name="s1" type="radio" checked="checked" value="5">&nbsp;5{#lang('分')}</label><label><input name="s1" type="radio" value="4">&nbsp;4{#lang('分')}</label><label><input name="s1" type="radio" value="3">&nbsp;3{#lang('分')}</label><label><input name="s1" type="radio" value="2">&nbsp;2{#lang('分')}</label><label><input name="s1" type="radio" value="1">&nbsp;1{#lang('分')}</label>
+												</li>
+												<li>{#lang('应用评分')}：<label><input name="s2" type="radio" checked="checked" value="5">&nbsp;5{#lang('分')}</label><label><input name="s2" type="radio" value="4">&nbsp;4{#lang('分')}</label><label><input name="s2" type="radio" value="3">&nbsp;3{#lang('分')}</label><label><input name="s2" type="radio" value="2">&nbsp;2{#lang('分')}</label><label><input name="s2" type="radio" value="1">&nbsp;1{#lang('分')}</label>
+												</li>
+												<li>{#lang('前景评分')}：<label><input name="s3" type="radio" checked="checked" value="5">&nbsp;5{#lang('分')}</label><label><input name="s3" type="radio" value="4">&nbsp;4{#lang('分')}</label><label><input name="s3" type="radio" value="3">&nbsp;3{#lang('分')}</label><label><input name="s3" type="radio" value="2">&nbsp;2{#lang('分')}</label><label><input name="s3" type="radio" value="1">&nbsp;1{#lang('分')}</label>
+												</li>
+											</ol>
+										</div>
+									</div>
+								</div>
+								<script>
+								</script>
+								<div class="detail-Parameter" style="width: 1060px;">
+									<h4 class="intro-title">{#lang('币民都在说')}</h4>
+									<div style="border-bottom: 1px dotted #DCDCDC; padding-bottom: 20px;">
+										{foreach $pages['list'] as $k => $v}
+										<div class="single-comment" id="single-comment-7379">
+											<div class="comment-title">
+												<div>
+													<span style="color: #FF731E;">{$v.username}</span> <span style="color: #777; padding-left: 3px;">{#lang('评价说')}：</span>
+													<span style="float: right; margin-right: 10px;">
+														<span onclick="subcomment(this)" class="dianzan" data-align="{$v.id}" data-slide="1"> {#lang('超级赞')}<span class="dianzan-value" id="zan_7379_2">({$v.cjz})</span></span>
+														<span onclick="subcomment(this)" class="dianzan" data-align="{$v.id}" data-slide="2"> {#lang('太中庸')} <span class="dianzan-value" id="zan_7379_1">({$v.tzy})</span></span>
+														<span onclick="subcomment(this)" class="dianzan" data-align="{$v.id}" data-slide="3"> {#lang('瞎扯淡')} <span class="dianzan-value" id="zan_7379_0">({$v.xcd})</span></span>
+                                                    </span>
+												</div>
+											</div>
+											<div class="comment-content">{$v.content}</div>
+											<span>{#addtime($v['addtime'])}</span>
+										</div>
+										{/foreach}
+									</div>
+									<div class="pages">{$pages['show'] nofilter}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function () {
+		$('.all_coin_price').hover(function () {
+			$('.all_coin_list').show()
+		}, function () {
+			$('.all_coin_list').hide()
+		});
+
+
+		get_json();
+
+
+		var $li = $('.trade-nav-move > dd');
+		var $ul = $('#all_coins > ul');
+
+		$li.mouseover(function () {
+			var $this = $(this);
+			var $t = $this.index();
+			$li.removeClass();
+			$this.addClass('current');
+			$ul.css('display', 'none');
+			$ul.eq($t).css('display', 'block');
+		});
+	});
+
+
+	function get_json() {
+		$.getJSON("/trade/info_json/market/{$market}/t=" + Math.random(), function (data) {
+			if (data) {
+				if (data['menu']) {
+					trade_menu(data['menu']);
+				}
+				if (data['top']) {
+					trade_top(data['top']);
+				}
+			}
+
+
+			setTimeout('get_json()', 5000);
+		});
+	}
+
+
+	function trade_top(data) {
+		if (data[0]) {
+			$('#market_new_price').removeClass('buy');
+			$('#market_new_price').removeClass('sell');
+			if ($("#market_new_price").html() > data[0]) {
+				$('#market_new_price').addClass('sell');
+			}
+			if ($("#market_new_price").html() < data[0]) {
+				$('#market_new_price').addClass('buy');
+			}
+			$("#market_new_price").html(data[0]);
+		}
+		if (data[1]) {
+			$('#market_buy_price').removeClass('buy');
+			$('#market_buy_price').removeClass('sell');
+			if ($("#market_buy_price").html() > data[1]) {
+				$('#market_buy_price').addClass('sell');
+			}
+			if ($("#market_buy_price").html() < data[1]) {
+				$('#market_buy_price').addClass('buy');
+			}
+			$("#market_buy_price").html(data[1]);
+			$("#sell_best_price").html(data[1]);
+		}
+		if (data[2]) {
+			$('#market_sell_price').removeClass('buy');
+			$('#market_sell_price').removeClass('sell');
+			if ($("#market_sell_price").html() > data[2]) {
+				$('#market_sell_price').addClass('sell');
+			}
+			if ($("#market_sell_price").html() < data[2]) {
+				$('#market_sell_price').addClass('buy');
+			}
+			$("#market_sell_price").html(data[2]);
+			$("#buy_best_price").html( data[2]);
+		}
+		if (data[3]) {
+			$("#market_min_price").html(data[3]);
+		}
+		if (data[4]) {
+			$("#market_max_price").html(data[4]);
+		}
+
+		if (data[5]) {
+			if (data[5] > 10000) {
+				data[5] = (data[5] / 10000).toFixed(2) + "万"
+			}
+			if (data[5] > 100000000) {
+				data[5] = (data[5] / 100000000).toFixed(2) + "亿"
+			}
+			$("#market_volume").html(data[5]);
+		}
+		if (data[6]) {
+			$('#market_change').removeClass('buy');
+			$('#market_change').removeClass('sell');
+			if (data[6] > 0) {
+				$('#market_change').addClass('buy');
+				$("#market_change").html(data[6] + "%");
+			} else {
+				$('#market_change').addClass('sell');
+				$("#market_change").html((-data[6]) + "%");
+			}
+
+		}
+	}
+
+
+	function trade_menu(data) {
+		if(data){
+			for (var i in data) {
+				$('.menu_price_zx_'+i).html(data[i]['price']);
+			}
+		}
+	}
+</script>
+<script type="text/javascript">
+	var id;
+	var a;
+
+	function upcomment() {
+		var msgaaa = $("#msgaaa").val();
+		var xnb    = "{$xnb}";
+		var s1     = $(':radio[name="s1"]:checked').val();
+		var s2     = $(':radio[name="s2"]:checked').val();
+		var s3     = $(':radio[name="s3"]:checked').val();
+
+
+		$.post("{#url('trade/upcomment')}", {
+			msgaaa: msgaaa, s1: s1, s2: s2, s3: s3, xnb: xnb
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				location.reload();
+			} else {
+				layer.msg(data.info, {icon: 2});
+			}
+		}, 'json');
+
+
+	}
+
+
+	function subcomment(o) {
+		var id   = $(o).attr('data-align');
+		var type = $(o).attr('data-slide');
+		$.post("{#url('trade/subcomment')}", {id: id, type: type}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				location.reload();
+			} else {
+				layer.msg(data.info, {icon: 2});
+			}
+		}, 'json');
+
+
+	}
+</script>
+<script>
+	if ($("#trade_box").length > 0) {
+		$('#trade_box').addClass('active');
+	} else {
+		$('#trade_box').addClass('active');
+	}
+</script>
+{include file="aaapublic:footer"}

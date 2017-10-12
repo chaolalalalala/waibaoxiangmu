@@ -1,0 +1,177 @@
+{include file="public:header"}
+<style>
+	.mybtn{
+		width:auto;
+		height:25px;
+		line-height:25px;
+		padding:0 10px;
+		font-size:12px;
+	}
+</style>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;
+		<a href="/pool/" class=""> {#lang('我的鸡场')}</a>&gt; {#lang('蛋鸡市场')}
+	</div>
+	<div class=" assets_content bg_w" style="min-height:30px;">
+		<div class="safe_center clear">
+			<h1>
+				<span>
+					{#lang('我的鸡场')}
+				</span>
+                <span>
+                    <a href="{#url('egg/index')}" id="step1" class="step fz_12 ml50 pd6 active ">{#lang('蛋鸡市场')}</a>
+                    <a href="{#url('egg/market')}" id="step2" class="step fz_12 ml20 pd6 ">{#lang('我的鸡场')}</a>
+                    <a href="{#url('egg/log')}" id="step3" class="step fz_12 ml20 pd6 ">{#lang('收益记录')}</a>
+	                 <a href="{#url('egg/egg')}" id="step4" class="step fz_12 ml20 pd6 ">{#lang('鸡场记录')}</a>
+                </span>
+                <span>
+					{if $hints["value"]}
+					<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+					{/if}
+				</span>
+			</h1>
+		</div>
+		<div id="hints" class="mytips" style="display:none;">
+			<script>
+				var hints = "{$hints['show']}";
+				if(hints == 1){
+					$('#hints').show();
+				}
+			</script>
+			{$hints["value"] nofilter}
+		</div>
+		{#slider("egg")}
+		<div class="cnyin_record">
+			<div class="f_body">
+				<div class="f_body_main">
+					<div class="f_tab_body">
+						<div>
+							<table class="f_table" id="investLog_content">
+								<tr>
+									<th>{#lang('序号')}</th>
+									<th>{#lang('名称')}</th>
+									<th>{#lang('售价')}</th>
+									<th>{#lang('币种')}</th>
+									<!--<th>数量</th>-->
+									<th>{#lang('内容')}</th>
+									<!--<th>其它时间收益减少比率%</th>-->
+									<!--<th>过期收益减少比率%</th>-->
+									<!--<th>最小产能%</th>-->
+									<!--<th>购买上限</th>-->
+									<th>{#lang('状态')}</th>
+									<th>{#lang('操作')}</th>
+								</tr>
+								{foreach $pages["list"] as $v}
+								<tr>
+									<td>{$v["id"]}</td>
+									<td>{if $v["type"]==1}
+									    {#lang('鸡蛋')}
+									    {else}
+									    {#lang('鸡')}
+										{/if}
+									</td>
+									<td>{#lang('卖出')}:{$v["sell_price"]}
+									    {#lang('买入')}:{$v["buy_price"]}
+									</td>
+									<td>{#lang('卖出')}:{$v["sell_pricetype"]}
+									    {#lang('买入')}:{$v["buy_pricetype"]}
+									</td>
+									<!--<td>{$v["num"]}</td>-->
+									<td>{$v["content"]}</td>
+									<!--<td>{$v["limit"]}</td>-->
+									{if $v["status"]==0}
+									<td>{#lang('停售')}</td>
+									<td></td>
+									{else if $v["status"]==1}
+									<td>{#lang('热卖中')}</td>
+									<td>
+										<input type="text"  class="texts hg30 w100"  placeholder="{#lang('请输入数量')}" id="num{$v['id']}"  value="">
+										<input type="button" class="btns2 mybtn" id="{$v['id']}" onclick="egg_buy(this)" value="{#lang('购买')}">
+									</td>
+									{/if}
+								</tr>
+								{/foreach}
+							</table>
+							<div class="pages">{$pages['show'] nofilter}</div>
+						</div>
+					</div>
+					</section>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	//购买设备
+	function egg_buy(o) {
+		var id = $(o).attr('id');
+        var num= $("#num"+id).val();
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '{#lang("输入交易密码，并确认")}',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('egg/buy')}", {id: id,num:num, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							window.setTimeout("location.reload()", 1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+								if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+
+	}
+	function egg_sell(o) {
+		var id = $(o).attr('id');
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '{#lang("输入交易密码，并确认")}',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('egg/sell')}", {id: id, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							window.setTimeout("location.reload()", 1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+
+	}
+</script>
+<script>
+	if ($("#pool1_box").length > 0) {
+		$('#pool1_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+</div>
+{include file="public:footer"}

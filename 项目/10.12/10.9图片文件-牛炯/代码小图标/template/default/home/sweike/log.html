@@ -1,0 +1,85 @@
+{include file="sweike:header"}
+<link rel="stylesheet" href="/static/default/home/css/sweike/sweikelog.css">
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;
+		<a href="{#url('sweike/index')}" class="orange">{#lang('威客任务')}</a> &gt; {#lang('个人中心')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="cnyin_record">
+				<div class="f_body">
+					<div class="f_body_main">
+						<div class="f_tab_body">
+							<div class="jilu">
+								<a href="{#url('/sweike/log')}"><h1 class="log_act">{#lang('投标记录')}</h1></a>
+								<a href="{#url('/sweike/weikelog')}"><h1 class="" >{#lang('威客记录')}</h1></a>
+								<table class="f_table" id="investLog_content">
+									<thead>
+									<tr>
+										<th id="sublist-grid_c0">{#lang('投稿时间')}</th>
+										<th id="sublist-grid_c1">{#lang('投稿威客')}</th>
+										<th id="sublist-grid_c7">{#lang('投稿内容')}</th>
+										<th id="sublist-grid_c8">{#lang('投稿状态')}</th>
+										<th id="sublist-grid_c2">{#lang('奖励')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{if $pages['list']}
+									{foreach $pages['list'] as $v}
+									<tr>
+										<td>{#addtime($v['addtime'])}</td>
+										<td>
+											<a class="move unlock" href="/home/sweike/details/id/{$v['weikeid']}" target="_blank">{#lang('查看详情')}</a>
+										</td>
+										<td>{$v['content']}</td>
+										<td> {if $v['status']==2} {#lang('审核中')} {else if $v['status']==1} {#lang('恭喜你,中标')} {else if $v['status']==0} {#lang('审核未通过')} {else if $v['status']==3} {#lang('已支付')} {/if}
+										</td>
+										{if $v["price"]>0}
+										<td>{$v['price']}{$v['price_type']}</td>
+										{else}
+										<td> ------</td>
+										{/if}
+									</tr>
+									{/foreach}{/if}
+									</tbody>
+								</table>
+								{if $pages['show']}
+								<div class="pages">{$pages['show'] nofilter}</div>{/if}
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+	//	头部多级菜单js
+	var nav = $('.mainbav');
+
+
+	$(".mainmenu").append(nav);
+
+
+	$(".mainmenu").hover(function () {
+		$(".mainbav").show();
+	}, function () {
+		$(".mainbav").hide();
+	});
+</script>
+<style>
+	.header{
+		background:#FFF;
+	}
+</style>
+<script>
+	if ($("#sweike_box").length > 0) {
+		$('#sweike_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="sweike:footer"}

@@ -1,0 +1,588 @@
+{include file="header"}
+<link rel="stylesheet" href="__HOME__/dingcan/css/style_seller.css"/>
+<style type="text/css">
+	.sub_nav{
+		border:1px solid #EBEBEB;
+		font-size:14px;
+		width:1200px;
+		margin:0 auto;
+		font-family:Microsoft yahei;
+		border-right:0;
+		background:#FFF;
+		margin-top:15px;
+		position:relative;
+	}
+
+	.sub_nav .li{
+		padding:15px 10px 15px 25px;
+		border-right:1px solid #EBEBEB
+	}
+
+	.sub_nav li{
+		float:left
+	}
+
+	.sub_nav .p{
+		float:left;
+		width:28px;
+		color:#333;
+		text-align:center;
+		padding-top:25px;
+		margin-top:6px;
+		background-repeat:no-repeat
+	}
+
+	.sub_nav .ul{
+		float:left;
+		display:inline;
+		margin-left:8px;
+		line-height:24px;
+		margin:0 0 0 7px;
+	}
+
+	.sub_nav .ul li{
+		display:inline;
+		margin:0 7px;
+		float:left;
+		line-height:27px;
+	}
+
+	.sub_nav .ul li a{
+		color:#999
+	}
+
+	.sub_nav .ul li a:hover{
+		color:#F60
+	}
+
+	.sub_nav .inner:before, .sub_nav .inner:after{
+		content:'';
+		position:absolute;
+		width:28px;
+		height:28px;
+		border:2px solid #F70;
+		display:block;
+	}
+
+	.sub_nav .inner:before{
+		border-width:2px 0 0 2px;
+		top:0;
+		left:0;
+	}
+
+	.sub_nav .inner:after{
+		border-width:0 2px 2px 0;
+		right:0;
+		bottom:0
+	}
+</style>
+<style>
+	.dzapp_wechat_window{
+		width:740px;
+		clear:both
+	}
+
+	.dzapp_wechat_qrcode{
+		float:left;
+		border-right:dotted;
+		border-right-color:#DDD;
+		margin-right:20px;
+	}
+
+	.dzapp_wechat_tips{
+		color:#AAA;
+	}
+
+	.dzapp_wechat_tips h3{
+		color:#000;
+		font-size:16px;
+		font-weight:bold;
+	}
+
+	#dzapp_wechat_nav1{
+		float:left;
+		height:23px;
+		width:100px;
+	}
+
+	#dzapp_wechat_nav2{
+		float:left;
+		height:23px;
+		width:100px;
+	}
+
+	#dzapp_wechat_nav3{
+		float:right;
+		margin-top:8px;
+	}
+
+
+
+	#dzapp_wechat_sidenav_yx{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+		background:url(__HOME__/dingcan/img/sidebar_yx.png);
+	}
+
+	#dzapp_wechat_sidenav_weibo{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+		background:url(__HOME__/dingcan/img/sidebar_weibo.png);
+	}
+
+	#dzapp_wechat_sidenav_renren{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+		background:url(__HOME__/dingcan/img/sidebar_renren.png);
+	}
+
+	#dzapp_wechat_sidenav_tencent{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+		background:url(__HOME__/dingcan/img/sidebar_tencent.png);
+	}
+
+	#dzapp_wechat_sidenav_fuwu{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+		background:url(__HOME__/dingcan/img/sidebar_fuwu.png);
+	}
+
+	.dzapp_position1{
+		top:200px;
+	}
+
+	.dzapp_position2{
+		top:260px;
+	}
+
+	.dzapp_position3{
+		top:320px;
+	}
+
+	.dzapp_position4{
+		top:380px;
+	}
+
+	.dzapp_position5{
+		top:440px;
+	}
+
+	.dzapp_position6{
+		top:500px;
+	}
+</style>
+<a id="dzapp_wechat_sidenav_wx" class="dzapp_position1" href="plugin.php?id=dzapp_wechat:entry&action=qrcode" onclick="showWindow('qrcode', this.href)"></a>
+<div id="wp" class="wp">
+	<link rel="stylesheet" type="text/css" href="__HOME__/dingcan/css/view.css"/>
+	<script type="text/javascript">var aimgcount = new Array();</script>
+	<style type="text/css">
+		.sub_nav{
+			display:none
+		}
+	</style>
+	<div id="pt" class="bm cl">
+		<div class="z"> <em>&rsaquo;</em>
+			<a href="/dingcan/index/type/2">商家</a> <em>&rsaquo;</em> <a href="/dingcan/index/type/2">商家列表</a>
+			<em>&rsaquo;</em>{$seller['title']}
+		</div>
+	</div>
+	<div class="wp">
+		<!--[diy=diy_shop_view_ad1]-->
+		<!--[/diy]-->
+	</div>
+	<div class="body-content cl">
+		<div class="banner cl">
+			<div class="main">
+				<div id="basic-info" class="basic-info default nug_shop_ab_pv-a">
+					<h1 class="shop-name cl">
+						<em class="z shopName">{$seller['title']}</em>
+						<div class="shop_icon z">
+
+							<!--<img class="mr_5" src="picture/094317ak87k1ziiwb6kcoo.gif" title="皇冠商家_拥有全部功能，且发布不需要审核" alt="皇冠商家_拥有全部功能，且发布不需要审核"/>-->
+						</div>
+					</h1>
+					<ul class="tag" id="box">
+						{if $seller['wifi'] == 1 }
+						<span>Wi-Fi</span>
+						{/if}
+						{if $seller['park'] == 1}
+						<span>提供车位</span>
+						{/if}
+					</ul>
+					<script type="text/javascript">
+						function toggle_tag() {
+							$('box').className = $('box').className == 'tag' ? 'tag show' : 'tag';
+							$('tog').innerHTML = $('tog').innerHTML == '展开' ? '收起' : '展开';
+						}
+					</script>
+					<p class="expand-info tel">
+						<span class="info-name">电话 :</span> <span class="item mr10" itemprop="tel">{$seller['tel']}</span>
+						<span class="item">营业时间 : {$seller['kaitime']}:00-{$seller['endtime']}:00</span>
+					</p>
+					<div class="expand-info address" itemprop="street-address">
+						<span class="info-name">地址 :</span>
+						<span class="item" itemprop="street-address" title="扬州市开发区兴城西路83号">{$seller['addr']}</span>
+						<a class="item-gray" href="plugin.php?id=dzapp_shop&amp;mod=address&amp;shop_id=22" onClick="showWindow('address', this.href)"><i class="icon d_map"></i>查看商家地图</a>
+					</div>
+					<div class="action cl mt_15" style="display:none">
+						<a class="write left-action" href="http://www.movesay.com" target="_blank" rel="nofollow"><i class="qq"></i>QQ</a>
+<a href="javascript:;" id="favorite_shop_id_22" onclick="addFavorite2();" class="dzapp_favorite y">
+	<em>收藏</em></a>
+						<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+	<span class="jiathis_txt c_666">分享到：</span> <a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a> <a class="jiathis_button_tqq"></a> <a class="jiathis_button_weixin"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+</div>
+						<!-- JiaThis Button END -->
+						<!--a class="report" href="" rel="nofollow" target="_blank"><i class="icon"></i></a>
+						<a class="action-more J-action-more"><i class="icon"></i></a-->
+</span>
+					</div>
+				</div>
+			</div>
+			<div id="aside" class="aside">
+				<div class="photos-container">
+					<div class="photos">
+						<a href="plugin.php?id=dzapp_shop&amp;mod=view&amp;shop_id=22&amp;do=shop_photo" target="_blank">
+							<img src="__UP__/{$seller['img']}" width="200" height="200" style="margin-left:20px"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="wp ct2 cl">
+			<div class="mn" style="margin-top:20px">
+				<div class="shop_index_mod">
+					<h2><a href="javascript:;">口碑推荐</a></h2>
+					<style>
+						.promo_list{
+							width:1210px;
+							margin:0 auto;
+						}
+
+						.index_list > ul{
+							margin-left:-13px;
+							zoom:1
+						}
+
+						.index_list > ul > li{
+							margin-top:12px;
+							float:left;
+							margin-left:10px;
+							width:233px;
+							background:#FAFAFA;
+						}
+
+						.index_list > ul > li > div{
+							margin:4px;
+							border:1px solid #F1F1F1;
+							background:#FFF;
+							padding:6px;
+							overflow:hidden;
+							position:relative;
+						}
+
+						.index_list > ul > li > div > em{
+							width:59px;
+							height:24px;
+							display:block;
+							position:absolute;
+							top:20px;
+							left:15px;
+							color:#FFF;
+							font-size:14px;
+							line-height:22px;
+							padding-left:20px;
+							z-index:1;
+						}
+
+						.index_list > ul > li > div > a > img{
+							width:100%;
+						}
+
+						.index_list > ul > li > div > h6{
+							line-height:22px;
+							height:44px;
+							margin:6px 0;
+						}
+
+						.index_list > ul > li > div > h6 > a{
+							font-size:14px;
+							color:#888
+						}
+
+						.index_list > ul > li > div > .view_price{
+							font-size:16px;
+							color:#F40;
+							line-height:25px;
+							display:block;
+							border-top:1px dashed #F1F1F1;
+							padding-top:7px;
+							height:32px;
+						}
+
+						.index_list > ul > li > div > a{
+							display:block;
+							width:211px;
+							height:211px;
+							overflow:hidden;
+						}
+
+						.index_list > ul > li > div > .view_price > del{
+							color:#DEDEDE;
+							font-size:12px;
+							margin-left:5px
+						}
+
+						.index_list > ul > li > div > .view_price > cite{
+							font-size:12px;
+						}
+
+						.index_list > ul > li > div > .view_price > a{
+							float:right;
+							background:#F97748;
+							font-size:13px;
+							color:#FFF;
+							padding:0 6px;
+							border-radius:3px;
+							display:block;
+						}
+
+						.index_list > ul > li > div > p{
+							color:#BBB;
+							margin-top:6px;
+						}
+
+						.index_list > ul > li > div.shop-view-goods > .view_price > a{
+							background:#DD2727
+						}
+
+						.index_list > ul > li > div.shop-view-tuan > .view_price > a{
+							background:#FF5E89
+						}
+
+						.index_list > ul > li > div.shop-view-coupon > em{
+							padding-left:12px
+						}
+
+						.index_list > ul > li > div.shop-view-coupon > .view_price > a{
+							background:#4FC0EA
+						}
+
+						.index_list > ul > li > div.shop-view-jifen > .view_price > a{
+							background:#FEA501
+						}
+
+						.index_list > ul > li > div.shop-view-zhe > em{
+							padding-left:12px
+						}
+
+						.index_list > ul > li > div.shop-view-zhe > .view_price > a{
+							background:#FF9420
+						}
+
+						.index_list > ul.hr_job{
+							margin-left:1px;
+							margin-top:12px;
+						}
+
+						.index_list > ul.hr_job > li > div > h5 > a.y{
+							background:#74CA9E;
+							display:block;
+							padding:0 5px;
+							color:#FFF;
+							border-radius:3px;
+						}
+
+						.index_list > ul.hr_job > li{
+							width:320px;
+							float:left;
+							margin-bottom:-1px;
+							background:none;
+							margin-left:-1px;
+							margin-top:0;
+						}
+
+						.index_list > ul.hr_job > li > div{
+							margin:0;
+							padding:10px;
+						}
+
+						.index_list > ul.hr_job > li > div > div.wrap2{
+							height:44px;
+							line-height:22px;
+						}
+
+						.index_list > ul.hr_job > li > div > p.wrap > i{
+							background:url('__HOME__/dingcan/img/sprite.png') no-repeat -21px -91px;
+							display:inline-block;
+							_zoom:1;
+							_display:inline;
+							width:12px;
+							height:12px;
+							vertical-align:middle;
+							text-align:justify;
+							*text-justify:inter-ideograph;
+							margin-right:5px;
+						}
+
+						.index_list > ul.hr_job > li > div > p.wrap > span.y{
+							margin-left:8px;
+						}
+
+						.content{
+							margin-top:10px;
+						}
+
+						.content .title .n{
+							display:inline-block;
+							padding:0 30px;
+							background:#FAFAFA;
+							font-weight:300;
+							font-family:"Microsoft YaHei";
+							color:#333;
+						}
+
+						.promo_list li:hover{
+							box-shadow:0 0 5px #E2E2E2
+						}
+					</style>
+					<div class="index_list cl promo_list">
+						<ul>
+							{foreach $dingcan as $k => $v}
+								{if $k <= 3}
+								<li>
+									<div class="shop-view-goods">
+										<i class="r_t"></i> <i class="r_b"></i> <i class="r_l"></i> <i class="r_r"></i>
+										<em>套餐</em>
+										<a href="/dingcan/detail/id/{$v['id']}"><img src="__UP__/{$v['img_tj']}" class="yc_8 scale" height="224"></a>
+										<h6>
+											<a href="/dingcan/detail/id/{$v['id']}" class="wrap2">{$v['title']}</a>
+										</h6>
+										<div class="view_price">
+											<a href="/dingcan/detail/id/{$v['id']}">去订餐</a> <cite>￥</cite>{$v['price']}
+											<del><cite>￥</cite>{$v['price']}</del>
+										</div>
+										<p><span class="y">{$v['deal']}人喜欢</span> <em>{$v['num']}</em>人餐</p>
+									</div>
+								</li>
+							{/if}
+							{/foreach}
+						</ul>
+					</div>
+				</div>
+				<div class="shop_index_mod">
+					<h2>
+						<a href="plugin.php?id=dzapp_shop&mod=view&do=shop_photo&shop_id=22" class="y">更多</a>
+						<a href="plugin.php?id=dzapp_shop&mod=view&do=shop_photo&shop_id=22">相册</a>
+					</h2>
+					<div class="index_list cl">
+						<ul class="shop_photo cl">
+							{foreach $img as $k => $v}
+							<li>
+								<div class="shop-view-photo">
+									<a><img src="__UP__/{$v['img']}" class="yc_8 scale" height="224"/></a>
+								</div>
+							</li>
+							{/foreach}
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="sd">
+				<div class="bm"style="margin-top:28px" >
+					<div class="bm_h">
+						<h2 class="f_16"><span>商家</span>公告</h2>
+					</div>
+					<div class="bm_c">
+						<div id="map_container">{$seller['content']}</div>
+					</div>
+				</div>
+				<div class="bm" id="view_qrcode">
+					<div class="bm_h">
+						<h2 class="f_16"><span>商家</span>二维码</h2>
+					</div>
+					<div class="bm_c">
+						<img src="__UP__/{$seller['er']}" width="100%"/>
+						<p class="hm f_14 c_999">扫描商家二维码进入商家手机版</p>
+					</div>
+				</div>
+
+				<script type="text/javascript">
+					(function () {
+						var postAct       = document.getElementById("view_qrcode");
+						var postActTop    = postAct.offsetTop;
+						document.onscroll = function () {
+							var docTop = document.body.scrollTop | document.documentElement.scrollTop;
+							if (postActTop < (docTop + 100)) {
+								postAct.setAttribute("style", "position: fixed;top: 10px;z-index: 1;width: 220px;box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px");
+							} else {
+								postAct.setAttribute("style", "");
+							}
+						}
+					})()
+				</script>
+			</div>
+		</div>
+		<script src="__EXT__/jquery/jquery.min.js" type="text/javascript"></script>
+
+	</div>
+</div>
+<script>
+	function addFavorite2() {
+		var url = window.location;
+		var title = document.title;
+		var ua = navigator.userAgent.toLowerCase();
+		if (ua.indexOf("360se") > -1) {
+			alert("由于360浏览器功能限制，请按 Ctrl+D 手动收藏！");
+		}
+		else if (ua.indexOf("msie 8") > -1) {
+			window.external.AddToFavoritesBar(url, title); //IE8
+		}
+		else if (document.all) {
+			try{
+				window.external.addFavorite(url, title);
+			}catch(e){
+				alert('您的浏览器不支持,请按 Ctrl+D 手动收藏!');
+			}
+		}
+		else if (window.sidebar) {
+			window.sidebar.addPanel(title, url, "");
+		}
+		else {
+			alert('您的浏览器不支持,请按 Ctrl+D 手动收藏!');
+		}
+	}
+</script>
+{include file="public:footer"}

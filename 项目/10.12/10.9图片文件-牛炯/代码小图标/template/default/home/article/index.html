@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>{$type['title']} - {$seos['title']} </title>
+<meta name="Keywords" content="{$type['title']} {$seos['keywords']}">
+<meta name="Description" content="{$type['title']}  {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+
+
+<link rel="stylesheet" href="/static/style/articaladd.css">
+<link rel="stylesheet" href="__CSS__/article.css"/>
+<div class="autobox">
+    <div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;
+        <a href="/i/blog.jsp" class="">{#lang('文章中心')}</a> &gt; {$type['title']}
+    </div>
+    <div class="assets_center clear po_re ">
+        <div class="left-nav-bar" id="left-nav-bar">
+            <div class="left-nav-slider">
+                <dl class="nav-tab-list">
+                    <dt>
+                        <a href="/i/blog_t_{$type['id']}.jsp"><i class="fa fa-support mr10"></i> {$type['title']}</a>
+                    </dt>
+                    <dt class="nav-tab-hover hover1"></dt>
+                    {foreach $type_arr as $k => $v} {if $v['id'] == $type['id']}
+                    <dd class="active">
+                        {else}
+                    <dd>
+                        {/if} <a href="/i/blog_t_{$v['id']}.jsp"> <i class="fa fa-tasks fa-lg fa-fw mr5"></i>{$v.title}
+                        <i class="fa fa-angle-right fa-lg right mr10 mt17"></i> </a>
+                    </dd>
+                    {/foreach}
+                </dl>
+            </div>
+        </div>
+        <div class="assets_content w900 right bg_w mh1500">
+            <h1 style="line-height:60px; font-weight: bold; font-size: 24px;">{$type['title']}</h1>
+            <div class="new_list">
+                <ul>
+                    {foreach $pages['list'] as $k => $v}
+                    <li><a href="/i/blog_c_{$v['id']}.jsp" class="title" style="font-size: 21px; color: #333; font-weight: normal;">{$v.title}</a>
+                        <span class="list_time right" style="font-size: 17px;">{#addtime($v['addtime'])}</span>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+            <div class="pages">{$pages['show'] nofilter}</div>
+        </div>
+    </div>
+</div>
+{include file="aaapublic:footer"}
+<script type="text/javascript">
+    // 左边tab切换&浮动导航
+    $(function () {
+        // 左边tab切换&浮动导航
+        (function () {
+            var tab = $('.nav-tab-list dd');
+            var hover = $('.nav-tab-hover');
+            var pos = 0;
+            tab.each(function (index) {
+                var $this = $(this);
+                if ($this.hasClass('active')) {
+                    pos = index;
+                }
+                $this.hover(function () {
+                    _moveTo(index);
+                }, function () {
+                    _moveTo(pos);
+                });
+            });
+            _moveTo(pos);
+            $('.nav-tab-hover').show();
+
+            function _moveTo(index) {
+                hover.css("top", 60 + 50 * index);
+                tab.removeClass('active');
+                tab.eq(index).addClass('active');
+            }
+        })();
+    });
+
+    $(window).on('scroll resize', function () {
+        if (document.body.scrollTop < 100) {
+            $('#left-nav-bar').css("top", 0);
+        } else if (document.body.scrollTop > ($('.tag-list-content').height() - $('#left-nav-bar').height() + 100)) {
+            $('#left-nav-bar').css("top", ($('.tag-list-content').height() - $('#left-nav-bar').height()));
+        } else {
+            $('#left-nav-bar').css("top", document.body.scrollTop - 100);
+        }
+    });
+</script>
+<script>
+    if ($("#article_box").length > 0) {
+        $('#article_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+<!--修改title值-->
+<script>
+    $(document).attr("title", $(document).attr("title") + "|" + "{$type['title']}");
+</script>

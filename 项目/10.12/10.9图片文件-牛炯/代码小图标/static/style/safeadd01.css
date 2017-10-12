@@ -1,0 +1,34 @@
+.assets_content h1>span:last-child{
+	background-image: url(../style/img/icon04.png);
+}
+.upload-identity{
+	height: 191px!important;
+    width: 279px!important;
+}
+.upload-file-button,
+#person_identity_form .file-upload{
+	height: 158px!important;
+    width: 288px!important;
+}
+.picture-example,
+.picture-example img{
+	height: 190px!important;
+    width: 288px!important;
+}
+.fa-plus-square-o{
+	top: 50px!important;
+    right: 130px!important;
+}
+.upload-identity p{
+	width: 278px!important;
+}
+.upload-example{
+	margin-left: 8px!important;
+}
+.person-identity-toggle{
+	width: 900px!important;
+}
+#idcard_type{
+	width: 350px!important;
+	color: #c8c8c8;
+}

@@ -1,0 +1,296 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/common.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+    span{
+        color:#a59494;
+    }
+    .my_body{
+        margin: 20px;
+        border-radius: 8px;
+        padding: 0 10px;
+        line-height: 30px;
+    }
+    .my_body ul,.my_title ul{
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 10px;
+        list-style: none;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+    }
+    .my_body li{
+        border-radius: 2px;
+        margin: 1rem 0;
+        display: -webkit-box;
+        background-color: #FFF;
+        height: 2.2rem;
+        padding-left: 0.5rem;
+    }
+    .my_body li input{
+        display: block;
+        -webkit-box-flex: 1;
+        background-color: rgba(255, 255, 255, 0);
+        outline: none;
+        color: #666;
+        height: 2.2rem;
+    }
+    select{
+        color: #666;
+        display: block;
+        outline: none;
+	    padding-left:0.2rem;
+        /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+        /*很关键：将默认的select选择框样式清除*/
+        appearance:none;
+        -moz-appearance:none;
+        -webkit-appearance: listbox;
+        /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+        padding-right: 14px;
+        background-color: #FFF;
+        height:2.2rem;
+        line-height: 2.2rem;
+        text-align: left;
+        border: 0;
+    }
+    .btn{
+        display: block;
+        color: #FFFFFF;
+        margin: 0 30px;
+        text-align: center;
+        border-radius: 8px;
+        height: 2.2rem;
+        line-height: 2.2rem;
+        background-color: #e55600;
+    }
+    .plus img{
+        height: 1.5rem;
+	    width:1.5rem;
+	    margin-top:0.35rem;
+    }
+    .bankname{
+        width: 85%;
+    }
+    .notice{
+        margin: 20px;
+        border-radius: 8px;
+        padding: 0 10px;
+        line-height: 30px;
+    }
+    .notice span{
+        height: 2rem;
+        line-height: 2rem;
+        color: #a59494;
+    }
+    .btn-very{
+        height: 2.2rem;
+        background-color: green;
+        line-height: 2.2rem;
+        padding: 0.7rem 1rem;
+        text-align: center;
+        border-radius: 8px;
+        color: ivory;
+    }
+    .phone-msg{
+        display: inline-block;
+        color: gray;
+        height: 1rem;
+        line-height: 1rem;
+    }
+    .plus {
+	    height:2.2rem;
+	    display:block;
+        margin-right: 0.5rem;
+    }
+</style>
+<body>
+<div class="wrap">
+    <div id="show1">
+        <div class="my_body">
+            <div>
+            </div>
+            <ul>
+	            <li>
+		            <span id="canuse" style="line-height:2.2rem">可用人民币:</span><br>
+	            </li>
+	            <li>
+		            <div style="width:100%">
+		             <span id="bankname" class="bankname" style="float:left">
+                   <!--提现-->
+	               <select name="bank" id="bank_type" tapmod="">
+		            <option value="-1">--选择提现地址--</option>
+	               </select></span>
+            <span class="plus"  tapmod="" onclick="show_bank()" style="float:right">
+                <img src="__WAP__/image/001/plus.png">
+            </span>
+		            </div>
+	            </li>
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="num" id="num" type="text"
+                           placeholder="提现金额">
+                </li>
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="paypassword" id="paypassword"
+                           type="password" placeholder="交易密码">
+                </li>
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="mobile" id="mobile"
+                           type="text" placeholder="" value="已绑定的手机号:" readonly>
+                </li>
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="verify_code" id="verify_code"
+                           type="text" placeholder="输入验证码">
+                    <span id="send_code" class="btn-very" tapmod="" onclick="send_code()">获取验证码</span>
+                </li>
+            </ul>
+        </div>
+        <div class="btn" tapmode="" onclick="upwithdraw()">提现</div>
+        <div  class="notice">
+            <ul>
+                <li>
+                    <span>提现须知:</span>
+                    <span id="withdraw_notice">提现说明</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript">
+    apiready = function(){
+        onerror = error_handel;
+        if(!chk_dev()) {
+	        parseTapmode();
+        }
+        setshow();
+    }
+
+    function upwithdraw(){
+        var bank_type = $('#bank_type option').filter(function(){ return this.selected }).val();
+        var num = $('#num').val();
+        var verify_code = $('#verify_code').val();
+        var paypassword = $('#paypassword').val();
+        if(bank_type == -1){
+            alert('请选择一个提现银行');
+            return;
+        }
+        if(!num){
+            alert('请输入提现金额');
+            return;
+        }
+        if(!verify_code){
+            alert('输入手机验证码');
+            return;
+        }
+        if(!paypassword){
+            alert('输入交易密码');
+            return;
+        }
+        loading("请稍候...");
+        var params = {
+            'bank':bank_type,
+            'num':num,
+            'paypassword':paypassword,
+            'code':verify_code,
+	        'coinname':'cny'
+        };
+        alog('提现申请的参数列表');
+        alog(params);
+        UserAjax('finan/out_up','post', params,
+                function(ret){
+                    toast.hide()
+                    alog(ret);
+                    if(ret.status == 1)
+                    {
+                        $('#verify_code').val('');
+                        $('#paypassword').val('');
+                        $('#num').val('');
+                        setshow();
+                    }
+                    art(ret.info)
+                });
+    }
+    function show_bank(){
+        openWin({
+            name: 'bank_h',
+            url: aurl('html/setting/bank_h'),
+            slidBackEnabled:false,
+            delay:100
+        });
+    }
+
+    function setshow(){
+        var userinfo = memObj('userinfo');
+        if ( !(typeof userinfo == 'undefined') )
+        {
+            alog("用户信息缓存");
+            alog(userinfo);
+            var cny = "可用人民币:¥";
+            cny += userinfo.baseinfo.finan.cny;
+            alog(cny);
+            $("#canuse").html(cny);
+        }
+        loading("请稍候……");
+        UserAjax('finan/out','get','',function(ret){
+            toast.hide();
+            if (ret.status){
+                alog("请求提现基本数据返回结果");
+                alog(ret);
+            if(ret.status == 1)
+                {
+                    if (typeof ret.info.moble == 'undefined' || ret.info.moble.length < 11 )
+                    {
+                        art("未绑定手机号或手机号码错误");
+                        return;
+                    }
+                    $("#canuse").html("可用人民币:¥"+ret.info.cny);
+                    $('#mobile').val("已绑定的手机号:"+ret.info.moble);
+	                $('#withdraw_notice').html(ret.info.shuoming)
+	                alog(ret);
+                    var str = '<select name="bank" id="bank_type" tapmod=""><option value="-1">--选择提现地址--</option>';
+                    for(var i in ret.info.addr){
+                        str += '<option value="'+ret.info.addr[i].id+'">'+ret.info.addr[i].name+'</option>';
+                    }
+                    str = str + '</select>';
+                    $('#bankname').html(str);
+                }
+            }else{
+                art('网络错误');
+            }
+        });
+    }
+
+    function send_code(){
+        createRequestVerifyView('finan/out_send_moble');
+    }
+
+    ///////////////////倒计时//////////////////////////
+    var timer_lock = 0;
+    var countdown = 60;
+    var timerID;
+    function settime(obj) {
+        if (countdown == 0) {
+            obj.css({'background-color':'green'});
+            obj.html("免费获取验证码");
+            clearTimeout(timerID);
+            timer_lock = 0;
+            countdown = 60;
+        } else {
+            timer_lock = 1;
+            obj.css({'background-color':'gray'});
+            obj.html("重新发送(" + countdown + ")");
+            countdown--;
+            timerID = setTimeout(function() {
+                settime(obj)
+            }, 1000)
+        }
+    }
+    ///////////////////倒计时//////////////////////////
+</script>
+</html>

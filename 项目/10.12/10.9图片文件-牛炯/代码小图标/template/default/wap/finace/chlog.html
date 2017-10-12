@@ -1,0 +1,203 @@
+{include file="public:header"}
+<title>充值记录</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+    .my_body{
+        margin: 10px 10px 60px 10px;
+        border-radius: 8px;
+        padding: 0 10px;
+        line-height: 30px;
+    }
+    .my_body ul{
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 10px;
+        list-style: none;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        background-color: #FFF;
+    }
+    .bank_title{
+        margin: 0 0 0 1rem;
+        height: 3rem;
+        line-height: 3rem;
+	    color:#a59494;
+    }
+    .bank_title img{
+        height: 1.6rem;
+        margin: 0.7rem 1rem 0 0;
+        vertical-align: middle;
+        float: right;
+    }
+    .bank_body{
+        margin: 0 0 0 1rem;
+    }
+    .bank_body span{
+        display: block;
+    }
+    .bank_body .g{
+        color: gray;
+    }
+    .r{
+        float: right;
+        margin-right: 1rem;
+    }
+    .red{
+        color: #e55600;
+    }
+    .green{
+        color:green;
+    }
+</style>
+<body>
+<div class="aui-refresh-content">
+    <div class="my_body" id="wtlog-list">
+<!--    //0 未付款 1 充值成功 2 人工到账 3 处理中-->
+</div>
+	<script id="wtlog-list-template" type="text/x-dot-template">
+		{{? it.length>0}}
+		{{ for(var i in it) { }}
+		<ul class="aui-border" onclick="inquireOrder('{{=it[i].id}}')">
+			<li class="bank_title  aui-border-b">
+				充值订单:<span>{{=it[i].tradeno}}</span>
+				{{? it[i].status == 3}}
+				<span class="r red">处理中</span>
+				{{?? it[i].status == 2}}
+				<span class="r red">人工到账</span>
+				{{?? it[i].status == 1}}
+				<span class="r green">充值成功</span>
+				{{??}}
+				<span tapmod="" onclick="inquireOrder('{{=it[i].id}}')" class="r red">点击付款</span>
+				{{?}}
+			</li>
+			<li class="bank_body">
+				<span class="g">充值时间:<em>{{=it[i].addtime}}</em></span>
+				<span class="g">充值方式:<em>{{=it[i].type}}</em></span>
+				<span class="g">充值金额:<em>{{=it[i].num}}</em></span>
+				<span class="g">实际到账:<em>{{=it[i].mum}}</em></span>
+			</li>
+		</ul>
+		{{ } }}
+		{{??}}
+		<div style="padding: 10px 0">
+			<ul style="text-align: center;color: #535C6F">
+				暂无内容
+			</ul>
+		</div>
+		{{? }}
+	</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript">
+    function show_ch(type,order_time,order_no,order_num){
+        openWin({
+            name: 'charge_show_h',
+            url: aurl('finace/charge_show_h'),
+            slidBackEnabled:false,
+            pageParam:{
+                type : type,
+                order_time : order_time,
+                order_no : order_no,
+                order_num : order_num
+            },
+            delay:100
+        });
+    }
+    var pid = 1;
+    function flash_wtlog(){
+	    loading('努力加载中...');
+	    UserAjax('finan/pay_log','get',
+                {
+                    'pid':pid
+                },
+           function(ret){
+		           toast.hide();
+                if (ret.status == 1) {
+                    alog("充值记录列表");
+                    var tempFn = doT.template($('#wtlog-list-template').text());
+                    if (pid == 1)
+                    {
+                        //第一页 -- 覆盖
+                        $('#wtlog-list').html( tempFn(ret.info.list) );
+                    }
+                    else if( ret.info.list.length > 0){
+                        //非第一页且有数据 -- 追加
+                        $('#wtlog-list').html( $("#wtlog-list").html()+tempFn(ret.info.list) );
+                    }
+
+                    if( pid > Math.ceil( parseInt(ret.info.count)/parseInt(ret.info.pageSize) ) ){
+                        art("没有更多数据了");
+                    }else {
+                        art('第'+pid+'页');
+                        pid++;
+                    }
+                }else {
+                    art(ret.info);
+                }
+        },"json");
+    }
+
+    apiready = function(){
+        onerror = error_handel;
+        flash_wtlog(1);
+    }
+
+    function inquireOrder(status){
+        if (typeof status == 'undefined')
+        {
+            art("请求充值详情时,订单号错误");
+            return;
+        }
+        loading();
+        UserAjax('finan/pay','get',
+                {
+                    'id':status
+                },
+                function(ret){
+                    toast.hide();
+                    alog(ret);
+                    if (ret.status == 0)
+                    {
+                        //充值错误
+                        art(ret.info);
+                    }
+                    else {
+                        openWinWithParams("charge_show_h","finace",ret.info);
+                    }
+                });
+    }
+
+    //上拉加载
+    window.onscroll = function () {
+        if (isScrollToBottom())
+        {
+		            flash_wtlog();
+        }
+    };
+
+    //下拉刷新
+    var pullRefresh = new auiPullToRefresh({
+        container: document.querySelector('.aui-refresh-content'),
+        triggerDistance: 100
+    }, function (ret) {
+        if (ret.status == "success") {
+            if(getScrollTop() < 10)
+            {
+                //刷新
+                pid = 1;
+	            pullRefresh.cancelLoading();
+                flash_wtlog();
+            }
+            else {
+                pullRefresh.cancelLoading();
+            }
+        }
+    })
+</script>
+</html>

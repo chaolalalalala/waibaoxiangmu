@@ -1,0 +1,233 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="{#url('crowd/index')}" class="orange" >{#lang('众筹中心')}</a> &gt; {#lang('立即众筹')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('立即众筹')}
+					</span>
+	                <span>
+                        <a href="{#url('crowd/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('众筹中心')}</a>
+                        <a href="{#url('crowd/log')}" id="step2" class="step fz_12 ml20 pd6 ">{#lang('众筹记录')}</a>
+		                <!--<a href="{#url('crowd/fee')}" id="step3" class="step fz_12 ml20 pd6">{#lang('收益明细')}</a>-->
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="crowd_con clear">
+				<div class="crowd_con_l ">
+					<div class="crowd_bi clear">
+						<img src="__UP__/{$crowd['img']}" style="width: 30px;margin-top: 10px;" class="left">
+						<h2 class="left"><a href="#" style="" class="left">{$crowd['name']}</a></h2>
+						<a class="left ml20 mt20">({#lang('编号')}:10000{$crowd['id']})</a>
+					</div>
+					<ul class="crowd_subscribe clear">
+						<li>
+							<p>{#lang('众筹总量')}</p>
+							<span class="red">
+								 {$crowd['num']}
+							</span>
+						</li>
+						<li>
+							<p>{#lang('众筹份数')}( {$crowd['csa']}/{#lang('份')})</p>
+							<span class="red">
+                                {#round($crowd['num']/$crowd['csa'],4)}
+							</span>
+						</li>
+
+						<li>
+							<p>{#lang('单价')}(  {$crowd['feecoin']}/{#lang('份')})</p>
+							<span class="red">
+								{$crowd['price']}
+							</span>
+						</li>
+						<li>
+							<p>{#lang('累计已众筹')}</p>
+							<span class="green">
+							{$crowd['deal']*$crowd['csa']}个共{$crowd['deal']}份
+							</span>
+						</li>
+					</ul>
+					<div class="crowd_time">
+						<div class="dowebok_move">
+							{if $crowd["status"]==1}
+							<p class="crowd_con_lp" id="cdstatus">{#lang('距离众筹结束还有')}：</p>
+							<div class="crowd_time_all dowebok">
+								<div id="t_d" class="days "></div>
+								<em>{#lang('天')}</em>
+								<div id="t_h" class="hours "></div>
+								<em>{#lang('时')}</em>
+								<div id="t_m" class="minutes"></div>
+								<em>{#lang('分')}</em>
+								<div id="t_s" class="seconds "></div>
+								<em>{#lang('秒')}</em>
+							</div>
+							<script src="__EXT__/jquery/jquery.flipTimer.js"></script>
+							<script>
+								$(function () {
+									$('.dowebok').flipTimer({
+										direction: 'down',
+										date: "{#addtime($crowd['endtime'])}",
+										callback: function () {
+								         window.location.reload();
+										}
+									});
+								});
+							</script>
+							{ /if}
+							{ if $crowd["status"]==2}
+							<p class="crowd_con_lp " style="text-align: center;font-size: 22px;letter-spacing: 1px;line-height: 70px;">{#lang('当前众筹已经结束')}</p>
+							{/if}
+							{ if $crowd["status"]==3}
+							<p class="crowd_con_lp " style="text-align: center;font-size: 22px;letter-spacing: 1px;line-height: 70px;">{#lang('当前已完成众筹数量,随时可能停止众筹')}</p>
+							{ /if}
+						</div>
+					</div>
+					<div class="crowd_pro">
+						<progress value="{$crowd_bili}" max="100"></progress>
+						<span>{$crowd_bili}%</span></div>
+					<div class="crowd_xq">
+						<span class=" mr10 fz_14">{#lang('开启时间')}：<b class="red">{#addtime($crowd['strtime'], 'Y/m/d')}</b></span> <span class=" mr10 fz_14">{#lang('结束时间')}：<b class="red">{#addtime($crowd['endtime'], 'Y/m/d')}</b></span>
+						<span class=" mr10 fz_14">{#lang('收益币种')}：<b class="red">{$coin1['title']}</b></span>
+					</div>
+					<div class="crowd_xq mt10">
+						<span class=" mr10 fz_14">{#lang('付款币种')}：<b class="green">{$coin2['title']}</b>  </span>
+					</div>
+				</div>
+
+				<div class="crowd_con_r">
+                    {if $user}
+					<div class="crowd_my" style="width:auto">
+						<h2>{#lang('我要众筹')} </h2>
+						<div class="login_button mt10">
+							<p class="crowd_con_lp crowd_con_lp2" >{#lang('您目前拥有该众筹物')}：<span id="finance_span1" class="green">{#num($user_coin[$crowd['coinname']])}</span>
+							</p>
+						</div>
+						<div class="login_button mt10">
+							<p class="crowd_con_lp crowd_con_lp2" >{#lang('您目前可用')}{$coin2['title']}：<span id="finance_span" class="green">{#num($user_coin[$crowd['feecoin']])}</span>
+								<a href="/finan/coinin" target="_blank"  class="orange crowd_recharge">{#lang('去充值')}</a>
+							</p>
+
+						</div>
+						<div class="login_text  clear mt10">
+							<span>{#lang('众筹份数')}:</span> <input type="text" id="num" class="texts" style="width:200px">
+						</div>
+						<div class="login_text  clear mt10">
+							<span>{#lang('交易密码')}:</span> <input type="password" id="paypassword" class="texts" style="width:200px">
+						</div>
+						<div class="login_button">
+							{if $crowd["status"]==1}
+							<input type="button" value="{#lang('立即认筹')}" class="btns2" onclick="crowd_up()" style="margin-left: 55px;">
+							{/if}
+							{if $crowd["status"]==2}
+							<input type="button" class="btns2"style="background: #aaa ;margin-left: 55px "value="{#lang('当前众筹已结束')}" onclick="return false" >
+							{/if}
+							{if $crowd["status"]==3}
+							<input type="button" value="{#lang('立即认筹')}" class="btns2" onclick="crowd_up()" style="margin-left: 55px;">
+							{/if}
+						</div>
+					</div>
+                    {else}
+                    <div  style="margin-left: 190px;margin-top: 140px">
+                        <h2>{#lang('登录后才能众筹')} </h2>
+                    </div>
+                    <div class="">
+                        <input type="button" href="javascript:;" style="margin-left: 190px;"  onclick="loginpop()" class="btns2" value="立即登录" >
+                    </div>
+                    {/if}
+				</div>
+
+			</div>
+			<div class="crowd_list clear">
+				<span class="crowd_rule_t fz_20">{#lang('众筹介绍')}</span>
+
+				<div class="crowd_list_state mt10">
+					{$crowd['content'] nofilter}
+				</div>
+			</div>
+			<div class="crowd_list clear">
+				<span class="crowd_rule_t fz_20">{#lang('众筹记录')}</span>
+				<div class="f_tab_body mt20">
+					<table class="f_table" id="investLog_content">
+						<thead>
+						<tr>
+							<th id="sublist-grid_c0">{#lang('用户')}</th>
+							<th id="sublist-grid_c1">{#lang('支持数')}</th>
+							<th id="sublist-grid_c2">{#lang('获得认筹物')}</th>
+							<th id="sublist-grid_c3">{#lang('认筹时间')}</th>
+						</tr>
+						</thead>
+						<tbody>
+						{foreach $pages['list'] as $k => $v}
+						<tr>
+							<td>{$v['username']}</td>
+							<td>{$v['num']*$v["price"]}{$v['feecoin']}({$v["num"]}份)</td>
+							<td>{$v["csa"]}({$v['coinname']})</td>
+							<td>{#addtime($v['addtime'])}</td>
+						</tr>
+						{/foreach}
+						</tbody>
+					</table>
+					<div class="pages">{$pages['show'] nofilter}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function crowd_up() {
+		var id          = "{$crowd['id']}";
+		var num         = $('#num').val();
+		var paypassword = $('#paypassword').val();
+		if (num == "" || num == null) {
+			layer.tips("{#lang('请输入众筹数量')}", '#num', {tips: 3});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips("{#lang('请输入交易密码')}", '#paypassword', {tips: 3});
+			return false;
+		}
+		$.post("{#url('crowd/crowd_up')}",
+				{id: id, num: num, paypassword: paypassword},
+				function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout('location.reload()',1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					setTimeout(function(){
+						window.location = data.url;
+					},1000);
+
+				}
+			}
+		}, "json");
+	}
+</script>
+<script>
+	if ($("#crowd_box").length > 0) {
+		$('#crowd_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

@@ -1,0 +1,314 @@
+{include file="public:header"}
+<div class="autobox">
+    <div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('集市交易')}
+    </div>
+    <div class="main-content">
+        <div class="assets_content bg_w">
+            <div class="safe_center clear">
+                <h1>
+                    <span>{#lang('集市交易')}</span>
+					<span>
+                        <a href="{#url('bazaar/index')}" class="step fz_12 ml20 pd6 active">{#lang('逛集市')} </a>
+						<a href="{#url('bazaar/my')}" class="step fz_12 ml20 pd6 ">{#lang('我的委托')} </a>
+						<a href="{#url('bazaar/log')}" class="step fz_12 ml20 pd6 ">{#lang('我的成交')} </a>
+                        <a href="{#url('bazaar/invit')}" class="step fz_12 ml20 pd6 ">{#lang('我的奖励')}</a>
+                        <a class="step fz_12 ml50 pd6 btns2 " onclick="showA()" style="width:100px;line-height: inherit;">{#lang('我要委托')}</a>
+					</span>
+                    <span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+                </h1>
+            </div>
+            <div id="hints" class="mytips" style="display:none;">
+                {$hints["value"] nofilter}
+            </div>
+            {#slider("bazaar")}
+            <div class="cnyin_record">
+                <div class="f_body">
+                    <div class="f_body_main">
+                        <div class="f_tab_body">
+                            <div>
+                                <table class="f_table" id="investLog_content">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <select id="market-select">
+                                                <option value="">---{#lang('全部市场')}---</option>
+                                                {foreach $market_lists as $k => $v}
+                                                <option value="{$v['name']}">{$v['title']}</option>
+                                                {/foreach} </select>
+                                        </th>
+                                        <th>{#lang('委托时间')}</th>
+                                        <th>
+                                            <select id="type-select">
+                                                <option value="">-{#lang('全部')}-</option>
+                                                <option value="1">{#lang('买入')}</option>
+                                                <option value="2">{#lang('卖出')}</option>
+                                            </select>
+                                        </th>
+                                        <th>{#lang('委托价格')}</th>
+                                        <th>{#lang('委托数量')}</th>
+                                        <th>{#lang('已成交量')}</th>
+                                        <th>{#lang('委托费用')}</th>
+                                        <th>{#lang('成交总额')}</th>
+                                        <th class="w100">{#lang('操作')}</th>
+                                    </tr>
+                                    </thead>
+                                    {foreach $pages['list'] as $k => $v}
+                                    <tr>
+                                        <td>
+                                            <img src="__UP__/{$market_list[$v['market']]['img']}" class="mr5" style="margin-bottom: -5px; width: 22px;"/>{$market_list[$v['market']]['title']}
+                                        </td>
+                                        <td>{#addtime($v["addtime"])}</td>
+                                        <td>
+                                            {if $v['type']==1} <font class="buy">{#lang('买入')}</font> {else}
+                                            <font class="sell">{#lang('卖出')}</font> {/if}
+                                        </td>
+                                        <td>{$v["price"]}</td>
+                                        <td>{$v["num"]}</td>
+                                        <td>{$v["deal"]}</td>
+                                        <td>{$v["fee"]}</td>
+                                        <td>{$v["mum"]}</td>
+                                        <td>
+                                            {$tmp = ($v['num']-$v['deal'])} {if $v['type']==1}
+                                            <a data="{$v['id']}" data-align="2" data-toggle="{$v['price']}" data-id="{$tmp}" onclick="showAs(this)" href="javascript:void(0)" class=" w52 sell" style="    padding: 5px;">{#lang('立即卖出')}</a> {else}
+                                            <a data="{$v['id']}" data-align="1" data-toggle="{$v['price']}" data-id="{$tmp}" onclick="showAs(this)" href="javascript:void(0)" class=" w52 buy" style="    padding: 5px;">{#lang('立即买入')}</a> {/if}
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                </table>
+                                <div class="pages">{$pages['show'] nofilter}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="all_mask_loginbox" id="step3" style="display: none;">
+    <div class="login_title pl20">{#lang('集市交易')}</div>
+    <form id="form-login" class="mask_wrap login-fb">
+        <input id="gm_id" class="texts" type="hidden" disabled="disabled">
+        <input id="gm_type" class="texts" type="hidden" disabled="disabled">
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('交易价格')}：</div>
+            <input id="gm_price" class="texts" type="text" disabled="disabled">
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('剩余数量')}：</div>
+            <input id="gm_deal" class="texts" type="text" disabled="disabled">
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('交易数量')}：</div>
+            <input id="gm_num" class="texts" type="text">
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('交易密码')}：</div>
+            <input id="gm_paypassword" class="texts" type="password"><a href="/findpwd/paypassword" class="move ml5">{#lang('忘记')}?</a>
+        </div>
+        <div class="login_button">
+            <input type="button" class="btns2" value={#lang("立即交易")} onclick="bazzar_buy();">
+        </div>
+    </form>
+    <div class="mask_wrap_close " onclick="showB()"><i class="fa fa-close fa-2x move"></i></div>
+</div>
+<div class="all_mask_loginbox" id="step1" style="display: none;">
+    <div class="login_title pl20">{#lang('集市交易')}</div>
+    <form id="form-logins" class="mask_wrap login-fb">
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('委托市场')}：</div>
+            <select name="bank" id="tc_market_list" class="texts"> {foreach $market_lists as $k => $v}
+                <option value="{$v['name']}">{$v['title']}</option>
+                {/foreach} </select>
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('委托市场')}：</div>
+            <select name="bank" id="tc_type" class="texts">
+                <option value="1">{#lang('买入')}</option>
+                <option value="2">{#lang('卖出')}</option>
+            </select>
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('委托价格')}：</div>
+            <input id="tc_price" class="texts" type="text">
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('委托数量')}：</div>
+            <input id="tc_num" class="texts" type="text">
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('交易密码')}：</div>
+            <input id="tc_paypassword" class="texts" type="password"><a href="/findpwd/paypassword" class="move ml5">{#lang('忘记')}?</a>
+        </div>
+        <div class="login_button">
+            <input type="button" class="btns2" value={#lang("立即委托")} onclick="bazzar_up();">
+        </div>
+    </form>
+    <div class="mask_wrap_close " onclick="showB()"><i class="fa fa-close fa-2x move"></i></div>
+</div>
+<div id="step2" class="all_mask" style="height: 0px;display: none;"></div>
+{include file="public:footer"}
+<script>
+    var hints = "{$hints['show']}";
+    if (hints == 1) {
+        $('#hints').show();
+    }
+</script>
+<script>
+    $(function () {
+        var height = $(document).height();
+        if (height < 1000) {
+            height = 1000;
+        }
+
+        $('#step2').height(height);
+    });
+
+
+    function showA() {
+        $("#step1").show();
+        $("#step2").show();
+    }
+
+    function showB() {
+        $("#step1").hide();
+        $("#step2").hide();
+        $("#step3").hide();
+    }
+
+
+    function showAs(o) {
+        $("#step3").show();
+        $("#step2").show();
+
+        var id = $(o).attr('data');
+        var type = $(o).attr('data-align');
+        var price = $(o).attr('data-toggle');
+        var deal = $(o).attr('data-id');
+
+        $('#gm_id').val(id);
+        $('#gm_type').val(type);
+        $('#gm_price').val(price);
+        $('#gm_deal').val(deal);
+        $('#gm_num').val(deal);
+
+
+    }
+
+
+    $("#type-select").val("{$type}");
+    $("#market-select").val("{$market}");
+
+    $("#type-select,#market-select").change(function () {
+        var type = $("#type-select option:selected").val();
+        var market = $("#market-select option:selected").val();
+        var url = '/bazaar/index';
+        if (type) {
+            url += '/type/' + type;
+        }
+        if (market) {
+            url += '/market/' + market;
+        }
+
+        window.location = url;
+    });
+
+    //集市弹窗页面输入内容
+    function bazzar_up() {
+        var market = $('#tc_market_list option:selected').val();
+        var type = $('#tc_type option:selected').val();
+        var price = $('#tc_price').val();
+        var num = $('#tc_num').val();
+        var paypassword = $('#tc_paypassword').val();
+
+        if (market == "" || market == null) {
+            layer.tips("{#lang('请选择市场')}", '#tc_market_list', {tips: 2});
+            return false;
+        }
+        if (type == "" || type == null) {
+            layer.tips("{#lang('请选择类型')}", '#tc_type', {tips: 2});
+            return false;
+        }
+        if (price == "" || price == null) {
+            layer.tips("{#lang('请输入价格')}", '#tc_price', {tips: 2});
+            return false;
+        }
+        if (num == "" || num == null) {
+            layer.tips("{#lang('请输入数量')}", '#tc_num', {tips: 2});
+            return false;
+        }
+        if (paypassword == "" || paypassword == null) {
+            layer.tips("{#lang('请输入交易密码')}", '#tc_paypassword', {tips: 2});
+            return false;
+        }
+
+
+        $.post("{#url('bazaar/up')}", {
+            market: market,
+            type: type,
+            price: price,
+            num: num,
+            paypassword: paypassword
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                setTimeout('location.reload()',1000);
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+
+    function bazzar_buy() {
+        var id = $('#gm_id').val();
+        var num = $('#gm_num').val();
+        var type = $('#gm_type').val();
+        var paypassword = $('#gm_paypassword').val();
+
+        if (id == "" || id == null) {
+            layer.tips("{#lang('请选择订单')}", '#gm_id', {tips: 2});
+            return false;
+        }
+        if (num == "" || num == null) {
+            layer.tips("{#lang('请输入数量')}", '#gm_num', {tips: 2});
+            return false;
+        }
+        if (paypassword == "" || paypassword == null) {
+            layer.tips("{#lang('请输入交易密码')}", '#fm_paypassword', {tips: 2});
+            return false;
+        }
+
+
+        $.post("{#url('bazaar/buy')}", {
+            id: id,
+            num: num,
+            type: type,
+            paypassword: paypassword
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+               setTimeout('location.reload()',1000);
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+</script>
+<script>
+    if ($("#bazaar_box").length > 0) {
+        $('#bazaar_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>

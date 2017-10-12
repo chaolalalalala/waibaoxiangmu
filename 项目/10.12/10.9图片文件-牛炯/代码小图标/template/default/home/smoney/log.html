@@ -1,0 +1,266 @@
+{include file="smoney:header"}
+<!-- <link rel="stylesheet" href="__CSS__/smoney.css"/> -->
+<style>
+	.f_body ul{overflow:hidden}
+	.f_body li{float:left;font-size:18px;width:100px;height: 43px;text-align: center;line-height: 43px;cursor:pointer;}
+	.act{background:#0d66bf;color:#FFF;}
+	.f_table th{background: #666666;color: #fff;}
+	.btns2{width:90px}
+	.f_body_main{margin-top:-1px;}
+	.f_table tbody tr:nth-child(even){
+		background:#cfe2f3;
+	}
+
+	.f_table td{font-size:13px;}
+	.f_table tbody tr:hover{background-color: #E9FEE9;cursor:pointer}
+
+</style>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;
+		<a href="{#url('smoney/index')}" class="orange">{#lang('理财中心')}</a> &gt; {#lang('理财记录')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="cnyin_record">
+				<div class="f_body">
+					<ul>
+						<li class="act">购买记录</li>
+						<li>赠送记录</li>
+					</ul>
+					<div class="f_body_main">
+						<div class="f_tab_body">
+							<div >
+								<table class="f_table">
+									<thead>
+									<tr>
+										<th>{#lang('理财名称')}</th>
+										<th id="sublist-grid_c0">{#lang('理财数量')}</th>
+                                        <th id="sublist-grid_c11">{#lang('应获币数')}</th>
+										<th id="sublist-grid_c1">{#lang('理财时间')}</th>
+                                        <th id="sublist-grid_c2">{#lang('理财周期')}</th>
+										<th id="sublist-grid_c3">{#lang('上次操作')}</th>
+                                        <th id="sublist-grid_c4">{#lang('解冻周期')}</th>
+										<th id="sublist-grid_c5">{#lang('解冻次数')}</th>
+										<th id="sublist-grid_c6">{#lang('剩余冻结')}</th>
+                                        <th id="sublist-grid_c7">{#lang('理论本息')}</th>
+										<th id="sublist-grid_c8">{#lang('状态')}</th>
+										<th id="sublist-grid_c9">{#lang('操作')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{if $pages['list']}
+									{foreach $pages['list'] as $k => $v}
+									<tr>
+										<td>{$v['name']}</td>
+										<td>{$v['num']} </td>
+                                        <td>{#round($v['coin'])} {#strtoupper($v["coinname"])}</td>
+										<td>{#addtime($v['addtime'])}</td>
+                                        <td>{$v['tian']}{#lang('天')}</td>
+										<td>{#addtime($v['endtime'])}</td>
+                                        <td>{$v['jian']}{#lang('小时')}</td>
+										<td>{$v['jd']}/{$v['ci']}</td>
+										<td>{#round($v['shen'],3)}</td>
+                                        <td>{#round($v['get'],3)}</td>
+										<td>
+											{if $v['status'] == 0}
+											<font class="move">{#lang('解冻中')}</font>
+                                            {else if $v['status'] == 1}
+											<font class="buy">{#lang('待提取')}</font>
+                                            {else if $v['status'] == 2}
+                                            <font class="buy">{#lang('已完成')}</font>
+                                            {else}
+											<font class="sell">{#lang('异常')}</font> {/if}
+										</td>
+										<td>
+											{if $v['status'] == 0}
+											<a class="move unlock" id="{$v['id']}" href="javascript:void(0)"><input type="button" value="{#lang('解冻')}" class="btns2"></a>
+                                            {else if  $v['status'] == 1}
+                                            <a class="move get" data-align="{$v['id']}" onclick="get(this)" href="javascript:void(0)"><input type="button" class="btns2" value="{#lang('提取本金')}"></a>
+                                            {/if}
+										</td>
+									</tr>
+									{/foreach}{/if}
+									</tbody>
+								</table>
+								{if $pages['show']}
+								<div class="pages">{$pages['show'] nofilter}</div>{/if}
+							</div>
+						</div>
+						<div class="f_tab_body" style="display:none;">
+							<div>
+								<table class="f_table" id="">
+									<thead>
+									<tr>
+										<th>{#lang('理财名称')}</th>
+										<th>{#lang('交易数量')}</th>
+										<th>{#lang('赠送时间')}</th>
+                                        <th>{#lang('赠送币种')}</th>
+                                        <th>{#lang('赠送数量')}</th>
+										<th>{#lang('解冻期限/天')}</th>
+										<th>{#lang('状态')}</th>
+										<th>{#lang('操作')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{if $pages1['list']}
+									{foreach $pages1['list'] as $k => $v}
+									<tr>
+										<td>{$v['name']}</td>
+										<td>{$v['num']} </td>
+                                        <td>{#addtime($v['addtime'])}</td>
+										<td>{#strtoupper($v["coinname"])}</td>
+										<td>{#round($v['fee'],2)} </td>
+										<td>{#round($v['invitday'])}</td>
+										<td>
+											{if $v['status'] == 0}
+											<font class="move">{#lang('冻结中')}</font>
+											{else if $v['status'] == 1}
+											<font class="buy">{#lang('已到账')}</font>
+											{else}
+											<font class="sell">{#lang('异常')}</font> {/if}
+										</td>
+										<td>
+										{if $v['status']==0}
+										
+                                            <a class="move get" data-align="{$v['id']}"  onclick="getinvit(this)" href="javascript:void(0)"><input type="button" class="btns2" value="{#lang('解冻')}" /></a>
+                                            {else}
+                                            ---
+                                            {/if}
+                                          
+										</td>
+									</tr>
+									{/foreach}{/if}
+									</tbody>
+								</table>
+								{if $pages1['show']}
+								<div class="pages">{$pages1['show'] nofilter}</div>{/if}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+
+   
+		var zt='';
+
+	$('.f_body ul li').click(function(){
+		var idx=$(this).index();
+		$(this).addClass('act').siblings().removeClass('act');
+		$('.f_tab_body').eq(idx).show().siblings().hide();
+	});
+
+	$('.common-nav-list li').eq(1).children().css({'color':'#0d66bf'});
+
+	$('.unlock').click(function () {
+		$.post("{#url('smoney/jiedong')}", {id: $(this).attr('id')}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout('location.reload()',1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	});
+
+    function get(o) { 
+
+        var id = $(o).attr('data-align');
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        layer.ready(function () {
+            //默认prompt
+            layer.prompt({
+                title: '{#lang("输入交易密码，并确认")}',
+                formType: 1
+            }, function (val) {
+                if (val) {
+                    //需要执行的方法
+                    $.post("{#url('smoney/get')}", {id: id, paypassword: val}, function (data) {
+                        if (data.status == 1) {
+
+                            layer.msg(data.info, {icon: 1});
+                            window.setTimeout("location.reload()", 3000);
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, "json");
+                }
+                ;
+            });
+        });
+
+    }
+
+    function getinvit(o) {
+        var id = $(o).attr('data-align');
+      
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        layer.ready(function () {
+            //默认prompt
+            layer.prompt({
+                title: '{#lang("输入交易密码，并确认")}',
+                formType: 1
+            }, function (val) {
+                if (val) {	
+     //                //需要执行的方法
+                    $.post("{#url('smoney/getinvit')}", {id: id, paypassword: val}, function (data) {
+
+
+                        if (data.status == 1) {
+                        	zt=1;
+                            layer.msg(data.info, {icon: 1});
+
+                             localStorage.setItem("zt", 1);
+
+                            window.setTimeout("location.reload()", 3000);
+                        
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            	
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, "json");
+                }
+                
+            });
+        });
+         
+    }
+   
+
+    					 if(localStorage.getItem("zt")){
+                            	$('.f_body ul li').eq(1).addClass('act').siblings().removeClass('act');
+                            	$('.f_tab_body').eq(1).show().siblings().hide();
+                            	 localStorage.removeItem("zt");
+                            	
+                            	
+                            }else{
+                            	$('.f_body ul li').eq(0).addClass('act').siblings().removeClass('act');
+                            	$('.f_tab_body').eq(0).show().siblings().hide();
+                            }
+  							
+</script>
+<script>
+	if ($("#smoney_box").length > 0) {
+		$('#smoney_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

@@ -1,0 +1,328 @@
+<!-------------------------转账弹窗----------------------------------->
+<div class="all_mask_loginbox " id="transfer" style="display: none;">
+	<div class="login_title pl20">{#lang('转账信息')}</div>
+	<form id="" class="mask_wrap login-fb">
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('转账币种')}：</div>
+			<select name="bank" id="t_coin" class="texts">
+				{foreach $market_lists as $k => $v}
+				<option value="{$v['coin']}">{$v['title']}</option>
+				{/foreach}
+			</select>
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('接收方UID')}：</div>
+			<input id="t_uid" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('接收方姓名')}：</div>
+			<input id="t_name" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('转币数量')}：</div>
+			<input id="t_num" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('币种单价')}：</div>
+			<input id="t_price" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('交易密码')}：</div>
+			<input id="t_paypassword" class="texts" type="password"><a href="/findpwd/paypassword" class="move ml5">{#lang('忘记')}?</a>
+		</div>
+		<div class="login_button">
+			<input type="button" class="btns2" value={#lang("立即转账")} onclick="transfer_up();">
+		</div>
+	</form>
+	<div class="mask_wrap_close " onclick="$('#transfer,#step2').hide()"><i class="fa fa-close fa-2x move"></i></div>
+</div>
+<script>
+	function transfer_up(){
+		var coin=$('#t_coin').val();
+		var uid =$('#t_uid').val();
+		var username=$('#t_name').val();
+		var num =$('#t_num').val();
+		var price =$('#t_price').val();
+		var paypassword=$('#t_paypassword').val();
+		if(uid == '' || uid == null){
+			layer.tips('请输入对方uid','#t_uid',{tips:2})
+			return false;
+		}
+		if(username == '' || username == null){
+			layer.tips('请输入对方姓名','#t_name',{tips:2});
+			return false;
+		}
+		if(num == '' || num == null){
+			layer.tips('请输入币种数量','#t_num',{tips:2});
+			return false;
+		}
+		if(price == '' || price == null){
+			layer.tips('请输入币种单价','#t_price',{tips:2});
+			return false;
+		}
+		if(paypassword == '' || paypassword == null){
+			layer.tips('请输入币种单价','#t_paypassword',{tips:2});
+			return false;
+		}
+
+		$.post('/push_js/push',{
+			coin:coin,
+			uid:uid,
+			uname:username,
+			num:num,
+			price:price,
+			paypassword:paypassword
+		},function(data){
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout(function(){
+					location.reload();
+				},2000)
+
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		},'json')
+
+	}
+</script>
+<!--卖弹窗-->
+<div class="all_mask_loginbox" id="step3" style="display: none;">
+	<div class="login_title pl20">{#lang('集市PUSH')}</div>
+	<form id="form-login" style=" padding-left: 155px;" class="mask_wrap login-fb">
+		<input id="gm_id" class="texts" type="hidden" disabled="disabled">
+		<input id="gm_type" class="texts" type="hidden" disabled="disabled">
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('PUSH价格')}：</div>
+			<input id="gm_price" class="texts" type="text" disabled="disabled">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('剩余数量')}：</div>
+			<input id="gm_deal" class="texts" type="text" disabled="disabled">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('卖出数量')}：</div>
+			<input id="gm_num" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('交易密码')}：</div>
+			<input id="gm_paypassword" class="texts" type="password"><a href="/findpwd/paypassword" class="move ml5">{#lang('忘记')}?</a>
+		</div>
+		<div class="login_button">
+			<input type="button" class="btns2" value={#lang("立即卖出")} onclick="bazzar_buy();">
+		</div>
+	</form>
+	<div class="mask_wrap_close " onclick="showB()"><i class="fa fa-close fa-2x move"></i></div>
+</div>
+
+<!--发布ok-->
+<div class="all_mask_loginbox" id="step1" style="display: none;">
+	<div class="login_title pl20">{#lang('发布求购信息')}</div>
+	<form id="form-logins" class="mask_wrap login-fb">
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('求购币种')}：</div>
+			<select name="bank" id="tc_market_list" class="texts">
+				{foreach $market_lists as $k => $v}
+				<option value="{$v['coin']}">{$v['title']}</option>
+				{/foreach}
+			</select>
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('价格')}：</div>
+			<input id="tc_price" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('数量')}：</div>
+			<input id="tc_num" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('交易密码')}：</div>
+			<input id="tc_paypassword" class="texts" type="password"><a href="/findpwd/paypassword" class="move ml5">{#lang('忘记')}?</a>
+		</div>
+		<div class="login_button">
+			<input type="button" class="btns2" value={#lang("立即发布")} onclick="bazzar_up();">
+		</div>
+	</form>
+	<div class="mask_wrap_close " onclick="showB()"><i class="fa fa-close fa-2x move"></i></div>
+</div>
+<div id="step2" class="all_maskII" style="height: 0px;display: none;"></div>
+<script>
+	function cancel(id){
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			layer.prompt({
+				title: "{#lang('请输入交易密码')}",
+				formType: 1
+			}, function (val) {
+				if (val) {
+					$.post("{#url('push_js/chexiao')}", {
+						id :id,
+						paypassword:val,
+					}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							setTimeout(function(){
+								location.reload();
+							},2000)
+
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				};
+			});
+		});
+
+	}
+
+
+
+
+	$(function () {
+		var height = $(document).height();
+		if (height < 1000) {
+			height = 1000;
+		}
+
+		$('#step2').height(height);
+	});
+
+
+	function showA() {
+		$("#step1").show();
+		$("#step2").show();
+	}
+
+	function showB() {
+		$("#step1").hide();
+		$("#step2").hide();
+		$("#step3").hide();
+	}
+
+
+	function showAs(o) {
+		$("#step3").show();
+		$("#step2").show();
+
+		var id = $(o).attr('data');
+		var type = $(o).attr('data-align');
+		var price = $(o).attr('data-toggle');
+		var deal = $(o).attr('data-id');
+
+		$('#gm_id').val(id);
+		$('#gm_type').val(type);
+		$('#gm_price').val(price);
+		$('#gm_deal').val(deal);
+		$('#gm_num').val(deal);
+		$.post('/push_js/ajax',{
+			id:id
+		},function(data){
+			if(data.url){
+				$('#gm_deal').val(data.url);
+			}
+		},'json')
+
+	}
+
+
+	$("#type-select").val("{$type}");
+	$("#market-select").val("{$market}");
+
+	$("#type-select,#market-select").change(function () {
+		var type = $("#type-select option:selected").val();
+		var market = $("#market-select option:selected").val();
+		var url = '/push_js/index';
+		if (type) {
+			url += '/type/' + type;
+		}
+		if (market) {
+			url += '/market/' + market;
+		}
+
+		window.location = url;
+	});
+
+	//集市弹窗页面输入内容
+	function bazzar_up() {
+		var market = $('#tc_market_list option:selected').val();
+		var price = $('#tc_price').val();
+		var num = $('#tc_num').val();
+		var paypassword = $('#tc_paypassword').val();
+		if (market == "" || market == null) {
+			layer.tips("{#lang('请选择市场')}", '#tc_market_list', {tips: 2});
+			return false;
+		}
+		if (price == "" || price == null) {
+			layer.tips("{#lang('请输入价格')}", '#tc_price', {tips: 2});
+			return false;
+		}
+		if (num == "" || num == null) {
+			layer.tips("{#lang('请输入数量')}", '#tc_num', {tips: 2});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips("{#lang('请输入交易密码')}", '#tc_paypassword', {tips: 2});
+			return false;
+		}
+		$.post("{#url('push_js/up')}", {
+			market: market,
+			price: price,
+			num: num,
+			paypassword: paypassword
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				location.reload();
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+
+	function bazzar_buy() {
+		var id = $('#gm_id').val();
+		var num = $('#gm_num').val();
+		var paypassword = $('#gm_paypassword').val();
+
+		if (id == "" || id == null) {
+			layer.tips("{#lang('请选择订单')}", '#gm_id', {tips: 2});
+			return false;
+		}
+		if (num == "" || num == null) {
+			layer.tips("{#lang('请输入数量')}", '#gm_num', {tips: 2});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips("{#lang('请输入交易密码')}", '#fm_paypassword', {tips: 2});
+			return false;
+		}
+
+		$.post("{#url('push_js/buy')}", {
+			id: id,
+			num: num,
+			paypassword: paypassword
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout("location.reload()" , 2000)
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+</script>

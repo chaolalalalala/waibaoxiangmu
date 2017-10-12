@@ -1,0 +1,41 @@
+{include file="public:header"}
+<title>抽奖</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<body>
+<header  id="header"  class="aui-bar aui-bar-nav aui-bar-dark">
+	<a class="aui-pull-left" tapmod="" onclick="back();">
+		<span class="aui-iconfont aui-icon-left"></span>返回
+	</a>
+	<div id="title" class="aui-title">抽奖</div>
+	<a class="aui-pull-right"  onclick="open_win('lottery_log_h','app_lottery')" tapmod="">
+		记录
+	</a>
+</header>
+</body>
+<script>
+	apiready = function(){
+		onerror       = error_handel;
+		var header    = $api.byId('header');
+		var width     = getWinWidth();
+		var headerPos = $api.offset(header);
+		var height    = getWinHight() - headerPos.h;
+		openFrame({
+			name: 'lottery',
+			url: aurl('app_lottery/index'),
+			allowEdit : true,
+			bounces: false,
+			opaque: true,
+			reload: true,
+			vScrollBarEnabled: true,
+			hScrollBarEnabled:false,
+			rect: {
+				x: 0,
+				y: headerPos.h,
+				w: width,
+				h: height
+			}
+		});
+	}
+</script>
+</html>

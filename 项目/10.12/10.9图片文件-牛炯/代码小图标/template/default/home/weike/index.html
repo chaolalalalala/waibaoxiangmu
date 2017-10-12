@@ -1,0 +1,165 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/weike/bootstrap.min.css">
+<link media="all" type="text/css" rel="stylesheet" href="__CSS__/weike/taskindex.css">
+<link rel="stylesheet" href="__CSS__/money.css"/>
+<style>
+</style>
+<div class="autobox">
+    <div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('威客任务')}
+    </div>
+    <div class="main-content mb20">
+        <div class=" assets_content bg_w" style="min-height:30px;">
+            <div class="safe_center clear">
+                <h1>
+					<span>
+					{#lang('威客任务')}
+					</span>
+	                <span>
+                        <a href="{#url('weike/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('威客列表')}</a>
+                        <a href="{#url('weike/log')}" id="step2" class="step fz_12 ml20 pd6 ">{#lang('投稿记录')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+                </h1>
+            </div>
+            <div id="hints" class="mytips" style="display:none;">
+	            <script>
+		            var hints = "{$hints['show']}";
+		            if(hints == 1){
+			            $('#hints').show();
+		            }
+	            </script>
+	            {$hints["value"] nofilter}
+            </div>
+	        {#slider("weike")}
+        </div>
+    </div>
+    <div style="width:100%;">
+        <div class="w1200 project">
+            <!--流程图-->
+            <div class="g-taskprocess hidden-xs">
+                <div class="row">
+                    <div class="col-md-4 col-xs-4">
+                        <div class="g-taskpro1 pull-left"><span>{#lang('官方发布任务')}</span>
+
+                            <p>{#lang('100%官方发布')}</p></div>
+                        <div class="g-taskproico1 pull-right">&gt;</div>
+                    </div>
+                    <div class="col-md-4 col-xs-4">
+                        <div class="g-taskpro2 pull-left"><span>{#lang('玩家参与')}</span>
+
+                            <p>{#lang('无需领取，人人有机会')}</p></div>
+                        <div class="g-taskproico2 pull-right">&gt;</div>
+                    </div>
+                    <div class="col-md-4 col-xs-4">
+                        <div class="g-taskpro3"><span>{#lang('丰厚奖励')}</span>
+
+                            <p>{#lang('奖励丰厚，多币种奖励')}</p></div>
+                    </div>
+                </div>
+            </div>
+             <!--任务分类-->
+            <div class="hidden-xs" style="background-color: #ffffff">
+                <div class="g-taskclassify clearfix">
+                    <div class="col-xs-12 clearfix task-type">
+                        <div class="row2">
+                            <div class="col-lg-1 cor-gray51 text-size14 col-xs-2">{#lang('任务分类')}</div>
+                            <div class="col-lg-11  col-xs-10">
+                                <a class="" href="/home/weike/index/type/0&amp;city=37">{#lang('全部')}</a>
+
+                                {foreach $typelist  as $v}
+                                <a class="" href="/home/weike/index/type/{$v['id']}&amp;city=37">{$v["type"]}</a>
+                                {/foreach}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--筛选-->
+            <div class="clearfix g-taskmainhd" style="width:1198px;background-color: #ffffff;margin-left: 1px">
+                <div class="pull-left ml20">
+                    <a class="" href="/home/weike&amp;city=37">{#lang('综合')}</a><span>|</span>
+                    <a class=" g-taskmaintime" href="/home/weike/addtime_sort&amp;city=37&amp;desc=created_at">{#lang('发布时间')} <i class="glyphicon glyphicon-arrow-down"></i></a><span>|</span>
+                    <a class="" href="/home/weike/sort_sort&amp;desc=delivery_count">{#lang('稿件数')}</a><span>|</span>
+                    <a class="" href="/home/weike/price_sort&amp;city=37&amp;desc=bounty">{#lang('奖励')}</a>
+                </div>
+                <form action="/weike/keyword" method="get">
+                    <div class="pull-left g-taskmaininp hidden-xs">
+                        <input type="text" name="title" placeholder="{#lang('请输入关键字')}">
+
+                    </div>
+                    <button type="submit"style="margin-left: -19px">
+                        <i class="ace-icon fa fa-search icon-on-right bigger-110"></i>
+                    </button>
+                </form>
+            </div>
+            {foreach $pages['list'] as $k => $v}
+            <a href="{#url('weike/details/id/'.$v['id'])}"  >
+                <div class="project_list">
+                    <table border="0" cellspacing="0" cellpadding="0">
+                        <tbody>
+                        <tr>
+                            <td rowspan="3" class="list_tu" style="width:120px">
+                             <img src="__IMG__/weike/weike.jpg">
+                            </td>
+                            <td class="list_td11" style="width:650px;">
+                                <span><font>{#lang('编号')}：</font>{$v['id']}</span>
+                                <span><img src="__IMG__/money/ayind.png">
+                                    {#lang('标题')}:{$v["title"]}
+                             <span class="tip" style="color: rgb(68, 68, 68);">
+                                 <img src="__IMG__/money/listicon_07.png">
+                                   {#lang('任务状态')}:
+                                    {if  $v['step']==1 }
+                                               {#lang('新发布')}
+                                        {else if  $v['step']==2 }
+                                               {#lang('进行中')}
+                                        {else if  $v['step']==3 }
+                                               {#lang('已结束')}
+                                        {else if  $v['step']==4 }
+                                               {#lang('已关闭')}
+                                        {/if}
+                                </span>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="list_td21">
+                                <i class="mark3" style="margin-right:10px;">{#lang('酬')}</i> {$v['price_type']} {$v["price"]}
+                                <span><img src="__IMG__/money/listicon_03.png"> <b class="blue"> {#lang('任务内容')}: </b>{$v["content"]}</span>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="list_td31">
+                                          <span><img src="__IMG__/hongbao/user.png" style="margin-left:0;"> {#lang('发布人')}:{if !$v["userid"]}
+                                                                                                              {#lang('系统管理员')}
+                                                                                                        {else}
+                                                                                                        {$v["userid"]}
+                                                                                                        {/if}
+                                          </span>
+                                          <span><img src="__IMG__/hongbao/eye.png">
+                                              {$v["view"]}{#lang('人浏览')}/{$v["num"]}{#lang('人投稿')}   </span>
+                                <span><img src="__IMG__/hongbao/Clock.png"> {#addtime($v['addtime'])} </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </a>
+            {/foreach}
+        </div>
+        <div class="pages">{$pages['show'] nofilter}</div>
+    </div>
+</div>
+<script>
+    if ($("#weike_box").length > 0) {
+        $('#weike_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}

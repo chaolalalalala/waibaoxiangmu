@@ -1,0 +1,317 @@
+{include file="public:header"}
+<title>注册</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/common.css">
+</head>
+<style>
+    /*span{*/
+        /*color:#a59494;*/
+    /*}*/
+
+    .my_body{
+        margin: 20px;
+        border-radius: 8px;
+        padding: 0 10px;
+        line-height: 30px;
+    }
+
+    .my_body ul,.my_title ul{
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        list-style: none;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+    }
+
+    .my_body li input{
+        display: block;
+        -webkit-box-flex: 1;
+        background-color: rgba(255, 255, 255, 0);
+        outline: none;
+        color: #a59494;
+        height: 3rem;
+    }
+
+    .btn{
+        display: block;
+        color: #FFFFFF;
+        margin: 0 30px;
+        text-align: center;
+        border-radius: 8px;
+        height: 5rem;
+        line-height: 5rem;
+        background-color: #e55600;
+    }
+
+    .notice{
+        margin: 20px;
+        border-radius: 8px;
+        padding: 0 10px;
+        line-height: 30px;
+    }
+    .notice span{
+        height: 2rem;
+        line-height: 2rem;
+        color: #DADADA;
+    }
+    .btn-very{
+        height: 2.2rem;
+        background-color: green;
+        line-height: 2.2rem;
+        padding: 0.6rem 1rem;
+        text-align: center;
+        /*border-radius: 8px;*/
+        color:#fff;
+    }
+
+    .my_body{
+        margin: 20px;
+        border-radius: 8px;
+        padding: 0 10px;
+        line-height: 30px;
+    }
+
+    .my_body ul,.my_title ul{
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        list-style: none;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+    }
+    .my_body li{
+        border-radius: 2px;
+        margin: 1rem 0;
+        display: -webkit-box;
+        height: 2.2rem;
+        padding:0 0 0 0.5rem;
+        background-color: white;
+    }
+    .my_body li input{
+        display: block;
+        -webkit-box-flex: 1;
+        background-color: rgba(255, 255, 255, 0);
+        outline: none;
+        color: #a59494;
+        height: 2.2rem;
+        line-height:2.2rem;
+    }
+    .btn{
+        display: block;
+        color: #FFFFFF;
+        margin: 0 30px;
+        text-align: center;
+        border-radius: 8px;
+        height: 2.5rem;
+        line-height: 2.5rem;
+        background-color: #e55600;
+    }
+
+    .notice span{
+        height: 2rem;
+        line-height: 2rem;
+        color: #666;
+    }
+    select{
+        color: #a59494;
+        display: block;
+        outline: none;
+        /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+
+        /*很关键：将默认的select选择框样式清除*/
+        appearance:none;
+        -moz-appearance:none;
+        -webkit-appearance: listbox;
+        /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+        padding-left:0.5rem;
+
+        background-color: #FFF;
+        height:2rem;
+        line-height: 2rem;
+        text-align: left;
+        border: 0;
+        width:100%;
+    }
+    .reg_check_img{
+        height: 1rem;
+        vertical-align: middle;
+        padding: 0 0.5rem 0 0;
+        margin: -0.1rem 0 0 0;
+    }
+	.green{
+		color:green;
+	}
+
+
+</style>
+<body>
+<div class="wrap">
+    <div id="show1">
+        <div class="my_body">
+<!--            <ul  class="trblBor">-->
+<!--                <li>-->
+<!--                    <input tapmod="" onclick="_focus(this)" name="username" id="username"-->
+<!--                           type="text" placeholder="设置用户名">-->
+<!--                </li>-->
+<!--            </ul>-->
+
+            <ul  class="trblBor">
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="mobile" id="mobile"
+                           type="text" placeholder="输入手机号码">
+                </li>
+            </ul>
+
+            <ul  class="trblBor">
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="verify_code" id="verify_code"
+                           type="text" placeholder="输入验证码">
+                    <span id="send_code" class="btn-very" tapmod="" onclick="send_code()">获取验证码</span>
+                </li>
+            </ul>
+            <ul  class="trblBor">
+                 <li>
+                    <input tapmod="" onclick="_focus(this)" name="password" id="password" type="password"
+                           placeholder="登录密码">
+                </li>
+            </ul>
+            <ul  class="trblBor">
+                 <li>
+                    <input tapmod="" onclick="_focus(this)" name="invit" id="invit" type="text"
+                           placeholder="邀请码">
+                </li>
+            </ul>
+
+                   <span style="color: #6b6363;"><img class="reg_check_img" src="__WAP__/image/001/green_check.png">我已经阅读并且同意<em class="green" onclick="open_win('xieyi_h','user')">[注册协议]</em></span>
+            </ul>
+        </div>
+        <div class="btn" tapmode="" onclick="submit()">注册</div>
+        <div  class="notice">
+            <ul>
+                <li>
+                    <span>注册须知:</span>
+                    <span id="withdraw_notice">
+                        1.注册点击下一步,即表明您同意本<em class="green" onclick="open_win('xieyi_h','user')">[注册协议]</em><br>
+                        2.请务必设置复杂度较高的密码作为登录密码,确保您后续资金财产安全<br>
+                        3.投资有风险,入市需谨慎,请量力而行<br>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+</div>
+<!--<div id="verify_mask" class="verify_mask hide" onclick="closeImgVerify()">-->
+<!--    <div class="verify_img_container" onclick="cancelSendEvent(event)">-->
+<!--        <ul>-->
+<!--                <div class="title">验证手机</div>-->
+<!--            <li>-->
+<!--                <input id="inputRandcode" type="text" tapmod="" onclick="_focus(this)" name="randcode" placeholder="输入图形验证码">-->
+<!--                <img src="" id="verifyCode_img">-->
+<!--            </li>-->
+<!--            <li style="border: none">-->
+<!--                <span  tapmod="" onclick="clickSendMsgCode()">发送短信验证码</span>-->
+<!--                <span style="float: right" tapmod="" onclick="clickSendVoiceCode()">发送语音验证码</span>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</div>-->
+</body>
+<script type="text/javascript">
+
+    apiready = function(){
+        onerror = error_handel;
+        //去掉开发版的默认填写的信息
+        if (!Debug)
+        {
+            $("#mobile").val('');
+            $("#verify_code").val('');
+            $("#password").val('');
+            $("#invit").val('');
+        }
+
+	    $("#invit").val(iv('move_invit')||'');
+    };
+
+    function goBack() {
+        back();
+    }
+
+    var session_id = '';
+    function submit(){
+//        var username = $('#username').val();
+        var mobile = $('#mobile').val();
+        var verify_code = $('#verify_code').val();
+        var password = $('#password').val();
+        var invit = $('#invit').val();
+
+        if(!mobile){
+            art('请输入手机号码');
+            return;
+        }
+
+        if(!verify_code){
+	        art('输入手机验证码');
+            return;
+        }
+        if(!password){
+	        art('输入登录密码');
+            return;
+        }
+
+        loading();
+        Ajax('login/reg_up','post',
+                {
+                    'moble':mobile,
+                    'moble_verify':verify_code,
+                    'password':password,
+                    'invit':invit
+                },
+                function(ret){
+                    alog(ret);
+                    toast.hide();
+
+                    if (ret.status == 1)
+                    {
+                        //注册成功,返回登录界面
+                        art("注册成功");
+                        setTimeout("goBack()",2000);
+                    }
+                    else {
+                    }
+                    art(ret.info);
+                });
+    }
+
+    var timer_clock = 0;
+    var timer;
+    function send_code(){
+        //创建验证码的输入页面
+        var moble = $('#mobile').val();
+        if(!moble){
+            alert('请输入手机号码');
+            return;
+        }
+
+        if(timer_clock != 0) return;
+       createRequestVerifyView('login/sendMoble');
+        timer_clock = 30;
+        clearInterval(timer);
+       timer = setInterval(function () {
+            if (timer_clock != 0){
+                timer_clock--;
+                $('#send_code').html(timer_clock+'秒后可重发');
+            }
+            else{
+                clearInterval(timer);
+                $('#send_code').html('获取验证码');
+            }
+        },1000);
+    }
+</script>
+</html>

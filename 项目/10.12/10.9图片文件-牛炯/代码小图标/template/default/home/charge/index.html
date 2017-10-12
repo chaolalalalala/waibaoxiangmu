@@ -1,0 +1,132 @@
+{include file="public:header"}
+<script type="text/javascript" src="__EXT__/city/cityselect.js"></script>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('卡密充值')}
+	</div>
+	<div class="main-content">
+		<div class="assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+                    <span>
+						{#lang('卡密充值')}
+					</span>
+					 <span>
+                        <a href="{#url('charge/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('充值中心')}</a>
+                        <a href="{#url('charge/log')}" id="step2" class="step fz_12 ml20 pd6">{#lang('充值记录')}</a>
+                    </span>
+                    <span>
+
+						{if $hints}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				{$hints nofilter}
+			</div>
+			{#slider("money")}
+			<div class="cnyin_record">
+				<div class="f_body">
+					<div class="f_body_main">
+						<div class="f_tab_body"  style="margin-top:100px">
+							<div class="step1  pwtrade  pw  mt30 mb20">
+								<div class="mytable-body pwtrade  " style="margin-left: 500px">
+									<div class="login_text zin80">
+										<!--<div class="mask_wrap_title">充值币种：</div>-->
+										<!--<select class="prov texts" id="cointype"  style="width: 200px;">-->
+											<!--<option value=""  selected>充值币种</option>-->
+											<!--{foreach $charge_coin  as $v}-->
+											<!--<option value="{$v['name']}">{$v["title"]}</option>-->
+											<!--{/foreach}-->
+										<!--</select>-->
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('充值卡号')}：</div>
+										<input id="cardnum" class="texts" type="text">
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('交易密码')}：</div>
+										<input id="paypassword" class="texts" type="password">
+									</div>
+									<div class="login_button">
+										<input type="button" class="btns2" value="{#lang('立即充值')}" onclick="up()" >
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>
+	function showA() {
+		$("#step1").show();
+//        $("#step2").show();
+	}
+
+	function showB() {
+		$("#step1").hide();
+//        $("#step2").hide();
+	}
+	$(function () {
+		var height = $(document).height();
+		if (height < 1000) {
+			height = 1000;
+		}
+
+//        $('#step2').height(height);
+
+		$("#city_1").citySelect({nodata: "none", required: false});
+	});
+
+	function up() {
+//		var cointype     = $('#cointype option:selected').val();
+		var cardnum       = $('#cardnum').val();
+		var paypassword  = $('#paypassword').val();
+//		if (cointype == "" || cointype == null) {
+//			layer.tips('请输入充值币种类型', '#cardnum', {tips: 3});
+//			return false;
+//		}
+		if (cardnum == "" || cardnum == null) {
+			layer.tips('请输入充值卡号', '#cardnum', {tips: 3});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips('请输入交易密码', '#paypassword', {tips: 3});
+			return false;
+		}
+
+		$.post("{#url('/charge/up')}", {
+			cardnum:cardnum ,
+			paypassword: paypassword,
+			//cointype:cointype
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout(function(){
+					window.location ="{#url('charge/log')}";
+				},1000)
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.setTimeout("location.reload()", 1000);
+				}
+			}
+		}, "json");
+	}
+
+
+	if ($("#huafei_box").length > 0) {
+		$('#huifei_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

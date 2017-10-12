@@ -1,0 +1,469 @@
+{include file="public:header"}
+<style>
+
+	.crowd_num{display: inline-block; cursor: pointer; width:38px; height: 32px; line-height: 32px; font-size: 16px; margin:0px 0px; text-align: center; border:1px solid rgb(225, 225, 225); float: left;}
+	.crowd_con_list_l{width: 686px!important; height: 180px!important;}
+	.crowd_center{font-family:tahoma,Microsoft YaHei,Arial,Helvetica,sans-serif;font-size:14px;color:#333}
+	.crowd_con{border: 1px solid #eee; background: #fff; padding: 25px 30px;}
+	.crowd_con_l{width: 570px; border-right: 1px solid #eee; float: left; height: 320px;}
+	.crowd_con_r{width: 366px; height:320px; float: left;}
+	.crowd_bi{margin-bottom: 10px;}
+
+	.crowd_bi span.crowd_bi_asch{background-position: 0px 0px;}
+	.crowd_bi span.crowd_bi_ytc{background-position: 0px -50px;}
+	.crowd_bi span.crowd_bi_hlb{background-position: 0px -100px;}
+	.crowd_hui{display: inline-block; line-height:22px;padding: 2px 8px; border-radius: 5px;float: left; font-size: 14px; background: #e55600;margin-top: 14px; color: #fff; margin-left: 10px; position:absolute;}
+	.crowd_hui em{display: inline-block;width: 0;height: 0;vertical-align: middle;bottom: 22px;border-top: 5px solid transparent;border-left: 5px solid transparent;
+		border-bottom: 5px solid transparent;border-right: 5px solid #e55600;position: absolute;bottom: 7px; left: -10px; }
+	.crowd_hui_green{background: #690;}
+	.crowd_hui_green em{border-right: 5px solid #690;}
+	.crowd_hui_red{background:#cc0000;}
+	.crowd_hui_red em{border-right: 5px solid #cc0000;}
+
+	.crowd_subscribe{ margin: 40px 0px 20px;}
+	.crowd_subscribe li{float: left; padding-right:100px;}
+	.crowd_subscribe li:last-child{padding-right: 0px;}
+	.crowd_subscribe li span{font-size: 16px; margin-top: 10px; display: inline-block;}
+
+	.crowd_con_list_r{width: 250px; height:180px; padding: 30px;box-sizing: border-box; float: left; margin-top: 15px;}
+
+
+	.crowd_bi h2{font-size: 20px; font-weight: normal; line-height: 50px; display: inline-block;}
+	.crowd_con_lp{font-size: 14px; height: 30px; line-height: 30px; color: #333;}
+	.crowd_con_lp2{ line-height: 46px; height: 46px;}
+	.crowd_con_lp3{font-size: 12px; color: #999; margin-top: 12px;}
+	.crowd_con_lp3 span{color: #333;}
+	.crowd_con_lp b{font-weight: normal;}
+	.crowd_con_lp a:hover{text-decoration: underline;}
+	.crowd_time{ width: 457px; height: 70px; background: #f9f3dd; border-radius: 3px; margin-top: 15px; padding:5px 15px;}
+	.crowd_time span{display: inline-block; width: 24px; height: 35px; line-height: 35px; margin-right: 10px; background: #fff; border-radius: 3px; font-size: 24px; color: #ff6226; text-align: center;}
+	.crowd_time em{font-style: normal; font-size: 14px; line-height: 35px; display: inline-block; margin-right: 10px;}
+	.crowd_pro{width: 487px; margin:15px 0px;}
+	.crowd_pro progress{width:420px; height: 8px; margin-top: 5px;}
+	.crowd_pro progress { -webkit-appearance: none; }
+	.crowd_pro ::-webkit-progress-inner-element { }
+	.crowd_pro ::-webkit-progress-bar { border:none; background: #ededed; border-radius: 30px;}
+	.crowd_pro ::-webkit-progress-value { background: #64c712; border-radius: 30px;}
+	.crowd_pro ::-moz-progress-bar { background: #64c712; }
+	.crowd_pro ::-ms-fill { background: #64c712; }
+	.crowd_pro span{ float: right;}
+	.crowd_my{width: 240px; margin-left: 76px;}
+	.crowd_my h2{ font-size: 16px; font-weight: normal; padding: 10px 0px 15px;}
+	.crowd_my .login_text{ margin-bottom: 13px;}
+	.crowd_recharge{ float: right;}
+	.crowd_look{margin-top:20px;font-size: 12px;}
+	.crowd_look:hover{text-decoration: underline;}
+	.crowd_rule,.crowd_list{border: 1px solid #eee; background: #fff; padding: 25px 30px; margin-top: 20px;}
+	.crowd_asch{padding: 25px 30px 0px;}
+	.crowd_rule_t{font-size: 16px; font-weight: normal;border-left:3px solid #ff6127; height: 20px;margin-bottom: 20px; line-height: 20px; padding-left: 10px;}
+	.crowd_rule_con p{ line-height: 28px; font-size: 14px; margin-bottom: 3px;}
+	.crowd_asch_con p{ margin-bottom: 30px;}
+	.crowd_asch_con p a:hover{text-decoration: underline;}
+	.crowd_rule_con1 em{display: inline-block;font-style: normal; float: left;}
+	.crowd_rule_con1 p{display: inline-block; width: 860px;}
+
+	.crowd_list_state{ padding: 10px 0px 20px;}
+	.crowd_list_state span{ font-size: 14px; margin-right:50px;}
+	.crowd_list_state span b{font-weight: normal;}
+	.crowd_list_state p a{color: #999;}
+	.crowd_list_state p a:hover{text-decoration: underline;}
+	.crowd_list ul{height: 40px; padding: 0px 30px; line-height: 40px; background:#f8f8f8;}
+	.crowd_list ul li{float: left; width: 340px;}
+	.crowd_list ul li:last-child,.crowd_list .deal_his_list dd:last-child{width:183px;}
+	.crowd_list .deal_his_list dd{width: 340px;text-align:center}
+	.crowd_list .deal_his_list dl{padding: 0px 30px; width: auto; border-bottom: 1px solid #f8f8f8;}
+	.crowd_list .deal_his_list dl:nth-of-type(even){background:rgb(248,248,248)}
+	.crowd_list .deal_his_list dl:nth-of-type(odd){background:rgb(255,255,255)}
+	.crowd_list .deal_his_list dl:hover{background-color: rgb(249, 242, 221);}
+	.crowd_list .deal_his_list{overflow-y: hidden;}
+	.crowd_list .page{float: right; margin-top: 30px;}
+	.crowd_all{margin: 0px auto;}
+	.crowd_all_t{font-size: 14px; padding-bottom: 20px; font-size: 12px;}
+	.crowd_all_t span{width:225px; display: inline-block; text-align: center;}
+	.crowd_all_t span:first-child{text-align: left;}
+	.crowd_all_t span:last-child{text-align: right;}
+	.crowd_all_t span em{font-style: normal;}
+	.crowd_all_list ul{height: 40px; line-height: 40px; background: #f8f8f8; padding:0px 12px; font-size: 12px;}
+	.crowd_all_list ul li{float: left;}
+	.crowd_all_list dl{height: 35px; line-height: 35px; border-bottom: 1px solid #f8f8f8;padding:0px 12px; font-size: 12px;}
+	.crowd_all_list dl dd{ float: left;}
+	.crowd_time_all div{display: inline-block;}
+	.sy_logo img{width: 250px;height: 160px;margin-top: -70px;}
+</style>
+
+{foreach  $raiseArr as $k=>$val}
+
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="{#url('raise/index')}" class="orange">众筹中心</a> &gt; {$val.title}
+	</div>
+
+
+    <div class="crowd_center clear po_re ">
+        <div class="crowd_con clear">
+                <div class="crowd_con_l"   {if $raiseArr1["status"]==2}style="border-right:none;"{/if}>
+                    <div class="crowd_bi clear"><span style="display: inline-block; width: 50px; height: 50px; background: url('__UP__/{$val.icon}') no-repeat; background-size: 50px; margin-right: 10px; float: left;"></span><h2><a href="#">{$val.title}</a></h2>
+	                    {if $val["status"]==1}
+
+	                    {if $st==2}
+
+	                    <div class="crowd_hui crowd_hui_red"><em></em>预热中</div>
+	                    {else}
+	                    <div class="crowd_hui crowd_hui_green"><em></em>众筹中</div>
+	                    {/if}
+
+	                    {else}
+	                    <div class="crowd_hui crowd_hui_red"><em></em>已结束</div>
+
+
+	                    {/if}
+
+
+
+                    </div>
+                    <ul class="crowd_subscribe clear">
+                        <li>
+                            <p>众筹总额</p><span class="red">
+                                {$total}                            </span>
+                        </li>
+                        <li>
+                            <p>众筹份数</p><span class="red">{$val.total}份</span>
+                        </li>
+                        <li>
+                            <p>每份单价</p><span class="red">{$val.price} RMB</span>
+                        </li>
+                    </ul>
+                                                          {if $val["status"]==1}
+
+                    <div class="crowd_time">
+                            <div>
+                                <p class="crowd_con_lp" id="cdstatus">{$textS}</p>
+                                <div class="crowd_time_all" style="font-size:20px;line-height:30PX;text-align:center;font-weight:700;">
+                                    
+                                </div>
+                            </div>
+                    </div>
+                    <div class="crowd_pro"><progress value="{$jindu}" max="100"></progress><span>{$jindu}%</span></div>
+                    <div class="crowd_xq"><span>已众筹份数：{$buyShare}</span> <span>已支持RMB：{$spendMoney}</span> </div>
+	                {else}
+                    <div class="crowd_time">
+                        <p style="font-size:20px;line-height:70PX;text-align:center;font-weight:700;">众筹成功</p>
+                    </div>
+                    <div class="crowd_pro" style="    width: 519px;"><progress value="{$jindu}" max="100" style="    width: 457px;"></progress><span style="    padding-top: 3px;">{$jindu}%</span></div>
+                    <div class="crowd_xq"><span>已众筹份数：{$buyShare}</span> <span>已支持RMB：{$spendMoney}</span> </div>
+	                {/if}
+                </div>
+	    {if $raiseArr1["status"]==1}
+
+            <div class="crowd_con_r">
+                <div class="crowd_my">
+	                {if $user["id"]>0}
+
+                            <form id="login-crowd">
+                            <div class="login_button">
+                                <p class="crowd_con_lp crowd_con_lp2">您目前可用RMB：<span id="finance_span" class="green">{#num($Rmb)}</span><input type="hidden" class="CNY" value="{#num($Rmb)}" /><a href="{#url('finan/pay')}" target="_blank" class="orange crowd_recharge">充值</a></p>
+                            </div>
+                                <div class="login_text  clear">
+                                    <span id="subCrowdNum" class="crowd_num">-</span>
+                                    <input type="text" id="crowd_num" class="texts"  style="width: 140px; margin:0px 5px;float: left" onkeyup="crowdnumChange(this);" value="1" placeholder="请输入您要参与的份数">
+                                    <span id="addCrowdNum" class="crowd_num">+</span>
+                                </div>
+                            
+                            <div class="login_text ">
+                                <input type="password" id="pwtrade" class="texts" name="pwtrade" value="" placeholder="请输入交易密码">
+                            </div>
+                            <div class="login_button">
+	                            {if $st==1}
+
+                                    <input type="button"class="btns2" value="立即众筹" onclick="joincrowd();">
+
+	                            {/if}
+                            </div>
+                            <div class="login_button">
+                                <a href="{#url('raise/crowdFundingRecord')}" class="right crowd_look orange">查看我的众筹记录</a>
+                            </div>
+                        </form>
+                        {else}
+                        <form id="form-login-i">
+                        <div class="login_box_1">
+                            <div class="login_title">登录</div>
+                            <div class="login_text zin90">
+                                <input type="text" id='login_username_username' class="texts hg40 w250"  value="" placeholder="请输入用户名"/>
+
+                                <div id="email-err-i" class="prompt" style="display: none"></div>
+                            </div>
+                            <div class="login_text zin80">
+                                <input type="password" id="login_username_password" class="texts hg40 w250" value="" placeholder="请输入登录密码"/>
+
+                                <div id="pw-err-i" class="prompt" style="display: none"></div>
+                            </div>
+
+
+                            <div class="login_text zin70" id="ga-box-i">
+                                <img id="codeImg reloadverifyindex" src="{#url('ajax/verify')}" width="100" height="38" onclick="this.src=this.src+'?t='+Math.random()" style="margin-top: 1px; cursor: pointer;" title="换一张">
+                                <input type="text" class="texts w155 hg40" id="login_username_verify" name="code" placeholder="请输入验证码" style="width: 106px; float: left;">
+                            </div>
+
+
+                            <div class="login_button">
+                                <input type="button" class="btns2 w250 hg40" value="登录" onclick="login_username();"/>
+                            </div>
+                            <div class="login-footer login-foo">
+
+          <span> <a href="/reg">免费注册</a> ｜ <a href="/findpwd">忘记密码</a>
+          </span>
+                            </div>
+                        </div>
+                    </form>
+	                {/if}
+                </div>
+            </div>
+	    {/if}
+        </div>
+        
+        <div class="crowd_rule">
+            <h1 class="crowd_rule_t">众筹规则</h1>
+            <div class="crowd_rule_con">
+                {$val.rule_content nofilter}
+            </div>
+        </div>
+
+        <div class="crowd_rule crowd_asch">
+            <h1 class="crowd_rule_t">众筹介绍</h1>
+            {$val.introduce nofilter}
+        </div>
+
+        <div class="crowd_list clear">
+            <h1 class="crowd_rule_t">众筹记录</h1>
+            <div class="crowd_list_state">
+                <span>已参与RMB：<b class="green">{$spendMoney}</b></span>
+                <span>已参与人次：<b class="green">{$buyShare}</b></span>
+            </div>
+
+            <ul class="clear" style="text-align:center;">
+                <li>众筹时间</li>
+                <li>众筹数</li>
+                <li>众筹金额</li>
+                
+            </ul>
+             <div class="deal_his_list " id="grid-cf_log">
+	             {foreach  $list_zc as $vo}
+
+                <dl>      
+                    <dd>{#addtime($vo['add_time'])}</dd>
+                    <dd>{$vo.buy_share}(份)</dd>
+                    <dd>{$vo.spend_money}</dd>
+                </dl>
+
+	             {/foreach}
+            </div>
+	        <div class="pages">{$page nofilter}</div>
+
+
+            <!-- <ul class="clear">
+                <li>用户名</li>
+                <li>支持比特币</li>
+                <li>时间</li>
+            </ul> -->
+            <!-- <div class="deal_his_list " id="grid-cf_log">
+                <dl>                     
+                    <dd>188****5073</dd>
+                    <dd>                         1.43 BTC                                                     (13份)                                             
+                    </dd>
+                    <dd>2016/09/09 22:46:00</dd>
+                </dl>
+                <dl>
+                    <dd>liu****@163.com</dd>
+                    <dd>                         2.64 BTC                                                     (24份)
+                    </dd>
+                    <dd>2016/09/09 22:44:27</dd>
+                </dl>
+                <dl>
+                    <dd>328****@qq.com</dd>
+                    <dd>                         1.65 BTC                                                     (15份)
+                    </dd>
+                    <dd>2016/09/09 22:34:32</dd>
+                </dl>
+                <dl>
+                    <dd>380****@qq.com</dd>
+                    <dd>                         1.32 BTC                                                     (12份)
+                    </dd>
+                    <dd>2016/09/09 22:20:19</dd>
+                </dl>
+            </div> -->
+
+            <!-- <div class="page_box clear">
+                <div class="page" id="page-cf_log" style="min-width: auto;"><span class="pre">上一页</span><a class="active">1</a><a onclick="AJAX.cf_log(2);">2</a><a onclick="AJAX.cf_log(3);">3</a><span>...</span><a onclick="AJAX.cf_log(35);">35</a><a onclick="AJAX.cf_log(2);" class="next">下一页</a></div>
+            </div> -->
+        </div>
+
+    </div>
+</div>
+{/foreach}
+<script type="text/javascript">
+
+	var move_username = $.cookies.get('move_username');
+	if (move_username != '' && move_username != null) {
+		$("#login_username_username").val(move_username);
+	}
+
+	function login_username_verify_ups() {
+		$('#login_username_verify_up').attr('src', "{#url('ajax/verify')}?t=" + Math.random());
+	}
+
+	function login_username() {
+		var username = $("#login_username_username").val();
+		var password = $("#login_username_password").val();
+		var verify   = $("#login_username_verify").val();
+
+		if (username == "" || username == null) {
+			layer.tips("{#lang('请输入用户名')}", '#login_username_username', {tips: 2});
+			return false;
+		}
+		if (password == "" || password == null) {
+			layer.tips("{#lang('请输入登录密码')}", '#login_username_password', {tips: 2});
+			return false;
+		}
+		if (verify == "" || verify == null) {
+			layer.tips("{#lang('请输入图形验证码')}", '#login_username_verify', {tips: 2});
+			return false;
+		}
+		$.post("{#url('login/username_up')}", {
+			username: username,
+			password: password,
+			verify: verify,
+			token: "{$token}"
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				$.cookies.set('move_username', username);
+				setTimeout('location.reload()',1000);
+
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+    function crowdnumChange(o) {
+                if (isNaN(o.value)) o.value = '';
+                var value = formatfloat(o.value, 0, 0);
+                if(badFloat(o.value, 0)) o.value = value;
+    }
+
+                $("#subCrowdNum").click(function (){
+                    var num = $("#crowd_num").val();
+                    num = parseInt(num);
+                    if (isNaN(num)) num = 0;
+                    num --;
+                    num = num < 1 ? 1 : num;
+                    $("#crowd_num").val(num);
+                });
+                $("#addCrowdNum").click(function (){
+                    var num = $("#crowd_num").val();
+                    num = parseInt(num);
+                    if (isNaN(num)) num = 0;
+                    num ++;
+                    $("#crowd_num").val(num);
+                });
+
+	var wuwuwu = (function(){
+        var time = '';
+        var b = '';
+        var day = '';
+        var hours = '';
+        var minute = '';
+        var second = '';
+        var timeStr = '';
+		var status = '{$status}';
+		var st = "{$st}";
+        function init(t,b){
+            time = t;
+            djs = b;
+        }
+
+        //倒计时
+        function addTime(){
+            day = Math.floor(time/86400);
+            hours = Math.floor(time%86400/3600);
+            minute = Math.floor(time%86400%3600/60);
+            second = Math.floor(time%86400%3600%60);
+			
+			if(status == 1){
+				if(st == 2){
+					timeStr = day<=0&&hours<=0&&minute<=0&&second<=0 ? window.location.href='' : add0(day)+' 天 '+add0(hours)+' 时 '+add0(minute)+'分 '+add0(second)+'秒 ';
+				}else{
+					timeStr = day<=0&&hours<=0&&minute<=0&&second<=0 ? '众筹已经结束' : add0(day)+' 天 '+add0(hours)+' 时 '+add0(minute)+'分 '+add0(second)+'秒 ';
+				}
+			}else{
+				timeStr = day<=0&&hours<=0&&minute<=0&&second<=0 ? '' : add0(day)+' 天 '+add0(hours)+' 时 '+add0(minute)+'分 '+add0(second)+'秒 ';
+			}
+            
+                
+            $('.crowd_time_all').html(timeStr);
+            time = time - 1;
+        }
+        function add0(m){
+            return m<10?'0'+m:m
+        }
+        var action = {
+            // 初始化参数
+            init : function(time){
+                init(time);
+                addTime();//第一次输出
+            },
+            // 倒计时开始
+            begin : function(){
+                addTime();
+            }
+        }
+        return action;
+    })();
+    var dateS = "{$dateS}";
+    wuwuwu.init(dateS,setInterval("wuwuwu.begin()",1000));
+	
+//立即众筹
+ function joincrowd(){
+
+	 $.post("{#url('raise/buyShop')}", {
+		 id: "{$raiseID}",
+		 price: "{$raisePrice}",
+		 num: $('#crowd_num').val(),
+		 paypassword: $('#pwtrade').val(),
+	 }, function (data) {
+		 if (data.status == 1) {
+			 layer.msg(data.info, {icon: 1});
+			 setTimeout("window.location.reload()",2000);
+
+		 } else {
+			 layer.msg(data.info, {icon: 2});
+			 if (data.url) {
+				 window.location = data.url;
+			 }
+		 }
+	 }, "json");
+
+
+    
+ }
+
+ 
+	
+function checkRaise(){
+	$.ajax({
+        type:"POST",
+        url:"/raise/checkRaise",
+        dataType:"json",
+        success: function(data){
+           
+        }
+    })
+}
+checkRaise();
+
+</script>
+{include file="public:footer"}
+

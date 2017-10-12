@@ -1,0 +1,22 @@
+.assets_content h1>span:last-child{
+	background-image: url(../style/img/icon19.png);
+}
+.yuyin input[type="button"]{
+	width: 150px!important;
+}
+.bizhong_select{
+	border: 0!important;
+	padding-left: 73px!important;
+}
+.bizhong_select .bz_btn img{
+	display: none!important;
+}
+.bizhong_type{
+	border: 0!important;
+}
+.bz_btn,
+.coin-balance,
+.pwtrade dd{
+	font-size: 14px!important;
+	color: #c8c8c8;
+}

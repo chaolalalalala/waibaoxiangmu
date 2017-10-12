@@ -1,0 +1,233 @@
+{include file="public:header"}
+<style>
+
+
+	.login_button input{width:250px;height:40px;border-radius:3px;background:#e55600;color:#fff;font-size:16px;cursor:pointer;border:none}
+	.login_button_zc {width: 210px;height: 43px;line-height: 43px;text-align: center;display: inline-block;border-radius: 3px;background: #e55600;color: #fff;font-size: 16px;cursor: pointer;border: none;margin-top: 20px;}
+	.login_button_zc_js{background: #aaa;}
+	.login_button_zc_yr{background: #009900;}
+
+
+
+	/*ä¼—ç­¹*/
+	.crowd_num{display: inline-block; cursor: pointer; width:38px; height: 38px; line-height: 38px; font-size: 16px; margin:0px 0px; text-align: center; border:1px solid rgb(225, 225, 225); float: left;}
+	.crowd_con_list_l{width: 686px!important; height: 180px!important;}
+	.crowd_center{font-family:tahoma,Microsoft YaHei,Arial,Helvetica,sans-serif;font-size:14px;color:#333}
+	.crowd_con{border: 1px solid #eee; background: #fff; padding: 25px 30px;}
+	.crowd_con_l{width: 570px; border-right: 1px solid #eee; float: left; height: 320px;}
+	.crowd_con_r{width: 366px; height:320px; float: left;}
+	.crowd_bi{margin-bottom: 10px;}
+
+	.crowd_bi span.crowd_bi_asch{background-position: 0px 0px;}
+	.crowd_bi span.crowd_bi_ytc{background-position: 0px -50px;}
+	.crowd_bi span.crowd_bi_hlb{background-position: 0px -100px;}
+	.crowd_hui{display: inline-block; line-height:22px;padding: 2px 8px; border-radius: 5px;float: left; font-size: 14px; background: #e55600;margin-top: 14px; color: #fff; margin-left: 10px; position:absolute;}
+	.crowd_hui em{display: inline-block;width: 0;height: 0;vertical-align: middle;bottom: 22px;border-top: 5px solid transparent;border-left: 5px solid transparent;
+		border-bottom: 5px solid transparent;border-right: 5px solid #e55600;position: absolute;bottom: 7px; left: -10px; }
+	.crowd_hui_green{background: #690;}
+	.crowd_hui_green em{border-right: 5px solid #690;}
+	.crowd_hui_red{background:#cc0000;}
+	.crowd_hui_red em{border-right: 5px solid #cc0000;}
+
+	.crowd_subscribe{ margin: 40px 0px 20px;}
+	.crowd_subscribe li{float: left; padding-right:100px;}
+	.crowd_subscribe li:last-child{padding-right: 0px;}
+	.crowd_subscribe li span{font-size: 16px; margin-top: 10px; display: inline-block;}
+
+	.crowd_con_list_r{width: 250px; height:180px; padding: 30px;box-sizing: border-box; float: left; margin-top: 15px;}
+
+
+	.crowd_bi h2{font-size: 20px; font-weight: normal; line-height: 50px; display: inline-block;}
+	.crowd_con_lp{font-size: 14px; height: 30px; line-height: 30px; color: #333;}
+	.crowd_con_lp2{ line-height: 46px; height: 46px;}
+	.crowd_con_lp3{font-size: 12px; color: #999; margin-top: 12px;}
+	.crowd_con_lp3 span{color: #333;}
+	.crowd_con_lp b{font-weight: normal;}
+	.crowd_con_lp a:hover{text-decoration: underline;}
+	.crowd_time{ width: 457px; height: 70px; background: #f9f3dd; border-radius: 3px; margin-top: 15px; padding:5px 15px;}
+	.crowd_time span{display: inline-block; width: 24px; height: 35px; line-height: 35px; margin-right: 10px; background: #fff; border-radius: 3px; font-size: 24px; color: #ff6226; text-align: center;}
+	.crowd_time em{font-style: normal; font-size: 14px; line-height: 35px; display: inline-block; margin-right: 10px;}
+	.crowd_pro{width: 487px; margin:15px 0px;}
+	.crowd_pro progress{width:420px; height: 8px; margin-top: 5px;}
+	.crowd_pro progress { -webkit-appearance: none; }
+	.crowd_pro ::-webkit-progress-inner-element { }
+	.crowd_pro ::-webkit-progress-bar { border:none; background: #ededed; border-radius: 30px;}
+	.crowd_pro ::-webkit-progress-value { background: #64c712; border-radius: 30px;}
+	.crowd_pro ::-moz-progress-bar { background: #64c712; }
+	.crowd_pro ::-ms-fill { background: #64c712; }
+	.crowd_pro span{ float: right;}
+	.crowd_my{width: 240px; margin-left: 76px;}
+	.crowd_my h2{ font-size: 16px; font-weight: normal; padding: 10px 0px 15px;}
+	.crowd_my .login_text{ margin-bottom: 13px;}
+	.crowd_recharge{ float: right;}
+	.crowd_look{margin-top:20px;font-size: 12px;}
+	.crowd_look:hover{text-decoration: underline;}
+	.crowd_rule,.crowd_list{border: 1px solid #eee; background: #fff; padding: 25px 30px; margin-top: 20px;}
+	.crowd_asch{padding: 25px 30px 0px;}
+	.crowd_rule_t{font-size: 16px; font-weight: normal;border-left:3px solid #ff6127; height: 20px;margin-bottom: 20px; line-height: 20px; padding-left: 10px;}
+	.crowd_rule_con p{ line-height: 28px; font-size: 14px; margin-bottom: 3px;}
+	.crowd_asch_con p{ margin-bottom: 30px;}
+	.crowd_asch_con p a:hover{text-decoration: underline;}
+	.crowd_rule_con1 em{display: inline-block;font-style: normal; float: left;}
+	.crowd_rule_con1 p{display: inline-block; width: 860px;}
+
+	.crowd_list_state{ padding: 10px 0px 20px;}
+	.crowd_list_state span{ font-size: 14px; margin-right:50px;}
+	.crowd_list_state span b{font-weight: normal;}
+	.crowd_list_state p a{color: #999;}
+	.crowd_list_state p a:hover{text-decoration: underline;}
+	.crowd_list ul{height: 40px; padding: 0px 30px; line-height: 40px; background:#f8f8f8;}
+	.crowd_list ul li{float: left; width: 340px;}
+	.crowd_list ul li:last-child,.crowd_list .deal_his_list dd:last-child{width:183px;}
+	.crowd_list .deal_his_list dd{width: 340px;}
+	.crowd_list .deal_his_list dl{padding: 0px 30px; width: auto; border-bottom: 1px solid #f8f8f8;}
+	.crowd_list .deal_his_list dl:nth-of-type(even){background:rgb(248,248,248)}
+	.crowd_list .deal_his_list dl:nth-of-type(odd){background:rgb(255,255,255)}
+	.crowd_list .deal_his_list dl:hover{background-color: rgb(249, 242, 221);}
+	.crowd_list .deal_his_list{overflow-y: hidden;}
+	.crowd_list .page{float: right; margin-top: 30px;}
+
+	.crowd_all{margin: 0px auto;}
+	.crowd_all_t{font-size: 14px; padding-bottom: 20px; font-size: 12px;}
+	.crowd_all_t span{width:225px; display: inline-block; text-align: center;}
+	.crowd_all_t span:first-child{text-align: left;}
+	.crowd_all_t span:last-child{text-align: right;}
+	.crowd_all_t span em{font-style: normal;}
+	.crowd_all_list ul{height: 40px; line-height: 40px; background: #f8f8f8; padding:0px 12px; font-size: 12px;}
+	.crowd_all_list ul li{float: left;}
+	.crowd_all_list dl{height: 35px; line-height: 35px; border-bottom: 1px solid #f8f8f8;padding:0px 12px; font-size: 12px;}
+	.crowd_all_list dl dd{ float: left;}
+	.crowd_time_all div{display: inline-block;}
+	.sy_logo img{width: 250px;height: 160px;margin-top: -70px;}
+</style>
+
+
+
+
+<script type="text/javascript">
+    var i=0;
+        function ZhongChou(id){
+            $.ajax({
+                type:"post",
+				async:'false',
+                url:"{:U('Vote/ZhongChou')}",
+                data:{
+                    "id":id,
+                },
+                dataType:"json",
+                success: function(data){
+                    $('.fs'+i).html('已众筹份数：'+data.buyShare);
+                    $('.cy'+i).html('已参与RMB：'+data.spendMoney);
+                    $('.zs'+i).html(data.total);
+                    i++;
+                }
+            })
+        }
+</script>
+<!--头部结束-->
+
+
+<div class="autobox">
+<!--	<if condition="$my eq 1">
+			<div class="crowd_con crowd_con_list clear">
+				<div class="crowd_con_l crowd_con_list_l">
+					<div class="crowd_bi clear">
+						<h4>暂时没有众筹！</h4>
+					</div>
+				</div>
+			</div>
+	</if> -->
+
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('众筹中心')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('众筹中心')}
+					</span>
+	                <span>
+                        <a href="{#url('raise/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('众筹列表')}</a>
+                        <a href="{#url('raise/crowdFundingRecord')}" id="step2" class="step fz_12 ml20 pd6">{#lang('众筹记录')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+		</div>
+	</div>
+
+
+
+{foreach  $raiseArr as $k=>$val}
+
+{if $val["status"]==1 || $val["status"]==2}
+
+            <div class="crowd_con crowd_con_list clear" style="    height: 225px;">
+                <div class="crowd_con_l crowd_con_list_l">
+                    <div class="crowd_bi clear"><span style="display: inline-block; width: 50px; height: 50px; background: url('__UP__/{$val.icon}') no-repeat; background-size: 50px; margin-right: 10px; float: left;"></span>
+                        <h2><a href="/raise/CrowdDetails/raiseID/{$val['id']}">{$val.title}</a></h2>
+	                    {if $val["status"]==1}
+
+	                    {if $val["st"]==2}
+
+                                <div class="crowd_hui crowd_hui_red"><em></em>预热中</div>
+	                    {else}
+                                <div class="crowd_hui crowd_hui_green"><em></em>众筹中</div>
+	                    {/if}
+
+	                    {else}
+	                    <div class="crowd_hui crowd_hui_red"><em></em>已结束</div>
+
+
+	                    {/if}
+                    </div>
+                    <ul class="crowd_subscribe clear">
+                            <li>
+                                <p>众筹总额</p><span class="red zs{$k}">
+                                    {$val.totals}                           </span>
+                            </li>
+                            <li>
+                                <p>众筹份数</p><span class="red">{$val.total}份</span>
+                            </li>
+                            <li>
+                                <p>每份单价</p><span class="red">{$val.price} RMB</span>
+                            </li>
+                    </ul>
+                </div>
+                <div class="crowd_con_list_r crowd_con_list_r">
+                    <p class="crowd_con_lp fs{$k}">已众筹份数：{$val.buyShare}</p>
+                    <p class="crowd_con_lp cy{$k}">已参与RMB：{$val.spendMoney}</p>
+    				<script type="text/javascript">
+    					var raiseID = "{$val.id}";
+    					//ZhongChou(raiseID);
+    				</script>
+                    <div class="login_button">
+	                    {if $val["status"]==1}
+
+                            <a href="/raise/CrowdDetails/raiseID/{$val['id']}" class="login_button_zc">立即众筹</a>
+	                    {else}
+                            <a href="/raise/CrowdDetails/raiseID/{$val['id']} " class="login_button_zc login_button_zc_js">众筹结束</a>
+
+	                    {/if}
+                    </div>
+                </div>
+            </div>
+			{/if}
+{/foreach}
+    </div>
+{include file="public:footer"}

@@ -1,0 +1,52 @@
+{include file="header"}
+<link rel="stylesheet" href="__EXT__/bootstrap/css/bootstrap.css">
+<div class="main-wrap" id="pitches_content">
+<section class="banner-body">
+	<div class="banner-bg " style="background:url(__HOME__/ico/img/logbg.jpg)">
+
+	</div>
+</section>
+	<section id="container" class="clearfix">
+	<div class="content-body">
+		<div class="project-show">
+		<table class="table table-striped">
+			<thead >
+			<th style="text-align: center;font-weight: bold">项目标题</th>
+			<th style="text-align: center;font-weight: bold">支持数量</th>
+			<th style="text-align: center;font-weight: bold">支持币种</th>
+			<th style="text-align: center;font-weight: bold">项目回报</th>
+			<th style="text-align: center;font-weight: bold">支持时间</th>
+			<th style="text-align: center;font-weight: bold">状态</th>
+			</thead>
+			<tbody>
+			{if $pages["list"]}
+			{foreach $pages["list"] as $v}
+			<tr class="hover" style="text-align: center">
+				<td><a class="move" href="/ico/details/id/{$v['ico_id']}">{$v['ico_title']}</a></td>
+				<td>{$v['num']}</td>
+				<td>{$v['paynum']}{#strtoupper($v['paycoin'])}</td>
+				<td>{$v['num']*$v["bili"]}{#strtoupper($v['backcoin'])}</td>
+				<td>{#addtime($v['addtime'])}</td>
+				<td>
+					{if $v['status']==0}
+				     项目进行中
+					{else if $v['status']==1}
+					已到账
+					{else if $v['status']==2}
+					项目已取消
+					{else}
+					状态异常
+					{/if}
+
+				</td>
+			</tr>
+			{/foreach}{/if}
+			</tbody>
+		</table>
+			{if $pages['show']}
+			<div class="pages">{$pages['show'] nofilter}</div>{/if}
+		</div>
+	</div>
+		</section>
+</div>
+{include file="public:footer"}

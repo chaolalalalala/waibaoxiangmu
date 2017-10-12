@@ -1,0 +1,254 @@
+{include file="header"}
+<style>
+	.dzapp_wechat_window{
+		width:740px;
+		clear:both
+	}
+
+	.dzapp_wechat_qrcode{
+		float:left;
+		border-right:dotted;
+		border-right-color:#DDD;
+		margin-right:20px;
+	}
+
+	.dzapp_wechat_tips{
+		color:#AAA;
+	}
+
+	.dzapp_wechat_tips h3{
+		color:#000;
+		font-size:16px;
+		font-weight:bold;
+	}
+
+	#dzapp_wechat_nav1{
+		float:left;
+		height:23px;
+		width:100px;
+	}
+
+	#dzapp_wechat_nav2{
+		float:left;
+		height:23px;
+		width:100px;
+	}
+
+	#dzapp_wechat_nav3{
+		float:right;
+		margin-top:8px;
+	}
+
+	#dzapp_wechat_sidenav_wx{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+		background:url(__HOME__/dingcan/img/sidebar_wx.png);
+	}
+
+	#dzapp_wechat_sidenav_yx{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+		background:url(__HOME__/dingcan/img/sidebar_yx.png);
+	}
+
+	#dzapp_wechat_sidenav_weibo{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+		background:url(__HOME__/dingcan/img/sidebar_weibo.png);
+	}
+
+	#dzapp_wechat_sidenav_renren{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+		background:url(__HOME__/dingcan/img/sidebar_renren.png);
+	}
+
+	#dzapp_wechat_sidenav_tencent{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+		background:url(__HOME__/dingcan/img/sidebar_tencent.png);
+	}
+
+	#dzapp_wechat_sidenav_fuwu{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+		background:url(__HOME__/dingcan/img/sidebar_fuwu.png);
+	}
+
+	.dzapp_position1{
+		top:200px;
+	}
+
+	.dzapp_position2{
+		top:260px;
+	}
+
+	.dzapp_position3{
+		top:320px;
+	}
+
+	.dzapp_position4{
+		top:380px;
+	}
+
+	.dzapp_position5{
+		top:440px;
+	}
+
+	.dzapp_position6{
+		top:500px;
+	}
+</style>
+<div id="wp" class="wp">
+	<div id="pt" class="bm cl">
+		<div class="z">
+			<i class="fa fa-home fa-lg left move mr5" style="margin-top:7px;"></i>
+			<a class="move" href="/dingcan/index/type/2">商家 >&nbsp;&nbsp;</a>
+			<a class="move" href="/dingcan/index/type/1">订餐 >&nbsp;&nbsp;</a>
+			<a  href="/dingcan/index/type/1">套餐</a>
+		</div>
+	</div>
+	<div class="dzapp_main cl ct2">
+		<div class="nav">
+			<div class="type"><span class="name">分类 :</span>
+				<div class="content">
+					<div class="choice-wrap J_choice-wrap">
+						<a href="/dingcan/index/tid/0" class="cur"> 全部 </a>
+						{foreach $dingcan_type as $k => $v}
+							<a href="/dingcan/index/tid/{$v['id']}/{if $quid}quid/{$quid}{/if}" class="{if $typeid == $v['id']} cur {/if}"> {$v['title']} </a>
+						{/foreach}
+					</div>
+				</div>
+			</div>
+			<div class="type"><span class="name">地区 :</span>
+				<div class="content">
+					<div class="choice-wrap J_choice-wrap">
+						<a href="/dingcan/index/quid/0" class="cur"> 全部 </a>
+						{foreach $dingcan_diqu as $k => $v}
+						<a href="/dingcan/index/quid/{$v['id']}/{if $typeid}tid/{$typeid}{/if}/{if $typeid1}pid/{$typeid1}{/if}" class="{if $quid == $v['id']} cur {/if}">  {$v['title']} </a>
+						{/foreach}
+					</div>
+				</div>
+			</div>
+			{if $dingcan_type_zi}
+			<div class="type"><span class="name">类型 :</span>
+				<div class="content">
+					<div class="choice-wrap J_choice-wrap">
+						<a href="/dingcan/index/pid/0" class="cur"> 全部 </a>
+						{foreach $dingcan_type_zi as $k => $v}
+							<a href="/dingcan/index/tid/{$typeid}/{if $quid}quid/{$quid}{/if}/pid/{$v['id']}" class="{if $typeid1 == $v['id']} cur {/if}"><i class="check "></i>{$v['title']}</a>
+						{/foreach}
+					</div>
+				</div>
+			</div>
+			{/if}
+		</div>
+		<div class="dzapp_sort mt_10 cl">
+			<div class="z">
+				<ul>
+					<li><a class="dinner {if !$type || $type == 1} cur{/if}" href="/dingcan/index/type/1">套餐</a></li>
+					<li><a class="shop  {if $type == 2} cur{/if}" href="/dingcan/index/type/2">商家</a></li>
+
+				</ul>
+			</div>
+		</div>
+		<div class="dzapp_modList cl">
+			   <ul class="cl">
+				   {foreach $page['list'] as $k => $v}
+				   <li>
+					<div class="cl">
+
+						{if !$type || $type == 1}
+						<a href="/dingcan/detail/id/{$v['id']}" target="_new">
+							<div class="img">
+								<img alt="{$v['title']}"  src="__UP__/{$v['tu']}"  class="yc_8 scale">
+							</div>
+						</a>
+						<div class="dzapp_info">
+							<a href="/dingcan/detail/id/{$v['id']}" target="_new">
+								<div class="dzapp_info_view cl mt_5">
+									<h3 class="wrap f_14 c_333">{$v['seller']}</h3>
+									<p class="wrap f_14 c_666">{$v['title']}</p>
+									<div class="cl wrap money">
+										<span class="f_12 c_333"><em class="f_18 b c_f40">{$v['price']}</em></span>
+										<span class="f_12 c_666 ml_5">{$v['num']} 人餐</span>
+									</div>
+								</div>
+							</a>
+							<!--
+							<a href="plugin.php?id=dzapp_dingcan&amp;mod=view&amp;meal_id=6" class="dzapp_info_href">查看套餐</a>
+							-->
+						</div>
+						{else}
+						<a href="/dingcan/shangjia/id/{$v[id]}" target="_new">
+							<div class="img">
+								<img alt="{$v['title']}" src="__UP__/{$v['img']}" class="yc_8 scale">
+							</div>
+						</a>
+						<div class="dzapp_info">
+							<a href="/dingcan/shangjia/id/{$v['id']}" target="_new">
+								<div class="dzapp_info_view cl mt_5">
+									<h3 class="wrap f_14 c_333">{$v['title']}</h3>
+									<p class="wrap f_12 c_999">{$v['addr']}</p>
+								</div>
+							</a>
+							<a href="/dingcan/shangjia/id/{$v['id']}" class="dzapp_info_href" onclick="showWindow('reserve', this.href)">立即预定</a>
+
+						</div>
+
+							<!--
+							<a href="plugin.php?id=dzapp_dingcan&amp;mod=view&amp;meal_id=6" class="dzapp_info_href">查看套餐</a>
+							-->
+
+						{/if}
+						<i class="r_t"></i> <i class="r_r"></i> <i class="r_b"></i> <i class="r_l"></i>
+					</div>
+
+				</li>
+				   {/foreach}
+			</ul>
+
+			<div class="dzapp_page cl">
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{include file="public:footer"}

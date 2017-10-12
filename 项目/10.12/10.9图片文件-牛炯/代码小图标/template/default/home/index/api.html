@@ -1,0 +1,173 @@
+{include file="public:header"}
+<style>
+    html {
+        font-family: 微软雅黑;
+        color: #666;
+        font-size: 14px;
+    }
+
+    .assets_content div {
+        margin: 10px;
+        padding: 0;
+        border: 0;
+    }
+
+    .assets_content a {
+        cursor: pointer;
+        color: #008CB7;
+        text-decoration: none;
+    }
+</style>
+<div class="autobox">
+    <div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;{#lang('API')}
+    </div>
+    <!--右侧内容-->
+    <div class="assets_content bg_w">
+        <div>
+            <h2 style="padding-left: 10px;">API 使用说明 更新日期：2017年06月01日</h2>
+            <div><a href="http://{$_SERVER['HTTP_HOST']}/user/api" class="btns" target="_blank" style="padding: 10px 30px;">申请API</a></div>
+            <div>&nbsp;</div>
+            <div>GET 得到所有市场行情 (每10秒钟更新)</div>
+            <div>
+                <a href="http://{$_SERVER['HTTP_HOST']}/api/trade/all/" target="_blank">http://{$_SERVER['HTTP_HOST']}/api/trade/all/</a>
+            </div>
+            <div>&nbsp;</div>
+            <div>GET 得到指定市场行情 (每10秒钟更新)</div>
+            <div>
+                <a href="http://{$_SERVER['HTTP_HOST']}/api/trade/ticker?market={$config['mr_market']}" target="_blank">http://{$_SERVER['HTTP_HOST']}/api/trade/ticker?market={$config['mr_market']}</a>
+            </div>
+            <div>&nbsp;</div>
+            <div>GET 得到全站市场深度 (每10秒钟更新)</div>
+            <div>
+                <a href="http://{$_SERVER['HTTP_HOST']}/api/trade/depth?market={$config['mr_market']}" target="_blank">http://{$_SERVER['HTTP_HOST']}/api/trade/depth?market={$config['mr_market']}</a>
+            </div>
+            <div>&nbsp;</div>
+            <div>GET 得到全站历史成交 (每10秒钟更新)</div>
+            <div>
+                <a href="http://{$_SERVER['HTTP_HOST']}/api/trade/trades?market={$config['mr_market']}" target="_blank">http://{$_SERVER['HTTP_HOST']}/api/trade/trades?market={$config['mr_market']}</a>
+            </div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>POST 得到自己账户余额</div>
+            <div>
+                <p>
+                    请求地址 ：<a href="http://{$_SERVER['HTTP_HOST']}/api/trade/balance" target="_blank">http://{$_SERVER['HTTP_HOST']}/api/trade/balance</a>
+                </p>
+                <p>调用方式 ：POST </p>
+                <p>secret_key ：平台提供的32位私钥 (不用传参)</p>
+                <br>
+                <p>传入参数 ： </p>
+                <p>key，平台提供的32位公钥</p>
+                <p>nonce，时间戳，单位为秒</p>
+                <p>signature，使用md5(key&用户ID&nonce&secret_key)，顺序不可颠倒 </p>
+                <br>
+                <p> 返回： JSON格式</p>
+                <p>错误： {"err":'错误说明'}</p>
+                <p>成功： {"succ":'JSON格式的余额，含所有币种'}</p>
+            </div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>POST 执行交易挂单操作</div>
+            <div>
+                <p>
+                    请求地址 ：<a href="http://{$_SERVER['HTTP_HOST']}/api/trade/submit_order" target="_blank">http://{$_SERVER['HTTP_HOST']}/api/trade/submit_order</a>
+                </p>
+                <p>调用方式 ：POST </p>
+                <p>secret_key ：平台提供的32位私钥 (不用传参)</p>
+                <br>
+                <p>传入参数 ： </p>
+                <p>key，平台提供的32位公钥</p>
+                <p>nonce，时间戳，单位为秒</p>
+                <p>signature，使用md5(key&用户ID&nonce&secret_key)，顺序不可颠倒 </p>
+                <p>type，1为买入挂单，2为卖出挂单，不可为空 </p>
+                <p>market，交易市场 </p>
+                <p>price，购买价格 </p>
+                <p>amount，购买数量 </p>
+                <br>
+                <p> 返回： JSON格式</p>
+                <p>错误： {"err":'错误说明'}</p>
+                <p>成功： {"succ":'订单ID'}</p>
+            </div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>POST 执行交易撤单操作</div>
+            <div>
+                <p>
+                    请求地址 ：<a href="http://{$_SERVER['HTTP_HOST']}/api/trade/cancel_order" target="_blank">http://{$_SERVER['HTTP_HOST']}/api/trade/cancel_order</a>
+                </p>
+                <p>调用方式 ：POST </p>
+                <p>secret_key ：平台提供的32位私钥 (不用传参)</p>
+                <br>
+                <p>传入参数 ： </p>
+                <p>key，平台提供的32位公钥</p>
+                <p>nonce，时间戳，单位为秒</p>
+                <p>signature，使用md5(key&用户ID&nonce&secret_key)，顺序不可颠倒 </p>
+                <p>order_id，订单ID </p>
+                <br>
+                <p> 返回： JSON格式</p>
+                <p>错误： {"err":'错误说明'}</p>
+                <p>成功： {"succ":'ok'}</p>
+            </div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>POST 得到自己的挂单记录</div>
+            <div>
+                <p>
+                    请求地址 ：<a href="http://{$_SERVER['HTTP_HOST']}/api/trade/list_order" target="_blank">http://{$_SERVER['HTTP_HOST']}/api/trade/list_order</a>
+                </p>
+                <p>调用方式 ：POST </p>
+                <p>secret_key ：平台提供的32位私钥 (不用传参)</p>
+                <br>
+                <p>传入参数 ： </p>
+                <p>key，平台提供的32位公钥</p>
+                <p>nonce，时间戳，单位为秒</p>
+                <p>signature，使用md5(key&用户ID&nonce&secret_key)，顺序不可颠倒 </p>
+                <p>market，交易市场 (不填则返回全部市场的挂单) </p>
+                <p>page，翻页，0为第1页，每页30条，不填则默认为第1页 排序ID大到小</p>
+                <br>
+                <p> 返回： JSON格式</p>
+                <p>错误： {"err":'错误说明'}</p>
+                <p>成功： {"succ":'JSON格式的记录'}</p>
+                <p>解释： deal 已成交量 status 0交易中 1已完成 2已撤销 </p>
+            </div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>POST 得到自己的成交记录</div>
+            <div>
+                <p>
+                    请求地址 ：<a href="http://{$_SERVER['HTTP_HOST']}/api/trade/list_trade" target="_blank">http://{$_SERVER['HTTP_HOST']}/api/trade/list_trade</a>
+                </p>
+                <p>调用方式 ：POST </p>
+                <p>secret_key ：平台提供的32位私钥 (不用传参)</p>
+                <br>
+                <p>传入参数 ： </p>
+                <p>key，平台提供的32位公钥</p>
+                <p>nonce，时间戳，单位为秒</p>
+                <p>signature，使用md5(key&用户ID&nonce&secret_key)，顺序不可颠倒 </p>
+                <p>market，交易市场 (不填则返回全部市场的挂单) </p>
+                <p>page，翻页，0为第1页，每页30条，不填则默认为第1页 排序ID大到小</p>
+                <br>
+                <p> 返回： JSON格式</p>
+                <p>错误： {"err":'错误说明'}</p>
+                <p>成功： {"succ":'JSON格式的记录'}</p>
+            </div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+        </div>
+    </div>
+</div>
+<script>
+    if ($("#api_box").length > 0) {
+        $('#api_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}

@@ -1,0 +1,227 @@
+{include file="public:header"}
+<link rel="stylesheet" type="text/css" href="__CSS__/choujiang.css"/>
+<!--<div class="banner">-->
+<!--<img src="__IMG__/choujiang/banner.png" alt="rwy" class="banner-img">-->
+<!--</div>-->
+<div class="autobox">
+    <div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('幸运抽奖')}
+    </div>
+    <div class="main-content">
+        <div class="assets_content bg_w" style="height: auto;position:static;">
+            <div class="safe_center clear">
+                <h1>
+                    <span>
+						{#lang('幸运抽奖')}
+					</span>
+					 <span>
+                        <a href="{#url('choujiang/index')}" id="1step1" class="step fz_12 ml50 pd6 active">{#lang('幸运抽奖')}</a>
+                    </span>
+                    <span>
+
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+                </h1>
+            </div>
+            <div id="hints" class="mytips" style="display:none;">
+                <script>
+                    var hints = "{$hints['show']}";
+                    if (hints == 1) {
+                        $('#hints').show();
+                    }
+                </script>
+                {$hints["value"] nofilter}
+            </div>
+            <div class="cnyin_record" style="background-color: #FF4500;position:relative;">
+                <div class="dowebok">
+                    {foreach $choujiang as $v}
+                    <div class="item{$v['id']}">{$v["value"].$v["title"]}</div>
+                    {/foreach}
+                    <div class="rotary ">
+                        <img class="hand" src="/static/default/home/img/choujiang/z.png" alt="">
+                    </div>
+                    <div class="list">
+                        <span style="margin-left: -95px;font-size: 20px;">{#lang('我的奖券')}</span>
+                        <strong style="left:-95px;">{if $choujiang_num["num"]==0 } 0 {else} {$choujiang_num["num"]} {/if} </strong><input type="button" class="btns2" style="margin-top:-5px;width: 60px;height: 30px;background-color:#63a200" value="{#lang('点击购买')}" onclick="showA()">
+                        <span>{#lang('每次抽奖均消耗1抽奖券')}</span>
+                        <div style="border: 6px solid #FFFF00;width: 220px;height: 320px;margin-top: 10px;margin-left: -5px;border-radius: 8px">
+                            <h4 style="margin-top: -5px;margin-bottom: -5px;margin-left: 10px">{#lang('中奖用户名单')}</h4>
+                            <ul style="margin-left: 10px">
+                                {foreach $choujiang_log as $k => $v}
+                                <li>
+                                    <span style="width: 100px">{$v["userid"]}</span>
+                                    <span>{#lang('获得')}{$v["value"]}{$v["title"]}</span>
+                                </li>
+                                {/foreach}
+                                <li style="margin-top: -10px">
+                                    <span style="width: 100px">.........</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="footers" style="padding: 15px 0px 2px;background-color: #FF4500">
+                    <span style="color:#FDF5E6">{#lang('历史中奖记录')}</span>
+                    <div style="border: 6px solid #FFFF00;width: 98%;margin-top:10px;margin-left: 12px;border-radius: 8px;background-color:#FFffff">
+                        <ol class="crowd_subscribe clear" style=" width:100%;margin: 5px 0px 5px;color:black">
+                            <li>
+                                <span style="font-weight: bold;margin-left: 270px">
+                                     {#lang('编号')}
+                                </span>
+                            </li>
+                            <li>
+                                <span style="font-weight: bold;margin-left: 30px">
+                                     {#lang('抽奖时间')}
+                                </span>
+                            </li>
+                            <li>
+                                <span style="font-weight: bold;margin-left: 38px">
+                                    {#lang('奖励标题')}
+                                </span>
+                            </li>
+                            <li>
+                                <span style="font-weight: bold;margin-left: -16px">
+                                    {#lang('奖励内容')}
+                                </span>
+                            </li>
+                        </ol>
+                        {if $pages['list']}{foreach $pages['list'] as $k => $v}
+                        <ol class="crowd_subscribe clear" style="margin: 5px 0px 5px;color:black">
+                            <li>
+                                <span style="margin-left: 275px">
+                                    {$v['id']}
+                                </span>
+                            </li>
+                            <li>
+                                <span>
+                                   {#addtime($v['addtime'])}
+                                </span>
+                            </li>
+                            <li>
+                                <span>
+                                    {$v['title']}
+                                </span>
+                            </li>
+                            <li>
+                                <span>
+                                    {$v['value']}{#strtoupper($v['type'])}
+                                </span>
+                            </li>
+                        </ol>
+                        {/foreach}{/if}
+                    </div>
+                </div>
+                {if $pages['show']}
+                <div class="pages" style="padding-bottom: 45px">{$pages['show'] nofilter}</div>{/if}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="all_mask_loginbox" id="step1" style="display: none;">
+    <div class="login_title pl20">{#lang('购买抽奖劵')}</div>
+    <form id="form-login" class="mask_wrap login-fb">
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('币种名称')}：</div>
+            <select name="bank" id="coinid" class="texts">
+                <option value="" selected="selected">{#lang('--选择币种--')}</option>
+                {foreach $coin_list as $k => $v}
+                <option value="{$v['id']}">{$v['title']} {$v["price"]}{$v['name']}/个</option>
+                {/foreach} </select>
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('购买数量')}：</div>
+            <input id="num" class="texts" type="text">
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('交易密码')}：</div>
+            <input id="paypassword" class="texts" type="password"><a href="/findpwd/paypassword" class="move ml5">{#lang('忘记')}?</a>
+        </div>
+        <div class="login_button">
+            <input type="button" class="btns2" value="{#lang('立即购买')}" onclick="buy();">
+        </div>
+    </form>
+    <div class="mask_wrap_close " onclick="showB()"><i class="fa fa-close fa-2x move"></i></div>
+</div>
+<div id="step2" class="all_mask" style="height: 0px;display: none;"></div>
+<script src="/static/default/home/js/jquery.rotate.min.js"></script>
+<script>
+    function showA() {
+        $("#step1").show();
+        $("#step2").show();
+    }
+    function showB() {
+        $("#step1").hide();
+        $("#step2").hide();
+    }
+
+    //购买奖券
+    function buy() {
+        var coinid = $("#coinid option:selected").val();
+        var num = $('#num').val();
+        var paypassword = $('#paypassword').val();
+
+        if (coinid == "" || coinid == null) {
+            layer.tips('请选择币种', '#coinid', {tips: 2});
+            return false;
+        }
+        if (num == "" || num == null) {
+            layer.tips('请输入购买数量', '#num', {tips: 2});
+            return false;
+        }
+        if (paypassword == "" || paypassword == null) {
+            layer.tips('请输入交易密码', '#paypassword', {tips: 2});
+            return false;
+        }
+        $.post("{#url('choujiang/buy')}", {
+            coinid: coinid,
+            num: num,
+            paypassword: paypassword
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                location.reload();
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+    $(function () {
+        var $hand = $('.hand');
+        $hand.click(function () {
+            $.post("{#url('choujiang/up')}", {}, function (data) {
+                if (data.status == 1) {
+                    $hand.stopRotate();
+                    $hand.rotate({
+                        angle: 0,
+                        duration: 5000,
+                        animateTo: data.url + 1440,
+                        callback: function () {
+                            layer.msg(data.info, {icon: 1});
+                            $('.hand').removeAttr("style");
+	                        setTimeout("location.reload()",1000);
+                        }
+                    });
+                } else {
+                    layer.msg(data.info, {icon: 2});
+                    if (data.url) {
+                        window.location = data.url;
+                    }
+                }
+            }, 'json');
+        });
+    });
+</script>
+<script>
+    if ($("#choujiang_box").length > 0) {
+        $('#choujiang_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}

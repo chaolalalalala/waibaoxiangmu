@@ -1,0 +1,231 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<style>
+	.my_body{
+		margin: 20px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+
+	.my_body ul,.my_title ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+
+	.my_body li input{
+		display: block;
+		-webkit-box-flex: 1;
+		background-color: rgba(255, 255, 255, 0);
+		outline: none;
+		color: #a59494;
+		height: 3rem;
+	}
+
+	.btn{
+		display: block;
+		color: #FFFFFF;
+		margin: 0 30px;
+		text-align: center;
+		border-radius: 8px;
+		height: 5rem;
+		line-height: 5rem;
+		background-color: #e55600;
+	}
+
+	.notice{
+		margin: 20px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.notice span{
+		height: 2rem;
+		line-height: 2rem;
+		color: #DADADA;
+	}
+
+	.my_body{
+		margin: 20px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+
+	.my_body ul,.my_title ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+	.my_body li{
+		border-radius: 2px;
+		margin: 1rem 0;
+		display: -webkit-box;
+		height: 2.2rem;
+		padding:0 0 0 0.5rem;
+		background-color: white;
+	}
+	.my_body li input{
+		display: block;
+		-webkit-box-flex: 1;
+		background-color: rgba(255, 255, 255, 0);
+		outline: none;
+		color: #a59494;
+		height: 2.2rem;
+		line-height:2.2rem;
+	}
+	.btn{
+		display: block;
+		color: #FFFFFF;
+		margin: 0 30px;
+		text-align: center;
+		border-radius: 8px;
+		height: 2.5rem;
+		line-height: 2.5rem;
+		background-color: #e55600;
+	}
+
+	.notice span{
+		height: 2rem;
+		line-height: 2rem;
+		color: #DADADA;
+	}
+	select{
+		color: #a59494;
+		display: block;
+		outline: none;
+		/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+
+		/*很关键：将默认的select选择框样式清除*/
+		appearance:none;
+		-moz-appearance:none;
+		-webkit-appearance: listbox;
+		/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+		padding-left:0.5rem;
+
+		background-color: #FFF;
+		height:2rem;
+		line-height: 2rem;
+		text-align: left;
+		border: 0;
+		width:100%;
+	}
+
+
+
+
+
+</style>
+<body>
+<div class="wrap">
+    <div id="show1">
+        <div class="my_body">
+
+            <span id="typelist" class="bankname">
+        <select name="bank" id="idcard_type" tapmod="">
+            <option value="1">身份证</option>
+            <option value="2">军官证</option>
+            <option value="3">护照</option>
+            <option value="4">台湾居民通行证</option>
+            <option value="5">港澳居民通行证</option>
+            <option value="6">其他</option>
+        </select>
+        </span>
+
+            <ul  class="trblBor">
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="truename" id="truename"
+                           type="text" placeholder="真实姓名" value="李小乔">
+                </li>
+            </ul>
+
+            <ul  class="trblBor">
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="idcard" id="idcard"
+                           type="text" placeholder="身份证号" value="420117199212214315">
+                </li>
+            </ul>
+
+        </div>
+        <div class="btn" tapmode="" onclick="submit()">提交</div>
+        <div  class="notice">
+            <ul>
+                <li>
+                    <span>温馨提示:</span>
+                    <span id="withdraw_notice">
+                        1.请务必补充完善个人真实信息<br>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+</body>
+<script type="text/javascript">
+
+    apiready = function(){
+        onerror = error_handel;
+
+        if (!Debug)
+        {
+            $("#truename").val('');
+            $("#idcard").val('');
+        }
+    }
+
+    function submit(){
+        var truename = $('#truename').val();
+        var idcard = $('#idcard').val();
+
+        var idcard_type = $('#idcard_type option').not(function(){ return !this.selected }).val();
+
+        if(!truename){
+            alert('请输入您的真实姓名');
+            return;
+        }
+
+        if(!idcard){
+            alert('请输入您的证件号码');
+            return;
+        }
+
+       loading("提交中……");
+        var parms = {
+            "idcardtype":idcard_type,
+            "truename":truename,
+            "idcard":idcard
+        };
+        alog("reg3 params");
+        alog(parms);
+        UserAjax('login/truename_up','post', parms,
+                function(ret){
+                 toast.hide();
+                    alog("注册第三步返回结果");
+                    alog(ret);
+                    if (ret.status == 1)
+                    {
+                        //第三步成功,返回登录界面
+                        art(ret.info);
+	              setTimeout(function() {
+		              backToHome()
+	              } ,1000)
+                    }else {
+                        art(ret.info);
+                    }
+                });
+    }
+
+</script>
+</html>

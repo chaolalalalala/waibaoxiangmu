@@ -1,0 +1,64 @@
+{include file="public:header"}
+<title>拍卖中心</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<body>
+<header  id="header"  class="aui-bar aui-bar-nav aui-bar-dark">
+	<a class="aui-pull-left" onclick="back();">
+		<span class="aui-iconfont aui-icon-left"></span>返回
+	</a>
+	<div id="title" class="aui-title">拍卖中心</div>
+    <a class="aui-pull-right aui-btn aui-btn-outlined" onclick="openMenu()">
+        <span class="aui-iconfont aui-icon-menu"></span>
+    </a>
+</header>
+<div class="aui-popup aui-popup-top-right" style="margin-top: 49px;min-width: 3rem;" id="top-right">
+
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/aui/aui-popup.js"></script>
+<script>
+	apiready = function(){
+		onerror       = error_handel;
+
+		var header    = $api.byId('header');
+		var width     = getWinWidth();
+		var headerPos = $api.offset(header);
+		var height    = getWinHight() - headerPos.h;
+
+
+		openFrame({
+			name: 'auction',
+			url: aurl('wap/app_auction/index'),
+			allowEdit : true,
+			bounces: false,
+			opaque: true,
+			reload: true,
+			vScrollBarEnabled: true,
+			hScrollBarEnabled:false,
+			rect: {
+				x: 0,
+				y: headerPos.h,
+				w: width,
+				h: height
+			}
+		});
+	}
+
+    function openMenu(){
+
+        var menu = createRightMenu(['拍卖记录','担保记录'],function (index){
+            if(index == 0){
+                open_win('auction_log_h','app_auction');
+            }
+            if(index == 1){
+                open_win('assure_log_h','app_auction');
+            }
+        });
+        $('#top-right').html(menu);
+        var popup = new auiPopup();
+        popup.show(document.getElementById("top-right"));
+    }
+
+</script>
+</html>

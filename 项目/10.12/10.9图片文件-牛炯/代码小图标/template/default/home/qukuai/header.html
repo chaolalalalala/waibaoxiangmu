@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>动说科技区块浏览器 - Home</title>
+
+
+    <link rel="apple-touch-icon" href="__HOME__/qukuai/img/icons/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="__HOME__/qukuai/img/icons/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="__HOME__/qukuai/img/icons/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="__HOME__/qukuai/img/icons/apple-touch-icon-144x144.png" />
+
+    <link rel="stylesheet" href="__HOME__/qukuai/css/normalize.css" />
+    <link rel="stylesheet" href="__HOME__/qukuai/css/boilerplate.css" />
+    <link rel="stylesheet" href="__HOME__/qukuai/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="__HOME__/qukuai/css/custom.css" />
+
+    <!--[if lt IE 9]>
+    <script src="__HOME__/qukuai/js/html5shiv.min.js"></script>
+    <![endif]-->
+    <script src="__HOME__/qukuai/js/modernizr-2.6.2.min.js"></script>
+    <script src="__HOME__/qukuai/js/jquery-1.11.1.min.js"></script>
+    <script src="__HOME__/qukuai/js/jquery.qrcode.min.js"></script>
+    <script src="__HOME__/qukuai/js/bootstrap.min.js"></script>
+    <script src="__HOME__/qukuai/js/general.lib.js"></script>
+    <script src="__HOME__/qukuai/js/core.lib.js"></script>
+    <script src="__HOME__/qukuai/js/plugins.js"></script>
+    <script src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+
+    <div class="navbar-inner">
+        <ul class="nav navbar-nav">
+            <li><a href="/qukuai" style="color: #085c9b;font-size: 26px;">BTC {#qklang('Block Explorer')}</a></li>
+
+            <li><a href="/qukuai">{#qklang('Home')}</a></li>
+            <li><a href="/qukuai/stats">{#qklang('Stats')}</a></li>
+            <li><a href="/qukuai/search">{#qklang('Search')}</a></li>
+            <li><a href="/qukuai/api">{#qklang('API')}</a></li>
+        </ul>
+
+
+        <!--向右对齐-->
+        <ul class="nav navbar-nav pull-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    {$lang_show}<b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" id="">
+                    <li><a href="javascript:chose_lang('en');">English</a></li>
+                    <li><a href="javascript:chose_lang('cn');">简体中文</a></li>
+                    <li><a href="javascript:chose_lang('hk');">繁体中文</a></li>
+                    <li><a href="javascript:chose_lang('jp');">日本語</a></li>
+                    <li><a href="javascript:chose_lang('spanish');">Español</a></li>
+                    <li><a href="javascript:chose_lang('german');">Deutsche</a></li>
+                </ul>
+            </li>
+        </ul>
+
+
+        <form class="navbar-search pull-right right_gap" method="get" action="/qukuai/search">
+            <input type="text" class="search-query" name="key" maxlength="99" placeholder="{#qklang('Search for block, tx or address')}">
+        </form>
+    </div>
+</div>
+
+

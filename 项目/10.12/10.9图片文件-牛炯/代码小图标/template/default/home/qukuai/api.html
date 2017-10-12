@@ -1,0 +1,78 @@
+{include file="header"}
+
+<div id="wrapper">
+
+    <h1>{#qklang('Query API')}</h1>
+    <hr/>
+
+    <div class="row-fluid">
+        <div class="span5">
+
+            <h3>{#qklang('Network Data')}</h3>
+            <p>
+                <a href="/qukuai/api?q=getdifficulty">getdifficulty</a>
+                - {#qklang('current mining difficulty')}<br/>
+                <a href="/qukuai/api?q=gethashrate">gethashrate</a>
+                - {#qklang('estimated hash rate')} (hash/s)<br/>
+                <a href="/qukuai/api?q=getblockcount">getblockcount</a>
+                - {#qklang('current block height')}<br/>
+                <a href="/qukuai/api?q=getlasthash">getlasthash</a>
+                - {#qklang('hash of latest block')}
+            </p>
+
+            <h3>{#qklang('Coin Data')}</h3>
+            <p>
+                <a href="/qukuai/api?q=blockreward">blockreward</a>
+                - {#qklang('current block reward')}<br/>
+                <a href="/qukuai/api?q=coinsupply">coinsupply</a>
+                - {#qklang('total coins mined')}<br/>
+                <a href="/qukuai/api?q=unminedcoins">unminedcoins</a>
+                - {#qklang('total unmined coins')}<br/>
+                <a href="/qukuai/api?q=runtime">runtime</a>
+                - {#qklang('time since first block (secs)')}
+            </p>
+
+            <h3>{#qklang('Transaction Data')}</h3>
+            <p>
+                <a href="/qukuai/api?q=txinput">txinput</a>/TxHash - {#qklang('total tx input value')}<br/>
+                <a href="/qukuai/api?q=txoutput">txoutput</a>/TxHash - {#qklang('total tx output value')}<br/>
+                <a href="/qukuai/api?q=txfee">txfee</a>/TxHash - {#qklang('tx fee value (inputs - outputs)')}<br/>
+                <a href="/qukuai/api?q=txcount">txcount</a> - {#qklang('number of tx,s in blockchain')}
+            </p>
+
+            <h3>{#qklang('Address Data')}</h3>
+            <p>
+                <a href="/qukuai/api?q=addressbalance">addressbalance</a>/Address/Confs - {#qklang('balance of address')}<br/>
+                <a href="/qukuai/api?q=addresslimit">addresslimit</a>/Address/Confs - {#qklang('withdrawal limit of address')}<br/>
+                <a href="/qukuai/api?q=addresslastseen">addresslastseen</a>/Address - {#qklang('block when address last used')}<br/>
+                <a href="/qukuai/api?q=addresscount">addresscount</a> - {#qklang('number of non-empty addresses')}
+            </p>
+
+            <h3>{#qklang('JSON Data')}</h3>
+            <p>
+                <a href="/qukuai/api?q=getinfo">getinfo</a> - {#qklang('general information')}<br/>
+                <a href="/qukuai/api?q=txinfo">txinfo</a>/TxHash - {#qklang('transaction information')}<br/>
+                <a href="/qukuai/api?q=addressinfo">addressinfo</a>/Address/Confs - {#qklang('address information')}<br/>
+                <a href="/qukuai/api?q=blockinfo">blockinfo</a>/BlockHash - {#qklang('block information')}
+            </p>
+
+        </div>
+        <div class="span7">
+
+            <h2>{#qklang('Usage')}</h2>
+
+            <p>{#qklang('The following example shows a correct URL for checking the balance of an address, disregarding transactions with less than 3 confirmations (the confirmation argument is always optional, the default value is 1). All other queries which take 1 or more arguments use the same arg1 and arg2 parameter names as shown below.')}</p>
+
+            <pre>/?q=addressbalance&amp;arg1=JVWEDHJGFDJHWGFDJMOVESAYCOMFDJHGWFDHHGDEW&amp;arg2=3</pre>
+
+            <p>{#qklang('Or if URL rewriting is active you can use this more friendly format')}:</p>
+
+            <pre>/q/addressbalance/GJHFHGJFCHJFJHHGFJMOVESAYCOMJGHVFJHVFGH/3</pre>
+
+        </div>
+    </div>
+
+
+</div>
+
+{include file="footer"}

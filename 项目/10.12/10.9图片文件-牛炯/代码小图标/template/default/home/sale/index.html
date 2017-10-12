@@ -1,0 +1,174 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/shop.css"/>
+<div class="autobox">
+	<div class="now">
+		<a href="/" class=""><i class="fa fa-home fa-lg move mr5"></i>{#lang('首页')}</a> &gt; {#lang('拍卖中心')}
+	</div>
+	<div class=" assets_content bg_w" style="min-height:30px;">
+		<div class="safe_center clear">
+			<h1>
+                <span>
+                    {#lang('拍卖中心')}
+                </span>
+                <span>
+                    <a href="{#url('sale/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('拍卖中心')}</a>
+                    <a href="{#url('sale/log')}" id="step2" class="step fz_12 ml20 pd6">{#lang('拍卖记录')}</a>
+                    <a href="{#url('sale/danbaolog')}" id="step3" class="step fz_12 ml20 pd6 " >{#lang('担保记录')}</a>
+                    <!--<a href="{#url('sale/fenhong')}" id="step4" class="step fz_12 ml20 pd6 ">{#lang('积分分红')}</a>-->
+                </span>
+                <span>
+                    {if $hints["value"]}
+                    <a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+                    {/if}
+                </span>
+			</h1>
+		</div>
+		<div id="hints" class="mytips" style="display:none;">
+			<script>
+				var hints = "{$hints['show']}";
+				if(hints == 1){
+					$('#hints').show();
+				}
+			</script>
+			{$hints["value"] nofilter}
+		</div>
+	</div>
+	<div class="mall_list_all ">
+		<div class="mall_screen mt10 bg_w mb10">
+            <!--一级菜单-->
+            <div class="mall_two_list mall_two_list1 clearfix" id="mall_types_list">
+                <em>商品分类：</em>
+                <ul class="clearfix" style="width: 1000px;margin-left: 10px;">
+                    {if $type=="0"}
+                    <li class="active" style="width: 80px" >
+                        {else}
+                    <li style="width: 80px">
+                        {/if}
+                        <a href="{#url('sale/index/type/0/sort/'.$sort)}">全部</a>
+                    </li>
+                    {foreach $sale_type1 as $k => $v}
+                    {if $type==$v['id']}
+                    <li class="active" style="width: 80px">
+                        {else}
+                    <li style="width: 80px">
+                        {/if}
+                        <a href="{#url('sale/index/type/'.$v['id'].'/sort/'.$sort)}">{$v['title']}</a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+            <!--二级菜单-->
+            {if $sale_type2 }
+            <div class="mall_two_list mall_two_list1 clearfix" id="mall_types_list2">
+                <ul class="clearfix" style="width: 1000px;margin-left: 109px">
+                    {if $type2=="0"}
+                    <li class="active" style="width: 80px" >
+                        {else}
+                    <li style="width: 80px">
+                        {/if} <a href="{#url('sale/index/type/'.$type.'/sort/'.$sort)}">全部</a>
+                    </li>
+                    {foreach $sale_type2 as $k => $v} {if $type2==$v['id']}
+                    <li class="active" style="width: 80px">
+                        {else}
+                    <li style="width: 80px">
+                        {/if} <a href="{#url('sale/index/type/'.$type.'/type2/'.$v['id'].'/sort/'.$sort)}">{$v['title']}</a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+            {/if}
+            <!--三级菜单-->
+            {if $sale_type3}
+            <div class="mall_two_list mall_two_list1 clearfix" id="mall_types_list3">
+                <ul class="clearfix" style="width: 1000px;margin-left: 109px">
+                    {if $type3=="0"}
+                    <li class="active" style="width: 80px" >
+                        {else}
+                    <li style="width: 80px">
+                        {/if} <a href="{#url('sale/index/type/'.$type.'/type2/'.$type2.'/sort/'.$sort)}">全部</a>
+                    </li>
+                    {foreach $sale_type3 as $k => $v}
+                    {if $type3==$v['id']}
+                    <li class="active" style="width: 80px">
+                        {else}
+                    <li style="width: 80px">
+                        {/if}
+                        <a href="{#url('sale/index/type/'.$type.'/type2/'.$type2.'/type3/'.$v['id'].'/sort/'.$sort)}">{$v['title']}</a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+            {/if}
+            <!--sort分类-->
+            <div class="mall_sort">
+                <em>商品排序：</em>
+				<ul id="sort_list">
+					{if $sort!=0}
+					<li>
+						{else}
+					<li class="active">
+						{/if} <a href="{#url('sale/index/type/'.$type.'/$type2/'.$type2.'/$type3/'.$type3.'/sort/0')}">综合排序<i class="fa fa-angle-down"></i></a></li>
+					{if $sort==1}
+					<li class="active">
+						{else}
+                    <li>
+						{/if} <a href="{#url('sale/index/type/'.$type.'/$type2/'.$type2.'/$type3/'.$type3.'/sort/1')}">起拍价<i class="fa fa-angle-down"></i></a></li>
+					{if $sort=="2"}
+					<li class="active">
+						{else}
+                    <li>
+						{/if} <a href="{#url('sale/index/type/'.$type.'/$type2/'.$type2.'/$type3/'.$type3.'/sort/2')}">新品<i class="fa fa-angle-down"></i></a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="mall_all_lieb mall_list_shopp clearfix bg_w" >
+			<div class="mall_shopp mall_shopp1 mall_list_shopp1 mb20" id="goods_list" style="overflow: hidden; display: block;    width: 1200px;">
+				{foreach $pages['list'] as $k => $v}
+				<div class="mall_list_xl mall_list_xl1" id="{$v['id']}">
+					<a href="{#url('sale/view/id/'.$v['id'])}">
+						<p class="mall_list_p" style="margin-left: 9px">
+							<img src="__UP__/{$v['img']}">
+						</p><p class="mall_list_p1" style="margin-top: -10px">
+						{$v['name']}</p>
+                        <p class="mall_list_p2">{$v['title']}</p>
+                        {if  $v["status"]==1}
+                        <p class="mall_list_p3">开始时间:{#addtime($v['strtime'])}</p>
+                        <p class="mall_list_p3"><label>起拍价:{#num($v['minprice'])}</label> {$v['cointitle']}</p>
+                        {else if $v["status"]==2}
+                        <p class="mall_list_p3"><label>当前价:{#num($v['price'])}</label> {$v['cointitle']}</p>
+                        <p class="mall_list_p3">结束时间:{#addtime($v['endtime'])}</p>
+                        {else if $v["status"]==3 || $v["status"]==4}
+                        <p class="mall_list_p3"><label>成交价:{#num($v['price'])}</label> {$v['cointitle']}</p>
+                        <p class="mall_list_p3">结束时间:{#addtime($v['endtime'])}</p>
+                        {/if}
+					</a>
+				</div>
+				{/foreach}
+			</div>
+			<div class="mall_pager mt20">
+				<div class="main_c_list_page">
+					<div class="pages">{$pages['show'] nofilter}</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<script>
+	// 展开更多商品分类
+	$('#mall_qk1').toggle(function () {
+		$('#mall_types_list').css('height', 'auto');
+	}, function () {
+		$('#mall_types_list').css('height', '50px');
+	});
+</script>
+
+<script>
+	if ($("#sale_box").length > 0) {
+		$('#sale_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

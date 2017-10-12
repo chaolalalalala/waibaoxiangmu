@@ -1,0 +1,235 @@
+{include file="public:header"}
+<title></title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+	<style>
+		span{
+			color:#a59494;
+		}
+		.my_body{
+			margin: 20px;
+			border-radius: 8px;
+			padding: 0 10px;
+			line-height: 30px;
+		}
+		.my_body ul,.my_title ul{
+			position: relative;
+			padding-left: 0;
+			margin-top: 0;
+			list-style: none;
+			-moz-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+		}
+		.my_body li input{
+			display: block;
+			-webkit-box-flex: 1;
+			background-color: rgba(255, 255, 255, 0);
+			outline: none;
+			color: #666;
+			height: 3rem;
+		}
+		select{
+			color: #666;
+			display: block;
+			outline: none;
+			/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+			/*很关键：将默认的select选择框样式清除*/
+			appearance:none;
+			-moz-appearance:none;
+			-webkit-appearance: listbox;
+			/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+			padding-right: 14px;
+			background-color: #FFF;
+			height:4rem;
+			line-height: 4rem;
+			text-align: left;
+			border: 0;
+		}
+		.btn{
+			display: block;
+			color: #FFFFFF;
+			margin: 0 30px;
+			text-align: center;
+			border-radius: 8px;
+			height: 5rem;
+			line-height: 5rem;
+			background-color: #e55600;
+		}
+		#coin_type{
+			margin:1rem 0;
+			width: 100%;
+		}
+        .my_body{
+            margin: 20px;
+            border-radius: 8px;
+            padding: 0 10px;
+            line-height: 30px;
+        }
+        .my_body ul,.my_title ul{
+            position: relative;
+            padding-left: 0;
+            margin-top: 0;
+            list-style: none;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+        }
+        .my_body li{
+            border-radius: 2px;
+            margin: 1rem 0;
+            display: -webkit-box;
+            height: 2.2rem;
+            padding:0 0 0 0.5rem;
+            background-color: white;
+        }
+        .my_body li input{
+            display: block;
+            -webkit-box-flex: 1;
+            background-color: rgba(255, 255, 255, 0);
+            outline: none;
+            color: #666;
+            height: 2.2rem;
+            line-height:2.2rem;
+        }
+        .btn{
+            display: block;
+            color: #FFFFFF;
+            margin: 0 30px;
+            text-align: center;
+            border-radius: 8px;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            background-color: #e55600;
+        }
+        .notice span{
+            height: 2rem;
+            line-height: 2rem;
+            color: #AFB4BD;
+        }
+        select{
+            color: #666;
+            display: block;
+            outline: none;
+            /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+            /*很关键：将默认的select选择框样式清除*/
+            appearance:none;
+            -moz-appearance:none;
+            -webkit-appearance: listbox;
+            /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+            padding-left:0.5rem;
+	        background-color: #FFF;
+            height:2rem;
+            line-height: 2rem;
+            text-align: left;
+            border: 0;
+            width:100%;
+        }
+	</style>
+</head>
+<body>
+<div class="wrap">
+	<div id="show1">
+		<div class="my_body">
+			<select name="coin" id="coin_type" tapmod="">
+				<option value="">--选择市场--</option>
+			</select>
+			<select name="trade" id="trade_type" tapmod="">
+			　　<option value="" tapmod="">--选择买卖方式--</option>
+				<option value="1" tapmod="">买入</option>
+				<option value="2" tapmod="">卖出</option>
+			</select>
+			<ul>
+				<li>
+					<input tapmod="" onclick="_focus(this)" name="price" id="price" type="number"
+					       placeholder="委托价格">
+				</li>
+				<li>
+					<input tapmod="" onclick="_focus(this)" name="num" id="num"
+					       type="number" placeholder="委托数量">
+				</li>
+				<li>
+					<input tapmod="" onclick="_focus(this)" name="paypassword" id="paypassword"
+					       type="password" placeholder="交易密码">
+				</li>
+			</ul>
+		</div>
+		<div class="btn" tapmode="" onclick="up()">确认转出</div>
+	</div>
+</body>
+<script>
+	apiready = function() {
+		onerror = error_handel;
+		get_type();
+	}
+	function get_type(){
+		var coin_type=memObj('weituo_market');
+        if ( typeof coin_type == 'undefined' || typeof coin_type == 'null') {
+            alog("币种信息缓存不存在");
+            return;
+        }
+		for ( var i in coin_type){
+	   var	opt="<option value="+coin_type[i].name+">"+coin_type[i].title+"</option>"
+		    $("#coin_type").append(opt)
+		}
+	}
+
+	function up(){
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			return false;
+		}
+		var  type = $('#trade_type option').filter(function(){return this.selected}).val();
+		var  market = $('#coin_type option').filter(function(){return this.selected}).val();
+		var  num = $("#num").val();
+		var  price = $("#price").val();
+		var paypassword = $("#paypassword").val();
+		if(!market){
+			art("请选择市场")
+		   return;
+		}
+		if(!type){
+			art("请选择买卖方式")
+			return;
+		}
+		if(!price){
+			art("请填写价格")
+			return;
+		}
+		if(!(isInteger(num))) {
+			art("请填写正确的数量")
+			return;
+		}
+		if(!paypassword){
+			art("请填写交易密码");
+			return;
+		}
+		loading("提交中……")
+		UserAjax('bazaar/up', 'post', {
+			"type": type,
+			"market":market,
+			"price":price,
+			"num": num,
+			"paypassword": paypassword,
+		}, function (ret) {
+			toast.hide()
+			art(ret)
+			if (ret.status == 1) {
+				art(ret.info);
+				clean_view();
+			}
+			else {
+				art(ret.info)
+			}
+		}, "json");
+	}
+
+	//清空页面
+	function clean_view(){
+		$('#coin_type option').first().prop("selected","selected");
+		$('#trade_type option').first().prop("selected","selected");
+		$('#num').val(null);
+		$('#price').val(null);
+		$('#paypassword').val(null);
+	}
+</script>
+</html>

@@ -1,0 +1,612 @@
+{include file="public:top"}
+<link rel="stylesheet" href="/static/default/home/css/duobao.css">
+<script src="/static/default/home/js/duobao/a.js"></script>
+<style>
+	/* S 圣诞 */
+	.pullDownList, .yMenuListCon{
+		display:none
+	}
+
+	body > img{
+		width:40px;
+		height:40px;
+		z-index:200 !important;
+	}
+
+	.po_rel{
+		position:relative;
+	}
+
+	.ch_line{
+		position:absolute;
+		left:0;
+		top:120px;
+		z-index:10;
+		width:100%;
+		height:9px;
+		background:url("/static/default/home/img/duobao/ch_line.png") repeat-x;
+	}
+
+	.ch_lu{
+		background:rgba(0, 0, 0, 0) url("/static/default/home/img/duobao/ch_lu.png") no-repeat scroll 0 0;
+		display:block;
+		height:112px;
+		position:absolute;
+		right:-124px;
+		top:30px;
+		width:125px;
+	}
+
+	@media screen and (max-width:1440px){
+		.ch_left, .ch_right{
+			display:none;
+		}
+		.news_footer_l{
+			display:none;
+		}
+	    .news_footer_r{
+		    display:none;
+	    }
+
+	}
+
+	/* E 圣诞 */
+
+	.Left-fixed-divs{
+		/*2015 8 18*/
+		display:none; /*2015 8 18 end*/
+	}
+
+	.news_loading{
+		width:368px;
+		height:376px;
+		text-align:center;
+	}
+
+	.expose_loading{
+		width:771px;
+		height:411px;
+		text-align:center;
+		border:1px solid #DDD;
+	}
+
+	.addtime_loading{
+		width:1208px;
+		height:581px;
+		text-align:center;
+		border:1px solid #DDD;
+	}
+
+	.x_addtime_loading{
+		border:none;
+	}
+
+	/*2015 9 16*/
+
+	.y_new_index_Center{
+		height:639px;
+	}
+
+	.y_new_index_Center .yConCenterIn{
+		height:583px;
+	}
+
+	.y_new_index_Center .w_goods_one{
+		width:1210px;
+	}
+
+	.y_new_index_Center.x_new_index_Center .w_goods_one{
+		width:906px;
+		float:right;
+	}
+
+	.y_new_index_Center .yConCenterInList{
+		height:583px;
+	}
+
+	.y_new_index_Center .w_goods_details{
+		height:260px;
+	}
+
+	/* 2015 12 21 */
+	.yCon h2{
+		margin-top:0px;
+		padding-top:15px;
+	}
+
+	.header2 #ww_span{
+		/*background:url(/static/img/front/index/newyear_2016/yuandan2_2016.jpg) no-repeat left bottom;*/
+		display:block;
+		width:260px;
+		height:40px;
+		background-size:260px;
+		position:absolute;
+		left:-14px;
+		bottom:0px;
+	}
+
+	/*  .sd_yContent {
+		background: url(/static/img/front/index/newyear_2016/yuandan_2016.jpg)
+			no-repeat center 0px;
+	}  */
+	/*S 底部浮条样式   2015-12-28*/
+	.w_bottomImg{
+		position:fixed;
+		bottom:0px;
+		left:0px;
+		width:100%;
+		height:147px;
+		/*background:url(/static/img/front/index/bimg.png) no-repeat center 0;*/
+		z-index:5;
+	}
+
+	.w_bottomGif{
+		width:1200px;
+		height:100%;
+		margin:0px auto;
+		position:relative;
+	}
+
+	.w_bottomGif img{
+		position:absolute;
+		top:-64px;
+		left:200px;
+	}
+
+	.w_bottomGif .w_closs{
+		width:60px;
+		height:60px;
+		background:#000;
+		filter:alpha(opacity=50);
+		-moz-opacity:0.5;
+		-khtml-opacity:0.5;
+		opacity:0.5;
+		position:absolute;
+		right:-4px;
+		top:-60px;
+	}
+
+	.w_closs span{
+		display:block;
+		width:40px;
+		height:40px;
+		/*background:url(/static/img/front/index/closs.png) no-repeat center center;*/
+		margin:10px;
+	}
+
+	@media screen and (max-width:1200px){
+		.move-self{
+			margin-left:-330px;
+		}
+		.news_dl_l{
+			display:none;
+		}
+		.news_dl_r{
+			display:none;
+		}
+
+		.guanjianzi{
+			margin-left:1128px;
+		}
+
+		.ch_lu{
+			display:none;
+		}
+
+		.ch_ren{
+			display:none;
+		}
+
+		.header{
+			/*width:1300px;*/
+			/*border:1px solid red;*/
+		}
+
+		.yConNew ul li.yTimesLi{
+			width:346px;
+		}
+
+		.yContent{
+			margin-left:-60px;
+			width:1339px;
+			/*border:2px solid blue;*/
+		}
+
+		#modules{
+			width:1400px;
+
+		}
+
+		.yConCenterIn{
+			margin-left:-33px;
+		}
+
+		.yCon h2{
+			margin-left:-35px;
+		}
+
+		#footer{
+			width:1395px;
+		}
+
+		.footer_bottom{
+			width:1395px;
+		}
+
+		.user-status{
+			margin-right:-196px;
+
+		}
+
+		.trade-status{
+			margin-left:11px;
+
+		}
+
+		.trade-status li{
+			margin-left:12px;
+		}
+
+		.banner .img li img{
+
+		}
+
+		.yNavIndexOut{
+			width:1400px;
+		}
+
+		.submit_quan{
+			right:-382px;
+		}
+
+		.yCon h2{
+			width:1349px;
+			margin-left:-73px;
+		}
+
+		.yCon .x_left_line{
+			margin-bottom:15px;
+			width:1379px;
+			margin-left:-6px;
+		}
+
+		.wrap{
+			left:11px;
+		}
+
+	}
+</style>
+
+</head>
+<body class="po_rel" onselectstart="return false">
+<style>
+	.loginContent{
+		padding:0px 0 0;
+	}
+
+	.loginContent form{
+		padding-top:30px;
+	}
+
+	/* S 2015-11-30 新增  */
+	.a_login_register_box{
+
+		height:375px;
+
+	}
+
+	.ygqq_b{
+		background:#E7E7E7 none repeat scroll 0 0;
+		display:block;
+		float:left;
+		height:1px;
+		margin-top:7px;
+		width:107px;
+	}
+
+	@media screen and (max-width:1200px){
+		.header2{
+			margin-left:3px;
+		}
+
+		.nav1{
+			margin-left:-311px;
+		}
+
+
+		.yCon h2 .yMoreLink{
+		}
+
+		.yCon .x_left_line a.x_choose_title{
+		}
+
+		.w_goods_details{
+			width:346px;
+		}
+
+		.yConCenterIn{
+			margin-left:-92px;
+		}
+
+	}
+</style>
+<script>
+	var userMId = '';
+</script>
+<script>
+	$(function () {
+
+
+
+//		轮播图js
+		var i = 0;
+
+		var clone = $(".img li").first().clone();//克隆第一张图片
+
+		$(".banner .img").append(clone);
+
+
+		var size = $(".img li").size();//5
+
+		for (var j = 0; j < size - 1; j++) {
+
+			$(".banner .num").append('<li></li>');
+
+		}
+
+		$(".banner .num li").first().addClass("on");
+
+
+		$(".num li").hover(function () {
+
+			var index = $(this).index();
+			i         = index;
+			$(".banner .img").stop().animate({left: -index * 1920}, 300);
+			$(this).addClass("on").siblings().removeClass("on");
+
+		});
+
+		var t = setInterval(autoL, 4000);
+
+		$(".banner").hover(function () {
+
+			clearInterval(t);
+
+
+		}, function () {
+
+			t = setInterval(autoL, 2000);
+
+
+		})
+
+
+		function autoR() {
+			i++;
+
+			if (i == size) {
+
+				$(".banner .img").css({left: 0});
+				i = 1;
+			}
+
+
+			$(".banner .img").stop().animate({left: -i * 1920}, 300);
+
+			if (i == size - 1) {
+
+				$(".banner .num li").eq(0).addClass("on").siblings().removeClass("on");
+
+			} else {
+
+				$(".banner .num li").eq(i).addClass("on").siblings().removeClass("on");
+			}
+
+
+		}
+
+		function autoL() {
+
+			i--;
+
+			if (i == -1) {
+				$(".banner .img").css({left: -(size - 1) * 1920});
+
+				i = size - 2;
+
+			}
+
+
+			$(".banner .img").stop().animate({left: -i * 1920}, 300);
+			$(".banner .num li").eq(i).addClass("on").siblings().removeClass("on");
+
+		}
+
+		$(".banner .btn_l").click(function () {
+
+
+			autoL();
+
+		})
+
+		$(".banner .btn_r").click(function () {
+
+			autoR();
+
+
+		})
+
+
+	});
+</script>
+<input type="hidden" id="mid" value=""> <input type="hidden" id="signTime" value="">
+<input type="hidden" id="signDays" value="">
+<div style="width:1200px;    margin: 0px auto;">
+<div class="logo" style="margin-top: 12px;">
+	{if $config['web_logo']} <a href="/"><img src="__UP__/{$config['web_logo']}" alt=""/></a> {else}
+	<a href="/" class="xiaozhu-logo"> <i class="move-self move-logo2 move"></i> </a> {/if}
+</div>
+	<!--搜索商品-->
+	<form action="/duobao/lists" class="search1" method="get" style="float: right;">
+	<div class="pull-left g-taskmaininp hidden-xs">
+		<input type="text" name="keyword" class="guanjianzi" placeholder="{#lang('搜索商品')}" style="    width: 300px;
+    margin-left: 0px;
+    float: right;
+    margin-top: 23px;">
+	</div>
+		<button type="submit" class="submit_quan" style="right: 9px;top: 43px;"></button>
+
+</form>
+</div>
+<div style="clear:both;"></div>
+<!--{#dump($banner)}-->
+<div class="yNavIndexOut">
+	<!--轮播图-->
+	<!--{#dump($banner)}-->
+	<!--&lt;!&ndash;<div class="news_dl_l"></div>&ndash;&gt;鸡年新春图片-->
+	<!--<div class="news_dl_r"></div>-->
+	<!--<div class="news_footer_l"></div>-->
+	<!--<div class="news_footer_r"></div>-->
+	<div class="banner">
+		<ul class="img">
+			{foreach $banner as $k=>$v}
+			{if $v['url']}
+			<li><a href="{$v['url']}"><img src="__UP__/{$v['img']}" alt=""></a></li>
+			{else}
+			<li><a href="http://www.movesay.com/"><img src="__UP__/{$v['img']}" alt=""></a></li>
+			{/if}
+			{/foreach}
+		</ul>
+		<ul class="num">
+		</ul>
+		<div class="btn btn_l" >&lt;</div>
+		<div class="btn btn_r" >&gt;</div>
+
+	</div>
+	<!--右侧展开-->
+	<div class="wrap">
+		<div class="product">
+			{#lang('全部商品分类')}
+		</div>
+		<div class="all-sort-list">
+			{foreach $typelist1 as $k=>$v}
+			<div class="item">
+				<h3>
+					<a href="{#url('duobao/lists/type/'.$v['id'].'/type1/0/type2/0/sort/0')}" class="yiji">{$v['title']}</a>
+				</h3>
+				<div class="item-list clearfix">
+					<div class="close">x</div>
+					<div class="subitem">
+						{foreach $v['pid_list'] as $k=>$v1}
+						<dl class="fore1">
+							<dt>
+								<a href="{#url('duobao/lists/type/'.$v['id'].'/type1/'.$v1['id'].'/type2/0/sort/0')}" class="second">{$v1['title']}</a>
+							</dt>
+							<dd>
+								{foreach $v1['pid_list'] as $k=>$v2}
+								<em class="em_a">
+									<a href="{#url('duobao/lists/type/'.$v['id'].'/type1/'.$v1['id'].'/type2/'.$v2['id'].'/sort/0')}">{$v2['title']}</a>
+								</em>
+								{/foreach}
+							</dd>
+						</dl>
+						{/foreach}
+					</div>
+				</div>
+			</div>
+			{/foreach}
+
+		</div>
+	</div>
+</div>
+<!--{#dump($new)}-->
+<!--最新揭晓-->
+<div class="sd_yContent">
+	<div class="yContent">
+		<div class="yConNew yCon" style="position: relative;">
+			<div class="ch_lu"></div>
+			<div class="ch_ren"></div>
+			<!--E 圣诞-->
+			<!--E sd2015 -->
+			<h2 class="x_left_line">
+				<a href="/duobao/lists" class="x_choose_title x_choose_border x_add_color">{#lang('最新揭晓')}</a>
+				<a href="/duobao/lists" class="yMoreLink" id="topMore" target="_blank">{#lang('更多')}<em></em></a>
+			</h2>
+			<div class="yConulout">
+				<div class="module_loading j_choose_con" id="publishBeing" style="display:block;">
+					<ul>
+						{foreach $new as $k=>$v}
+						<li class="yTimesLi" id="publish_3829_170106123052820">
+							<dl class="yTimesDl">
+								<dd class="yddImg">
+									<a href="/duobao/details/id/{$v['id']}" target="_blank"><img class="lazy_publish" style="height: 188px; width: 188px; display: block;" src="__UP__/{$v['img']}"></a>
+								</dd>
+								<dd class="yddName">
+									<a href="/duobao/details/id/{$v['id']}" target="_blank">{$v['name']}</a>
+								</dd>
+								<dd class="yTimes" id="yTimes_3829_170106123052820">
+									<p>
+										<span class="number">{#lang('中奖号码')}:</span><span class="num">{$v['jianghao']}</span>
+									</p>
+								</dd>
+							</dl>
+							<strong></strong></li>
+						{/foreach}
+					</ul>
+				</div>
+				<div class="module_loading j_choose_con" id="publishResult" style="display: block;">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--商品展示-->
+<div id="modules">
+	{foreach $data as $k=>$val} {if $val["c"]}
+	<div class="yCon yCon0 yConCenter">
+		<h2>
+			<a href="{#url('duobao/lists/type/'.$val['b']['id'].'/type1/0/type2/0/sort/0')}" class="yCon-title" id="module_1_name" target="_blank">{$val['b']['title']}</a>
+			<a href="{#url('duobao/lists/type/'.$val['b']['id'].'/type1/0/type2/0/sort/0')}" class="yMoreLink" id="module_1_more" target="_blank" style="top: 0px;">{#lang('更多')}
+				<em></em></a>
+			<ul id="module_1_child_nav">
+				{foreach $val["a"] as $v}
+				<li data-index="0" data-cid="9" data-id="28">
+					<a href="{#url('duobao/lists/type/'.$val['b']['id'].'/type1/'.$v['id'].'/type2/0/sort/0')}" class="yhoversH1List">{$v['title']}</a>
+				</li>
+				{/foreach}
+			</ul>
+		</h2>
+		<div class="yConCenterIn" id="module_1_child_html">
+			<div class="yConCenterInList" style="display: block;">
+				<ul class="w_goods_one">
+					{foreach $val["c"] as $vv}
+					<li class="w_goods_details x_goods_details">
+						<div class="w_imgOut">
+							<a target="_blank" href="/duobao/details/id/{$vv['id']}" class="w_goods_img x_action"><img id="img_1499" src="__UP__/{$vv['img']}"></a>
+						</div>
+						<a target="_blank" href="/duobao/details/id/{$vv['id']}" class="w_goods_three">{$vv['title']}</a><b>{#lang('总需')}：{$vv["mum"]}</b>
+						<div class="w_line x_new_line">
+							<span style="width:{#round($vv['getnum']/$vv['mum']*100,2)}%"></span></div>
+						<ul class="w_number">
+							<li class="w_amount">{$vv['getnum']}</li>
+							<li class="w_amount">{$vv['mum']}</li>
+							<li class="w_amount">{$vv['neednum']}</li>
+							<li>{#lang('已参与')}</li>
+							<li>{#lang('总需人数')}</li>
+							<li>{#lang('剩余')}</li>
+						</ul>
+						<dl class="w_rob">
+							<dd>
+								<a href="/duobao/details/id/{$vv['id']}" class="w_slip">{#lang('立即夺宝')}</a><a class="w_slip2"></a><input type="hidden" id="priceArea_1499" value="1">
+							</dd>
+						</dl>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+	</div>
+	{/if} {/foreach}
+</div>
+<!--最新揭晓-->
+{include file="public:footer"}

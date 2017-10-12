@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+    }
+    html,body{
+        user-select: none;
+        height: 960px;
+    }
+    ul,li{
+        list-style: none;
+    }
+    .con{
+        width:600px;
+        height: 400px;
+        margin: 0 auto;
+        /*background: red;*/
+    }
+    .banner{
+        width:600px;
+        height:400px;
+        float: left;
+        position: relative;
+        cursor: pointer;
+    }
+    .banner .box li{
+        transition: 1s;
+        width:600px;
+        height: 400px;
+        position: absolute;
+        left: 0;
+        top:0;
+        opacity: 0;
+    }
+    .banner .box li img{
+        display: block;
+        width: 600px;
+        height: 400px;
+    }
+
+    .banner .btn{
+    }
+    .banner .btn  li{
+        width:18px;
+        height: 18px;
+        border-radius: 50%;
+        float: left;
+        margin-left: 5px;
+        background: #bebbb1;
+    }
+    .banner .btn .active{
+        background: #000;
+        opacity: 0.5;
+    }
+    .left{
+        width: 40px;
+        height: 60px;
+        position: absolute;
+        left: 0;
+        top:180px;
+        background: #fff;
+        text-align: center;
+        line-height: 60px;
+        font-size: 40px;
+        z-index: 6;
+        background: #79796c;
+    }
+    .right{
+        width: 40px;
+        height: 60px;
+        position: absolute;
+        right: 0;
+        top:180px;
+        background: #fff;
+        text-align: center;
+        line-height: 60px;
+        font-size: 40px;
+        z-index: 6;
+        background: #79796c;
+    }
+    .tops{
+        width:100%;
+        height: 40px;
+        position: fixed;
+        left: 0;
+        top:-40px;
+        background: red;
+        transition: all 1s;
+    }
+    .celan{
+        width:0px;
+        height:0px;
+        position: fixed;
+        left: 50%;
+        bottom:0;
+        margin-left:-660px ;
+        background: #effffc;
+        text-align: center;
+        line-height: 100px;
+        font-size: 15px;
+        overflow: hidden;
+        cursor: pointer;
+    }
+    .celan .conm1:nth-child(1).active{
+        background: red;
+    }
+    .celan .conm2:nth-child(2).active{
+        background: pink;
+    }
+    .celan .conm3:nth-child(3).active{
+        background: blue;
+    }
+    .celan .conm4:nth-child(4).active{
+        background: #00ff00;
+    }
+    .celan .conm5:nth-child(5).active{
+        background: yellow;
+    }
+    .conm1,.conm2,.conm3,.conm4,.conm5{
+        width:60px;
+        height:50px;
+        float: left;
+        margin-top: 20px;
+        /*background: #2c44ff;*/
+        text-align: center;
+        line-height: 100px;
+        font-size: 15px;
+        line-height: 50px;
+        text-align: center;
+    }
+    .zhiding{
+        width:60px;
+        height:50px;
+        background: #ffe0cd;
+        text-align: center;
+        line-height: 100px;
+        font-size: 15px;
+        float: left;
+        margin-top: 30px;
+        line-height: 50px;
+        text-align: center;
+    }
+    .con1{
+        width: 100%;
+        height: 600px;
+        border:1px solid #ff9e5e;
+        float: left;
+        margin-top: 40px;
+        font-size: 50px;
+        text-align: center;
+    }
+    .con2{
+        width: 100%;
+        height: 600px;
+        border:1px solid #54fff8;
+        float: left;
+        margin-top: 40px;
+        font-size: 50px;
+        text-align: center;
+    }
+    .con3{
+        width: 100%;
+        height: 600px;
+        border:1px solid #ffe245;
+        float: left;
+        margin-top: 40px;
+        font-size: 50px;
+        text-align: center;
+    }
+    .con4{
+        width: 100%;
+        height: 600px;
+        border:1px solid #ff53e2;
+        float: left;
+        margin-top: 40px;
+        font-size: 50px;
+        text-align: center;
+    }
+    .con5{
+        width: 100%;
+        height: 600px;
+        border:1px solid #5bff20;
+        float: left;
+        margin-top: 40px;
+        font-size: 50px;
+        text-align: center;
+    }
+</style>
+<style>
+    .con{
+        width: 100%;
+        height:100%;
+    }
+    .banner{
+        width: 100%;
+        height:100%;
+    }
+    .box{
+        width: 100%;
+        height:100%;
+    }
+    .box li{
+        width: 100%;
+        height:100%;
+    }
+    .banner .box .active{
+        opacity: 1;
+        z-index: 3;
+    }
+</style>
+<body>
+    <div class="con">
+        <div class="banner">
+            <ul class="box">
+                <li class="active"><a href="##"><img src="ban1.jpg" alt="" ></a></li>
+                <li><a href="##"><img src="ban5.jpg" alt=""></a></li>
+                <li><a href="##">
+                    <video  id="myvideo" width="100%" height="100%" style="width: 100%;height:100%;object-fit:fill" >
+                        <source src="http://www.zjzx168.com/mcsp/xcp.mp4 " type="video/mp4" />
+                    </video>
+                </a></li>
+            </ul>
+            <ul class="btn">
+                <li class="active"></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+<script>
+    if (window.innerHeight)
+        winHeight = window.innerHeight;
+    else if ((document.body) && (document.body.clientHeight))
+        winHeight = document.body.clientHeight;
+    console.log(winHeight)
+</script>
+<script src="jQuery.js"></script>
+<script src="animate.js"></script>
+<script>
+    $(".btn li").click(function () {
+        num=index;
+        $(".btn li").filter(".active").removeClass("active").end().filter(this).addClass("active")
+        var index=$(this).index();
+        $(".banner .box li").filter(".active").removeClass("active").end().eq(index).addClass("active")
+    })
+    var btns= $(".btn li");
+    var t=setInterval(move,2000)
+    var num=0;
+    function move()
+    {
+        num++;
+        if(num>btns.length-1){
+            num=0;
+        }
+        if(num<0){
+            num=btns.length-1;
+        }
+        btns.filter(".active").removeClass("active").end().eq(num).addClass("active");
+        $(".banner .box li").filter(".active").removeClass("active").end().eq(num).addClass("active")
+        if(num==btns.length-1){
+            clearInterval(t);
+            document.querySelector('#myvideo').play();
+            var xxx=document.querySelector('#myvideo').ended;
+            console.log(xxx)
+            document.querySelector('#myvideo').onended=function () {
+                t=setInterval(move,2000)
+            }
+        }
+    }
+</script>
+</html>

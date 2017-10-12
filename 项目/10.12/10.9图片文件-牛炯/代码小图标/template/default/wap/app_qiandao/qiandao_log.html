@@ -1,0 +1,189 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+	.my_body{
+		margin: 10px 10px 10px 10px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background-color: #FFF;
+	}
+	.bank_title{
+		margin: 0 0 0 1rem;
+		height: 3rem;
+		line-height: 3rem;
+	}
+	.bank_title img{
+		height: 1.6rem;
+		margin: 0.7rem 1rem 0 0;
+		vertical-align: middle;
+		float: right;
+	}
+	.bank_body{
+		margin: 0 0 0 1rem;
+	}
+	.bank_body span{
+		display: block;
+	}
+	.bank_body .g{
+		color: gray;
+	}
+	.red{
+		color: #e55600;
+	}
+    .licaiItem {
+        padding-bottom: .625rem;
+    }
+</style>
+<body>
+<section class="aui-refresh-content">
+<div class="wrap">
+	<div class="my_body">
+        <div id="licai_list" style="margin-top: 0.5rem">
+        </div>
+  </div>
+</div>
+</section>
+<div class="aui-content-padded" style="position: fixed;bottom: 0;right: 0;">
+    <p><div class="aui-btn aui-btn-info" onclick="signNow()" style="width: 100%;line-height: 1.5rem">立刻签到</div></p>
+</div>
+<script id="licai_list-temp" type="text/x-dot-template">
+	{{? it.length>0 }}
+	{{ for (var i in it){ }}
+    <ul class="aui-border licaiItem">
+        <li class="bank_title aui-border-b">
+            <span class="red">{{=it[i].addtime}}</span>
+        </li>
+        <li class="bank_body">
+            <span class="g">连续签到天数:<em>{{=it[i].day}}</em></span>
+            <span class="g">累计签到天数:<em>{{=it[i].num}}</em></span>
+            <span class="g">签到奖励:<em><br>{{=it[i].remark}}</em></span>
+        </li>
+    </ul>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{?}}
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript">
+    var pid = 1;
+    apiready = function () {
+        onerror = error_handel;
+        requestData();
+    }
+
+    function createView () {
+        alog("更新界面");
+        var data = arguments[0];
+        if (typeof data == 'undefined') {
+            art("createView参数错误");
+            return;
+        }
+        alog(data);
+        var licaiList_temp = doT.template($("#licai_list-temp").html());
+        if (pid == 1)
+        {
+            //第一页 -- 覆盖
+            $('#licai_list').html(licaiList_temp(data.list));
+        }
+        else if( data.list.length > 0){
+            //非第一页且有数据 -- 追加
+            $('#licai_list').html(  $('#licai_list').html() + licaiList_temp(data.list));
+        }
+        if( pid > Math.ceil( parseInt(data.count)/parseInt(data.pageSize) ) ){
+            art("没有更多数据了");
+        }else {
+            art('第'+pid+'页');
+            pid++;
+        }
+    }
+
+    function requestData(callback) {
+	    if (!chkLogin()) {
+		    emptyData($("#licai_list"))
+		    art("您目前未登录,请先登录");
+		    return false;
+	    }
+        var params = {"pid":pid };
+        UserAjax('qiandao/log', 'get', params, function (ret) {
+            if( typeof callback == "function" ){
+                callback("刷新完成");
+            }
+            alog(ret);
+            if (ret.status == 1)
+            {
+                alog("返回结果");
+                alog(ret.info);
+                createView(ret.info);
+            }
+            else {
+                art('ajax错误！');
+            }
+        });
+    }
+
+    //上拉加载
+    window.onscroll = function () {
+        if (isScrollToBottom())
+        {
+            requestData();
+        }
+    };
+
+        //下拉刷新
+        var pullRefresh = new auiPullToRefresh({
+            container: document.querySelector('.aui-refresh-content'),
+            triggerDistance: 100
+        }, function (ret) {
+            if (ret.status == "success") {
+                if(getScrollTop() < 10)
+                {
+                    pid = 1;
+                    requestData(function (msg) {
+                        art(msg);
+                        pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+                    });
+                }
+                else {
+                    pullRefresh.cancelLoading();
+                }
+            }
+        });
+
+    function signNow() {
+	    if (!chkLogin()) {
+		    art("您目前未登录,请先登录");
+		    return false;
+	    }
+        loading();
+        UserAjax('qiandao/up', 'get', '', function (ret) {
+            toast.hide();
+            art(ret.info);
+            if(ret.status == 1){
+	            pid=1
+                setTimeout('requestData()',2000);
+            }
+        });
+    }
+</script>
+</html>

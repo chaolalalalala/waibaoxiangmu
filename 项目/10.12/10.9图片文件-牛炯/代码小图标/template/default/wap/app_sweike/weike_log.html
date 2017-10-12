@@ -1,0 +1,513 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/category_list.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+<style>
+
+	.my_body {
+		margin: 10px 0px 10px 0px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul {
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background-color: #FFF;
+	}
+	.bank_title {
+		margin: 0 0 0 1rem;
+		height: 3rem;
+		line-height: 3rem;
+	}
+	.bank_title img {
+		height: 1.6rem;
+		margin: 0.7rem 1rem 0 0;
+		vertical-align: middle;
+		float: right;
+	}
+	.bank_body {
+		margin: 0 0 0 1rem;
+	}
+	.bank_body span {
+		display: block;
+	}
+	.bank_body .g {
+		color: gray;
+	}
+	.red {
+		color: #e55600;
+	}
+	.gray {
+		color: gray;
+	}
+
+	.licaiItem {
+		padding-bottom: .625rem;
+	}
+	.touchweb-com_searchListBox.openList .item .price_box {
+		height: 25px;;
+	}
+
+	.filtrate_term li {
+		color: #777f86;
+		font-size: 14px;
+		cursor: pointer;
+	}
+
+	.filter {
+		position: relative;
+		border-top: 1px solid #ddd;
+		border-bottom: 1px solid #ddd;
+		height: 2.066667rem;
+		line-height: 2.04rem;
+		z-index: 100;
+	}
+
+	.filter li {
+		padding-left: 0.75rem;
+	}
+
+	.filter-header {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 100%;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		z-index: 3;
+		background-color: #fff;
+	}
+
+	.filter-nav {
+		-webkit-box-flex: 1;
+		-ms-flex: 1;
+		flex: 1;
+		display: block;
+		width: 0;
+		text-align: center;
+		color: #666;
+		position: relative;
+		font-size: .75rem;
+	}
+
+	.filter-nav:after {
+		content: "";
+		background: #ddd;
+		width: 1px;
+		height: .56rem;
+		position: absolute;
+		top: 50%;
+		right: 0;
+		-webkit-transform: translateY(-50%);
+		transform: translateY(-50%);
+	}
+
+	.filter-extend.open {
+		opacity: 1;
+		visibility: visible;
+		max-height: 1000%;
+	}
+
+	.filter-modal {
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		z-index: 1;
+		background: rgba(0, 0, 0, .2);
+		visibility: hidden;
+		opacity: 0;
+		-webkit-transition: all .3s ease-in-out;
+		transition: all .3s ease-in-out;
+	}
+
+	.filter-modal.open {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.filter-extend.open {
+		opacity: 1;
+		visibility: visible;
+		max-height: 1000%;
+	}
+
+	.aui-searchbar {
+		position: static;
+	}
+	.green{
+		color:green;
+	}
+
+	.filter-extend {
+		left: 0;
+		right: 0;
+		top: 100%;
+		border-top: 1px solid #ddd;
+		position: absolute;
+		max-height: 0;
+		background-color: #fff;
+		-webkit-transition: all .2s ease-in-out;
+		transition: all .2s ease-in-out;
+		visibility: hidden;
+		overflow: auto;
+		opacity: 0;
+		z-index: 3;
+	}
+
+	.filter-category {
+		z-index: 200;
+		padding-bottom: 0;
+		color: #666;
+		height: 1000%;
+	}
+
+	.filter-category .filter-scroller,
+	.filter-category .loading {
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		height: 100%;
+	}
+
+	.filter-category ul:first-child {
+		background-color: #dddddd;
+	}
+
+	.filter-category ul {
+		-webkit-box-flex: 1;
+		-ms-flex: 1;
+		flex: 1;
+		display: block;
+		width: 0;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.filter-category ul:first-child li {
+		padding: 0 0 0 .266667rem;
+	}
+
+	.filter-category li {
+		position: relative;
+		line-height: 2.333333rem;
+	}
+
+	.filter-category ul:nth-of-type(2) {
+		/*margin-left: .4rem;*/
+		/*padding-right: .133333rem;*/
+		background-color: #F2F2F2;
+	}
+
+	.filter-category ul:nth-of-type(2) li {
+		/*border-bottom: 1px solid #ddd;*/
+	}
+
+	.filter-category ul:nth-of-type(3) li {
+		border-bottom: 1px solid #ddd;
+	}
+
+	.filter-category li.active {
+		background-color: #fff;
+	}
+
+	.filter-sort {
+		padding-bottom: 0;
+	}
+
+	.displayNone {
+		display: none;
+	}
+
+
+	.active {
+		color: #3190e8 !important;
+	}
+
+	.overHide {
+		overflow: hidden;
+	}
+
+	.price_box p {
+		font-size: 0.625rem;
+	}
+
+
+</style>
+</head>
+<body>
+
+<div style="left: 0px;
+         right: 0px;
+         top: 0px;
+         z-index: 1000;
+         position: fixed;">
+	<aside class="filter">
+		<div class="filter-header">
+			<a id="title_filter" class="filter-nav filter-nav-more active" href="javascript:chose_tab(0)" >投标记录</span></a>
+			<a id="title_sort" class="filter-nav" href="javascript:chose_tab(1)"> <span >威客记录</span></a>
+		</div>
+	</aside>
+</div>
+<section class="aui-refresh-content" style="margin-top: 40px">
+	<div class="wrap">
+		<div class="my_body">
+			<section id="condition_toubiao" style="margin-top: 2.5rem">
+				<div id="toubiao_log"></div>
+			</section>
+			<section id="condition_weike" class="displayNone" style="margin-top: 2.5rem">
+				<div id="weike_log"></div>
+			</section>
+		</div>
+	</div>
+</section>
+
+<script id="toubiao-log-template" type="text/x-dot-template">
+	{{? it.length > 0 }}
+	{{ for(var i in it) { }}
+	<ul class="aui-border licaiItem" onclick="openDetailView({{=it[i].id}})">
+		<li class="bank_title aui-border-b overHide" >
+			<span class="red overHide">{{=it[i].content}}</span>
+		</li>
+		<li class="bank_body">
+			<span class="gray"></span>
+			{{? it[i].status == 0}}
+			<span class="g">任务状态	:<em class="gray">审核未通过</em></span>
+			{{?? it[i].status == 1}}
+			<span class="g">任务状态	:<em class="green">恭喜中标</em></span>
+			{{?? it[i].status == 2}}
+			<span class="g">任务状态	:<em class="red">审核中</em></span>
+			{{?? it[i].status == 3}}
+			<span class="g">任务状态	:<em class="gray">已支付</em></span>
+			{{?}}
+			<span class="g">奖励:<em>{{?it[i].price}}
+			                       {{=it[i].price}}{{=it[i].price_type}}
+			                        {{??}}
+				                    ---
+				                    {{?}}
+			</em></span>
+			<span class="g">发布时间:<em>{{=it[i].addtime}}</em></span>
+		</li>
+		<li>
+			<div class="aui-content-padded">
+				<p><div class="aui-btn aui-btn-info" onclick="" style="width: 100%;line-height: 1.5rem">查看详情</div></p>
+			</div>
+		</li>
+	</ul>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{? }}
+</script>
+
+<script id="weike-log-template" type="text/x-dot-template">
+	{{? it.length > 0 }}
+	{{ for(var i in it) { }}
+	<ul class="aui-border licaiItem" onclick="openDetailView({{=it[i].id}})">
+		<li class="bank_title aui-border-b overHide" >
+			<span class="red overHide">{{=it[i].title}}</span>
+		</li>
+		<li class="bank_body">
+			<span class="gray"></span>
+			{{? it[i].step == 1}}
+			<span class="g">任务状态	:<em class="green">新发布</em></span>
+			{{?? it[i].step == 2}}
+			<span class="g">任务状态	:<em class="green">进行中</em></span>
+			{{?? it[i].step == 3}}
+			<span class="g">任务状态	:<em class="gray">已结束</em></span>
+			{{?? it[i].step == 4}}
+			<span class="g">任务状态	:<em class="gray">已关闭</em></span>
+			{{?}}
+			<span class="g">奖励:<em>{{=it[i].addtime}}</em></span>
+			<span class="g">稿件数:<em>{{=it[i].addtime}}</em></span>
+			<span class="g">发布时间:<em>{{=it[i].addtime}}</em></span>
+		</li>
+		<li>
+			<div class="aui-content-padded">
+				<p><div class="aui-btn aui-btn-info" onclick="" style="width: 100%;line-height: 1.5rem">查看详情</div></p>
+			</div>
+		</li>
+	</ul>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{? }}
+</script>
+
+
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+
+   var   pid=1
+	var lastViewIndex = 0;
+
+	apiready = function () {
+		onerror = error_handel;
+		flash()
+	};
+
+	//上拉加载
+	window.onscroll = function () {
+		if (isScrollToBottom())
+		{
+ 			pid++
+            if(lastViewIndex == 0){
+	            toubiao_log()
+            } else{
+	          weike_log()
+            }
+ 		}
+	};
+
+	function flash(callback){
+		if( typeof callback == "function" ){
+			callback("刷新完成");
+		}
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			emptyData($("#toubiao_log"))
+			emptyData($("#weike_log"))
+			return false;
+		}
+		toubiao_log()
+		weike_log()
+	}
+
+	//投标记录
+	function toubiao_log(){
+		loading();
+		var params = {"pid":pid };
+		UserAjax('sweike/log', 'get', params, function (ret) {
+			toast.hide();
+			alog(ret);
+			if (ret.status == 1)
+			{
+				var temp = doT.template($("#toubiao-log-template").text());
+				if(pid==1){
+					art("第"+pid+"页")
+					$("#toubiao_log").html(temp(ret.info.list))
+				}
+				else if(pid>Math.ceil(Number(ret.info.count)/Number(ret.info.pageSize))){
+					art("没有更多数据了")
+				}
+				else{
+					art("第"+pid+"页")
+					$("#toubiao_log").html($("#toubiao_log").html()+temp(ret.info.list));}
+				if(typeof callback == "function"){
+					setTimeout(function () {
+						callback("刷新完成");
+					}, 1000)
+				}
+			}else {
+				art(ret.info);
+			}
+		},'json');
+
+	}
+
+	//威客记录
+	function weike_log(){
+		loading();
+		var params = {"pid":pid };
+		UserAjax('sweike/weikelog', 'get', params, function (ret) {
+			toast.hide();
+			alog(ret);
+			if (ret.status == 1)
+			{
+				var temp = doT.template($("#weike-log-template").text());
+				if(pid==1){
+					art("第"+pid+"页")
+					$("#weike_log").html(temp(ret.info.list))
+				}
+				else if(pid>Math.ceil(Number(ret.info.count)/Number(ret.info.pageSize))){
+					art("没有更多数据了")
+				}
+				else{
+					art("第"+pid+"页")
+					$("#weike_log").html($("#weike_log").html()+temp(ret.info.list));}
+				if(typeof callback == "function"){
+					setTimeout(function () {
+						callback("刷新完成");
+					}, 1000)
+				}
+			}else {
+				art(ret.info);
+			}
+		},'json');
+	}
+
+	//下拉刷新
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			if(getScrollTop() < 10)
+			{
+				pid = 1;
+				flash(function (msg) {
+					art(msg)
+					pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+				});
+			}
+			else {
+				pullRefresh.cancelLoading();
+			}
+		}
+	});
+
+	function chose_tab(id) {
+			hideConditionBG();
+			$('.filter-nav').removeClass('active');
+			$('.filter-nav').filter(function (index) { return index == id }).addClass('active');
+			if (id == 0) {
+				//筛选
+				$('#condition_toubiao').removeClass('displayNone');
+			}
+			if (id == 1) {
+				//排序
+				$('#condition_weike').removeClass('displayNone');
+			}
+			lastViewIndex = id;
+		pid=1
+		scrollTo(0,0);
+		flash()
+	}
+
+	function hideConditionBG() {
+		$('#condition_toubiao').addClass('displayNone');
+		$('#condition_weike').addClass('displayNone');
+		$('.filter-nav').removeClass('active');
+	}
+
+	function openDetailView(itemId) {
+		openWinWithParams('weikeDetail_h', 'app_sweike', {
+			'itemId': itemId
+		});
+	}
+
+</script>
+</html>

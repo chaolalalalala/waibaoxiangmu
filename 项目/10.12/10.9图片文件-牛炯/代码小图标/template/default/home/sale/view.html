@@ -1,0 +1,378 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<link rel="stylesheet" href="__CSS__/shop.css"/>
+<script type="text/javascript" src="__EXT__/jquery/jquery.jqzoom.js"></script>
+<script type="text/javascript" src="__JS__/shop.js"></script>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;<a href="/sale/index" class="">{#lang('拍卖中心')}</a> &gt;{#lang('商品详情')}
+	</div>
+	<div class="main-content">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('拍卖中心')}
+					</span>
+	                <span>
+                        <a href="{#url('sale/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('拍卖中心')}</a>
+                        <a href="{#url('sale/log')}" id="step2" class="step fz_12 ml20 pd6">{#lang('拍卖记录')}</a>
+                        <a href="{#url('sale/danbaolog')}" id="step3" class="step fz_12 ml20 pd6 " >{#lang('担保记录')}</a>
+                        <!--<a href="{#url('sale/fenhong')}" id="step4" class="step fz_12 ml20 pd6 ">{#lang('积分分红')}</a>-->
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+		</div>
+		<div class="det_cen_zj mt20 bg_w">
+			<div class="" style="float: left;">
+				<div id="preview" class="spec-preview">
+					<div class="tb-booth tb-pic tb-s310 jqzoom">
+						<a href="/"><img src="__UP__/{$img['a']['img']}" rel="__UP__/{$img['a']['img']}" class="jqzoom"/></a>
+					</div>
+				</div>
+				<div class="spec-scroll">
+					<a class="prev">&lt;</a> <a class="next">&gt;</a>
+					<div class="items">
+						<ul>
+							{foreach $img as $k => $v}
+							<li>
+								<img src="__UP__/{$v['img']}" mid="__UP__/{$v['img']}" big="__UP__/{$v['img']}" onmousemove="preview(this);">
+							</li>
+							{/foreach}
+						</ul>
+					</div>
+				</div>
+			</div>
+            {if $sale["status"]==2}
+			<div class="det_information">
+                <p class="det_com_title">{$sale['name']}</p>
+                <p class="det_com_title1">{$sale['title']}</p>
+                <input type="hidden" name="merchandiseId" value="3" id="merchandiseId"> <input type="hidden" name="merchandiseAmount" value="41" id="merchandiseAmount"> <input type="hidden" name="merchandisePrice" value="12568.00" id="merchandisePrice"> <input type="hidden" name="usableSum" value="" id="usableSum">
+                <!--价格部分-->
+				<form action="" method="post" name="sform" id="sform" style="width:300px">
+					<!--起拍价-->
+                    <div class="goods_prices clearfix" style="height: 40px;width:280px">
+						<div class="det_vipprice  ">
+							<label class="det_vip" style="margin-top: 10px">{#lang('起拍价')}</label> <label class="det_vip1" style="margin-top: 10px"><i>{$sale['minprice']}</i><span class="ml20">{$sale['cointitle']}</span></label>
+						</div>
+					</div>
+                    <!--加价幅度-->
+                    <div class="goods_prices clearfix" style="height: 40px;width:280px">
+                        <div class="det_vipprice  ">
+                            <label class="det_vip" style="margin-top: 10px">{#lang('加价幅度')}</label> <label class="det_vip1" style="margin-top: 10px"><i>{$sale['fudu']}</i><span class="ml20">{$sale['cointitle']}</span></label>
+                        </div>
+                    </div>
+                   <!--最新价-->
+                    <div class="goods_prices clearfix" style="height: 40px;width:280px">
+                        <div class="det_vipprice  ">
+                            <label class="det_vip" style="margin-top: 10px">{#lang('最新价')}</label> <label class="det_vip1" style="margin-top: 10px"><i>{$sale['price']}</i><span class="ml20">{$sale['cointitle']}</span></label>
+                        </div>
+                    </div>
+                    <div class="goods_prices clearfix mb20" style="height: 40px;width:300px">
+                        <div class="det_vipprice  ">
+                            <label class="det_vip " style="margin-top: 10px" >{#lang('喊价')}</label><input type="number" style="margin-top: 5px" class="texts" id="myprice">
+                        </div>
+                    </div>
+					<div class="det_vipprice det_vipprice3 det_vipprice4">
+						<a href="javascript:;" class="det_vipprice3_a" id="submitBuy">{#lang('立即出价')}</a>
+					</div>
+				</form>
+                <!--计时部分-->
+                <div class="crowd_time" style="width:446px;float: right;margin-right: 15px;margin-top: -320px;">
+                    <div class="dowebok_move">
+                        <p class="crowd_con_lp" id="cdstatus">距离拍卖结束还有：</p>
+                        <div class="crowd_time_all dowebok">
+                            <div id="t_d" class="days "></div>
+                            <em>天</em>
+                            <div id="t_h" class="hours "></div>
+                            <em>时</em>
+                            <div id="t_m" class="minutes"></div>
+                            <em>分</em>
+                            <div id="t_s" class="seconds "></div>
+                            <em>秒</em>
+                        </div>
+                        <div class="crowd_xq" style="width: 420px">
+                            <span class=" mr10 fz_14">开启时间：<b class="red">{#addtime($sale['strtime'], 'Y/m/d')}</b></span> <span class=" mr10 fz_14">结束时间：<b class="red">{#addtime($sale['endtime'], 'Y/m/d')}</b></span>
+                        </div>
+                        <script src="__EXT__/jquery/jquery.flipTimer.js"></script>
+                        <script>
+                            $(function () {
+                                $('.dowebok').flipTimer({
+                                    direction: 'down',
+                                    date: "{#addtime($sale['endtime'])}",
+                                    callback: function () {
+                                        window.location.reload();
+                                    }
+                                });
+                            });
+                        </script>
+                    </div>
+                    <div class="det_vipprice det_vipprice3 det_vipprice4 mt20">
+                        <a href="javascript:;" class="det_vipprice3_a" style="margin-left: 130px" id="danbao">{#lang('马上担保')}</a>
+                    </div>
+                    <div class="det_vipprice  " style="width: 220px;margin-top: -100px;margin-left: 130px">
+                        <label class="det_vip" style="width: 110px">{#lang('本拍卖需担保金')}</label> <label class="det_vip1" ><i>{$sale['danbao']}</i>{$sale['cointitle']}</label>
+                    </div>
+                </div>
+			</div>
+            {else if $sale["status"]==1}
+            <div class="det_information">
+                <p class="det_com_title">{$sale['name']}</p>
+                <p class="det_com_title1">{$sale['title']}</p>
+                <input type="hidden" name="merchandiseId" value="3" id="merchandiseId1"> <input type="hidden" name="merchandiseAmount" value="41" id="merchandiseAmount"> <input type="hidden" name="merchandisePrice" value="12568.00" id="merchandisePrice"> <input type="hidden" name="usableSum" value="" id="usableSum">
+                <!--价格部分-->
+                <form action="" method="post" name="sform" id="sform1" style="width:300px">
+                    <!--起拍价-->
+                    <div class="goods_prices clearfix" style="height: 40px;width:300px">
+                        <div class="det_vipprice  ">
+                            <label class="det_vip" style="margin-top: 10px">{#lang('起拍价')}</label> <label class="det_vip1" style="margin-top: 10px"><i>{$sale['minprice']}</i><span class="ml20">{$sale['cointitle']}</span></label>
+                        </div>
+                    </div>
+                    <!--加价幅度-->
+                    <div class="goods_prices clearfix" style="height: 40px;width:300px">
+                        <div class="det_vipprice  ">
+                            <label class="det_vip" style="margin-top: 10px">{#lang('加价幅度')}</label> <label class="det_vip1" style="margin-top: 10px"><i>{$sale['fudu']}</i><span class="ml20">{$sale['cointitle']}</span></label>
+                        </div>
+                    </div>
+                    <div class="goods_prices clearfix" style="height: 40px;width:300px">
+                        <div class="det_vipprice  ">
+                            <label class="det_vip" style="margin-top: 10px">{#lang('开始时间')}</label> <label class="det_vip1" style="margin-top: 10px"><i>{#addtime($sale['strtime'])}</i></label>
+                        </div>
+                    </div>
+                </form>
+                <div class="crowd_time" style="width: 500px">
+                    <div class="dowebok_move">
+                        <p class="crowd_con_lp " style="text-align: center;font-size: 22px;letter-spacing: 1px;line-height: 70px;">当前拍卖未开始</p>
+                    </div>
+                </div>
+                <div class="goods_prices clearfix" style="height: 40px;width:300px">
+                <div class="det_vipprice  ">
+                    <label class="det_vip" style="margin-top: 10px;width: 110px">{#lang('本拍卖需担保金')}</label> <label class="det_vip1" style="margin-top: 10px"><i>{$sale['danbao']}</i><span class="ml20">{$sale['cointitle']}</span></label>
+                </div>
+                <div class="det_vipprice det_vipprice3 det_vipprice4 mt20">
+                    <a href="javascript:;" class="det_vipprice3_a" id="danbao" >{#lang('马上担保')}</a>
+                </div>
+            </div>
+            {else if $sale["status"]==3||$sale["status"]==4}
+            <div class="det_information">
+                <p class="det_com_title">{$sale['name']}</p>
+                <p class="det_com_title1">{$sale['title']}</p>
+                <input type="hidden" name="merchandiseId" value="3" id="merchandiseId"> <input type="hidden" name="merchandiseAmount" value="41" id="merchandiseAmount"> <input type="hidden" name="merchandisePrice" value="12568.00" id="merchandisePrice"> <input type="hidden" name="usableSum" value="" id="usableSum">
+                <!--价格部分-->
+                <form action="" method="post" name="sform" id="sform" style="width:300px">
+                    <!--起拍价-->
+                    <div class="goods_prices clearfix" style="height: 40px;width:300px">
+                        <div class="det_vipprice  ">
+                            <label class="det_vip" style="margin-top: 10px">{#lang('起拍价')}</label> <label class="det_vip1" style="margin-top: 10px"><i>{$sale['minprice']}</i><span class="ml20">{$sale['cointitle']}</span></label>
+                        </div>
+                    </div>
+                    <!--加价幅度-->
+                    <div class="goods_prices clearfix" style="height: 40px;width:300px">
+                        <div class="det_vipprice  ">
+                            <label class="det_vip" style="margin-top: 10px">{#lang('加价幅度')}</label> <label class="det_vip1" style="margin-top: 10px"><i>{$sale['fudu']}</i><span class="ml20">{$sale['cointitle']}</span></label>
+                        </div>
+                    </div>
+                    <!--成交价-->
+                    {if $sale["status"]==3}
+                    <div class="goods_prices clearfix" style="height: 40px;width:300px">
+                        <div class="det_vipprice  ">
+                            <label class="det_vip" style="margin-top: 10px">{#lang('成交价')}</label> <label class="det_vip1" style="margin-top: 10px"><i>{$sale['price']}</i><span class="ml20">{$sale['cointitle']}</span></label>
+                        </div>
+                    </div>
+                    {else}
+                    <div class="goods_prices clearfix" style="height: 40px;width:300px">
+                        <div class="det_vipprice  ">
+                            <label class="det_vip" style="margin-top: 10px">{#lang('低于保留价')}</label> <label class="det_vip1" style="margin-top: 10px"><i>{#lang('流拍')}</i></label>
+                        </div>
+                    </div>
+                    {/if}
+                </form>
+                <div class="crowd_time" style="width: 500px">
+                    <div class="dowebok_move">
+                        <p class="crowd_con_lp " style="text-align: center;font-size: 22px;letter-spacing: 1px;line-height: 70px;">当前拍卖已结束</p>
+                    </div>
+                </div>
+            </div>
+            {/if}
+		</div>
+        <div class="det_down_cen mt20 bg_w"  >
+            <ul class="det_down_title"style="width: 1200px;background-color: #ffffff" >
+                <li class="t-center active">{#lang('拍卖详情')}</li>
+            </ul>
+            <!--商品介绍-->
+            <ul class="det_down_ul" style="margin-top:1px;width: 800px;background-color: #ffffff;height: 800px">
+                <li class="active">
+                    <div class="det_down_div" id="goods_detail_content" style="margin-left:5px;width: 790px;font-size:15px">
+                        {$sale['content'] nofilter}
+                    </div>
+                </li>
+            </ul>
+            <!--争夺记录-->
+            <div class="cnyin_record" style="background-color: ivory;width: 400px;float: right;height: 800px">
+                <div class="f_body">
+                    <div class="f_body_main">
+                        <div class="f_tab_body">
+                            <span style="font-size: large;margin-left:140px;color:slategrey;font-weight: bold">商品争夺记录</span>
+                            <div>
+                                <table class="f_table" id="investLog_content">
+                                    <thead>
+                                    <tr>
+                                        <th>用户名</th>
+                                        <th>出价时间</th>
+                                        <th>出价</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {foreach $pages['list'] as $k => $v}
+                                    <tr>
+                                        <td>{$v['username']}</td>
+                                        <td>{#addtime($v['addtime'])}</td>
+                                        <td>{$v['price']}</td>
+                                    </tr>
+                                    {/foreach}
+                                    </tbody>
+                                </table>
+                                <div class="pages">{$pages['show'] nofilter}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+</div>
+<script>
+	function initListInfo(param) {
+		param["paramMap.id"] = $("#merchandiseId").val();
+		$.post("goodsDetailList", param, function (data) {
+			$("#detail-list").html(data);
+		});
+	}
+
+
+	function addToCart(id, num, cb) {
+		var res = true;
+		cb(res);
+	}
+
+	function tab(banner, control) {
+		control.hover(function () {
+			var index = $(this).index();
+			banner.hide();
+			banner.eq(index).show();
+			control.removeClass('active');
+			$(this).addClass('active');
+		});
+	}
+	$(function () {
+
+		$(".float-r .meun_li1").removeClass("focus");
+		$(".float-r .meun_li1:eq(3)").addClass("focus");
+		$(".lanren_nav  li").removeClass("focus");
+		$(".lanren_nav  li:eq(3)").addClass("focus");
+
+
+		// 图片切换
+		tab($('.mall_dt_ul li'), $('.mall_dt_ul1 li'));
+
+
+		$('.plus-btn').click(function () {
+			var max = $('.num-ipt').val();
+			var mrz = parseInt("{#num($sale['num'],0)}");
+			if (parseInt(max) < mrz) {
+				$('.num-ipt').val(parseInt(max) + 1);
+			} else {
+				$('.num-ipt').val(mrz);
+			}
+		});
+
+
+		// 默认选中单选框的第一个
+		$(".coinpay input:first").attr("checked", true);
+
+        //担保
+        $('#danbao').click(function () {
+            var id="{$sale['id']}";
+            layer.config({
+                extend: 'extend/layer.ext.js'
+            });
+            layer.ready(function () {
+                layer.prompt({
+                    title: "请输入交易密码",
+                    formType: 1
+                }, function (val) {
+                    if (val) {
+                        $.post("{#url('sale/danbao')}", {
+                            id:id,
+                            token: "{$token}"
+                        }, function (data) {
+                            if (data.status == 1) {
+                                layer.msg(data.info, {icon: 1});
+                               // window.location ="{#url('sale/danbaolog')}";
+                            } else {
+                                layer.msg(data.info, {icon: 2});
+                                if (data.url) {
+                                    window.location = data.url;
+                                }
+                            }
+                        }, "json");
+                    }
+                    ;
+                });
+            });
+        });
+
+		$("#submitBuy").click(function () {
+			var id        = "{$sale['id']}";
+			var price   = $('#myprice').val();
+			if (price == "" || price == null) {
+				layer.tips("{#lang('请输入数量')}", '.num-ipt', {tips: 3});
+				return false;
+			}
+			$.post("{#url('sale/up')}", {
+				id: id,
+				price: price,
+                token: "{$token}"
+			}, function (data) {
+				if (data.status == 1) {
+					if (data.url) {
+						window.location = data.url;
+					} else {
+						layer.msg(data.info, {icon: 1});
+						setTimeout('location.reload()',1000);
+					}
+				} else {
+					if (data.url) {
+						window.location = data.url;
+					} else {
+						layer.msg(data.info, {icon: 2});
+					}
+				}
+			}, 'json');
+		});
+
+	});
+</script>
+<script>
+	if ($("#sale_box").length > 0) {
+		$('#sale_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

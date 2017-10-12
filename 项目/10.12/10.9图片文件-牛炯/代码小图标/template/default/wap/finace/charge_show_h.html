@@ -1,0 +1,50 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<body>
+<header  id="header"  class="aui-bar aui-bar-nav aui-bar-dark">
+    <a class="aui-pull-left" tapmod="" onclick="back();">
+        <span class="aui-iconfont aui-icon-left"></span>返回
+    </a>
+    <div class="aui-title">充值订单详情</div>
+</header>
+</body>
+<script>
+    function charge_log(){
+        openWin({
+            name: 'chlog_h',
+            url: aurl('finace/chlog_h'),
+            slidBackEnabled:false,
+            delay:100
+        });
+    }
+
+    apiready = function(){
+	    onerror       = error_handel;
+	    var header    = $api.byId('header');
+	    var width     = getWinWidth();
+	    var headerPos = $api.offset(header);
+	    var height    = getWinHight() - headerPos.h;
+	    openFrame({
+		    name: 'charge_show',
+		    url: aurl('finace/charge_show'),
+		    allowEdit : true,
+		    bounces: false,
+		    opaque: true,
+		    reload: true,
+		    vScrollBarEnabled: true,
+		    hScrollBarEnabled:false,
+		    rect: {
+			    x: 0,
+			    y: headerPos.h,
+			    w: width,
+			    h: height
+		    },
+            pageParam:{
+                'id':iv('id'),
+            }
+	    });
+    }
+</script>
+</html>

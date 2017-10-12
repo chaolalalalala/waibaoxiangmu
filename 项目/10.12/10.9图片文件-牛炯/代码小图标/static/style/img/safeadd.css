@@ -1,0 +1,184 @@
+.nav-tab-list .nav-tab-hover{
+	display: none!important;
+}
+.left-nav-bar{
+	min-height: 1000px;
+}
+.left-nav-slider{
+	width: 160px;
+}
+.nav-tab-list dd{
+	height: 90px;
+	border-bottom: 1px solid #eee;
+}
+.nav-tab-list dd a{
+	padding: 0!important;
+	border-left: 0!important;
+}
+.nav-tab-list dd a i:last-child{
+	display: none;
+}
+.nav-tab-list dd a i:first-child{
+	float: left;
+    width: 42px;
+    height: 42px;
+    display: block;
+    margin: 5px 59px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.nav-tab-list dd a i:first-child:before{
+	content: "";
+}
+.nav-tab-list dd a span{
+	float: left;
+	width: 100%;
+	text-align: center;
+	line-height: 20px!important;
+}
+.nav-tab-list dd:hover a span{
+	color: #4f94e7;
+}
+.nav-tab-list dd.user_index a i:first-child{
+	background-image:url(../style/img/icon03.png);
+}
+.nav-tab-list dd.user_index:hover a i:first-child,
+.nav-tab-list dd.user_index.active a i:first-child{
+	background-image:url(../style/img/icon03_.png);
+}
+.nav-tab-list dd.user_truename a i:first-child{
+	background-image:url(../style/img/icon04.png);
+}
+.nav-tab-list dd.user_truename:hover a i:first-child,
+.nav-tab-list dd.user_truename.active a i:first-child{
+	background-image:url(../style/img/icon04_.png);
+}
+.nav-tab-list dd.user_password a i:first-child{
+	background-image:url(../style/img/icon05.png);
+}
+.nav-tab-list dd.user_password:hover a i:first-child,
+.nav-tab-list dd.user_password.active a i:first-child{
+	background-image:url(../style/img/icon05_.png);
+}
+.nav-tab-list dd.user_paypassword a i:first-child{
+	background-image:url(../style/img/icon06.png);
+}
+.nav-tab-list dd.user_paypassword:hover a i:first-child,
+.nav-tab-list dd.user_paypassword.active a i:first-child{
+	background-image:url(../style/img/icon06_.png);
+}
+.nav-tab-list dd.user_google a i:first-child{
+	background-image:url(../style/img/icon07.png);
+}
+.nav-tab-list dd.user_google:hover a i:first-child,
+.nav-tab-list dd.user_google.active a i:first-child{
+	background-image:url(../style/img/icon07_.png);
+}
+.nav-tab-list dd.user_moble a i:first-child{
+	background-image:url(../style/img/icon08.png);
+}
+.nav-tab-list dd.user_moble:hover a i:first-child,
+.nav-tab-list dd.user_moble.active a i:first-child{
+	background-image:url(../style/img/icon08_.png);
+}
+.nav-tab-list dd.user_log a i:first-child{
+	background-image:url(../style/img/icon09.png);
+}
+.nav-tab-list dd.user_log:hover a i:first-child,
+.nav-tab-list dd.user_log.active a i:first-child{
+	background-image:url(../style/img/icon09_.png);
+}
+.nav-tab-list dd.user_goods a i:first-child{
+	background-image:url(../style/img/icon10.png);
+}
+.nav-tab-list dd.user_goods:hover a i:first-child,
+.nav-tab-list dd.user_goods.active a i:first-child{
+	background-image:url(../style/img/icon10_.png);
+}
+.nav-tab-list dd.user_help a i:first-child{
+	background-image:url(../style/img/icon11.png);
+}
+.nav-tab-list dd.user_help:hover a i:first-child,
+.nav-tab-list dd.user_help.active a i:first-child{
+	background-image:url(../style/img/icon11_.png);
+}
+.nav-tab-list dd.user_api a i:first-child{
+	background-image:url(../style/img/icon12.png);
+}
+.nav-tab-list dd.user_api:hover a i:first-child,
+.nav-tab-list dd.user_api.active a i:first-child{
+	background-image:url(../style/img/icon12_.png);
+}
+
+.sc_statu li:nth-child(1) em{
+	background: url(../style/img/icon13.png);
+}
+.sc_statu li:nth-child(2) em{
+	background: url(../style/img/icon14.png);
+}
+.sc_statu li:nth-child(3) em{
+	background: url(../style/img/icon15.png);
+}
+.sc_statu li:nth-child(4) em{
+	background: url(../style/img/icon16.png);
+}
+.sc_info_list dl{
+	height: 90px;
+}
+.sc_info_list dl:nth-child(odd){
+	background-color: #fbfbfb;
+}
+.sc_info_list dl:nth-child(even){
+	background-color: #fff;
+}
+.sc_info_list dt{
+	margin: 20px 0;
+    border-right: 1px solid #ccc;
+    text-align: left;
+    padding-left: 60px;
+    font-size: 14px;
+}
+.sc_info_list dd p{
+	line-height: 90px;
+	font-size: 14px;
+	padding-left: 50px;
+}
+
+.sc_info_list dd:last-child{
+	float: right;
+}
+.sc_info_list dd .changepw{
+	position: relative;
+	width: 200px;
+	margin-top: 20px;
+}
+.sc_info_list dd .changepw div{
+	text-align: left;
+	font-size: 14px;
+}
+.sc_info_list dd .changepw a,
+.sc_info_list dd p .btns{
+	float: right;
+	border:1px solid #3dc18e;
+	color: #3ac18e;
+	width: 110px;
+	height: 40px;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 38px;
+	font-size: 14px!important;
+	position: absolute;
+	transition: all 0.3s;
+	right: 0;
+}
+.sc_info_list dd p .btns{
+	right: 20px;
+	padding: 0;
+	top: 20px;
+}
+.sc_info_list dd .changepw a:hover,
+.sc_info_list dd p .btns{
+	background-color: #2ad593;
+	color: #fff;
+	text-decoration: none;
+}

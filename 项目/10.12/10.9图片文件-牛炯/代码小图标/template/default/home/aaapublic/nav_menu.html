@@ -1,0 +1,14 @@
+{foreach $menu as $k=>$v}
+<div class="flle wb50 ">
+	<p class="tltle cff6">{$v['title']}</p>
+	{if $menu}  {$list = $menu[$k]['data']}
+		{foreach $list as $kk=>$vv}
+			{if $vv['status']}
+				<a href="/{#str_replace('_cny', '', $kk)}.jsp" style="color:black"><div class="bory1" style="text-align: left; padding-left:35px; "><img src="__UP__/{$vv['img']}" alt="" style="vertical-align: -3px;">{$vv['title']}</div></a>
+			{else}
+				<a onclick="kaifaing()" style="color:black"><div class="bory1" style="text-align: left; padding-left:35px; text-decoration:line-through; color:#aaa;"><img src="__UP__/{$vv['img']}" alt="" style="vertical-align: -3px;">{$vv['title']}</div></a>
+			 {/if}
+		{/foreach}
+	{/if}
+</div>
+{/foreach}

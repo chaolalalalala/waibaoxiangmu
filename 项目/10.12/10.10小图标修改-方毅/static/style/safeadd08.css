@@ -1,0 +1,16 @@
+.assets_content h1>span:last-child{
+	background-image: url(../style/img/icon11.png);
+}
+.f_body table.f_table{
+	width: 100%!important;
+}
+.f_body table.f_table th,
+.f_body table.f_table td{
+	font-size: 14px!important;
+}
+.f_table td{
+	height: 70px;
+}
+#status-select{
+	width: 150px!important;
+}

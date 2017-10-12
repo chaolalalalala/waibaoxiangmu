@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>上传文件 test</title>
+	<script
+			src="https://code.jquery.com/jquery-2.2.4.min.js"
+			integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+			crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+
+<input type="file" id="upfile" onchange="aa(this)">
+<input type="button" id="upBtn" value="上传">
+
+<img id="upimg" src="">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAB4AAAAGQCAYAAII=">
+
+</body>
+<script>
+
+	function aa(e){
+
+		console.log(e);
+		if (typeof FileReader === 'undefined') {
+			alert('Your browser does not support FileReader...');
+			return;
+		}
+		var reader = new FileReader();
+
+		reader.onload = function() {
+
+		var img = document.getElementById('upimg');
+		img.src = this.result;
+		}
+		reader.readAsDataURL(document.getElementById('upfile').files[0]);
+	}
+
+
+	/* jQuery 版 */
+	$('#upBtn').on('click', function() {
+		var fd = new FormData();
+		fd.append("upload", 2);
+		fd.append("upfile", $("#upfile").get(0).files[0]);
+		fd.append('aa','22');
+		$.ajax({
+			url: "http://ming.a.com/index/upload",
+			type: "POST",
+			processData: false,
+			contentType: false,
+			data: fd,
+			success: function(d) {
+				console.log(d);
+			}
+		});
+	});
+
+
+
+</script>
+</html>

@@ -1,0 +1,47 @@
+<!--媒体报道-->
+<div class="textc pad70">
+    <div class="container center">
+        <h3 class="cff6" style="color:#7c8187;">权威新闻媒体报道</h3>
+        <!--p class="mart15">优质的合作伙伴，为您提供全方位的服务</p-->
+        <div class="row font14 xiugai2 flex mart80">
+            <div class="col-xs-3 mar0">
+                <a href="http://ydyl.people.com.cn/n1/2017/0828/c411837-29498506.html" target="_blank"><img src="/static/style/img/1.png" alt="" class=""></a>
+
+            </div>
+            <div class="col-xs-3">
+                <a href="http://dz.china.com.cn/ct/2017-08-25/69506.html" target="_blank"><img src="/static/style/img/2.png" alt="" class=""></a>
+
+            </div>
+            <div class="col-xs-3">
+                <a href="http://view.inews.qq.com/a/HLO2017082805989900" target="_blank"><img src="/static/style/img/3.png" alt="" class=""></a>
+
+            </div>
+            <div style="margin-right: 0;" class="col-xs-3 flri">
+                <a href="http://www.sohu.com/a/168434065_160231" target="_blank"><img src="/static/style/img/4.png" alt="" class=""></a>
+
+            </div>
+
+
+        </div>
+        <div class="row font14 xiugai2 flex mart15">
+            <div class="col-xs-3 mar0">
+                <a href="http://share.iclient.ifeng.com/vampire/shareNews?&fromType=vampire&aid=27323157" target="_blank"><img src="/static/style/img/5.png" alt="" class=""></a>
+
+            </div>
+            <div class="col-xs-3">
+                <a href="http://share.iclient.ifeng.com/vampire/shareNews?&fromType=vampire&aid=27323157" target="_blank"><img src="/static/style/img/6.png" alt="" class=""></a>
+
+            </div>
+            <div class="col-xs-3">
+                <a href="http://www.jingji.com.cn/html/news/zxxw/78226.html" target="_blank"><img src="/static/style/img/7.png" alt="" class=""></a>
+
+            </div>
+            <div style="margin-right: 0;" class="col-xs-3 flri">
+                <a href="http://news.jxntv.cn/qiye/2017/0825/8660665.shtml" target="_blank"><img src="/static/style/img/8.png" alt="" class=""></a>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>

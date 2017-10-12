@@ -1,0 +1,278 @@
+{include file="public:header"}
+    <link rel="stylesheet" href="__CSS__/poolgbw.css?v="/>
+	<style type="text/css">
+		.dh_d div.one_8{ color:#ffffff; font-size:18px; line-height:30px;font-weight:bold; width:26%; padding:10px 5px;}
+		.dh_d div.one_8 span{ color:#ffffff; font-size:14px; line-height:30px;font-weight:normal;}
+	</style>
+<div name="from1"  id="from1" class="form">
+	<div class="work_bg" style="margin-top:-3px;margin-bottom: -100px;">
+		<div class="work_content" style="position:relative;">
+			<style type="text/css">
+				.wj_cols { background:#595959;border:2px solid #333; border-radius:10px;width:220px; font-family:'微软雅黑'; }
+				.wj_cols ul{  width:100%; }
+
+				.wj_cols ul li{ width:100%;  height:38px; overflow:hidden;background:url('/style/images/wk_but2.png') no-repeat; }
+				.wj_cols ul li.wk_select{ width:100%;   height:auto;background:url('/style/images/wk_but1.png') no-repeat; }
+				.wj_cols ul li a{ display:block; padding-left:42px; font-size:15px; color:#fff;  height:38px; line-height:38px; font-weight:bold; }
+				.wj_cols ul li span{ display:block; padding-left:23px; font-size:13px; color:#fff; background:url('/style/images/ulist.png') no-repeat 5px 15px; height:38px; line-height:38px; border-bottom:1px solid #666; }
+
+			</style>
+			<div id="DivWk_No" class="work_pic" style="display:block;">
+				<img src="__IMG__/poolgbw/wk0.png" />
+			</div>
+			<div class="kj_bt1">
+				<a href="{#url('poolgbw/index')}" id="step1" class="but_will3" style="color:#fff;">{#lang('我的矿机')}</a>
+			</div>
+			<div class="kj_bt2">
+				<a href="{#url('poolgbw/market')}" id="step2" class="but_will" style="color:#fff;">{#lang('矿机市场')}</a>
+			</div>
+			<div class="kj_bt3" style="color:#fff; font-size:16px; font-weight:bold;">
+				<a href="{#url('poolgbw/log')}" id="step4" class="but_will" style="color:#fff;">{#lang('收益记录')}</a>
+			</div>
+			<div class="kj_bt4" style="color:#fff; font-size:16px; font-weight:bold;">
+				<a href="{#url('poolgbw/rules')}" id="step4" class="but_will" style="color:#fff;">{#lang('挖矿规则')}</a>
+			</div>
+			<div class="info_list " style="padding-bottom:20px;">
+				<h3>我的矿机
+				</h3>
+				<div class="autobox">
+
+					<div class=" assets_content bg_w" style="min-height:30px;color:rgb(188, 188, 188); background-color:rgb(25, 14, 24)">
+						{#slider("poolgbw")}
+						<div class="cnyin_record">
+							<div class="f_body">
+								<div class="f_body_main">
+									<div class="f_tab_body">
+										<div>
+											<table class="f_table" id="investLog_content">
+												<tr>
+													<th>序号</th>
+													<th>购买时间</th>
+													<th>开始工作时间</th>
+													<th>领取奖励区间</th>
+													<th>上次领取时间</th>
+													<th>总产能</th>
+													<th>其它时间收益衰减%</th>
+													<th>过期产收益衰减%</th>
+													<th>最小收益%</th>
+													<th>剩余寿命</th>
+													<th>剩余产能</th>
+													<th>挖矿手续费</th>
+													<th>
+														<select id="status-select">
+															<option value="">状态</option>
+															<option value="1">空闲</option>
+															<option value="2">工作中</option>
+															<option value="3">已失效</option>
+														</select></th>
+													<th>操作</th>
+												</tr>
+												<!--矿工-->{foreach $pages["list"] as $v}
+												<tr>
+													<td>编号:{$v["id"]}</td>
+													<td>{#addtime($v["addtime"],"y/m/d")}</td>
+													<td>{if $v["strtime"]==0} ----------- {else} {#addtime($v["strtime"],"y/m/d")} {/if}
+													</td>
+													<td>{$v["limit1"]}点--{$v["limit2"]}点</td>
+													<td>{if $v["gettime"]==0 } ------------ {else} {#addtime($v["gettime"]) } {/if}
+													</td>
+													<td>{$v["pd"]}{$v["pd_type"]}</td>
+													<td>{$v["qita"]}%</td>
+													<td>{$v["guoqi"]}%/天</td>
+													<td>{$v["minguoqi"]}%</td>
+													<td>{$v["lastlife"]}次</td>
+													<td>{$v["leftpd"]}{$v["pd_type"]}</td>
+													{if $v["shoufei"] }
+													<td>{#round($v["startPrice"],2)}{$v["startPrice_type"]}</td>
+													{else}
+													<td>0</td>
+													{/if}
+													<td>
+														{if $v["status"]==2 }
+														<span class="red">挖矿中</span>
+														{else if $v["status"]==1}
+														<span class="green">空闲中</span> {else if $v["status"]==3 } <span class="grey">寿命用完了</span> {/if}
+													</td>
+													<td>{if $v["status"]==2}
+														<input type="button" class="btns2 mybtn" data-align="{$v['id']}" onclick="get(this)" value="获取收成">
+														<input type="button" class="btns2 mybtn" data-align="{$v['id']}" onclick="end(this)" value="结束挖矿"> {else if $v["status"]==1}
+														<input type="button" class="btns2 mybtn" data-align="{$v['id']}" onclick="str(this)" value="开始挖矿"> {else if $v["status"]==3 } {/if}
+													</td>
+												</tr>
+												{/foreach}
+											</table>
+											<div class="pages" style="height:40px">{$pages['show'] nofilter}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<script>
+					$("#status-select").val("{$status}");
+					$("#status-select").change(function () {
+						var status = $("#status-select option:selected").val();
+						var url    = '/poolgbw/order';
+						if (status) {
+							url += '/status/' + status;
+						}
+						window.location = url;
+					});
+				</script>
+				<script type="text/javascript">
+					function str(o) {
+						var id = $(o).attr('data-align');
+
+						layer.config({
+							extend: 'extend/layer.ext.js'
+						});
+
+
+						layer.ready(function () {
+
+							//默认prompt
+							layer.prompt({
+								title: '输入交易密码，并确认',
+								formType: 1
+							}, function (val) {
+								if (val) {
+									//需要执行的方法
+									$.post("{#url('poolgbw/str')}", {id: id, paypassword: val}, function (data) {
+										if (data.status == 1) {
+											layer.msg(data.info, {icon: 1});
+											window.setTimeout("location.reload()", 1000);
+										} else {
+											layer.msg(data.info, {icon: 2});
+											if (data.url) {
+												window.location = data.url;
+											}
+										}
+									}, "json");
+								};
+							});
+						});
+
+					}
+
+					function end(o) {
+						var id = $(o).attr('data-align');
+						layer.config({
+							extend: 'extend/layer.ext.js'
+						});
+						layer.ready(function () {
+
+							//询问框
+							layer.confirm('您确定要结束挖矿吗？', {
+								btn: ['确定','取消'] //按钮
+							}, function(){
+
+								//需要执行的方法
+								$.post("{#url('poolgbw/end')}", {id: id}, function (data) {
+									if (data.status == 1) {
+										layer.msg(data.info, {icon: 1});
+										window.setTimeout("location.reload()", 1000);
+									} else {
+										layer.msg(data.info, {icon: 2});
+										if (data.url) {
+											window.location = data.url;
+										}
+									}
+								}, "json");
+
+							}, function(){
+
+							});
+							//默认prompt
+//							layer.prompt({
+//								title: '输入交易密码，并确认',
+//								formType: 1
+//							}, function (val) {
+//								if (val) {
+//									//需要执行的方法
+//									$.post("{#url('poolgbw/end')}", {id: id, paypassword: val}, function (data) {
+//										if (data.status == 1) {
+//											layer.msg(data.info, {icon: 1});
+//											window.setTimeout("location.reload()", 1000);
+//										} else {
+//											layer.msg(data.info, {icon: 2});
+//											if (data.url) {
+//												window.location = data.url;
+//											}
+//										}
+//									}, "json");
+//								}
+//								;
+//							});
+						});
+
+					}
+
+					function get(o) {
+						var id = $(o).attr('data-align');
+
+						layer.config({
+							extend: 'extend/layer.ext.js'
+						});
+						layer.ready(function () {
+
+							//询问框
+							layer.confirm('您确定要获取收成吗？', {
+								btn: ['确定','取消'] //按钮
+							}, function(){
+
+								//需要执行的方法
+								$.post("{#url('poolgbw/get')}", {id: id}, function (data) {
+									if (data.status == 1) {
+										layer.msg(data.info, {icon: 1});
+										window.setTimeout("location.reload()", 1000);
+									} else {
+										layer.msg(data.info, {icon: 2});
+										if (data.url) {
+											window.location = data.url;
+										}
+									}
+								}, "json");
+
+							}, function(){
+
+							});
+
+//							//默认prompt
+//							layer.prompt({
+//								title: '输入交易密码，并确认',
+//								formType: 1
+//							}, function (val) {
+//								if (val) {
+//									//需要执行的方法
+//									$.post("{#url('poolgbw/get')}", {id: id, paypassword: val}, function (data) {
+//										if (data.status == 1) {
+//											layer.msg(data.info, {icon: 1});
+//											window.setTimeout("location.reload()", 1000);
+//										} else {
+//											layer.msg(data.info, {icon: 2});
+//											if (data.url) {
+//												window.location = data.url;
+//											}
+//										}
+//									}, "json");
+//								};
+//							});
+						});
+
+					}
+				</script>
+				<script>
+					if ($("#poolgbw_box").length > 0) {
+						$('#poolgbw_box').addClass('active');
+					} else {
+						$('#index_box').addClass('active');
+					}
+				</script>
+			</div>
+		</div>
+		</div>
+		<!--content-->
+	</div>
+<div>
+{include file="public:footer"}

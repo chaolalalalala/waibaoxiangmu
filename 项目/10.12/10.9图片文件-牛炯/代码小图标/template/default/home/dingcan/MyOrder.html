@@ -1,0 +1,98 @@
+{include file="header"}
+<div id="wp" class="wp"><div id="pt" class="bm cl">
+	<div class="z">
+		<i class="fa fa-home fa-lg left move mr5" style="margin-top:7px"></i>
+		<a class="move" href="/dingcan">首页 >&nbsp;&nbsp;</a>
+		商品订单
+	</div>
+</div>
+	<div id="ct" class="ct2_a wp cl">
+		<div class="mn">
+			<div class="bm bw0">
+				<h1 class="rT_h1"><a href="plugin.php?id=dzapp_base&;mod=my&amp;ac=goods_order">我的订单</a></h1>
+				<div class="list_filterA mtm cl">
+					<ul>
+						<li class="{if !$status}a {/if}" ><a href="/dingcan/MyOrder">全部</a></li>
+						<li class="{if $status ==1}a {/if}" ><a href="/dingcan/MyOrder/status/1">未使用</a></li>
+						<li class="{if $status ==2}a {/if}" ><a href="/dingcan/MyOrder/status/2">已失效</a></li>
+
+					</ul>
+				</div>
+				<table cellspacing="0" cellpadding="0" class="dt mtm f_12" >
+					<style type="text/css">
+						.rT_h1{ line-height: 50px;border-bottom: 1px solid #f1f1f1;}
+						.rT_h1 a{ color: #333; font-size: 19px;}
+						.list_filterA{ border-bottom: 1px solid #EAEAEA;}
+						.list_filterA li{ margin-bottom: -1px; float: left; color: #666; line-height: 40px; padding: 0 15px; font-size: 14px;}
+						.list_filterA li.a{ border-bottom: 1px solid #333; color: #333;}
+						.mtm .th {border: 1px solid #EAEAEA;}
+						.mtm .th td {background: #f4f9fe;color: #404040;padding-left: 10px;}
+						.center {text-align: center}
+						.dt th{background:#F0F8FF;font-size: 15px}
+						.f40, .f40 a {color: #FF4400;}
+						.FFF {color: #FFFFFF}
+						.goods_tag span {background: #f5f5f5;padding: 0 5px;line-height: 20px;font-size: 12px;color: #b6b6b6;margin-right: 5px;}
+						.order_list {border: 1px solid #EAEAEA;border-top: 0;}
+						.order_list>td>img {border: 1px solid #EAEAEA}
+						.h15 {height: 15px;}
+						.border{padding: 2px 8px;border: 1px solid #d6d6d6;margin-top: 6px;display: inline-block;}
+						.border:hover{border: 1px solid #d6d6d6;}
+						.color_1 {background: #f7fbff !important}
+						.color_2 {background: #fffaf7 !important}
+						.color_3 {background: #fff6f6 !important}
+						.color_4 {background: #fbfff6 !important}
+						tbody tr:hover{
+							background-color: #E9FEE9;
+						}
+					</style>
+					<thead>
+					<tr class="col-name">
+						<th width="100" class="center">订单编号</th>
+						<th width="200" class="center">商品名称</th>
+						<th width="100" class="center">已付</th>
+						<th width="100" class="center">商家</th>
+						<th width="100" class="center">商家地址</th>
+						<th width="100" class="center">商家联系方式</th>
+						<th width="100" class="center">联系人</th>
+						<th width="100" class="center">预订时间</th>
+						<th width="100" class="center">数量</th>
+						<th width="100" class="center">状态</th>
+					</tr>
+
+					</thead>
+					<tbody>
+					{if empty($pages)}
+					<tr>
+						<td colspan="9" align="center">您还没购买过任何商品 <a href="plugin.php?id=dzapp_goods" class="border">去选购</a>
+						</td>
+					</tr>
+					{else}
+
+					{foreach $pages['list'] as $v}
+					<tr style="border: 1px solid #f1f1f1;border-top:none;">
+						<td  align="center">{$v['dcid']}</td>
+						<td  align="center">{$v['dingcan']}</td>
+						<td  align="center">{$v['mum']}</td>
+						<td  align="center">{$v['shangjia']}</td>
+						<td  align="center">{$v['addr']}</td>
+						<td  align="center">{$v['seller_tel']}</td>
+						<td  align="center">{$v['message']}</td>
+						<td  align="center">{$v['time']}</td>
+						<td  align="center">{$v['num']}</td>
+						<td  align="center">{if $v['status']==1}未使用{else}已失效{/if}</td>
+					</tr>
+					{/foreach}
+					{/if}
+					</tbody>
+				</table>
+				{if !empty($pages)}
+				<div class="pages">
+					{$pages['show'] nofilter}
+				</div>
+				{/if}
+			</div>
+		</div>
+		</div>
+	</div>
+	</div>
+{include file="public:footer"}

@@ -1,0 +1,253 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+	.my_body{
+		margin: 10px 10px 10px 10px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background-color: #FFF;
+	}
+	.bank_title{
+		margin: 0 0 0 1rem;
+		height: 3rem;
+		line-height: 3rem;
+	}
+	.bank_title img{
+		height: 1.6rem;
+		margin: 0.7rem 1rem 0 0;
+		vertical-align: middle;
+		float: right;
+	}
+	.bank_body{
+		margin: 0 0 0 1rem;
+	}
+	.bank_body span{
+		display: block;
+	}
+	.bank_body .g{
+		color: gray;
+	}
+	.r{
+		float: right;
+		margin-right: 1rem;
+	}
+	.red{
+		color: #e55600;
+	}
+	.green{
+		color:green;
+	}
+	.gray {
+		color: gray;
+	}
+	select{
+		color: darkgrey;
+		display: block;
+		outline: none;
+		/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+		/*很关键：将默认的select选择框样式清除*/
+		appearance:none;
+		-moz-appearance:none;
+		-webkit-appearance: listbox;
+		/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+		padding-right: 14px;
+		background-color: #FFF;
+		text-align: left;
+		border: 0;
+		padding-left:1rem;
+		display: inline-block;
+		width: 100%;
+		margin-top: 10px;
+	}
+	#entrust-manage-log{
+		margin-top:1rem;
+	}
+	.blue{
+		color:blue;
+	}
+</style>
+<body>
+<section class="aui-refresh-content" style="margin-top:-0.5rem">
+<div class="wrap">
+	<div class="my_body">
+		<select id="select_coin" tapmod="" name="select_coin" onchange="list_change(callback)">
+			<option value="1" key="">收到的push</option>
+			<option value="2" key="">发起的push</option>
+		</select>
+		<div id="entrust-manage-log">
+		</div>
+  </div>
+</div>
+	</section>
+<script id="entrust-log-temp" type="text/x-dot-template">
+	{{? it.length>0 }}
+	{{ for (var i in it){ }}
+	<ul class="aui-border">
+		<li class="bank_title aui-border-b">
+			<span class="aui-col-xs-2 coin-header-img">
+				<img src="{{=it[i].img}}" class="aui-img-round aui-list-img-sm">
+			</span>
+			<span class="aui-col-xs-4  coin-header-title aui-font-size-16 red">{{=it[i].title}}</span>
+			{{? it[i].status == 0 & it[i].rev}}
+			<span class="r "> <em class="green" onclick="queren('{{=it[i].id}}',1)">确认</em> | <em class="red" onclick="queren('{{=it[i].id}}',2)">拒绝</em></span>
+			{{?? it[i].status == 0 & !it[i].rev}}
+			<em class="red r">等待处理中</em>
+			{{?? it[i].status==1}}
+			<em class="green r">已完成</em>
+			{{?? it[i].status==2}}
+			<em class="gray r">已取消</em>
+			{{??}}
+			<em class="blue r">状态异常</em>
+			{{?}}
+		</li>
+		<li class="bank_body">
+			<span class="g">对方账户:<em>{{=it[i].username}}</em></span>
+			<span class="g">申请时间:<em>{{=it[i].addtime}}</em></span>
+			<span class="g">成交时间:<em>{{=it[i].endtime}}</em></span>
+			<span class="g">成交价格:<em>{{=it[i].price}}</em></span>
+			<span class="g">交易数量:<em>{{=it[i].num}}</em></span>
+			<span class="g">交易总额:<em>{{=it[i].mum}}</em></span>
+		</li>
+	</ul>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{?}}
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-dialog.js"></script>
+<script type="text/javascript">
+	var pid=1;
+	var callback;
+	window.onscroll = function() {
+		if (getScrollTop() + getWindowHeight() == getScrollHeight()) {
+			++pid;
+			getList(callback);
+		}
+		alog(getScrollTop())
+	}
+	apiready = function(){
+		onerror = error_handel;
+		getList(callback);
+	}
+	function list_change(callback){
+		pid=1;
+		getList(callback)
+	}
+
+	function getList(callback){
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			emptyData($("#entrust-manage-log"))
+			return false;
+		}
+		loading("努力加载中……")
+		UserAjax('push_js/log', 'get', {
+			'type':$("#select_coin option").not(function(){ return !this.selected }).val(),
+			'pid':pid
+		}, function (ret) {
+			toast.hide()
+			if (ret.status == 1)
+			{
+				var temp = doT.template($("#entrust-log-temp").text());
+				if(pid==1){
+					art("第"+pid+"页")
+					$("#entrust-manage-log").html(temp(ret.info.list))
+				}
+				else if(pid>Math.ceil(Number(ret.info.count)/Number(ret.info.pageSize))){
+					art("没有更多数据了")
+				}
+				else{
+					art("第"+pid+"页")
+				$("#entrust-manage-log").html($("#entrust-manage-log").html()+temp(ret.info.list));}
+					if(typeof callback == "function"){
+					setTimeout(function () {
+						callback("刷新完成");
+					}, 1000)
+				}
+				parseTapmode();
+			}else {
+				if (typeof callback == "function") {
+					setTimeout(function () {
+						callback("刷新失败");
+					}, 1000)
+				}
+			}
+		},'json');
+	}
+	//下拉刷新
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			if(getScrollTop()<10) {
+				pid=1
+				getList(function (msg) {
+					art(msg);
+					pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+				})
+			}
+			else {
+				pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+			}
+		}
+	})
+
+	function queren(id,type){
+		if (typeof id == 'undefined') {
+			art("参数错误！");
+			return;
+		}
+		if (typeof type == 'undefined') {
+			art("参数错误！");
+			return;
+		}
+		var dialog = new auiDialog();
+		dialog.alert({
+			title: "请输入交易密码",
+			buttons: ['确定', '取消'],
+			input: true,
+			textType:"password",
+		}, function (ret) {
+			if (ret.buttonIndex == 1) {
+				var paypassword = $("#aui-password").val();
+				UserAjax('push_js/yes','POST',{
+					'id':id,
+					'type':type,
+					'paypassword':paypassword
+				},function(ret){
+					art(ret.info)
+					if(ret.status==1){
+						setTimeout(function(){
+							scrollTo(0,0)
+							pid=1;
+							getList(callback);
+						},500);
+					}
+				})
+			}
+		})
+	}
+
+</script>
+</html>

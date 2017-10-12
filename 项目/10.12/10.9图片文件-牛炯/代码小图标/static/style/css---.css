@@ -1,0 +1,444 @@
+.Transaction th {
+    height: 50px;
+}
+
+.eng {
+    background-color: #f5f5f5;
+    z-index: 1000;
+}
+
+.eng li {
+    background-color: #f5f5f5;
+    color: #000;
+}
+
+.wangjimm {
+    cursor: pointer;
+    margin-right: 348px;
+}
+
+.nav-btn-show {
+    background-color: #f5f5f5;
+    width: 647px;
+    border: 1px solid #1e2731;
+    border-top: 0;
+}
+
+.ft_box .cff6 {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.sanjiao {
+    position: absolute;
+    bottom: 0;
+    left: 19px;
+    border-right: 6px solid rgba(255, 255, 255, 0);
+    border-left: 6px solid rgba(255, 255, 255, 0);
+    border-bottom: 9px solid white;
+}
+
+.nav-btn-show {
+    z-index: 9988;
+    right: 0;
+    top: 40px;
+    padding-bottom: 10px;
+}
+
+.nav-btn-show ul {
+    width: 13%;
+    margin-left: 7%;
+}
+
+.c6a {
+    color: #6a6a6a;
+}
+
+.nbs-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #000;
+}
+
+.nav-btn-show .wx {
+    padding-left: 2%;
+    width: 11%;
+}
+
+.yincang {
+    display: none;
+}
+
+.nav-btn {
+    cursor: pointer;
+}
+
+.all_mask_loginbox {
+    border-radius: 4px;
+    width: 598px;
+    border: 0;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-top: -160px;
+    margin-left: -250px;
+    box-shadow: none;
+    background: #FFF;
+    padding-top: 10px;
+    padding-bottom: 32px;
+    z-index: 10000;
+}
+
+.all_mask {
+    width: 100%;
+    background: #000;
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 9999;
+}
+
+.bory2 {
+    border-right: 1px solid rgba(224, 222, 221, 0.27);
+}
+
+.shuzi .cw {
+    color: #3dc18e;
+}
+
+.mask_wrap_close img {
+    width: 88%;
+}
+
+.mask_wrap_close {
+    position: absolute;
+    right: 14px;
+    top: 12px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.bjuzhong1 {
+    margin: 20px auto;
+}
+
+.nav_xiala {
+    font-size: 14px;
+}
+
+.ul2 .cw {
+    font-size: 15px;
+}
+
+.fle .text-left {
+    font-size: 14px;
+}
+
+/*箭头动画*/
+.icon-arrowdown {
+    transform: scale(.7);
+    transition: all 1s;
+    position: relative;
+    top: 0;
+    /*-webkit-animation: magic-arrow-down 1.7s infinite ease;*/
+    /*-o-animation: magic-arrow-down 1.7s infinite ease;*/
+    /*-moz-animation: magic-arrow-down 1.7s infinite ease;*/
+    /*-ms-animation: magic-arrow-down 1.7s infinite ease;*/
+    animation: magic-arrow-down 1.7s infinite ease;
+}
+
+.icon-arrowup {
+    transition: all 1s;
+    position: relative;
+    top: 0;
+    /*-webkit-animation: magic-arrow-down 1.7s infinite ease;*/
+    /*-o-animation: magic-arrow-down 1.7s infinite ease;*/
+    /*-moz-animation: magic-arrow-down 1.7s infinite ease;*/
+    /*-ms-animation: magic-arrow-down 1.7s infinite ease;*/
+    animation: magic-arrow-up 1.7s infinite ease;
+}
+
+@keyframes magic-arrow-down {
+    0% {
+        top: 5px;
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    100% {
+        top: 20px;
+        opacity: 0;
+    }
+}
+
+@keyframes magic-arrow-up {
+    0% {
+        top: 5px;
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    100% {
+        top: -20px;
+        opacity: 0;
+    }
+}
+
+.shuzi .cdf {
+    color: #ccc;
+}
+
+.bandwc {
+    height: 94px;
+    margin: 0 auto;
+}
+
+.borea {
+    border: 1px solid #eaebeb;
+
+}
+
+.nav_xiala {
+    position: absolute;
+    z-index: 1000;
+}
+
+.nav_xiala2 {
+    position: absolute;
+    z-index: 1000;
+    background-color: #dcdcdc;
+}
+
+.liucheng li {
+    width: 154px;
+    color: #969696;
+    position: relative;
+    font-size: 14px;
+    line-height: 25px;
+}
+
+.lc_yuan {
+    width: 27px;
+    height: 27px;
+    line-height: 27px;
+    background-color: white;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
+.tiao {
+    position: relative;
+    top: 41px;
+    height: 6px;
+    width: 100%;
+    background-color: white;
+}
+
+.liucheng li:hover {
+    color: #ea5514;
+}
+
+.liucheng li:hover .tiao {
+    background-color: #ea5514;
+}
+
+.liucheng li:hover .lc_yuan {
+    color: white;
+    background-color: #ea5514;
+}
+
+.nav3 .flle:hover {
+    border-bottom: 2px solid #ea5514;
+}
+
+.borb2 {
+    border-bottom: 2px solid #ea5514;
+}
+
+.mart34 {
+    margin-top: 41px;
+    margin: 41px 10px;
+}
+
+.ove {
+    overflow: auto;
+}
+
+.nav3 img {
+    width: 21px;
+    position: relative;
+    top: 4px;
+    left: -5px;
+}
+
+.nav3 {
+    font-weight: 600;
+    line-height: 50px;
+}
+
+.nav3 .flle {
+    font-size: 16px;
+    cursor: pointer;
+    width: 143px;
+
+}
+
+.pad13 {
+    padding: 0 13px;
+}
+
+.nav3_you {
+    line-height: 50px;
+}
+
+.w380 {
+    width: 380px;
+    line-height: 29px;
+}
+
+.c3dc {
+    color: #3dc18e;
+}
+
+.marb {
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.ft_box dd {
+    font-size: 11pt;
+}
+
+.PlateTitle img {
+    position: relative;
+    top: 4px;
+    left: -5px;
+}
+
+body .trader_btn input {
+    border-radius: 0;
+}
+
+.Transaction th {
+    background-color: white;
+    line-height: 50px;
+}
+
+.TitleBox {
+    padding: 0 10px;
+    background-color: white;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.xiugai_bor1 {
+    /*padding: 0 10px;*/
+    border-bottom: 1px solid #eeeeee;
+}
+
+.xiugai_autobox {
+    font-size: 14px;
+    padding: 10px 10px;
+    background-color: white;
+}
+
+.xiugai_autobox th {
+    font-size: 14px;
+}
+
+#orderlist td {
+    font-size: 14px;
+    /*color: #000;*/
+    line-height: 43px;
+}
+
+#orderlist2 td {
+    font-size: 14px;
+    /*color: #000;*/
+    line-height: 43px;
+}
+
+#orderlist th {
+    font-size: 14px;
+}
+
+#orderlist2 th {
+    font-size: 14px;
+}
+
+.bacf6 {
+    background-color: #ff6000;
+    padding: 2px;
+}
+
+body .ft_box dd {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ff6000;
+}
+
+body .ft_box dd p {
+    font-size: 14px;
+    font-weight: 400;
+
+}
+
+body .xiugaigree dd {
+    color: #3dc18e;
+}
+
+.ft_box .orange {
+    color: #000;
+    text-align: center;
+    font-weight: 600;
+}
+
+.ft_box .green {
+    color: #000;
+    text-align: center;
+    font-weight: 600;
+}
+
+.w171 {
+    width: 171px;
+    border-bottom: 2px solid #ff6000;
+    display: inline-block;
+    padding-left: 10px;
+    line-height: 45px;
+}
+
+.texts {
+    width: 260px;
+    border-radius: 0;
+}
+
+body .trader_btn {
+    width: 340px;
+}
+.font16{
+    font-size:16px;
+    font-weight:600;
+}
+.xiugai_sell td {
+
+}
+td.buy {
+    color:#ff6000;
+    font-size:14px;
+}
+td.sell {
+    color: #3dc18e;
+    font-size:14px;
+}
+td.buy .wz_buy {
+    color: #fff;
+    background: #ff6000;
+}
+td.sell .wz_sell {
+    color: #fff;
+    background: #3dc18e;
+}

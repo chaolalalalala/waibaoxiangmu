@@ -1,0 +1,70 @@
+{include file="public:top"}
+<link rel="stylesheet" href="__HOME__/ico/css/index.css">
+<header >
+	<div id="header" class="">
+		<div id="logo" style="margin-left: 100px;display:none">
+			{if $config['web_logo']} <a href="/"><img src="__UP__/{$config['web_logo']}" alt="" style="height: 60px;"/></a> {else}
+			<a href="/" class="xiaozhu-logo"> <i class="move-self move-logo2 move"></i> </a> {/if}
+		</div>
+		<ul id="nav_list" style="margin-left: 300px">
+			<li>
+				<a href="{#url('/ico_s')}" class="" data-hover="{#lang('主页')}"> {#lang('主页')} </a>
+			</li>
+			<li>
+				<a href="{#url('/ico_s/lists')}" class="" data-hover="{#lang('浏览项目')}"> {#lang('浏览项目')} </a>
+			</li>
+			<li>
+				<a href="{#url('/ico_s/log')}" class="" data-hover="{#lang('项目记录')}"> {#lang('项目记录')} </a>
+			</li>
+
+		</ul>
+		<div id="user_wrap" class="none">
+			<ul class="clearfix">
+				{if $user}
+				<li class="login">
+					<i class="fa fa-user"></i>
+					<a href="/login" id="login_top">
+						{$user['username']} </a>
+				</li>
+				<li class="register"><a href="{#url('login/loginout')}" class="on">{#lang('退出')}</a></li>
+				{else}
+				<li class="login">
+					<i class="fa fa-user"></i>
+					<a href="javascript:;" onclick="loginpop()" id="login">{#lang('登录')}</a>
+				</li>
+				<li class="register"><a href="/reg/index" class="on">{#lang('注册')}</a></li>
+				{/if}
+			</ul>
+		</div>
+		<div class="locale-settings none">
+			<a href="javascript:" class="current-locale">
+				<span class="sprite-item flag-zh-cn"></span><span class="sprite-item arrow-down"></span> </a>
+			<ul class="locale-list">
+				<li>
+					<a href="javascript:" class="locale-lang" data-lang="en"><span class="sprite-item flag-en-us"></span></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</header>
+<script>
+	var path=window.location.pathname;
+	$('#nav_list').find('a[href="'+path+'"]').addClass('active');
+
+	path = path.split('/');
+	if(path[2]=='details' || path[2]=='lists') {
+		$('#nav_list').find('a[href="/ico_s/lists.html"]').addClass('active');
+	}else if(path[2]=='index'){
+		$('#nav_list').find('a[href="/ico_s.html"]').addClass('active');
+	}
+
+	$(window).scroll(function () {
+		var st = $(this).scrollTop();
+		if(st > 0){
+			$('#header').addClass('fixed');
+
+		}else{
+			$('#header').removeClass('fixed');
+		}
+	});
+</script>

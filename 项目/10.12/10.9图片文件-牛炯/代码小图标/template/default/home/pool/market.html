@@ -1,0 +1,226 @@
+{include file="public:header"}
+<style>
+	.mybtn{
+		width:auto;
+		height:25px;
+		line-height:25px;
+		padding:0 10px;
+		font-size:12px;
+	}
+</style>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;<a href="/pool/" class=""> {#lang('矿机工厂')}</a>&gt; {#lang('我的矿场')}
+	</div>
+	<div class=" assets_content bg_w" style="min-height:30px;">
+		<div class="safe_center clear">
+			<h1>
+					<span>
+						{#lang('矿机工厂')}
+					</span>
+	                <span>
+                         <a href="{#url('pool/index')}" id="step1" class="step fz_12 ml50 pd6  ">{#lang('矿机市场')}</a>
+                         <a href="{#url('pool/market')}" id="step2" class="step fz_12 ml20 pd6 active ">{#lang('我的矿场')}</a>
+                         <a href="{#url('pool/log')}" id="step4" class="step fz_12 ml20 pd6 ">{#lang('收益记录')}</a>
+                    </span>
+                    <span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+			</h1>
+		</div>
+		<div id="hints" class="mytips" style="display:none;">
+			<script>
+				var hints = "{$hints['show']}";
+				if(hints == 1){
+					$('#hints').show();
+				}
+			</script>
+			{$hints["value"] nofilter}
+		</div>
+		<div class="cnyin_record">
+			<div class="f_body">
+				<div class="f_body_main">
+					<div class="f_tab_body">
+						<div>
+							<table class="f_table" id="investLog_content">
+								<tr>
+									<th>序号</th>
+									<th>购买时间</th>
+									<th>开始工作时间</th>
+									<th>领取奖励区间</th>
+									<th>上次领取时间</th>
+									<th>周期奖励</th>
+									<th>其它时间收益衰减%</th>
+									<th>过期产收益衰减%</th>
+									<th>最小收益%</th>
+									<th>剩余寿命</th>
+									<th>
+										<select id="status-select">
+											<option value="">状态</option>
+											<option value="1">空闲</option>
+											<option value="2">工作中</option>
+											<option value="3">已失效</option>
+										</select></th>
+									<th>操作</th>
+								</tr>
+								<!--矿工-->{if $pages["list"]}{foreach $pages["list"] as $v}
+								<tr>
+									<td>编号:{$v["id"]}</td>
+									<td>{#addtime($v["addtime"],"y/m/d")}</td>
+									<td>{if $v["strtime"]==0} ----------- {else} {#addtime($v["strtime"],"y/m/d")} {/if}
+									</td>
+									<td>{$v["limit1"]}点--{$v["limit2"]}点</td>
+									<td>{if $v["gettime"]==0 } ------------ {else} {#addtime($v["gettime"]) } {/if}
+									</td>
+									<td>{$v["pd"]}{$v["pd_type"]}</td>
+									<td>{$v["qita"]}%</td>
+									<td>{$v["guoqi"]}%/天</td>
+									<td>{$v["minguoqi"]}%</td>
+									<td>{$v["lastlife"]}次</td>
+									<td>
+										{if $v["status"]==2 }
+										<img src="__IMG__/pool/wakuang2.gif" alt="test" height="100px" width="100px" margin="12"/>
+										<span id="press_{$v['id']}"></span> {else if $v["status"]==1}
+										<img src="__IMG__/pool/ready.jpg" alt="test" height="100px" width="100px" margin="12"/> {else if $v["status"]==3 } 寿命用完了 {/if}
+									</td>
+									<td>{if $v["status"]==2}
+										<input type="button" class="btns2 mybtn" data-align="{$v['id']}" onclick="get(this)" value="获取收成">
+										<input type="button" class="btns2 mybtn" data-align="{$v['id']}" onclick="end(this)" value="结束挖矿"> {else if $v["status"]==1}
+										<input type="button" class="btns2 mybtn" data-align="{$v['id']}" onclick="str(this)" value="开始挖矿"> {else if $v["status"]==3 } {/if}
+									</td>
+								</tr>
+								{/foreach}{/if}
+							</table>
+							{if $pages['show']}
+							<div class="pages" style="height:40px">{$pages['show'] nofilter}</div>{/if}
+						</div>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$("#status-select").val("{$status}");
+	$("#status-select").change(function () {
+		var status = $("#status-select option:selected").val();
+		var url    = '/pool/order';
+		if (status) {
+			url += '/status/' + status;
+		}
+		window.location = url;
+	});
+</script>
+<script type="text/javascript">
+	function str(o) {
+		var id = $(o).attr('data-align');
+
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '输入交易密码，并确认',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('pool/str')}", {id: id, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							window.setTimeout("location.reload()", 1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+
+	}
+
+	function end(o) {
+		var id = $(o).attr('data-align');
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '输入交易密码，并确认',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('pool/end')}", {id: id, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							window.setTimeout("location.reload()", 1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+
+	}
+
+	function get(o) {
+		var id = $(o).attr('data-align');
+
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '输入交易密码，并确认',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('pool/get')}", {id: id, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							window.setTimeout("location.reload()", 1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+
+	}
+</script>
+<script>
+	if ($("#pool_box").length > 0) {
+		$('#pool_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+</div>
+{include file="public:footer"}
+
+
+
+
+

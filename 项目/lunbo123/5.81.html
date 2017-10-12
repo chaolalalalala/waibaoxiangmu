@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <div id="ss">
+        <ul class="box">
+            <li>0</li>
+            <li>1</li>
+            <li>2</li>
+        </ul>
+        <ul>
+            <li class="one">3</li>
+            <li class="one">4</li>
+            <li>5</li>
+        </ul>
+        <ul>
+            <li>
+                6
+                <ul></ul>
+            </li>
+            <li>7</li>
+            <li>8</li>
+        </ul>
+    </div>
+    <form action="">
+        <label>生命</label>
+        <input type="text" name="name">
+        <label>岁月</label>
+        <input type="text" name="name1">
+    </form>
+    <input type="text" name="name2">
+    <div class="xiao"></div>
+</body>
+<script src="jQuery.js"></script>
+<script>
+    $("ul,li").css("list-style","none")
+    $("#ss")              //选择ID，根据给定的ID匹配一个元素。
+    $("div")                  //element   直接是标签名
+    $("#ss,ul,li")          // 群组选择，可以一起返回
+    $(".xiao")              // 通过类名选择匹配元素
+    $("*")                  // 匹配所有元素
+    $("form input")         //   匹配所有选中祖先元素下的后代元素
+    $("form>input")         //   parent>child 匹配所有选中父类元素下的子元素
+    $("form+input")         //    prev+next  匹配紧跟form的input
+    $("form~input")         //              匹配form后的所有input
+    $("li:first").css("background","red")          //  匹配整个页面中第一个li
+    $("li").filter(".one").css("border","1px  solid red")
+    console.log($("li").is(function () {
+        return $(this).html()==4;
+    }))                      //判断有没有内容为4的li
+    $.map(function (index,ele) {
+
+    })    //方法与js相反
+    $(".box li").eq(2).css("background","pink")     //选取第3个元素
+    $("li").has("ul").css("background","#000")      //判断含有ul的li
+
+</script>
+</html>

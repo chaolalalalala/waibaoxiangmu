@@ -1,0 +1,263 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/money.css"/>
+<style>
+</style>
+<div class="autobox">
+    <div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('人人红包')}
+    </div>
+    <div class="main-content mb20">
+        <div class=" assets_content bg_w" style="min-height:30px;">
+            <div class="safe_center clear">
+                <h1>
+					<span>
+						{#lang('人人红包')}
+					</span>
+	                <span>
+                       <a href="{#url('hongbao/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('红包列表')}</a>
+                        <a href="{#url('hongbao/log')}" id="step2" class="step fz_12 ml20 pd6 ">{#lang('抢红包记录')}</a>
+                         <a href="{#url('hongbao/sendlog')}" id="step3" class="step fz_12 ml20 pd6 ">{#lang('发红包记录')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+                </h1>
+            </div>
+            <div id="hints" class="mytips" style="display:none;">
+	            <script>
+		            var hints = "{$hints['show']}";
+		            if(hints == 1){
+			            $('#hints').show();
+		            }
+	            </script>
+	            {$hints["value"] nofilter}
+            </div>
+	        {#slider("hongbao")}
+        </div>
+    </div>
+
+    <!--抢红包主界面-->
+    <div style="width:950px;float: left;">
+        <div class="w1190 project" >
+            {foreach $pages['list'] as $k => $v}
+            <div class="project_list" style="cursor: default">
+                <table style="width:950px;margin-left: 5px" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr>
+                        <td rowspan="3" class="list_tu">
+                            <button type="button" style=" cursor: pointer" onclick="hongbao('{$v['id']}')">
+                                <img src="__IMG__/hongbao/hongbao.png">
+                            </button>
+                        </td>
+                        <td class="list_td11" style="width:650px;">
+                            <span><font>编号：</font>{$v['id']}</span>
+                                           <span class="mark3" style="color: rgb(68, 68, 68);">
+                                              <img src="__IMG__/money/listicon_07.png">
+                                              标题:  <b class="blue"> {$v["title"]} </b>
+                                           </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="list_td21">
+                            <i class="mark3" style="margin-right:10px;">币</i> {$v['money']} {#strtoupper($v['money_type'])}
+
+                            <span><img src="__IMG__/hongbao/user.png">土豪:  {if !$v["userid"] }
+                                                                                系统管理员
+                                                                                {else if $v["userid"] }
+                                                                                {$v["userid"]}
+                                                                                {/if}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="list_td31">
+                            <span><img src="__IMG__/hongbao/eye.png" style="margin-left:0;"> {$v["get"]}人已抢/共{$v["num"]}个
+                            </span>
+                            <span><img src="__IMG__/hongbao/Clock.png">
+                              发送日期：{#addtime($v['addtime'])}
+                            </span>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            {/foreach}
+        </div>
+        <div class="pages">{$pages['show'] nofilter}</div>
+    </div>
+    <!--右侧-->
+    <div style="float: right;width:245px;margin-top:-18px;background-color:#ffffff">
+
+        <!--发红包-->
+        <div style="margin-bottom:10px;height:210px">
+            <div style="margin-left: 20px;height: 30px; margin-top:1px">
+                <input style="width: 100px;" type="button" value="{#lang('我抢的红包')}" class="btns" onclick="top.location='/home/hongbao/log/type/1'"/>
+                <input style="width: 100px;" type="button" value="{#lang('我发的红包')}" class="btns" onclick="top.location='/home/hongbao/sendlog/type/1'"/>
+            </div>
+            <table aria-setsize="" style="max-width: 300px;max-height:500px;margin-left: 10px;margin-top: 5px">
+                <tr class="controls">
+                    <td class="form-control" style="width:60px;font-weight: bold">标语:</td>
+                    <td>
+                        <input type="text" class="texts" id="title" value="" placeholder="请输入你的红包标题" style="max-width: 150px;height:30px;">
+                    </td>
+                </tr>
+
+                <tr class="controls">
+                    <td class="item-label" style="font-weight: bold">金额 :</td>
+                    <td>
+                        <input type="text" class="texts" id="money" value="" placeholder="请输入红包总金额" style="max-width: 150px;height:30px;">
+                    </td>
+                </tr>
+
+                <tr class="controls">
+                    <td class="item-label" style="font-weight: bold">金币类型 :</td>
+                    <td>
+                        <select type="select" class="texts" id="money_type" value="" style="height:30px;max-width: 150px;">
+                            <option>请选择红包币种</option>
+                            {foreach $data as $v}
+                            <option value="{$v['id']}">{$v["money_type"]}</option>
+                            {/foreach}
+                    </td>
+                </tr>
+                <tr class="controls">
+                    <td class="item-label" style="font-weight: bold">份数 :</td>
+                    <td>
+                        <input type="text" class="texts" id="num" value="" placeholder="请选择红包个数" style="height:30px;max-width: 150px;">
+                    </td>
+                </tr>
+                <tr class="controls" style="margin: 0px 0px;height: 50px;">
+                    <td class="item-label"></td>
+                    <td>
+                        <button style="height:35px;width:80px;margin-left: 15px" class="btns2 mybtn " type="submit" onclick="send()">确 定
+                        </button>
+                    </td>
+                    <td class="item-note"></td>
+                </tr>
+            </table>
+        </div>
+        <!--发红包排行-->
+        <img src="__IMG__/hongbao/tuhao.jpg" height="30px" width="245px"/>
+        <div style="margin-top:-5px ;height:265px " >
+            <table class="f_table" id="investLog_content" style="max-width: 245px;max-height:400px;">
+                <thead>
+                <tr>
+                    <th id="sublist-grid_c01" style="font-weight: bold">排名</th>
+                    <th id="sublist-grid_c21" style="font-weight: bold">用户名</th>
+                    <th id="sublist-grid_c71" style="font-weight: bold">红包数</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php $i = 1?>
+                {foreach $tuhao as $k=>$v}
+                <tr>
+                    <td>{$i++}</td>
+                    <td>{if !$v["username"]}
+                        系统管理员
+                        {else if $v["username"]}
+                        {$v["username"]}
+                        {/if}
+                    </td>
+                    <td>{$v["num"]}</td>
+                </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        </div>
+        <!--抢红包排行-->
+        <img src="__IMG__/hongbao/kuaishou.jpg" height="30px" width="245px" />
+        <div style="margin-top:-5px ;height:265px ">
+            <table class="f_table" id="investLog_content2" style="max-width: 255px;max-height:400px;">
+                <thead>
+                <tr>
+                    <th id="sublist-grid_c02" style="font-weight: bold">排名</th>
+                    <th id="sublist-grid_c22" style="font-weight: bold">用户名</th>
+                    <th id="sublist-grid_c72" style="font-weight: bold">红包数</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php $i = 1?>
+                {foreach $speed as $k=>$v}
+                <tr>
+                    <td>{ $i++ }</td>
+                    <td>{$v["username"]}</td>
+                    <td>{$v["num"]}</td>
+                </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+<script type="text/javascript">
+
+    //抢红包
+    function hongbao(id) {
+        $.get("/home/hongbao/hongbao/id/" + id, {},
+                function (data, textStatus) {
+                    // console.log(data);
+                    if (data.status == 1) {
+                        layer.msg(data.info, {icon: 1});
+                        window.setTimeout("location.reload()", 2000);
+                    } else {
+                        //alert(data.info);
+                        layer.msg(data.info, {icon: 2});
+                        window.setTimeout("location.reload()", 1000);
+                    }
+                }, "json");
+    }
+
+    //发红包
+    function send(){
+        var title = $("#title").val();
+        var money = $("#money").val();
+        var money_type = $("#money_type").val();
+        var num = $("#num").val();
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        layer.ready(function () {
+            //默认prompt
+            layer.prompt({
+                title: '输入交易密码，并确认',
+                formType: 1
+            }, function (val) {
+                if (val) {
+                    //需要执行的方法
+                    $.post("{#url('/home/hongbao/send')}", {
+                        title: title,
+                        money: money,
+                        money_type: money_type,
+                        num: num,
+                        paypassword: val
+                    },
+                            function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            window.setTimeout("location.reload()",1000);
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, "json");
+                }
+                ;
+            });
+        });
+
+    }
+</script>
+<script>
+    if ($("#hongbao_box").length > 0) {
+        $('#hongbao_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}

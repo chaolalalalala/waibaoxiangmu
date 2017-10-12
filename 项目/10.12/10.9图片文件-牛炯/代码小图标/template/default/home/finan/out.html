@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>提现人民币 - 财务中心 - 币火网 -  www.bihuo168.com </title>
+<meta name="Keywords" content="{$seos['keywords']}">
+<meta name="Description" content=" {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+<link rel="stylesheet" href="/static/style/safeadd.css">
+<link rel="stylesheet" href="/static/style/moneyadd03.css">
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="movesay">{#lang('首页')}</a> &gt; <a href="/u/asset.jsp" class="movesay">{#lang('财务中心')} </a> &gt; {#lang('提现人民币')}
+	</div>
+	<div class="main-content">
+		{include file="finan:left"}
+		<div class="tag-list-content assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('提现人民币')}
+					</span>
+					 <span>
+                        <a href="/u/asset/payout_cny.jsp" class="step fz_12 ml50 pd6 active">{#lang('提现人民币')}</a>
+                        <a href="/u/asset/payout_cny_log.jsp" class="step fz_12 ml20 pd6">{#lang('提现记录')}</a>
+                        <a href="/u/asset/payout_cny_account.jsp" class="step fz_12 ml20 pd6">{#lang('提现地址管理')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="mytable-body ">
+				<div class="step1  pwtrade  pw  mt50">
+
+					<div class="weituo_bizhong" style="margin-left: 149px;margin-bottom: 10px;">
+						<div class="bizhong_select">
+							<div class="bz_btn">
+								{if $coin}
+
+								<img src="__UP__/{$coin_select[$coin]['img']}" alt="" style=" width: 22px;float:left; margin-top: 7px; margin-right: 5px;"/>
+								{/if}
+
+								<span id="coin-default">
+									<select name="type" id="coin-select" style="margin-top: 6px;">
+										{foreach $coin_select as $k => $v}
+										<option value="{$k}" {if $coin == $k} selected="selected" {/if} >{$v.title} ({#strtoupper($v['name'])})</option>
+										{/foreach}
+									</select>
+								</span>
+							</div>
+						</div>
+						<script>
+							$("#coin-select").change(function () {
+								var coin        = $("#coin-select option:selected").val();
+								window.location = '/u/asset/payout_'+coin+'.jsp';
+							});
+						</script>
+
+
+						<div class="bizhong_type" style="width: 220px;">
+							<span>{#lang('可用')}<em class="coin-name"></em>：<font class="coin-balance">{#num($user_coin[$coin])}</font></span>
+						</div>
+					</div>
+					<br>
+
+
+					<dl>
+						<dt>{#lang('提现地址')}：</dt>
+						<dd>
+							<span>
+								<select id="out_bank" class="texts">
+									<option value="">--{#lang('选择提现地址')}--</option>
+									{if $user['alipay']}
+									<option value="alipay">{#lang('绑定的支付宝')}</option>
+									{/if} {foreach $user_bank as $k => $v}
+									<option value="{$v.id}"  style="font-size:16px;">{$v.name} {$v.bankcard}</option>
+									{/foreach}
+									<option value="tianjia">{#lang('新添加一个提现地址')}</option>
+								</select>
+							</span>
+						</dd>
+					</dl>
+					<dl>
+						<dt>{#lang('提现金额')}：</dt>
+						<dd style="position: relative;">
+							<input type="text" class="texts" id="out_num" maxlength="12" value="">
+							{#lang('手续费')}{$out_fee}%
+
+							{if $config['out_coin_fee']>0}
+							{#lang('额外需要')} {$config['out_coin_fee']}% {$config['out_coin']}
+							{/if}
+						</dd>
+					</dl>
+					<dl class="step5">
+						<dt>{#lang('短信验证码')}：</dt>
+						<dd class="yuyin">
+							<div class="clear">
+								{if $sys_sms['sms']==1}
+								<input type="button" value="{#lang('发送短信验证码')}" class="btns" onclick="send_moble_out('sms')" style="width: 100px;font-size: 12px;"/>
+								{/if}
+								{if $sys_sms['tel']==1}
+								<input type="button" value="{#lang('发送语音验证码')}" class="btns" onclick="send_moble_out('tel')" style="width: 100px;font-size: 12px;"/>
+								{/if}
+
+								{$user['moble']} ({#lang('接收验证码')})
+							</div>
+						</dd>
+					</dl>
+					<dl class="step6" style="display:none;">
+						<dt>{#lang('短信验证码')}：</dt>
+						<dd>
+							<input type="text" id="out_moble_verify" value="" class="texts" placeholder="{#lang('请输入短信验证码')}"/> <span id="reg_moble_new"></span>
+						</dd>
+					</dl>
+					<dl>
+						<dt>{#lang('交易密码')}：</dt>
+						<dd>
+							<input type="password" class="texts" id="out_paypassword"  value=""><a href="/u/forget_safeword.jsp" class="move ml5">{#lang('忘记')}?</a>
+						</dd>
+					</dl>
+					<dl>
+						<dt></dt>
+						<dd>
+							<input type="button" class="btns2" value="{#lang('立即提现')}" onclick="out_up()">
+						</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$("#out_bank").change(function () {
+		var type = $("#out_bank option:selected").val();
+		if (type == 'tianjia') {
+			window.location = "/u/asset/payout_cny_account.jsp";
+		}
+	});
+
+	function send_new() {
+		$(".step6").hide();
+		$(".step5").show();
+	}
+
+
+	function send_moble_out(type) {
+		$.post("{#url('verify/moble_out')}", {
+			type: type,
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				$(".step5").hide();
+				$(".step6").show();
+				$("#out_moble_verify").focus();
+				$('#moble_new').attr("disabled", "disabled");
+				var obj      = $('#reg_moble_new');
+				var wait     = 60;
+				var interval = setInterval(function () {
+					obj.html(wait + "{#lang('秒可再次发送')}");
+					wait--;
+					if (wait < 0) {
+						clearInterval(interval);
+						$(".reloadverify_new").click();
+						$("#verify_new").val('');
+						obj.html('<a class="move" onclick="send_new()">{#lang("没有收到？重新发送")}</a>');
+					}
+				}, 1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					setTimeout(function(){
+						window.location = data.url;
+					},1000)
+				}
+			}
+		}, "json");
+	}
+	function out_up() {
+		var num          = $("#out_num").val();
+		var paypassword  = $("#out_paypassword").val();
+		var moble_verify = $("#out_moble_verify").val();
+		var bank         = $('#out_bank option:selected').val();
+		var coinname         = $('#coin-select option:selected').val();
+		if (moble_verify == "" || moble_verify == null) {
+			//layer.tips('请输入短信验证码', '#out_moble_verify', {tips: 2});
+			layer.msg('请输入短信验证码', {
+				icon: 2
+			});
+			return false;
+		}
+		if (num == "" || num == null) {
+			layer.tips('请输入提现金额', '#out_num', {tips: 2});
+			return false;
+		}
+		if (bank == "" || bank == null) {
+			layer.tips('请输入提现金额', '#out_bank', {tips: 2});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips('请输入交易密码', '#out_paypassword', {tips: 2});
+			return false;
+		}
+
+		var goole ="{$goole}";
+		if(goole == 1){
+			layer.config({
+				extend: 'extend/layer.ext.js'
+			});
+			layer.ready(function () {
+				//默认prompt
+				layer.prompt({
+					title: '输入谷歌验证码，并确认',
+					formType: 1
+				}, function (val) {
+					if (val) {
+						//需要执行的方法
+
+						$.post("/finan/out_up", {
+							num: num,
+							paypassword: paypassword,
+							moble_verify: moble_verify,
+							bank: bank,
+							goole:val,
+							coinname:coinname,
+						}, function (data) {
+							if (data.status == 1) {
+								layer.msg(data.info, {icon: 1});
+								setTimeout(function(){
+									window.location = '/u/asset/payout_cny_log.jsp';
+								},1000);
+							} else {
+								layer.msg(data.info, {icon: 2});
+								if (data.url) {
+									setTimeout(function(){
+										window.location = data.url;
+									},1000)
+
+								}
+							}
+						}, "json");
+
+
+					};
+				});
+			});
+		}else{
+			$.post("/finan/out_up", {
+				num: num,
+				paypassword: paypassword,
+				moble_verify: moble_verify,
+				bank: bank,
+				coinname:coinname,
+			}, function (data) {
+				if (data.status == 1) {
+					layer.msg(data.info, {icon: 1});
+					setTimeout(function(){
+						window.location = '/u/asset/payout_cny_log.jsp';
+					},1000)
+
+				} else {
+					layer.msg(data.info, {icon: 2});
+					if (data.url) {
+						window.location = data.url;
+					}
+				}
+			}, "json");
+		}
+
+
+
+
+
+
+	}
+</script>
+<script>
+	$('.finan_out').addClass('active');
+</script>
+{include file="aaapublic:footer"}

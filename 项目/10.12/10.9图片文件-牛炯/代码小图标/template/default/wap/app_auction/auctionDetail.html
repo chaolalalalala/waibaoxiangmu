@@ -1,0 +1,453 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/goods.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+    <style>
+        .footer_nav ul li em {
+            display: block;
+            width: 30px;
+            height: 25px;
+            margin: auto;
+            background: url(__WAP__/image/shop/pub_goods.png) no-repeat;
+            background-size: auto 280px;
+        }
+        .footer_nav dl {
+            width: 100%;
+        }
+        .my_body{
+            margin: 45px 0px 60px 0px;
+            border-radius: 8px;
+            line-height: 30px;
+        }
+        .my_body ul{
+            position: relative;
+            padding-left: 0;
+            margin-top: 0;
+            margin-bottom: 10px;
+            list-style: none;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            /*border: 1px solid #55585D;*/
+            background-color: #FFF;
+        }
+        .itemRow li{
+            display: flex;
+            display: -webkit-box;
+            display: -webkit-flex;
+        }
+        .itemRow span {
+            flex: 1;
+            -webkit-flex: 1;
+            -webkit-box-flex: 1;
+            text-align: center;
+            font-size: 0.655rem;
+        }
+        .itemRow li:first-child {
+            background-color: #cccccc;
+        }
+        .end{
+            width:80%;
+            height:4rem;
+            background-color:#F9F3DD;
+            color:#999;
+            margin:0.2rem auto 0;
+            line-height:4rem;
+            font-size:1.5rem;
+            text-align:center;
+        }
+        .displayNone {
+            display: none;
+        }
+        .price_dottm li{
+	        text-align:left;
+        }
+        #pid{
+	        display:inline-block;
+	        background-color:#fff;
+	        width:50px;
+	        padding:0.25rem;
+	        font-size:0.7rem;
+        }
+        .bottom{
+	        margin-top:0.5rem;
+	        text-align:center;
+        }
+        #list{
+	        position: relative;
+	        display: inline-block;
+	        font-size: 0.7rem;
+	        font-weight: 400;
+	        font-family: inherit;
+	        text-decoration: none;
+	        margin: 0;
+	        padding: 0.25rem 0.6rem;
+	        width:100%;
+	        -webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+	        white-space: nowrap;
+	        vertical-align: middle;
+	        cursor: pointer;
+	        touch-action: manipulation;
+	        -webkit-user-select: none;
+	        user-select: none;
+	        color: #ffffff ;
+	        background-color: #03a9f4;
+        }
+        .index_floor{
+	        margin-bottom:0;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="tab_nav">
+        <div class="header">
+            <div class="h-mid">
+                <ul>
+                    <li><a style="height: 45px" href="javascript:;" class="on" id="goods_ka1" onclick="chose_tab(1)">商品</a></li>
+                    <li><a style="height: 45px" href="javascript:;" class="" id="goods_ka2" onclick="chose_tab(2)">详情</a></li>
+                    <li><a style="height: 45px" href="javascript:;" class="" id="goods_ka3" onclick="chose_tab(3)">抢拍记录</a></li>
+                </ul>
+            </div>
+            <div class="h-right">
+                <aside class="top_bar">
+                </aside>
+            </div>
+        </div>
+    </div>
+    <div class="main" id="user_goods_ka_1" style="display: block;">
+        <div id="aui-slide" style="margin-top: 45px">
+            <div class="aui-slide-wrap" id="slider">
+
+            </div>
+            <div class="aui-slide-page-wrap"><!--分页容器--></div>
+        </div>
+        <script id="slider-template" type="text/x-dot-template">
+            {{? it.length>0 }}
+            {{ for(var i in it) { }}
+            <div class="aui-slide-node aui-slide-node-middle aui-slide-node-center">
+                <img src="{{=it[i].img}}"/>
+            </div>
+            {{ } }}
+            {{? }}
+        </script>
+        <div class="s_bottom"></div>
+        <form name="buy_goods_form" method="post" id="buy_goods_form">
+            <div class="product_info">
+                <div class="info_dottm">
+                    <h3 class="name" id="goods_title"></h3>
+                </div>
+                <dl class="goods_price">
+                    <dt>
+                        <span id="goods_price">￥</span>
+                        <!--	<font id="goods_price0">价格：￥169.00元</font> -->
+                    </dt>
+                </dl>
+                <ul class="price_dottm aui-border-b">
+                    <li id="startPrice" style=" text-align:left">起拍价：</li>
+                    <li id="priceUnit">加价幅度：</li>
+	                <li id="keepprice">保留价：</li>
+                    <li id="assureMoney">担保金：</li>
+                </ul>
+                <ul id="startTime" class="price_dottm aui-border-b"
+                    style="padding-top: 5px;font-size: 0.725rem;color: #666">
+                    开始时间:
+                </ul>
+                <ul id="endTime" class="price_dottm aui-border-b"
+                    style="padding-top: 5px;font-size: 0.725rem;color: #666">
+                    结束时间:
+                </ul>
+	            <ul  class="price_dottm aui-border-b"
+	                style="padding-top: 5px;font-size: 0.725rem;color: #666">
+		            （提示:商品最终价低于保留价将流拍）
+	            </ul>
+                <ul class="end displayNone">
+                </ul>
+            </div>
+
+        </form>
+    </div>
+    <div class="main" id="user_goods_ka_2" style="display: none;">
+        <section class="index_floor">
+            <h2 style=" border-bottom:1px solid #ddd "><span></span> 商品信息 </h2>
+	        <ul class="aui-list aui-list-in">
+	            <li class="aui-list-item">
+		            <div id="shop_content"
+		                 style="
+                 position:relative;
+                 overflow-x:auto;
+                 overflow-y:auto;
+                 width:100%;
+                 /*overflow:scroll;*/
+                 height:auto;
+                 padding:0.75rem 0.75rem 51px 0;
+                 " >
+		            </div>
+	            </li>
+            </ul>
+        </section>
+    </div>
+    <div class="tab_attrs tab_item hide" id="user_goods_ka_3" style="display:none;">
+        <div class="my_body">
+            <ul class="itemRow" id="auction_log">
+            </ul>
+	        <div class="bottom">
+		        <div class="aui-btn aui-btn-info" onclick="change_pid('last')" id="last_pid">上一页</div>
+		        <span> 第<input type="" id="pid">页/共<span id="cur">1</span>页</span>
+		        <div class="aui-btn aui-btn-info" onclick="change_pid('next')" id="next_pid">下一页</div>
+		        <div class="aui-btn aui-btn-info" onclick="change_pid()">跳转</div>
+	        </div>
+        </div>
+    </div>
+    <script id="auction_log_temp" type="text/x-dot-template">
+        <li class="aui-border-b">
+            <span>用户名</span>
+            <span>出价时间</span>
+            <span>出价</span>
+        </li>
+        {{? it.length>0 }}
+        {{ for (var i in it){ }}
+
+        <li  class=" aui-border-b">
+            <span>{{=it[i].username}}</span>
+            <span style="padding:0;font-size:10px">{{=it[i].addtime}}</span>
+            <span>{{=it[i].price}}{{=it[i].coinname}}</span>
+        </li>
+        {{ } }}
+        {{??}}
+        <div style="padding: 10px 0">
+            <ul style="text-align: center;color: #535C6F">
+                暂无内容
+            </ul>
+        </div>
+        {{?}}
+    </script>
+</div>
+
+<div class="footer_nav" id="buyBtn" style="display: none">
+    <dl>
+        <dd class="flow"><a class="button active_button" href="javascript:void(0);" onclick="showPrice();"
+                            tapmod="">立即出价</a>
+        </dd>
+        <dd class="goumai"><a style="display:block;" href="javascript:void(0);" onclick="nowAssure();" tapmod="">马上担保</a>
+        </dd>
+    </dl>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/echo.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-slide.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-dialog.js"></script>
+<script type="text/javascript">
+    apiready = function () {
+        onerror = error_handel;
+        flash(function (){});
+    };
+    var cur
+    var shop_info;
+    var  pid=1;
+
+    //立即出价
+    function showPrice() {
+	    if (!chkLogin()) {
+		    art("您目前未登录,请先登录");
+		    return false;
+	    }
+        var dialog = new auiDialog();
+        dialog.alert({
+            title: "请输入喊价价格",
+            buttons: ['确定', '取消'],
+            input: true,
+            textType:"text",
+        }, function (ret) {
+            if (ret.buttonIndex == 1) {
+                var	price = ret.text;
+                if (price.length == 0)
+                {
+                    art('请输入喊价价格');
+                    return;
+                }
+                loading("操作中……")
+                UserAjax('sale/up','post',{
+                    'id':iv("id"),
+                    'price':price,
+                },function(ret){
+                    toast.hide();
+                    if(ret.status==1){
+                        art(ret.info);
+                        flash();
+                    }else{
+                        art(ret.info);
+                    }
+                },"json");
+            }
+        });
+    }
+
+    //马上担保
+    function nowAssure () {
+	    if (!chkLogin()) {
+		    art("您目前未登录,请先登录");
+		    return false;
+	    }
+        var dialog = new auiDialog();
+        dialog.alert({
+            title: "请输入交易密码",
+            buttons: ['确定', '取消'],
+            input: true,
+            textType:"password",
+        }, function (ret) {
+            if (ret.buttonIndex == 1) {
+                var	password = ret.text;
+                if (password.length == 0)
+                {
+                    art('请输入交易密码');
+                    return;
+                }
+                loading("操作中……");
+                UserAjax('sale/danbao','post',{
+                    'id':iv("id"),
+                    'paypassword':password,
+                },function(ret){
+                    toast.hide();
+                    if(ret.status==1){
+                        art(ret.info);
+                    }else{
+                        art(ret.info);
+                    }
+                },"json");
+            }
+        });
+    }
+
+    function flash(callback) {
+        var id = iv("id");
+        if (!id) {
+            art("商品ID未获取");
+            return;
+        }
+
+        loading("加载中,请稍后...")
+        Ajax('sale/view/id/' + id, 'get', {
+	        'pid':pid
+        }, function (ret) {
+            toast.hide();
+            alog(ret);
+            if (ret.status == 1) {
+//				shop_info = ret.info.data;
+                //轮播图
+                var tempFn = doT.template($("#slider-template").html());
+                $("#slider").html(tempFn(ret.info.data.img));
+                setBannerPlay();
+
+                $("#goods_title").html(ret.info.data.sale.title);
+                $("#shop_content").html(ret.info.data.sale.content);
+                $("#goods_price").html('最新价： ' + ret.info.data.sale.price + ret.info.data.sale.cointitle);
+                $("#startPrice").html('起拍价：' + ret.info.data.sale.minprice);
+                $("#priceUnit").html('加价幅度：' + ret.info.data.sale.fudu);
+	            $("#keepprice").html('保留价：' + ret.info.data.sale.keepprice);
+                $("#assureMoney").html('担保金：' + ret.info.data.sale.danbao);
+                $("#startTime").html('开始时间:' + ret.info.data.sale.strtime1);
+                $("#endTime").html('结束时间:' + ret.info.data.sale.endtime1);
+
+                var currentTime = Date.parse(new Date())/1000;
+
+                if( currentTime > ret.info.data.sale.strtime  &&
+                        currentTime < ret.info.data.sale.endtime  )
+                {
+                    $("#buyBtn").css('display','block');
+                }
+
+                if( currentTime < ret.info.data.sale.strtime ) {
+                    $('.end').html('当前拍卖未开始');
+                    $('.end').removeClass('displayNone');
+                }
+                if( currentTime > ret.info.data.sale.endtime ) {
+                    $('.end').html('当前拍卖已结束');
+                    $('.end').removeClass('displayNone');
+                }
+
+                //当前商品的抢拍记录
+	            var data=ret.info.log
+	            var log = doT.template($("#auction_log_temp").html());
+	            $("#last_pid").css('visibility','inherit');
+	            $("#next_pid").css('visibility','inherit');
+	            if(pid==1){
+		            $("#last_pid").css('visibility','hidden');
+		            cur=Math.ceil(Number(data.count)/Number(data.pageSize));
+	            }
+	            if(pid==cur) {
+		            $("#next_pid").css('visibility', 'hidden');
+	            }
+	            $("#auction_log").html( log(data.list) );
+	            $("#pid").val(pid);
+	            $("#cur").html(cur);
+
+                parseTapmode();
+            } else {
+                art(ret.info);
+            }
+        });
+    }
+
+    function setBannerPlay() {
+        //轮播图
+        slide = new auiSlide({
+            container: document.getElementById("aui-slide"),
+            "height": 180,
+            "speed": 100,
+            "autoPlay": 0, //自动播放
+            "pageShow": true,
+            "loop": true,
+            "pageStyle": 'dot',
+            'dotPosition': 'center'
+        });
+    }
+
+    function change_pid(n){
+	    if(n=='last'){
+		    --pid;
+	    }
+	    else if(n=='next'){
+		    ++pid;
+	    }
+	    else{
+		    if($("#pid").val()>cur || $("#pid").val()<1 || !isInteger($("#pid").val())){
+			    art('请输入正确的页码')
+			    return;
+		    }
+		    pid=$("#pid").val();
+	    }
+	    flash();
+    }
+
+    var last_show_id = 1;
+    function chose_tab(id) {
+        $("#user_goods_ka_" + last_show_id).hide();
+        $("#goods_ka" + last_show_id).removeClass("on");
+        last_show_id = id;
+        $("#goods_ka" + id).addClass("on");
+        $("#user_goods_ka_" + id).show();
+    }
+
+    function change_pid(n){
+	    if(n=='last'){
+		    --pid;
+	    }
+	    else if(n=='next'){
+		    ++pid;
+	    }
+	    else{
+		    if($("#pid").val()>cur || $("#pid").val()<1 || !isInteger($("#pid").val())){
+			    art('请输入正确的页码')
+			    return;
+		    }
+		    pid=$("#pid").val();
+	    }
+	    flash();
+    }
+</script>
+</html>

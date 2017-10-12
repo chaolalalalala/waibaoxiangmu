@@ -1,0 +1,157 @@
+{include file="my_header"}
+<div class="aw-container-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="aw-content-wrap clearfix">
+                <div class="col-sm-12 col-md-9 aw-main-content">
+                    <!-- end 新消息通知 -->
+                    <!-- tab切换 -->
+                    <ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
+                        <!--<li><a href="http://wenda.wecenter.com/sort_type-unresponsive">推荐</a></li>-->
+                        <li><a href="/bbs/index/tj/1.html" id="sort_control_hot">热门</a></li>
+                        <li><a href="/bbs/index/jh/1.html">精华</a></li>
+                        <li><a href="/bbs/ilike.html">关注话题</a></li>
+                        <li><a href="/bbs/ijoin.html">我的参与</a></li>
+                        <li class="active"><a href="/bbs/index.html">最新</a></li>
+                        <h2 class="hidden-xs"><i class="icon icon-list"></i> 发现</h2>
+                    </ul>
+                    <!-- end tab切换 -->
+	                <script>
+		                var path=window.location.pathname;
+
+		                if(path!='/bbs'){
+			                $('.navbar-nav li').eq(0).find('a').addClass('active');
+			                $('.nav-tabs li').removeClass('active');
+			                $('.nav-tabs').find('a[href="/bbs/'+highLightArr[2]+'"]').parent().addClass('active');
+		                }
+		                if(highLightArr[3]=='jh'){
+			                $('.nav-tabs li').removeClass('active');
+			                $('.nav-tabs li').eq(1).addClass('active');
+		                }else if(highLightArr[3]=='tj'){
+			                $('.nav-tabs li').removeClass('active');
+			                $('.nav-tabs li').eq(0).addClass('active');
+		                }
+	                </script>
+                    <div class="aw-mod aw-explore-list">
+                        <div class="mod-body">
+                            <div class="aw-common-list">
+                               {if $pages["list"]  } {foreach $pages["list"] as $k=>$v}
+                                <div class="aw-item " data-topic-id="2154,3425,571,">
+                                    {if $v['userimg']}
+                                    <span class="aw-user-name hidden-xs" data-id="36233" href="/" rel="nofollow"><img src="__UP__/{$v['userimg']}" title="{ $v['username']}" alt=""/></span>
+                                    {else}
+                                    <span class="aw-user-name hidden-xs" data-id="36233" href="/" rel="nofollow"><img src="__IMG__/bbs/avatar-max-img.png" title="{ $v['username']}" alt=""/></span>
+                                    {/if}
+                                    <div class="aw-question-content">
+                                        <h4>
+                                            <a href="/bbs/view/id/{$v['id']}.html">{$v["title"]}</a>
+                                        </h4>
+                                        <div class="pull-right hidden-xs contribute">
+                                            {if $v["new_ans"]["username"]}
+                                            <span class="pull-right text-color-999">最新</span>
+                                            <a class="aw-user-name" data-id="36110" rel="nofollow" disabled>
+                                                {if $v["new_ans"]["userimg"]}
+                                                <img src="__UP__/{$v['new_ans']['userimg']}" title="{ $v['new_ans']['username']}" alt="">
+                                                {else}
+                                                <img src="__IMG__/bbs/avatar-max-img.png" title="{ $v['new_ans']['username']}" alt=""/>
+                                                {/if}
+                                            </a>
+                                            {/if}
+                                        </div>
+                                        <p>
+                                            {if $v["new_ans"]["username"]}
+                                            <span  class="aw-user-name" data-id="36110">{$v["new_ans"]["username"]}</span> <span class="text-color-999">回复了问题 • {$v["zan"]} 人关注 • {$v["num"]} 个回复 • {$v["view"]} 次浏览 • {#addtime($v["addtime"])} 	</span>
+                                            {else}
+                                            <span  class="aw-user-name" data-id="36110"></span> <span class="text-color-999">还没有人回复 • {$v["zan"]} 人关注 • {$v["num"]} 个回复 • {$v["view"]} 次浏览 • {#addtime($v["addtime"])} 	</span>
+                                            {/if}
+                                        </p>
+                                    </div>
+                                </div>
+                                {/foreach}{/if}
+                            </div>
+                        </div>
+                        <div class="mod-footer">
+                            <div class="pages" style="height:40px">
+                                {if $pages['show']}
+                                {$pages['show'] nofilter}
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 侧边栏 -->
+                <div class="col-sm-12 col-md-3 aw-side-bar hidden-xs hidden-sm">
+                    <!--热门话题-->
+                    <div class="aw-mod aw-text-align-justify">
+                        <div class="mod-head">
+                            <a href="/bbs/lists.html" class="pull-right">更多 &gt;</a>
+                            <h3>热门话题</h3>
+                        </div>
+                        <div class="mod-body">
+                            {foreach $hotbbs as $k=>$v}
+                            <dl>
+                                <dt class="pull-left aw-border-radius-5">
+                                    {if $v["logo"]}
+                                    <a href="/bbs/topic/id/{$v['id']}.html"><img alt="" src="__UP__/{$v['logo']}"/></a>
+                                    {else}
+                                    <a href="/bbs/topic/id/{$v['id']}.html"><img alt="" src="__IMG__/bbs/topic-mid-img.png"/></a>
+                                    {/if}
+                                </dt>
+                                <dd class="pull-left">
+                                    <p class="clearfix">
+						<span class="topic-tag">
+							<a href="/bbs/topic/id/{$v['id']}.html" class="text" data-id="2078">{$v["title"]}</a>
+						</span>
+                                    </p>
+                                    <p><b>{$v["num"]}</b> 个问题, <b>{$v["zan"]}</b> 人关注</p>
+                                </dd>
+                            </dl>
+                            {/foreach}
+                        </div>
+                    </div>
+                    <!--热门用户-->
+                    <div class="aw-mod aw-text-align-justify">
+                        <div class="mod-head">
+                            <!--<a href="http:/" class="pull-right">更多 &gt;</a>-->
+                            <h3>热门用户</h3>
+                        </div>
+                        <div class="mod-body">
+                            {foreach $hot_user as $k=>$v}
+                            <dl>
+                                <dt class="pull-left aw-border-radius-5">
+                                    {if $v["img"]}
+                                    <span href="/"><img alt="" src="__UP__/{$v['img']}"  title="{ $v['username']}"/></span>
+                                    {else}
+                                    <span href="/"><img alt="" src="__IMG__/bbs/avatar-max-img.png" title="{ $v['username']}"/></span>
+                                    {/if}
+                                </dt>
+                                <dd class="pull-left">
+                                    <span href="/" data-id="16757" class="aw-user-name">{$v['username']}  </span>
+                                    <p class="signature"></p>
+                                    <p><b>{$v['qus']}</b> 个问题, <b>{$v['ans']}</b> 次回答</p>
+                                </dd>
+                            </dl>
+                            {/foreach}
+                        </div>
+                    </div>
+                </div>
+                <!-- end 侧边栏 -->
+            </div>
+        </div>
+    </div>
+</div>
+<a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});"><i class="icon icon-up"></i></a>
+<!-- DO NOT REMOVE -->
+<div id="aw-ajax-box" class="aw-ajax-box"></div>
+
+<div style="display:none;" id="__crond">
+
+</div>
+<script>
+    if ($("#bbs_box").length > 0) {
+        $('#bbs_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}

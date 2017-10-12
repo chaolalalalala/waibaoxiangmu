@@ -1,0 +1,226 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/goods.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+	<style>
+        .h-mid { width:100%; height:45px; float:left; text-align:center; color:#666; font-size:18px; line-height:45px;}
+        .h-mid ul li{ width:20%; float:left; height:45px; text-align:center; }
+        .orderContainer{
+            width: 100%;
+            margin-top: 45px;
+            background: #eeeeeeee;
+        }
+        .orderItem {
+            margin: 0.5rem 0;
+            padding: 0.23rem 0;
+            color: black;
+            box-shadow: 0 1px 1px #999;
+            -webkit-box-shadow:  0 1px 1px #999;
+            -moz-box-shadow:  0 1px 1px #999;
+            background-color: white;
+
+            overflow: hidden;
+        }
+
+        .orderItem li{
+            font-size: 0.65rem;
+            margin: 0.3125rem 0.625rem;
+        }
+        .orderItem ul{
+            clear: both;
+        }
+
+        .shopName{
+            float: left;
+        }
+        .orderStatus{
+            float: right;
+            color: #ff5000;
+        }
+
+        .orderItemHead {
+            background-color: white;
+        }
+
+        .orderGoodsContent {
+            background-color: #f5f5f5;
+        }
+
+        .orderTotalMsgCon {
+            box-shadow: 0 0.3px 0px #999;
+            overflow: hidden;
+        }
+
+        .orderTotalMsg {
+            float: right;
+        }
+
+        .orderTotalMsg span {
+
+            margin: 0.325rem 0.325rem;
+        }
+
+        .orderOptionBtns {
+            float: right;
+        }
+
+        .orderOptionBtns span {
+            margin: 0.325rem 0.325rem;
+            border: #999 1px solid;
+            padding: 0.125rem 0.325rem;
+            border-radius: 0.125rem;
+        }
+
+
+	</style>
+</head>
+<body>
+<div class="main" >
+	<div class="tab_nav">
+		<div class="header">
+			<div class="h-mid">
+				<ul>
+					<li><a href="javascript:;" class="on" id="goods_ka1" onclick="chose_tab(1)">全部</a></li>
+					<li><a href="javascript:;" class="" id="goods_ka2" onclick="chose_tab(2)">待付款</a></li>
+					<li><a href="javascript:;" class="" id="goods_ka3" onclick="chose_tab(3)">待发货</a></li>
+					<li><a href="javascript:;" class="" id="goods_ka4" onclick="chose_tab(4)">待收款</a></li>
+					<li><a href="javascript:;" class="" id="goods_ka5" onclick="chose_tab(5)">待评价</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="orderContainer">
+    <div class="orderItem">
+        <ul class="orderItemHead">
+            <li class="shopName">官方商城</li>
+            <li class="orderStatus">交易成功</li>
+        </ul>
+        <ul class="orderGoodsContent">
+
+        </ul>
+        <ul class="orderTotalMsgCon"  >
+            <li class="orderTotalMsg">
+                <span>共计2件商品</span>
+                <span>合计:￥99.96</span>
+
+            </li>
+        </ul>
+        <ul >
+            <li class="orderOptionBtns">
+                <span>更多</span>
+                <span>查看物流</span>
+                <span>确认收货</span>
+                <span>取消订单</span>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/echo.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-slide.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	apiready = function () {
+		alog("come");
+		onerror = error_handel;
+		flash(function () {
+		});
+	};
+
+	var shop_info;
+	var shop_counts = 1;
+
+	function addCard(){
+		var shop_card = memObj("shop_card");
+		if(shop_card){
+			shop_card = merge(shop_card,[shop_info['id']]);
+		}else{
+			shop_card = [shop_info['id']];
+		}
+		memObj("shop_card",shop_card);
+		memObj("shop_id_"+shop_info['id'],shop_info);
+		art("成功加入购物车");
+	}
+
+	function shopBuy(){
+		art("前往购买开发中...");
+	}
+
+	function flash(callback) {
+		var id = iv("id");
+		if(!id){
+			art("商品ID未获取");
+			return;
+		}
+		Ajax('shop/view/id/' + id, 'get', '', function (ret) {
+			if (ret.status == 1) {
+				alog(ret.info.img);
+				shop_info = ret.info.shop;
+				//轮播图
+				$api.html($api.byId('slider'), doT.template($api.byId('slider-template').text)(ret.info.img));
+				//轮播图
+				slide = new auiSlide({
+					container: document.getElementById("aui-slide"),
+					"height": 180,
+					"speed": 100,
+					"autoPlay": 0, //自动播放
+					"pageShow": true,
+					"loop": true,
+					"pageStyle": 'dot',
+					'dotPosition': 'center'
+				});
+
+				$("#shop_content").html(ret.info.shop.content);
+				$("#goods_title").html(ret.info.shop.title);
+				return;
+
+				var tempFn1 = doT.template($api.byId('list-template').text);
+				$api.html($api.byId('goods_list'), tempFn1(ret));
+				if (typeof callback == "function") {
+					setTimeout(function () {
+						callback("刷新完成");
+					}, 1000)
+				} else {
+					art("刷新完成");
+				}
+				parseTapmode();
+			} else {
+				setTimeout(function () {
+					callback(ret.info);
+				}, 1000)
+			}
+		});
+	}
+
+	function shop_count(type){
+		if(type == 1){
+			if(shop_counts > 1){
+				$("#count").val(--shop_counts);
+			}else{
+				$("#count").val(1);
+			}
+		}
+		if(type == 2){
+			$("#count").val(++shop_counts);
+		}
+	}
+
+	var last_show_id = 1;
+	function chose_tab(id) {
+
+        art("选择tab"+id);
+		$("#user_goods_ka_" + last_show_id).hide();
+		$("#goods_ka" + last_show_id).removeClass("on");
+		last_show_id = id;
+		$("#goods_ka" + id).addClass("on");
+		$("#user_goods_ka_" + id).show();
+	}
+</script>
+</html>

@@ -1,0 +1,95 @@
+{include file="header"}
+<div class="main-wrap" id="pitches_content">
+    <section class="banner-body">
+        <div class="banner-bg">
+            <div class="banner-center">
+                <a href="javascript:" class="banner-btn"></a>
+            </div>
+        </div>
+    </section>
+    <section class="pitches-nav">
+        <nav id="pitches_nav">
+            <div id="nav_bar">
+                <ul class="nav-item clearfix">
+                    <li data-type="all" class="{if !$type}active{/if}">
+                        <a href="{#url('/ico/lists')}">全部 {if !$type}<span class="count-tip">{$count}</span>{/if} </a>
+                    </li>
+
+                    <li data-type="runable" class=" {if $type==1}active{/if}">
+                        <a href="{#url('/ico/lists/type/1')}">即将开始 {if $type==1}<span class="count-tip">{$count}</span>{/if} </a>
+                    </li>
+                    <li data-type="running" class="{if $type==2}active{/if}">
+                        <a href="{#url('/ico/lists/type/2')}">进行中 {if $type==2}<span class="count-tip">{$count}</span>{/if} </a>
+                    </li>
+                    <li data-type="end" class="{if $type==3}active{/if}">
+                        <a href="{#url('/ico/lists/type/3')}">已完成 {if $type==3}<span class="count-tip">{$count}</span> {/if}</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </section>
+    <section id="container" class="clearfix">
+<div class="content-body">
+    <div class="project-show">
+        <div class="wrapper">
+            <div class="flex-row">
+                {if $pages["list"]} {foreach $pages["list"] as $v}
+                <div class="li-item">
+                        <div class="block-top"><span class="status-tag"><svg width="104px" height="85px" class="ready" viewBox="0 0 104 85">
+                            <title>Page 1</title>
+                            <path class="status-color" fill="#fff" d="M34.56 0L0 28v56.32L104 0z" fill-rule="evenodd"></path>
+                        </svg><span class="ready-txt">
+                            {if $v["kaishi"]==1}
+                            即将开始
+                            {else if $v["kaishi"]==2}
+                            进行中
+                            {else if $v["kaishi"]==3}
+                            已结束
+                            {/if}
+                        </span></span>
+	                        <a href="{#url('/ico/details/id/'.$v['id'])}" class="pro-pic"><img src="__UP__/{$v['img']}" alt=""></a>
+                        </div>
+                        <div class="block-bottom"><h4>
+                            <a href="{#url('/ico/details/id/'.$v['id'])}" class="pro-title" title="ugChain 去中心化、玩家自治的游戏账号系统">{$v['title']}</a>
+                        </h4><h5>{$v['f_title']}</h5>
+                            <div class="raise-funds">
+                                <div class="raise-money"><a class="raise-already btc-font-family  ">{#strtoupper($v['coin'])}&nbsp;{$v["gete"]}</a></div>
+                                <div class="raise-progress">
+                                    <div class="meter  ">
+                                        <span class="current-percent  " data-starttime="1498392000" data-endtime="1500897600" data-item-state="4" data-number="0" style="width: {$v['bili']}%;"></span>
+                                    </div>
+                                    <a class="progress-percent">{$v['gete']/$v["mum"]*100}%</a></div>
+                            </div>
+                            <ul class="raise-info clearfix">
+                                <li class="right-bar"><a class="raise-info-val">{$v['mum']}{#strtoupper($v['coin'])}</a><span>目标金额</span></li>
+                                <li class="right-bar pl15"><a class="raise-info-val">{$v['day']}</a><span>剩余天数</span></li>
+                                <li class="pl15"><a class="raise-info-val">{$v['num']}</a><span>支持人数</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                {/foreach}{/if}
+            </div>
+        </div>
+        {if $pages["show"]}
+        <div class="pages">{$pages['show'] nofilter}</div>
+        {/if}
+    </div>
+</div>
+</section>
+</div>
+<script>
+    if ($("#ico_box").length > 0) {
+        $('#ico_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+<script>
+
+	$('.banner-btn').click(function(){
+		$('body').animate({
+			scrollTop:413
+		},500)
+	})
+</script>
+{include file="public:footer"}

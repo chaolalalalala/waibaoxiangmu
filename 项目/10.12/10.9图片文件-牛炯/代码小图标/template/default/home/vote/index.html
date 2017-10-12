@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>新币投票 - 必火网 -  www.bihuo168.com </title>
+<meta name="Keywords" content="{$seos['keywords']}">
+<meta name="Description" content=" {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+
+
+<link rel="stylesheet" href="/static/style/voteadd.css">
+<style>
+.f_table td{border-bottom:5px solid #EDEDED;font-size:14px}
+.f_table th{border-bottom:3px solid #DEDBDB;font-size:14px}
+.layui-layer-content{padding:10px}
+progress{background-color:#CD0000;color:#0064B4}
+progress::-moz-progress-bar { background: #CD0000; }
+progress::-webkit-progress-bar { background: #CD0000; }
+progress::-webkit-progress-value  { background: #9BCD9B; }
+</style>
+
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('新币投票')}
+	</div>
+	<div class="assets_content bg_w">
+				<div class="safe_center clear">
+					<h1>{#lang('新币投票')} {if $hints["value"]} <a class="right ml20" onclick="$('#hints').slideToggle();">
+						<i class="fa fa-hand-o-right fz_14 move"></i> <span class="fz_14 move">{#lang('查看介绍')}</span>
+					</a> {/if}
+
+					</h1>
+				</div>
+				<div id="hints" class="mytips" style="display:none;">
+					<script>
+						var hints = "{$hints['show']}";
+						if(hints == 1){
+							$('#hints').show();
+						}
+					</script>
+					{$hints["value"] nofilter}
+				</div>
+
+
+				<table class="f_table" id="investLog_content">
+					<thead>
+					<tr>
+						<th>{#lang('ID')}</th>
+						<th>{#lang('币种')}</th>
+						<th>{#lang('名称')}</th>
+						<th>{#lang('赞成/反对')}</th>
+						<th>{#lang('参与人数')}</th>
+						<th>{#lang('操作')}</th>
+					</tr>
+					</thead>
+					<tbody>
+					{foreach $pages['list'] as $k => $v}
+					<tr>
+						<td>{$k+1}</td>
+						<td>{$v['name']}</td>
+						<td>{$v['title']}</td>
+						<td>
+							<font class="green">{$v['zc']}</font>
+							<progress class="yes" value="{$v['zc']}" max="{$v['zc']+$v['fd']}"></progress>
+							<font class="red">{$v['fd']}</font>
+						</td>
+						<td>{$v['zj']}</td>
+						<td>
+							{if $v['type'] == 1}
+							<a class="green">{#lang('您已投赞成票')}</a>
+							{elseif $v['type']==2}
+							<a class="red">{#lang('您已投反对票')}</a>
+							{else}
+								<a onclick="Update({$v['id']},1);" href="javascript:void(0)" class="green">{#lang('赞成')}</a>
+								<a onclick="Update({$v['id']},2);" href="javascript:void(0)" class="red">{#lang('反对')}</a>
+							{/if}
+
+
+						</td>
+					</tr>
+					{/foreach}
+					</tbody>
+				</table>
+
+			</div>
+	<div class="pages">{$pages['show'] nofilter}</div>
+		</div>
+	</div>
+
+<script type="text/javascript">
+	function intro(a){
+		var content= a.children('div').html();
+		layer.open({
+			type: 1,
+			skin: 'layui-layer-rim', //加上边框
+			area: ['1200px', '600px'], //宽高
+			content: content
+		});
+	}
+	function Update(id, type) {
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: "{#lang('输入投票原因，并确认')}",
+				//formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("/vote_up.jsp", {id: id, type: type, ext: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							setTimeout('location.reload()',1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+	}
+</script>
+<script>
+	if ($("#vote_box").length > 0) {
+		$('#vote_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="aaapublic:footer"}

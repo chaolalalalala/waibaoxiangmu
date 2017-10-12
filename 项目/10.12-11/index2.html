@@ -1,0 +1,1150 @@
+<%@ Page Language="C#"  EnableViewStateMac="false"  AutoEventWireup="true" CodeFile="index.aspx.cs" Inherits="index" %>
+<%@ OutputCache Duration="5" VaryByParam="*" %>
+<%@ Register src="left.ascx" tagname="left" tagprefix="uc1" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta name="baidu-site-verification" content="WIj0zWzgXd" />
+    <title>常州长路电气有限公司 专业生产锂电池,磷酸铁锂电池</title>
+    <meta name="keywords" content="常州长路电气有限公司 专业生产锂电池,磷酸铁锂电池" />
+    <meta name="description" content="常州长路电气有限公司 专业生产锂电池,磷酸铁锂电池" />
+    <script type="text/javascript">
+        <!--
+        //平台、设备和操作系统
+        var system ={
+            win : false,
+            mac : false,
+            xll : false
+        };
+        //检测平台
+        var p = navigator.platform;
+        system.win = p.indexOf("Win") == 0;
+        system.mac = p.indexOf("Mac") == 0;
+        system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+        //跳转语句，如果是手机访问就自动跳转到wap.baidu.com页面
+        if(system.win||system.mac||system.xll){
+
+        }else{
+            window.location.href="http://www.ionsafe.com/indexsj.aspx";
+        }
+        -->
+    </script>
+
+    <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=2.0,user-scalable=yes;"/>
+    <link rel="stylesheet" type="text/css" href="css/nav.css" />
+    <meta http-equiv=”X-UA-Compatible” content="IE=edge,chrome=1" />
+
+
+    <!--手风琴效果-->
+    <link href="css/style1.css" type="text/css"  rel="stylesheet" />
+    <script type="text/javascript" src="js/sfq.js"></script>
+    <!--图片遮罩效果-->
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
+
+    <link rel="stylesheet" type="text/css"  media="screen and (max-device-width: 1920px) and  (min-device-width: 1441px)"  href="css/thirdeffect1920.css" />
+    <link rel="stylesheet" type="text/css"  media="screen and (max-device-width: 1440px)"  href="css/thirdeffect.css" />
+
+    <!--end 图片遮罩效果-->
+
+    <style type="text/css">
+
+        .demo_content { border:#ccc solid 1px;}
+        tbody tr:nth-child(odd) {    background-color:#fcfcfc; }
+        tbody tr:nth-child(even) {    background-color:#ffffff; }
+
+    </style>
+    <script type="text/javascript" language="javascript">
+        function changeImage() {
+            document.getElementById("fjm1").src = document.getElementById("fjm1").src + '?';
+        }
+        document.getElementById("xxnr").style = "border:1px solid #d8d8d8";
+    </script>
+
+    <!--左边菜单需要代码-->
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/wwwnet.js"></script>
+    <!--end 左边菜单需要代码-->
+
+
+    <link rel="stylesheet" type="text/css"  media="screen and (max-device-width: 1920px) and  (min-device-width: 1441px)"  href="1920.css" />
+    <link rel="stylesheet" type="text/css"  media="screen and (max-device-width: 1440px)"  href="sy.css" />
+
+    <!--h5js代码-->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link href="css/animate.min.css?201606" rel="stylesheet" type="text/css" />
+
+    <!--end h5js代码需要加jquery代码-->
+
+
+
+    <script type="text/javascript" src="js/jquery.scrollTo.js"></script>
+
+
+
+
+</head>
+<body style="position: relative;" >
+<form id="form1" runat="server">
+    <div class="zb"  style="" >
+        <uc1:left ID="left1" runat="server" />
+        <div class="right1" id="MainRight"  style="" >
+
+
+            <div class="ty1" style="width:100%;" id="db1">
+                <img src="img/2.jpg" width="100%"   border="0" />
+            </div>
+
+            <div class="ty1" style="width:100%;" id="pro">
+
+                <div class="ty1" style=" padding-left:57px; padding-right:57px; padding-top:69px; padding-bottom:60px;">
+                    <div class="ty1" style="width:100%; text-align:center; padding-bottom:11px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+
+                    <div class="ty1" > <img src="img/3.jpg" width="100%"   border="0" /></div>
+                    <div class="ty1" style="width:100%; text-align:center; padding-top:11px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+
+                    <div class="ty1  wow fadeInLeft " style=" width:100%;" >
+
+
+
+
+                        <asp:Repeater ID="Repeater1" runat="server">
+                            <ItemTemplate>
+
+                                <div class="<%# Container.ItemIndex % 4==0?Server.UrlEncode("ty1"):Server.UrlEncode("tykx1")%>" style="width:23.7%;">
+
+
+
+                                <div class="tytp" style=" line-height:48px;width:100%;color:#838383;">
+
+                                    <a href="<%#Convert.ToInt32(Eval("id").ToString())==33? Server.UrlEncode("cp1.aspx") : Server.UrlEncode("cp.aspx")%>?id=<%#Eval("id").ToString()%>" ><img src="<%#Eval("xt").ToString().Replace("../","")%>" width="100%"   border="0" /></a>                  </div>
+                                <div class="ty1" style="line-height:38px;width:100%;color:#838383; text-align:center; padding-top:10px;"><a href="<%#Convert.ToInt32(Eval("id").ToString())==33? Server.UrlEncode("cp1.aspx") : Server.UrlEncode("cp.aspx")%>?id=<%#Eval("id").ToString()%>" class="hs" ><%#Eval("cpmc").ToString()%></a></div>
+                    </div>
+                    </ItemTemplate>
+                    <footertemplate>
+
+                        <div class="ty1" style="width:100%; padding:0px 25px 0px 25px; "> <asp:Label ID="lblEmpty" Text="没有您查找的信息.." runat="server"  Visible='<%#bool.Parse((Repeater1.Items.Count==0).ToString())%>'></asp:Label></div>
+                    </footertemplate>
+                    </asp:Repeater>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="ty1 " style="width:100%;background-color:#ededed;" id="dctx">
+            <div class="ty1  wow fadeInLeft" style=" padding-left:57px; padding-right:57px; padding-bottom:70px;">
+
+                <div class="ty1" style="width:100%; text-align:center; padding-bottom:21px;padding-top:69px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+                <div class="ty1" style=" width:100%; text-align:center; color:#04b456;   font-size:34px;font-weight:bold;" >
+                    磷酸铁锂电池特性</div>
+                <div class="ty1" style="width:100%; text-align:center; padding-top:18px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+
+
+
+
+                <div class="clear"></div>
+                <div class="ty1" style="width:100%;">
+
+
+                    <div class="jjfa3 " style="line-height:22px;border:1px solid #dddddd; font-size:12px;  ">
+
+                        <div class="ty1" style="color:#00a54d; font-size:16px; font-weight:bold;  text-align:center; width:100%; padding-top:40px; padding-bottom:13px;">安全性好</div>
+                        <div class="ty2"> 磷酸铁锂的安全性能是目前所有锂系材料中最好的，不存在钴酸锂、锰酸锂电池，在强烈碰撞或过充电等情况下，产生不安全隐患，而磷酸铁锂电池经过严格的过充、过放、短路、加热、挤压、针刺等各项安全测试，电池不爆炸、不起火，完全达到国家相关标准要求。</div>
+                        <div class="jjfa3n "> <img src="img/5.png" width="100%"   border="0" /></div>
+                    </div>
+
+                    <div class="jjfa4 " style="line-height:22px;border:1px solid #dddddd; font-size:12px;  " id="tx2">
+
+                        <div class="ty1" style="color:#00a54d; font-size:16px; font-weight:bold;  text-align:center; width:100%; padding-top:40px;padding-bottom:13px;">大电流充放电</div>
+                        <div class="ty2"> 磷酸铁锂电池可进行倍率容量值进行大电流放电与充电，在短时间内将电池充足,适合做动力汽车电源。</div>
+
+                        <div class="jjfa3n "> <img src="img/6.png" width="53"   border="0" /></div>
+                    </div>
+
+
+                    <div class="jjfa4 " style="line-height:22px;border:1px solid #dddddd; font-size:12px;  " id="tx3">
+
+                        <div class="ty1" style="color:#00a54d; font-size:16px; font-weight:bold;  text-align:center; width:100%; padding-top:40px;padding-bottom:13px;">使用寿命长</div>
+                        <div class="ty2">磷酸铁锂电池深度循环使用寿命长，性能价格比高于其它化学电源。</div>
+
+                        <div class="jjfa3n "> <img src="img/7.png" width="53"   border="0" /></div>
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+
+
+                <div class="ty1" style="width:100%;">
+
+
+                    <div class="jjfa3 " style="line-height:22px;border:1px solid #dddddd; font-size:12px;  " id="tx4">
+
+                        <div class="ty1" style="color:#00a54d; font-size:16px; font-weight:bold;  text-align:center; width:100%; padding-top:40px;padding-bottom:13px;">环保</div>
+                        <div class="ty2">整个产品生产和使用过程清洁无毒，不含有任何重金属、不会对环境造成污染，是真正的绿色电池产品。</div>
+
+                        <div class="jjfa3n "> <img src="img/8.png" width="53"   border="0" /></div>
+                    </div>
+
+
+                    <div class="jjfa4 " style="line-height:22px;border:1px solid #dddddd; font-size:12px;  "  id="tx5">
+
+                        <div class="ty1" style="color:#00a54d; font-size:16px; font-weight:bold;  text-align:center; width:100%; padding-top:40px;padding-bottom:13px;">稳定性高</div>
+                        <div class="ty2">产品高温充电的容量稳定性好，储存性能好等，是目前所有锂系电池中综合性能和性价比相对较好的产品。</div>
+
+                        <div class="jjfa3n "> <img src="img/9.png" width="53"   border="0" /></div>
+                    </div>
+
+
+                    <div class="jjfa4 " style="line-height:22px;border:1px solid #dddddd; font-size:12px;  " id="tx6">
+
+                        <div class="ty1" style="color:#00a54d; font-size:16px; font-weight:bold;  text-align:center; width:100%; padding-top:40px;padding-bottom:13px;">一致性好</div>
+                        <div class="ty2">如100个100AH电池串联单元；电池内阻误差在±0.05mΩ，放电容量≥94.5AH，在充电至最高单体电压3.6v恒压电流0.05C时最低单体电压为3.45v，在0.5C放电至最低单体电压2.0v时，最高单体电压为2.5v。</div>
+
+                        <div class="jjfa3n "> <img src="img/10.png" width="53"   border="0" /></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+        <div class="ty1 " style="width:100%;  "  id="jjfa">
+
+            <div class="ty1" style=" padding-left:57px; padding-right:57px;padding-top:69px; padding-bottom:70px;">
+                <div class="ty1" style="width:100%; text-align:center; padding-bottom:21px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+                <div class="ty1   wow fadeInLeft" style=" width:100%; text-align:center; color:#00a54d;  font-size:34px;font-weight:bold;" >
+                    解决方案/交通部航标用锂电池                 </div>
+                <div class="ty1" style="width:100%; text-align:center; padding-top:18px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+                <div class="ty1   wow fadeInLeft" style=" width:100%; color:#00a54d;font: 16px  'SimSun'; padding-top:30px; " >
+                    交通部东海、南海、北海保障局局航标锂                         </div>
+
+
+                <div class="ty1 jg14  wow fadeInUp" style=" width:100%; " >
+                    <div class="ty1" style=" width:34%; "><img src="img/25.png"  width="100%"     border="0" /></div>
+                    <div class="ty1" style="width:62%;padding-left:2%; padding-top:13px;">
+
+
+                        <table cellpadding="1" cellspacing="1" bgcolor="#e1e1e1" style="line-height:39px;" width="100%">
+                            <tr>
+
+
+                                <th style=" padding-left:20px;font: 24px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif; height:35px; text-align:left; color:#3a3939; padding-top:5px; ">型号</th>
+                                <th style=" padding-left:20px;font: 24px   'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif; height:35px;text-align:left; color:#3a3939; padding-top:5px;">12.8V100Ah</th>
+
+
+
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">正极材料 </td>
+                                <td style="padding-left:20px;">LiFePO4 </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">电芯类型 </td>
+                                <td style="padding-left:20px;">方形锂离子电池动力 </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">单体尺寸 </td>
+                                <td style="padding-left:20px;">厚48mm/宽174mm/高171mm </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">最大外形尺寸 </td>
+                                <td style="padding-left:20px;">厚335mm/宽170mm/高280mm</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">电池成组方案 </td>
+                                <td style="padding-left:20px;">4S1P</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">总重量 </td>
+                                <td style="padding-left:20px;">单箱17kg </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">额定能量 </td>
+                                <td style="padding-left:20px;">1280Wh </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">额定电压 </td>
+                                <td style="padding-left:20px;">12.8V</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">标称容量 </td>
+                                <td style="padding-left:20px;">100Ah</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">最小容量 </td>
+                                <td style="padding-left:20px;">95Ah </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">单体电压/容量 </td>
+                                <td style="padding-left:20px;">3.2V/100Ah </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">电池系统电压工作范围 </td>
+                                <td style="padding-left:20px;">10V～14.6V </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">绝缘电阻 </td>
+                                <td style="padding-left:20px;">≥20MΩ（单个电池箱箱） </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">持续充/放电电流 </td>
+                                <td style="padding-left:20px;">≤5A </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">最大充/放电电流 </td>
+                                <td style="padding-left:20px;">15A </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">充电截止电压 </td>
+                                <td style="padding-left:20px;">10V（2.5V） </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">放电截止电压 </td>
+                                <td style="padding-left:20px;">14.6V（3.65V） </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">自放电 </td>
+                                <td style="padding-left:20px;">≤5%（25℃ 28d） </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">工作温度 </td>
+                                <td style="padding-left:20px;">-10℃～+45℃ </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">防护等级 </td>
+                                <td  style="padding-left:20px;">IP67</td>
+                            </tr>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+
+
+        <div class="ty1 " style="width:100%; background-color:#ededed;" id="jjfa1">
+
+            <div class="qyyj1 " style=" position:relative;width:88%; padding-top:300px;padding-bottom:150px;">
+                <img src="img1/j1.png" width="100%"   border="0" />
+                <div class="ty1 " style="position:absolute; top:110px;color:#00a54d;  text-align:center; margin-left: auto;
+margin-right: auto; width:88%; font-size:26px;font-weight:bold;">
+
+                    <div class="ty1" style="width:100%; text-align:center; padding-bottom:21px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+                    解决方案/通信五大运营商"储能、备电"锂电、UPS、风力、太阳能发电储能锂电
+                    <div class="ty1" style="width:100%; text-align:center; padding-top:18px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="ty1 " style="width:100%;"  >
+
+            <div class="ty1" style=" padding-left:57px; padding-right:57px; padding-bottom:70px;">
+
+
+                <div class="ty1" style="width:100%; text-align:center; padding-bottom:21px;padding-top:69px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+                <div class="ty1   wow fadeInLeft" style=" width:100%; text-align:center; color:#00a54d;  font-size:34px;font-weight:bold;" >电池模组</div>
+                <div class="ty1" style="width:100%; text-align:center; padding-top:18px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+
+
+
+
+                <div class="ty1 jg14  wow fadeInUp" style=" width:100%; " >
+                    <div class="ty1" style=" width:34%; padding-top:20px; "><img src="images/mcp2.png"  width="100%"     border="0" /></div>
+                    <div class="ty1" style="width:62%;padding-left:2%; padding-top:13px;">
+
+
+                        <table cellpadding="1" cellspacing="1" bgcolor="#e1e1e1" style="line-height:40px;" width="100%">
+                            <tr>
+                                <th style=" padding-left:20px;font: 24px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif; height:35px; text-align:left; color:#3a3939; padding-top:5px; ">型号</th>
+                                <th style=" padding-left:20px;font: 24px   'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif; height:35px;text-align:left; color:#3a3939; padding-top:5px;">ZXF4850T</th>
+
+
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">产品类型 </td>
+                                <td style="padding-left:20px;">□高功率应用 □√高能量应用 </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">电池成组方案 </td>
+                                <td style="padding-left:20px;">16S1P </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">冷却方式 </td>
+                                <td style="padding-left:20px;">自然冷却 </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">额定电压 </td>
+                                <td style="padding-left:20px;">48V </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">额定容量 </td>
+                                <td style="padding-left:20px;">50Ah </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">额定能量 </td>
+                                <td style="padding-left:20px;">2400Wh </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">系统充电终止电压 </td>
+                                <td style="padding-left:20px;">58.4V(3.65V) </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">系统放电终止电压 </td>
+                                <td style="padding-left:20px;">40V(2.5V) </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">单体充电保护电压 </td>
+                                <td style="padding-left:20px;">3.65V </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">单体放电保护电压 </td>
+                                <td style="padding-left:20px;">2.5V </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">最大允许持续充电电流 </td>
+                                <td style="padding-left:20px;">15A </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">最大允许持续放电电流 </td>
+                                <td style="padding-left:20px;">15A</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">工作温度 </td>
+                                <td style="padding-left:20px;">10～45℃ </td>
+                            </tr>
+                        </table>
+
+
+
+
+
+                    </div>
+                </div>
+
+                <div class="ty1 jg14  wow fadeInUp" style=" width:100%; " >
+                    <div class="ty1" style=" width:34%; padding-top:40px; "><img src="images/mcp3.png"  width="100%"     border="0" /></div>
+                    <div class="ty1" style="width:62%;padding-left:2%; padding-top:30px;">
+
+
+                        <table cellpadding="1" cellspacing="1" bgcolor="#e1e1e1" style="line-height:40px;" width="100%">
+                            <tr>
+                                <th style=" padding-left:20px;font: 24px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif; height:35px; text-align:left; color:#3a3939; padding-top:5px; ">型号</th>
+                                <th style=" padding-left:20px;font: 24px   'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif; height:35px;text-align:left; color:#3a3939; padding-top:5px;">ZXF48100T</th>
+
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">产品类型 </td>
+                                <td style="padding-left:20px;">□高功率应用 □√高能量应用 </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">电池成组方案 </td>
+                                <td style="padding-left:20px;">16S1P </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">冷却方式 </td>
+                                <td style="padding-left:20px;">自然冷却 </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">额定电压 </td>
+                                <td style="padding-left:20px;">48V </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">额定容量 </td>
+                                <td style="padding-left:20px;">100Ah </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">额定能量 </td>
+                                <td style="padding-left:20px;">4800Wh </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">系统充电终止电压 </td>
+                                <td style="padding-left:20px;">58.4V(3.65V) </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">系统放电终止电压 </td>
+                                <td style="padding-left:20px;">40V(2.5V) </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">单体充电保护电压 </td>
+                                <td style="padding-left:20px;">3.65V </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">单体放电保护电压 </td>
+                                <td style="padding-left:20px;">2.5V </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">最大允许持续充电电流 </td>
+                                <td style="padding-left:20px;">15A </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">最大允许持续放电电流 </td>
+                                <td style="padding-left:20px;">15A </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:20px;">工作温度 </td>
+                                <td style="padding-left:20px;">10～45℃ </td>
+                            </tr>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <div class="ty1 " style="width:100%;  background-color:#c9edda;" id="gycl">
+
+            <div class="ty1" style=" padding-left:6%; padding-right:6%; text-align:center; padding-bottom:70px;">
+
+                <div class="tyz   wow fadeInLeft" style=" width:80%; line-height:150%;   font: 14px  'NSimSun'; color:#5b5b5b; padding-top:60px;" >
+
+                    <div class="ty1" style="text-indent:2em;line-height:150%;color:#5b5b5b;">常州长路电气有限公司，成立于2010年，位于常州西太湖科技产业园，注册资本5000万元，隶属浙江之信控股集团。公司是一家集新型电池（含燃料电池）、锂离子电池研发、生产、销售于一体的高新企业。自成立以来，公司始终坚持以服务全球储能电池用户为重点，以优质的产品和良好的服务为根基，立志成为全球领先的锂电池储能解决方案商。</div>
+
+                    <div class="ty1" style="text-indent:2em;line-height:150%;color:#5b5b5b;">
+                        公司拥有国际一流的自动化电芯生产和PACK装配、检测流水线和无尘净化生产车间，专业生产安全、高效、耐用的安全储能电池，目前已建四条储能磷酸铁锂电池生产线并投产，年产5亿瓦时。</div>
+
+                    <div class="ty1" style="text-indent:2em;line-height:150%;color:#5b5b5b;">
+                        公司依托浙江之信新能源研究院，形成集先进的定制化研发、专业化生产制造和高效供应链管理于一体的锂电池安全储能运营系统，更好地服务于战略客户。经过多年的发展创新，公司已成为交通部、国家电网、电信运营商锂电池安全储能战略供应商。</div>
+
+                    <div class="ty1" style="text-indent:2em;line-height:150%;color:#5b5b5b;">长路电气始终坚持在竞争中成长，在合作中共赢，不断创新突破，力争为提高电力系统效率、提升能源系统安全做出卓越的社会贡献，立足中国，走向世界。</div>
+                </div>
+
+                <div class="ty1   wow fadeInUp" style=" width:100%; text-align:center;padding-top:50px; " >
+                    <div class="jj1" style=" text-align:center; "><img src="img/11.png"  width="100%"    border="0" /></div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="ty1 " style="width:100%;" id="dsj">
+            <div class="qyyj1" style="min-height:620px; width:88%; padding-bottom:70px; ">
+
+
+
+                <div class="ty1" style="width:100%; text-align:center; padding-bottom:21px;padding-top:70px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+                <div class="ty1   wow fadeInLeft" style=" width:100%; text-align:center; color:#00a54d;   text-align:center; font-size:34px;font-weight:bold;" >
+                    大事记  </div>
+                <div class="ty1" style="width:100%; text-align:center; padding-top:18px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+
+
+                <div class="ty1   wow fadeInLeft" style=" width:100%;  padding-top:40px;   " >
+
+
+                    <!--手风琴效果-->
+                    <div id="slider">
+                        <div class="slide">
+                            <img class="diapo" src="images/g4.png" alt="">
+                            <div class="text">
+                                <span class="title1">2017年8月</span>
+                                长路电气获得企业信用等级最高评级——AAA级。
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img class="diapo" src="images/g3.png" alt="">
+                            <div class="text">
+                                <span class="title1">2017年8月</span>
+                                长路电气一次性通过三项国际认证：ISO9001质量管理体系认证、ISO14001环境管理体系认证和OHSAS18001职业健康安全管理体系认证。
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img class="diapo" src="images/g2.png" alt="">
+                            <div class="text">
+                                <span class="title">2017年8月</span>
+                                长路电气已达国际IP67防水标准的磷酸铁锂储能电池组成功通过航道处水深4米、静置5天的测试。
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img class="diapo" src="images/g1.jpg" alt="">
+                            <div class="text">
+                                <span class="title">2017年5月</span>
+                                浙江之信控股集团战略性投资于长路电气，注册资本增至5000万元。
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <script type="text/javascript">
+                        slider.init();
+                    </script>
+
+                    <!--手风琴结束-->
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="ty1 " style="width:100%;" id="cldt">
+
+            <div class="qyyj1" style="min-height:660px; width:88%; padding-bottom:70px; background-color:#ededed;">
+
+
+                <div class="ty1" style="width:100%; text-align:center; padding-bottom:21px;padding-top:70px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+                <div class="ty1   wow fadeInLeft" style=" width:100%; text-align:center; color:#00a54d; text-align:center; font-size:34px;font-weight:bold;" >
+                    长路动态  </div>
+                <div class="ty1" style="width:100%; text-align:center; padding-top:18px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+
+
+
+
+                <div class="ty1   wow fadeInLeft" style=" width:100%;  padding-top:40px;   " >
+
+
+
+
+                    <asp:Repeater ID="Repeater2" runat="server">
+                        <ItemTemplate>
+
+
+
+
+                            <div class="<%# Container.ItemIndex % 3==0?("qyyj2"):("qyyj_2")%>"  >
+                            <div class="ty1"  style="width:100%;">
+                                <div class="main">
+                                    <div class="view third-effect"> <img src='<%#Eval("img").ToString().Replace("../","")%>'  width="100%" />
+                                        <div class="mask"><a href="news.aspx?id=<%#Eval("id").ToString()%>" class="info"></a></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="ty1" style="width:100%; height:20px; overflow:hidden; padding-left:10px; ">新闻</div>
+                            <div class="ty1" style="width:100%; line-height:150%; font-size:16px;overflow:hidden; padding-top:5px; padding-left:1%;">
+                                <a href="news.aspx?id=<%#Eval("id").ToString()%>" class="bt1" ><%#fun.CutStr(Eval("bt").ToString(),22)%> </a>
+                            </div>
+                            <div class="ty1" style="width:100%; height:20px;font-size:14px; overflow:hidden; padding-top:20px;padding-left:1%;">
+                                <a href="news.aspx?id=<%#Eval("id").ToString()%>" class="ls" >Read more →</a></div>
+
+                            <div class="clear"></div>
+                </div>
+
+
+                </ItemTemplate>
+                </asp:Repeater>
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="ty1 " style="width:100%;" id="ryzz">
+
+        <div class="qyyj1" style=" width:88%; padding-bottom:70px; ">
+
+
+            <div class="ty1" style="width:100%; text-align:center; padding-bottom:21px;padding-top:70px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+            <div class="ty1   wow fadeInLeft" style=" width:100%; text-align:center; color:#00a54d;   font-size:34px;font-weight:bold;" >
+                荣誉资质    </div>
+            <div class="ty1" style="width:100%; text-align:center; padding-top:18px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+
+
+
+
+            <div class="ty1   wow fadeInUp" style=" width:100%;  padding-top:40px;   " >
+
+
+
+
+
+
+                <div class="qyyj2" style=" " >
+                    <div class="ty1"  style="width:100%;">
+                        <img src='images/z1.jpg'  width="100%" />
+
+                    </div>
+
+
+                    <div class="ty1" style="width:100%; line-height:125%; font-size:16px;overflow:hidden; padding-top:5px; text-align:center; font-size:16px; padding-top:24px;font-weight:bold; color:#1eaf61; ">
+                        企业信用等级证书
+                    </div>
+                    <div class="ty1" style="width:100%; height:2px; overflow:hidden; margin:25px 0px 20px 0px; border-bottom:2px solid #00a54b;">&nbsp;</div>
+
+                    <div class="ty1" style="width:100%; line-height:23px; text-align:center; font-size:12px;  ">
+                        证书表明的信用等级是对企业进行综合评价后做出的信用状况客观证明</div>
+
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="qyyj2" style=" margin-left:2%; " >
+                    <div class="ty1"  style="width:100%;">
+                        <img src='img1/zs1.png'  width="100%" />
+
+                    </div>
+
+
+                    <div class="ty1" style="width:100%; line-height:125%; font-size:16px;overflow:hidden; padding-top:5px; text-align:center; font-size:16px; padding-top:24px;font-weight:bold; color:#1eaf61; ">
+                        企业信用等级证书（铜牌）
+                    </div>
+                    <div class="ty1" style="width:100%; height:2px; overflow:hidden; margin:25px 0px 20px 0px; border-bottom:2px solid #00a54b;">&nbsp;</div>
+
+                    <div class="ty1" style="width:100%; line-height:23px; text-align:center; font-size:12px;  ">
+                        证书表明的信用等级是对企业进行综合评价后做出的信用状况客观证明</div>
+
+                    <div class="clear"></div>
+                </div>
+
+
+
+
+
+                <div class="qyyj2" style=" margin-left:2%; " >
+                    <div class="ty1"  style="width:100%;">
+                        <img src='images/z2.jpg'  width="100%" />
+
+                    </div>
+
+
+                    <div class="ty1" style="width:100%; line-height:125%; font-size:16px;overflow:hidden; padding-top:5px; text-align:center; font-size:16px;padding-top:24px; font-weight:bold; color:#1eaf61;">
+                        质量管理体系认证证书
+                    </div>
+                    <div class="ty1" style="width:100%; height:2px; overflow:hidden; margin:25px 0px 20px 0px; border-bottom:2px solid #00a54b;">&nbsp;</div>
+
+                    <div class="ty1" style="width:100%; line-height:23px; text-align:center; font-size:12px;  ">
+                        常州长路电气有限公司获得质量管理体系认证,符合ISO9001:2015质量管理体系标准适用条款的要求</div>
+
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="qyyj2" style=" padding-top:30px; " >
+                    <div class="ty1"  style="width:100%;">
+                        <img src='images/z3.jpg'  width="100%" />
+
+                    </div>
+
+
+                    <div class="ty1" style="width:100%; line-height:125%; font-size:16px;overflow:hidden; padding-top:5px; text-align:center; font-size:16px/1em;padding-top:24px; font-weight:bold; color:#1eaf61;">
+                        环境管理体系认证证书
+                    </div>
+                    <div class="ty1" style="width:100%; height:2px; overflow:hidden; margin:25px 0px 20px 0px; border-bottom:2px solid #00a54b;">&nbsp;</div>
+
+                    <div class="ty1" style="width:100%; line-height:23px; text-align:center; font-size:12px;  ">
+                        常州长路电气有限公司获得环境管理体系认证,符合ISO14001:2015环境管理体系标准全部条款的要求
+
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+
+
+
+
+                <div class="qyyj2" style=" padding-top:30px; margin-left:2%;  " >
+                    <div class="ty1"  style="width:100%;">
+                        <img src='images/z4.jpg'  width="100%" />
+
+                    </div>
+
+
+                    <div class="ty1" style="width:100%; line-height:125%; font-size:16px;overflow:hidden; padding-top:5px; text-align:center; font-size:16px/1em; padding-top:24px;font-weight:bold; color:#1eaf61;">
+                        职业健康安全管理体系认证证书
+                    </div>
+                    <div class="ty1" style="width:100%; height:2px; overflow:hidden; margin:25px 0px 20px 0px; border-bottom:2px solid #00a54b;">&nbsp;</div>
+
+                    <div class="ty1" style="width:100%; line-height:23px; text-align:center; font-size:12px;  ">
+                        常州长路电气有限公司获得职业健康安全管理体系认证,符合OHSAS 18001:2007职业健康安全标准全部条款的要求
+
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="ty1 " style="width:100%; " id="gycl1">
+
+        <div class="qyyj1" style=" padding-bottom:70px;background-color:#ededed; ">
+
+
+            <div class="ty1" style="width:100%; text-align:center; padding-bottom:21px;padding-top:70px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+            <div class="ty1   wow fadeInLeft" style=" width:100%; text-align:center; color:#00a54d;   font-size:34px;font-weight:bold;" >
+                企业愿景    </div>
+            <div class="ty1" style="width:100%; text-align:center; padding-top:18px;" > <img src="images/bz.png" width="30"   border="0" /></div>
+
+
+
+
+
+            <div class="ty1   wow fadeInLeft" style=" width:100%; line-height:150%; padding-top:60px;   " >
+
+
+                <div class="qyyj2" style=" margin-left:0px; border:1px solid #74767a; "  id="qyyj_1">
+
+                    <div class="ty1"  style="width:100%;">  <img src="img/21.jpg" width="100%"   border="0" /></div>
+                    <div class="ty1" style="padding-top:10px;  font-weight:bold;width:100%; text-align:center; font-size:20px; ">企业愿景</div>
+                    <div class="ty1" style="width:100%;text-align:center;padding:1% 0%;">安全储能锂电专家</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="qyyj2" style=" margin-left:2%; border:1px solid #74767a;" id="qyyj_2">
+
+                    <div class="ty1" style="width:100%;">  <img src="img/22.jpg" width="100%"   border="0" /></div>
+                    <div class="ty1" style="padding-top:10px;  font-size:20px; font-weight:bold;width:100%;text-align:center;">项目使命</div>
+                    <div class="ty1" style=" width:98%; padding:1% 1%; line-height:23px; text-align:center;">整合集团公司领先的新能源储能锂电池技术、研发、制造等优势资源，广泛服务于航标、基站、电网、军工、储能电站等领域，为提高电力系统效率、提升电网系统安全做出卓越的社会贡献</div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="qyyj2" style=" margin-left:2%; border:1px solid #74767a;" id="qyyj_3">
+
+                    <div class="ty1" style="width:100%;">  <img src="img/23.jpg" width="100%"   border="0" /></div>
+                    <div class="ty1" style="padding-top:10px;  font-size:20px;font-weight:bold;width:100%;text-align:center;">48字方针</div>
+                    <div class="ty1" style=" width:98%; padding:1% 0.8%; line-height:23px;text-align:center;">
+                        重责任，敢担当，有作为，共成长；<br/>
+                        抓建设，促生产，爱奉献，保安全；<br/>
+                        提质量，控成本，强销售，增效益；<br/>
+                        育人才，严管理，勇创新，争一流。<br/>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="ty1 " style="width:100%; " id="gycl3">
+
+        <div class="qyyj1" style=" padding-bottom:70px;">
+
+
+
+            <div class="ty1 jg70  wow fadeInLeft" style=" width:100%; line-height:150%;  " >
+
+                <div class="ty1" style=" width:30%;">
+
+
+
+                    <div class="ty1 " style=" width:100%; text-align:left; color:#00a54d;   font-size:34px;font-weight:bold;" >
+                        研究院    </div>
+
+                    <div class="ty1" style=" padding-top:20px;font:14px  'SimSun'; ">
+
+                        <div class="ty1" style=" text-indent:2em; line-height:150%;">浙江之信新能源汽车研究院，为长路提供技术支撑。研究院基于新能源产业未来的发展趋势，以人才为引领、以项目为核心、以资金为纽带、以技术为支撑，以期抢占产业制高点，整合资源，促进新能源产业各类要素的集聚，使之逐步发展成全国新能源储能电池研发和产业化基地。</div>
+                        <div class="ty1" style="text-indent:2em;line-height:150%;">清华大学教授、博士生导师陈全世教授受聘担任研究院院长。</div>
+                        <div class="ty1" style="text-indent:2em;line-height:150%;">费爱国、胡正寰、王家耀三位院士与来自海内外的专家、学者受聘担任专家及研发团队成员。</div>
+                    </div>
+                </div>
+
+
+
+                <div class="ty1" style="width:60%; padding-left:4%;padding-top:20px; text-align:center;line-height:150%;">
+
+                    <img src="img/18.jpg" width="100%"   border="0" /><br />
+
+                    <div class="ty1" style="padding-top:10px;text-align:center; width:100%;">陈全世教授受聘担任研究院首任院长</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="clear"></div>
+
+
+
+    <div class="ty1 " style="width:100%; " id="lxwm">
+
+        <div class="qyyj3" style=" border-top:1px solid #e1e1e1; padding-bottom:70px;background-color:#ededed;">
+
+            <div class="ty1 jg70  wow fadeInLeft" style=" width:100%; text-align:left; color:#969696;   font-family:  'Source Han Serif SC', 'Source Han Serif'; font-size:20px;font-weight:bold;"  >
+                联系我们   </div>
+
+
+
+
+            <div class="ty1 " style=" width:100%; line-height:150%; padding-top:20px;  " >
+
+
+
+                <div class="ty1   wow fadeInLeft"  style="width:47%;  height:430px; ">
+
+
+                    <div class="ty1"  style="width:100%; ">
+                        <div class="ty1" style="width:100%; height:20px; font-weight:bold; font-size:13px; " >姓&nbsp;&nbsp;&nbsp;&nbsp;名&nbsp;<span style=" color:#31a022">*</span></div>
+                        <div class="ty1" style="width:100%;height:46px; padding-top:10px; " ><asp:TextBox ID="xm" runat="server" CssClass="input"></asp:TextBox>
+                        </div>
+
+
+                        <div class="ty1" style="width:100%; " >
+
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
+                                                        ErrorMessage="姓名不能为空。" ControlToValidate="xm" Display="Dynamic"></asp:RequiredFieldValidator></div>
+
+                    </div>
+
+
+                    <div class="ty1"  style="width:100%; padding-top:15px;   ">
+                        <div class="ty1" style="width:100%; height:20px; font-weight:bold; font-size:13px; " >联系方式&nbsp;<span style=" color:#31a022">*</span></div>
+                        <div class="ty1" style="width:100%;height:46px; padding-top:10px; " ><asp:TextBox ID="sjh" runat="server"  CssClass="input" ></asp:TextBox>
+                        </div>
+                        <div class="ty1" style="width:100%; " >
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
+                                                        ControlToValidate="sjh" ErrorMessage="手机号或电话号码不能为空。" Display="Dynamic"></asp:RequiredFieldValidator>
+                        </div>
+
+                    </div>
+
+                    <div class="ty1"  style="width:100%; padding-top:15px;   ">
+                        <div class="ty1" style="width:100%; height:20px; font-weight:bold; font-size:13px; " >咨询主题&nbsp;<span style=" color:#31a022">*</span></div>
+                        <div class="ty1" style="width:100%;height:46px; padding-top:10px; " ><asp:TextBox ID="bt" runat="server"  CssClass="input" ></asp:TextBox>
+                        </div>
+
+
+
+
+                    </div>
+
+                    <div class="ty1"  style="width:100%;  padding-top:15px;   ">
+                        <div class="ty1" style="width:100%; height:20px; font-weight:bold; font-size:13px; " >详细内容&nbsp;<span style=" color:#31a022">*</span></div>
+                        <div class="ty1" style="width:100%;height:180px; padding-top:10px; " >
+                            <asp:TextBox ID="xxnr"  runat="server"   TextMode="MultiLine"  Width="100%"   CssClass="input2" ></asp:TextBox>
+
+                        </div>
+
+
+
+                    </div>
+                    <div  class="clear"></div>
+
+
+
+
+
+                    <div class="ty1"  style="width:100%; height:30px; padding-top:20px;">
+                        <div class="ty1"  style="width:80%;">
+                            <asp:Button ID="Button1" runat="server" onclick="Button1_Click"  Text="提交"  CssClass="button1"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <asp:Button ID="Button2" runat="server"  OnClientClick="javascript:document.forms[0].reset();"    Text="重置"  CssClass="button1" CausesValidation="false"/>		  </div>
+                    </div>
+                </div>
+
+                <div class="ty1  wow fadeInUp" style=" width:50%; padding-left:3%;">
+
+                    <div class="ty1 "  style=" width:100%; padding-top:30px;"><iframe height="320" width="100%" src="dt.aspx" frameborder="0"></iframe>  </div>
+                    <div class="ty1"  style=" width:100%;">
+
+                        <div class="ty1" style=" font: 13px  'SimSun';width:100%;line-height:23px;padding-top:20px; font-weight:bold;">常州长路电气有限公司</div>
+                        <div class="ty1" style=" font: 13px  'SimSun';width:100%;line-height:23px; ">
+                            服务热线：0519&nbsp;8518&nbsp;1008<br />
+                            传真：0519&nbsp;8518&nbsp;9008<br />
+                            地址：常州西太湖科技产业园锦华路258号<br />
+                            商务中心地址：江苏省常州市武进区绿杨路2号湖滨壹号2层<br />
+
+
+                        </div>
+                        <div class="ty1" style=" font: 13px  'SimSun';width:100%;line-height:23px;padding-top:10px;font-weight:bold; ">常州长路电气有限公司湖州工厂</div>
+                        <div class="ty1" style=" font: 13px  'SimSun';width:100%;line-height:23px;" >
+                            地址：浙江省湖州市南浔区南浔镇屯横路666号<br />
+
+                        </div>
+
+                        <div class="ty1" style=" font: 13px  'SimSun';width:100%;line-height:23px;padding-top:10px;font-weight:bold; ">商务中心地址乘车指南</div>
+                        <div class="ty1" style=" font: 13px  'SimSun';width:100%;line-height:23px; ">
+
+                            常州站公交中心乘坐68路到兰陵路广电路(四季青服装城)站下车，步行20米乘坐b15路到绿杨路延政大道站下车，步行210米。</div>
+
+
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+
+
+        <div class="ty1" style="width:97%; background-color:#454545; color:#ffffff; height:25px; padding-top:15px; padding-left:3%; font-family: Arial, Baskerville, monospace !important; font-size:12px;"> 苏ICP备17041478号-1  </div>
+    </div>
+    </div>
+    <div class="clear" > </div>
+    </div>
+
+    <div class="wb_1" style="width:50px;position:fixed; bottom:0px; right:0px; z-index:100;"><a href="#" ><img src="img/22.png" width="50" height="48"  border="0"/></a></div>
+
+    <script type="text/javascript">
+
+
+        if (document.body.clientWidth < 1920) {
+            //  $("#MainLeft").height(10062);
+            // $("#qyyj_1").height(400);
+            //  $("#qyyj_2").height(400);
+            //  $("#qyyj_3").height(400);
+            //  document.getElementById('qyyj_1').style.height = "350px";
+            //   document.getElementById('qyyj_2').style.height = "350px";
+            //   document.getElementById('qyyj_3').style.height = "350px";
+
+        }
+        if (document.body.clientWidth < 1440) {
+            //alert(document.body.clientWidth);
+            $("#qyyj_1").height(356);
+            $("#qyyj_2").height(356);
+            $("#qyyj_3").height(356);
+        }
+
+
+    </script>
+    <script type="text/javascript">
+
+
+        window.onload = function() {
+
+            var pmh = document.body.scrollWidth;
+
+            // alert(pmh);
+
+
+
+            // document.getElementById('MainRight').style.left = document.getElementById('MainLeft').offsetWidth + "px";
+
+
+            // alert(document.getElementById('MainRight').offsetWidth);
+
+            var hl = document.getElementById('MainLeft').offsetHeight; //获取左侧left层的高度
+
+            var hr = document.getElementById('MainRight').offsetHeight; //获取右侧right层的高度
+
+            var mh = Math.max(hl, hr); //比较hl与hr的高度，并将最大值赋给变量mh
+
+            //alert(hr);
+
+            //  document.getElementById('MainLeft').style.height = mh + "px";
+
+            // $("#MainLeft").height(mh);
+
+
+            var h3 = document.getElementById('qyyj_1').offsetHeight; //获取左侧left层的高度
+
+            var h4 = document.getElementById('qyyj_2').offsetHeight; //获取右侧right层的高度
+
+
+
+            var h5 = Math.max(h3, h4); //比较hl与hr的高度，并将最大值赋给变量mh
+            //alert(h6);
+
+            //document.getElementById('MainLeft').style.height = mh + "px";
+            // $("#qyyj_1").height(h5);
+        }
+
+
+
+
+
+    </script>
+    <!--[if !IE]><!--><script src="js/wow.js"   type="text/javascript"></script><!--<![endif]-->
+    <script  type="text/javascript">
+        if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))){
+            wow = new WOW(
+                    {
+                        boxClass: 'wow',
+                        animateClass: 'animated',
+                        offset: 0,
+                        mobile: true,
+                        live: true
+                    }
+            );
+            wow.init();
+        };
+    </script>
+
+
+
+</form>
+</body>
+</html>

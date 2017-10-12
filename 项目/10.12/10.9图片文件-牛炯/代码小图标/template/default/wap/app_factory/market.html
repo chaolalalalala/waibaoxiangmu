@@ -1,0 +1,385 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+<style>
+	.coin-header{
+		background-color:#FFF !important;
+		border-bottom:1px solid whitesmoke;
+		height:2rem;
+	}
+
+	.coin-header-title{
+		height:1.5rem;
+		line-height:1.5rem;
+		margin-left:0.5rem;
+	}
+
+	.my_body{
+		margin:10px 10px 60px 10px;
+		border-radius:8px;
+		padding:0 10px;
+		line-height:30px;
+	}
+
+	.my_body ul{
+		position:relative;
+		padding-left:0;
+		margin-top:0;
+		margin-bottom:10px;
+		list-style:none;
+		-moz-border-radius:3px;
+		-webkit-border-radius:3px;
+		border-radius:3px;
+		background-color:#FFF;
+	}
+
+	.bank_title{
+		margin:0 0 0 1rem;
+		height:3rem;
+		line-height:3rem;
+		/*border-bottom: 1px solid #55585D;*/
+	}
+
+	.bank_body{
+		margin:0 0 0 1rem;
+	}
+
+	.bank_body span{
+		display:block;
+	}
+
+	.bank_body .g{
+		color:gray;
+	}
+
+	.r{
+		float:right;
+		margin-right:1rem;
+	}
+
+	.red{
+		color:#E55600;
+	}
+
+	.green{
+		color:green;
+	}
+
+	.pad-right{
+		text-align:right;
+	}
+
+	.tab-title{
+		display:block;
+	}
+
+	.aui-bar-btn-item{
+		background:#FFF;
+		border:none !important;
+	}
+
+	#shadow{
+		display:none;
+		width:100%;
+		margin-top:-0.625rem;
+		height:100%;
+		bottom:0;
+		background-color:rgba(33, 33, 33, 0.5);
+		position:fixed;
+		z-index:99;
+	}
+
+	#show_subscribe{
+		display:none;
+		z-index:100;
+		position:absolute;
+		left:0;
+		right:0;
+		top:0;
+		background-color:#FFF;
+		bottom:0;
+		width:80%;
+		height:12rem;
+		overflow:hidden;
+		margin:auto;
+		color:#A59494;
+	}
+
+	#show_subscribe input{
+		color:#666;
+	}
+
+	#show_subscribe .aui-list-header{
+		height:1.5rem;
+		line-height:1rem;
+		text-align:center;
+		color:white;
+	}
+</style>
+</head>
+<body>
+<div id="shadow" onclick="close_form()">
+	<ul class="aui-list aui-form-list" id="show_subscribe" onclick="cancelSendEvent(event) ">
+		<li class="aui-list-header aui-bg-info aui-font-size-16" id="buy-title">购买食物</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">
+					购买价格
+				</div>
+				<div class="aui-list-item-input">
+					<input type="text" id="price" readonly>
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">
+					交易数量
+				</div>
+				<div class="aui-list-item-input">
+					<input type="number" placeholder="请输入购买数量" id="my_num">
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">
+					交易密码
+				</div>
+				<div class="aui-list-item-input">
+					<input type="password" placeholder="请输入交易密码" id="paypassword">
+				</div>
+			</div>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner aui-list-item-center aui-list-item-btn">
+				<div class="aui-btn aui-btn-info aui-col-xs-6" id="btn" onclick="submit_form()">购买</div>
+			</div>
+		</li>
+	</ul>
+</div>
+<section class="aui-refresh-content">
+	<div class="my_body">
+		<div class="aui-bar aui-bar-btn aui-bar-btn-sm aui-bar-btn-full">
+			<div class="aui-bar-btn-item aui-active" onclick="tabChange(1)">养殖物</div>
+			<div class="aui-bar-btn-item" onclick="tabChange(2)">食物</div>
+		</div>
+		<div id="tool">
+		</div>
+	</div>
+</section>
+<script id="tool-template" type="text/x-dot-template">
+	{{? it}}
+	{{ for(var i in it) { }}
+	<div class="aui-content aui-margin-b-5">
+		<ul class="aui-list aui-media-list">
+			<ul>
+				<li class="bank_title aui-border-b">
+					<span class="red"><em>{{=it[i].goodsName}}</em></span>
+				</li>
+				<li class="bank_body">
+					<span class="g">序号: <em>{{=it[i].id}}</em></span>
+					<span class="g">售价	: <em class="green"> {{=it[i].price}} {{=it[i].coin}}</em></span>
+					<span class="g">库存	: <em>{{=it[i].leftNum}}</em></span>
+					<span class="g">喂食量: <em>{{=it[i].feedNum}}</em></span> <span class="g">食物: <em>{{=it[i].food}}</em></span>
+					<span class="g">喂食(收货)周期: <em>{{=it[i].feedCycle}}天</em></span>
+					<span class="g">产量: <em>{{=it[i].productNum}}</em></span>
+					<span class="g">产品名:<em>{{=it[i].productName}}</em></span>
+					<span class="g">产品单价:<em>{{=it[i].productPrice}}元/个</em></span>
+					<span class="g">寿命:<em>{{=it[i].lifeLength}}天</em></span>
+				</li>
+				<div class="aui-content-padded" style="padding-bottom:1rem" onclick="buy('{{=it[i].id}}','{{=it[i].price}}','{{=it[i].coin}}')">
+					<p>
+					<div class="aui-btn aui-btn-info" onclick="" style="width: 100%;line-height: 1.5rem">购买</div>
+					</p>
+				</div>
+			</ul>
+			</li>
+		</ul>
+	</div>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{? }}
+</script>
+<script id="food-template" type="text/x-dot-template">
+	{{? it}}
+	{{ for(var i in it) { }}
+	<div class="aui-content aui-margin-b-5">
+		<ul class="aui-list aui-media-list">
+			<ul>
+				<li class="bank_title aui-border-b">
+					<span class="red"><em>{{=it[i].goodsName}}</em></span>
+				</li>
+				<li class="bank_body">
+					<span class="g">序号: <em>{{=it[i].id}}</em></span>
+					<span class="g">售价	: <em class="green"> {{=it[i].price}} {{=it[i].coin}}</em></span>
+					<span class="g">库存	: <em>{{=it[i].leftNum}}</em></span>
+				</li>
+				<div class="aui-content-padded" style="padding-bottom:1rem" onclick="buy('{{=it[i].id}}','{{=it[i].price}}','{{=it[i].coin}}')">
+					<p>
+					<div class="aui-btn aui-btn-info" onclick="" style="width: 100%;line-height: 1.5rem">购买</div>
+					</p>
+				</div>
+			</ul>
+			</li>
+		</ul>
+	</div>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{? }}
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-dialog.js"></script>
+<script type="text/javascript">
+	var callback;
+	var pid = 1;
+	var sub_id;
+	var tab = 1;
+	apiready = function () {
+		onerror = error_handel;
+		flash(callback);
+	}
+
+	window.onscroll = function () {
+		if (getScrollTop() + getWindowHeight() == getScrollHeight()) {
+			++pid;
+			flash(callback)
+		}
+	}
+
+	function flash(callback) {
+		loading("加载中……")
+		Ajax('factory/market', 'get', {
+			'pid': pid,
+		}, function (ret) {
+			if (ret.status == 1) {
+				toast.hide()
+				if (tab == 1) {
+					var info = ret.info.tool
+					var temp = doT.template($("#tool-template").text());
+				} else {
+					var info = ret.info.food
+					var temp = doT.template($("#food-template").text());
+				}
+				if (info) {
+					if (pid == 1) {
+						art('第' + pid + '页')
+						$("#tool").html(temp(info.list))
+					}
+					else if (pid > Math.ceil(Number(info.count) / Number(info.pageSize))) {
+						art("没有更多数据了")
+					}
+					else {
+						art('第' + pid + '页')
+						$("#tool").html($("#tool").html() + temp(info.list));
+					}
+					if (typeof callback == "function") {
+						setTimeout(function () {
+							callback("刷新完成");
+						}, 1000)
+					}
+					parseTapmode();
+				}
+			} else {
+				toast.hide();
+				art(ret.info);
+				if (typeof callback == "function") {
+					setTimeout(function () {
+						callback("刷新失败");
+					}, 1000)
+				}
+			}
+		}, 'json');
+	}
+
+	//切换类型
+	function tabChange(n) {
+		tab = n
+		pid = 1
+		flash(callback);
+		$(".aui-active").removeClass('aui-active')
+		$(".aui-bar-btn-item").eq(n - 1).addClass('aui-active')
+	}
+
+	//下拉刷新
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			flash(function (msg) {
+				art(msg);
+				pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+			});
+		}
+	})
+
+
+	//显示弹框
+	function buy(id, price, coin) {
+		console.log('买')
+		$("#shadow").css("display", "block")
+		$("#show_subscribe").css("display", "block")
+		sub_id = id;
+		$("#price").val(price + ' ' + coin);
+	}
+
+	//提交交易
+	function submit_form() {
+		var my_num      = $("#my_num").val();
+		var paypassword = $("#paypassword").val();
+		if (!(isInteger(my_num))) {
+			art("请填写正确的数字格式")
+			return;
+		}
+		if (!paypassword) {
+			art("请填写交易密码")
+			return
+		}
+		UserAjax('factory/buy', 'post', {
+			"id": sub_id,
+			"num": my_num,
+			"paypassword": paypassword,
+		}, function (ret) {
+			if (ret.status == 1) {
+				art(ret.info)
+				clean_form()
+				close_form()
+				setTimeout(function () {
+					scrollTo(0, 0)
+					pid = 1;
+					flash(callback);
+				}, 500);
+			}
+			else {
+				art(ret.info)
+			}
+		}, "json");
+	}
+
+
+	//关闭弹框
+	function close_form() {
+		$("#shadow").css("display", "none")
+		$("#show_subscribe").css("display", "none")
+	}
+	//清空弹框值
+	function clean_form() {
+		$("#price").val(null);
+		$("#num").val(null);
+		$("#my_num").val(null);
+		$("#paypassword").val(null);
+	}
+</script>
+</html>

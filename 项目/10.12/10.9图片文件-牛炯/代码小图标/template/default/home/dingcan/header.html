@@ -1,0 +1,100 @@
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>{$seos['title']}</title>
+	<link rel="stylesheet" href="__EXT__/Font-Awesome-4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="__CSS__/style.css"/>
+	<link rel="stylesheet" type="text/css" href="__CSS__/common.css"/>
+	<link rel="stylesheet" type="text/css" href="__HOME__/dingcan/css/style_17_common.css"/>
+	<link rel="stylesheet" href="__HOME__/dingcan/css/dingcan.css">
+	<link rel="stylesheet" href="__HOME__/dingcan/css/style_pc.css"/>
+	<script type="text/javascript" src="__EXT__/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+	<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+</head>
+<body id="nv_plugin" class="pg_dzapp_dingcan" >
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+{include file="public:top"}
+<ul id="vipcenter_menu" class="p_pop" style="display: none;">
+	<div class="member_card-li " style="background-image: url(../../../../upload/dingcan/images/card_bg.png)">
+		<div class="member-cardName">
+			<span class="y f_18 no_b"><i class="card_vip_level mr_10" ><i class="iconfont">&#xe65d;</i></i></span> VIPCARD
+		</div>
+		<div class="card_num cl">
+			<i class="num ord-nm0"></i> <i class="num ord-nm0"></i> <i class="num ord-nm0"></i>
+			<i class="num ord-nm0"></i>
+			<em class="z"></em>
+			<i class="num ord-nm0"></i> <i class="num ord-nm0"></i> <i class="num ord-nm0"></i>
+			<i class="num ord-nm0"></i>
+			<em class="z"></em>
+			<i class="num ord-nm0"></i> <i class="num ord-nm0"></i> <i class="num ord-nm0"></i>
+			<i class="num ord-nm0"></i>
+		</div>
+
+	</div>
+</ul>
+<div id="qmenu_menu" class="p_pop blk" style="display: none;">
+	<div class="ptm pbw hm">
+		请
+		<a href="javascript:;" class="xi2" onclick="lsSubmit()"><strong>登录</strong></a> 后使用快捷导航<br/>没有帐号？<a href="member.php?mod=register" class="xi2 xw1">立即注册</a>
+	</div>
+	<div id="fjump_menu" class="btda"></div>
+</div>
+<div id="hd">
+	<div class="wp">
+		<div class="hdc cl"><h2>
+			<a href="/index/index" title="动说订餐"><img src="__UP__/public/f1a4bf4d1aee083a8b0a1facd1bf7e3d.png" alt="DZAPP2017演示站" border="0"/></a>
+		</h2>
+			<div id="dzapp_scbar" class="cl">
+				<form id="search" method="post" action="/dingcan/index" class="cl">
+
+					<div class="dzapp_search">
+						<div id="search_type" style="display:inline-block;float: left;">
+							<a href="javascript:;" id="scbar_type" class="z">套餐</a>
+							<ul id="scbar_type_menu" class="p_pop" style="position: absolute; z-index: 301;top: 42px;display:none;">
+								<li><a href="javascript:;" rel="dzapp_shop" onclick="choice(1,$(this))">商家</a></li>
+								<li><a href="javascript:;" rel="dzapp_coupon" onclick="choice(2,$(this))">套餐</a></li>
+
+							</ul>
+						</div>
+
+						<input type="text" name="keyword" id="scbar_txt" placeholder="请输入搜索内容" autocomplete="off" x-webkit-speech speech/>
+						<button type="submit"  id="scbar_btn" >搜索</button>
+
+					</div>
+					<input type="hidden" id="choice" name="search" value="2">
+				</form>
+				<div class="dzapp_user_center z">
+					<a href="/dingcan/MyOrder" class="showmenu" id="usercenter">我的订单</a>
+
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+	<div id="nv" style="height:5px;">
+	</div>
+</div>
+<div class="p_pop h_pop" id="mn_userapp_menu" style="display: none"></div>
+<div id="mu" class="cl">
+</div>
+</div>
+<script>
+	$('#search_type').hover(function(){
+		$('#scbar_type_menu').show();//显示搜索分类
+	},function(){
+		$('#scbar_type_menu').hide();
+	});
+
+	function choice(a,b){
+		var value=b.text();
+		$('#choice').val(a);
+		$('#scbar_type').html(value);
+		$('#scbar_type_menu').hide();
+
+	}
+</script>

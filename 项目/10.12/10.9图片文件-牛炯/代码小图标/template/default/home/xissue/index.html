@@ -1,0 +1,355 @@
+{include file='xissue:header'}
+
+<!-- 接入头尾系统 2015-11-16-->
+<link rel="stylesheet" href="__CSS__/index_a.css"/>
+<style>
+	.boxs{margin-top:0!important;}
+</style>
+<script type="text/javascript">
+	(function () {
+		if (typeof jrBase !== 'undefined') {
+			if (typeof jrBase.navId !== 'undefined') {
+				var mainNav = document.getElementById(jrBase.navId);
+				if (mainNav) {
+					mainNav.className += ' current'
+				}
+			}
+			if (typeof jrBase.navSubId !== 'undefined') {
+				var subNav = document.getElementById(jrBase.navSubId);
+				if (subNav) {
+					subNav.className += ' current'
+				}
+			}
+		}
+	})();
+</script>
+<!--header end-->
+<!--container-->
+
+<div class="licai-index-container">
+	<!--首页banner区域-->
+	<div class="banner-box">
+		<!-- 用户信息 start -->
+		<ul class="img"><!-- 图片部分 -->
+				{foreach $banner as $v}
+			<a href="{$v['url']}"><li><img src="__UP__/{$v['img']}" width="100%" height="" alt="{$v['title']}"></li></a>
+			{/foreach}
+
+		</ul>
+		<ul class="num">
+
+		</ul>
+		<div class="btn btn_l">&lt;</div>
+		<div class="btn btn_r">&gt;</div>
+
+	</div>   <!--首页基金区域-->
+	<script type="text/javascript">
+		$(function(){
+			var i = 0;
+			var imgWidth=$('.banner-box .img img').width();
+			var clone = $(".banner-box .img li").first().clone();//克隆第一张图片
+			$(".banner-box .img").append(clone);//复制到列表最后
+			var size = $(".banner-box .img li").size();
+
+
+			for (var j = 0; j < size-1; j++) {
+				$(".banner-box .num").append("<li></li>");
+			}
+
+			$(".banner-box .num li").first().addClass("on");
+
+			/*自动轮播*/
+
+			var t = setInterval(function () { i++; move();},2000);
+
+			/*鼠标悬停事件*/
+
+			$(".banner-box").hover(function () {
+				clearInterval(t);//鼠标悬停时清除定时器
+			}, function () {
+				t = setInterval(function () {
+					i++;
+					move();
+				}, 2000); //鼠标移出时清除定时器
+			});
+
+
+
+
+			/*鼠标滑入原点事件*/
+
+			$(".banner-box .num li").hover(function () {
+
+				var index = $(this).index();//获取当前索引值
+				i = index;
+				$(".banner-box .img").stop().animate({ left: -index * imgWidth }, 500);
+				$(this).addClass("on").siblings().removeClass("on");
+			});
+
+			/*移动事件*/
+			function move() {
+
+				if (i == size) {
+					$(".banner-box .img").css({ left: 0 });
+					i = 1;
+
+				}
+				if (i == -1) {
+					$(".banner-box .img").css({ left: -(size - 1) * imgWidth });
+					i = size - 2;
+
+				}
+				$(".banner-box .img").stop().animate({ left: -i * imgWidth }, 500);
+
+				if (i == size - 1) {
+					$(".banner-box .num li").eq(0).addClass("on").siblings().removeClass("on");
+				} else {
+					$(".banner-box .num li").eq(i).addClass("on").siblings().removeClass("on");
+				}
+
+			}
+		});
+	</script>
+	<div class="push-fund-area">
+		<div class="fund-main-area">
+			<ul class="clearfix">
+
+				<li class="fund-list ">
+					<h3 class="title clearfix"><span><b class="animated bounce">{#lang('热门推荐')}</b></span></h3>
+					<div class="fund-details">
+						<h2>
+							<a href="/" target="_blank" clstag="jr|keycount|jr_dalicai|bynj_103854">{$hot['name']}</a>
+						</h2>
+						<p>{#lang('灵活配置 严控风险')}</p>
+                        <span>
+                                                            {#lang('总成交量')} <em>{$hot['deal']}<i></i></em>
+                                                    </span>
+						<a class="buy-now-btn" href="/xissue/buy/id/{$hot['id']}" target="_blank" clstag="jr|keycount|jr_dalicai|bynj_103854">{#lang('立即抢购')}</a>
+					</div>
+				</li>
+
+				<li class="fund-list list-center">
+					<h3 class="title clearfix"><span><b class="animated bounce">{#lang('即将结束')}</b></span></h3>
+					<div class="fund-details">
+						<h2>
+							<a href="/" target="_blank" clstag="jr|keycount|jr_dalicai|tzjh_101121">{$end['name']}</a>
+						</h2>
+						<p>{#lang('10元起购 中高风险')}</p>
+                        <span>
+                                                            {#lang('总成交量')} <em>{$end['deal']}<i></i></em>
+                                                    </span>
+						<a class="buy-now-btn" href="/xissue/buy/id/{$hot['id']}" target="_blank" clstag="jr|keycount|jr_dalicai|tzjh_101121">{#lang('立即抢购')}</a>
+					</div>
+				</li>
+				<!--<li class="fund-list ">-->
+					<!--<h3 class="title clearfix"><span><b class="animated bounce">稳健基金</b></span></h3>-->
+					<!--<div class="fund-details">-->
+						<!--<h2>-->
+							<!--<a href="//fund.jd.com/detail/101337.htm" target="_blank" clstag="jr|keycount|jr_dalicai|wjjj_101337">南方策略优化混合型证券投资基金</a>-->
+						<!--</h2>-->
+						<!--<p>2015年金牛基金 10元起购</p>-->
+                        <!--<span>-->
+                                                            <!--近一年收益率 <em>34.17<i>%</i></em>-->
+                                                    <!--</span>-->
+						<!--<a class="buy-now-btn" href="//fund.jd.com/detail/101337.htm" target="_blank" clstag="jr|keycount|jr_dalicai|wjjj_101337">立即抢购</a>-->
+					<!--</div>-->
+				<!--</li>-->
+			</ul>
+		</div>
+		<div class="fund-line-area"></div>
+	</div>    <!--数据展示区域-->
+	<!--选择期限区域-->
+
+	<div class="licai-type-area">
+		<div class="licai-type-text"><p>{#lang('活期+定期理财')}</p></div>
+	</div>
+	<div class="limit-date-area">
+		<div class="limit-date-main">
+			<ul data-opt="period">
+				<li class="date-list font-white" clstag="jr|keycount|jr_dalicai|lclb_tab0">{#lang('全部币种')}</li>
+				{foreach $coinlist as $v}
+				<li class="date-list" clstag="jr|keycount|jr_dalicai|lclb_tab2">
+					<!--<span class="numb">0-3</span><span class="numbt">个月</span></li>-->
+					<span class="numb">{$v['title']}</span></li>
+				{/foreach}
+				<li class="date-bg"></li>
+				<li class="order-now">
+					<a href="/" target="_blank" clstag="jr|keycount|jr_dalicai|lclb_lcyy"><strong>{#lang('预约5%高收益')}</strong><i></i>
+						<em></em></a></li>
+			</ul>
+		</div>
+	</div>
+	<!--产品信息区域-->
+	<div class="product-infor-area">
+		<div class="product-infor-main">
+			<table>
+				<colgroup>
+					<col width="120">
+					<col width="295">
+					<col width="280">
+					<col width="155">
+					<col width="236">
+					<col width="120">
+				</colgroup>
+				<thead>
+				<tr>
+					<th align="center">
+						<div class="t-click years-income" data-val="yield" clstag="jr|Keycount|jr_dalicai|lclb_nhsyl">{#lang('认购单价')}
+						                                                                                              <!--此处通过double-up 或者 double-down的class 控制向上或向下红箭头-->
+							<i class="double-sj"></i>
+						</div>
+					</th>
+					<th align="center">
+						<div class="t-click years-income" data-val="period" clstag="jr|Keycount|jr_dalicai|lclb_qx">{#lang('认购名称')}
+						                                                                                            <!--此处通过double-up 或者 double-down的class 控制向上或向下红箭头-->
+							<i class="double-sj"></i>
+						</div>
+					</th>
+					<th align="left">
+						<div class="t-click all-product" data-val="default" clstag="jr|Keycount|jr_dalicai|lclb_qbcp">
+							<strong class="tital-text">{#lang('开始时间')}</strong>
+							<!--<i class="down-sj"></i>-->
+							<!--<div class="product-choose-area">-->
+								<!--<ul>-->
+									<!--<li class="list-tital"><strong class="tital-text">全部产品</strong><i class="up-sj"></i>-->
+									<!--</li>-->
+									<!--<li data-label="0" class="choose-list">全部产品</li>-->
+									<!--<li data-label="1" class="choose-list">银行承兑</li>-->
+									<!--<li data-label="2" class="choose-list">新手专享</li>-->
+									<!--<li data-label="3" class="choose-list">可变现</li>-->
+									<!--<li data-label="4" class="choose-list">小金库专享</li>-->
+								<!--</ul>-->
+							<!--</div>-->
+						</div>
+					</th>
+					<th align="center">
+						<div class="t-click start-buy-mon" data-val="minbid">
+							<strong class="tital-text2">{#lang('结束时间')}</strong>
+							<!--<i class="down-sj"></i>-->
+							<!--<div class="start-buy-area">-->
+								<!--<ul>-->
+									<!--<li class="list-tital2">-->
+										<!--<strong class="tital-text2 tital-text3">起购金额</strong><i class="up-sj"></i></li>-->
+									<!--<li data-amountno="0" class="choose-list2">不限</li>-->
+									<!--<li data-amountno="1" class="choose-list2">0-1000元</li>-->
+									<!--<li data-amountno="2" class="choose-list2">1000-10000元</li>-->
+									<!--<li data-amountno="3" class="choose-list2">1-5万</li>-->
+									<!--<li data-amountno="4" class="choose-list2">5万元以上</li>-->
+								<!--</ul>-->
+							<!--</div>-->
+						</div>
+					</th>
+					<th align="center">{#lang('可认购数量')}</th>
+					<th align="center">{#lang('操作')}</th>
+				</tr>
+				</thead>
+
+
+				<tbody>
+				{foreach $coinlist as $v}
+				{foreach $v['data']['list'] as $val}
+				<tr data-type="jklc" class="" data-animationtype="fadeInRight">
+					<td class="percent-red"><em>{#round($val['price'],2)}</em>{$val['buycoin']}<p class="percent-text">{#lang('币种价格')}</p></td>
+					<td class="limit-days"><i class="fs-16">{$val['name']}</i>
+						<div class="wenhao">
+							<div class="wenhao-area"><i class="explain-sj"></i>
+								<div class="explain-box"></div>
+								<div class="explain-con">
+									<!--<div class="explain-main"><p>存取灵活 收益日结</p></div>-->
+									<!--<i class="cha"><i class="cha-con"></i></i></div>-->
+							</div>
+						</div>
+					</td>
+					<td class="product-name">
+						<a href="/" target="_blank" clstag="jr|keycount|jr_dalicai|lclb_gm_jklc_J50080000">{#addtime($val['strtime'],'Y-m-d')}</a>
+					</td>
+					<td class="start-buy">{#addtime($v['sndtime'],'Y-m-d')}</td>
+					<td class="surplus">{$val["shenyu"]}
+					</td>
+					<td>
+						<a href="/xissue/buy/id/{$val['id']}" target="_blank" class="buy-now" clstag="jr|keycount|jr_dalicai|lclb_gm_jklc_J50080000">{#lang('立即抢购')}</a>
+					</td>
+				</tr>
+				{/foreach}
+				{/foreach}
+				</tbody>
+
+				{foreach $coinlist as $v}
+				<tbody style="display:none">
+
+				{foreach $v['data']['list'] as $val}
+				<tr data-type="jklc" class="" data-animationtype="fadeInRight">
+					<td class="percent-red"><em>{#round($val['price'],2)}</em>{$val['buycoin']}<p class="percent-text">{#lang('币种价格')}</p></td>
+					<td class="limit-days"><i class="fs-16">{$val['name']}</i>
+						<div class="wenhao">
+							<div class="wenhao-area"><i class="explain-sj"></i>
+								<div class="explain-box"></div>
+								<div class="explain-con">
+									<!--<div class="explain-main"><p>存取灵活 收益日结</p></div>-->
+									<!--<i class="cha"><i class="cha-con"></i></i></div>-->
+								</div>
+							</div>
+					</td>
+					<td class="product-name">
+						<a href="/" target="_blank" clstag="jr|keycount|jr_dalicai|lclb_gm_jklc_J50080000">{#addtime($val['strtime'],'Y-m-d')}</a>
+					</td>
+					<td class="start-buy">{#addtime($v['sndtime'],'Y-m-d')}</td>
+					<td class="surplus">{$val["shenyu"]}
+					</td>
+					<td>
+						<a href="/xissue/buy/id/{$val['id']}" target="_blank" class="buy-now" clstag="jr|keycount|jr_dalicai|lclb_gm_jklc_J50080000">{#lang('立即抢购')}</a>
+					</td>
+				</tr>
+
+				{/foreach}
+
+				</tbody>
+				{/foreach}
+
+
+			</table>
+
+
+
+			<!--loding效果-->
+			<!--<div class="loding"></div>-->
+			<!--暂无产品效果-->
+			<!--<div class="no-result">产品已被抢光啦~~请耐心等待，新品陆续发布中！</div>-->
+
+		</div>
+	</div>    <!--更多优选理财区 -->
+
+</div>
+<script>
+	$('.date-list').mouseenter(function(){
+		var idx=$(this).index();
+		$('tbody').eq(idx).show().siblings('tbody').hide();
+		$(this).addClass('font-white').siblings('.date-list').removeClass('font-white');
+		$('.date-bg').css({'left':180*idx+"px"});
+
+	})
+</script>
+
+<script type="text/javascript">
+	var google_tag_params = {
+		dynx_itemid: [],
+		dynx_prodtype: [],
+		dynx_pagetype: ['category'],
+	};
+	var conversion_value = 0;
+</script>
+<script type="text/javascript">
+	dataLayer = [{
+		"google_tag_params": window.google_tag_params,
+		'conversion_value': window.conversion_value
+	}];
+</script>
+<!-- Google Tag Manager -->
+<noscript>
+	<iframe src="//www.googletagmanager.com/ns.html?id=GTM-W9HSZR" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+
+
+<iframe style="display: none;" src="http://bid.g.doubleclick.net/xbbe/pixel?d=KAE"></iframe>
+
+{include file='public:footer'}

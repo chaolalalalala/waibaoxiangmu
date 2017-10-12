@@ -1,0 +1,141 @@
+{include file="public:header"}
+<title>土豪榜</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+    .my_body{
+        margin: 10px 10px 60px 10px;
+        border-radius: 8px;
+        line-height: 30px;
+    }
+    .my_body ul{
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 10px;
+        list-style: none;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        background-color: #FFF;
+    }
+    .itemRow li{
+        display: flex;
+        display: -webkit-box;
+        display: -webkit-flex;
+    }
+    .itemRow li {
+        border-bottom: #999 solid 1px;
+        padding: .625rem 0;
+    }
+    .itemRow span {
+        flex: 1;
+        -webkit-flex: 1;
+        -webkit-box-flex: 1;
+        text-align: center;
+    }
+    .itemRow li:first-child {
+        background-color: #cccccc;
+    }
+</style>
+<body>
+<section class="aui-refresh-content">
+<div class="wrap">
+	<div class="my_body">
+        <ul class="itemRow" id="LC_log">
+            <li>
+                <span>排名</span>
+                <span>用户名</span>
+                <span>红包数</span>
+            </li>
+        </ul>
+  </div>
+</div>
+</section>
+<script id="LC_log_temp" type="text/x-dot-template">
+    <li>
+        <span>排名</span>
+        <span>用户名</span>
+        <span>红包数</span>
+    </li>
+	{{? it.length>0 }}
+	{{ for (var i in it){ }}
+    <li>
+        <span>{{=i+1}}</span>
+        <span>{{=it[i].username}}</span>
+        <span>{{=it[i].num}}</span>
+    </li>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{?}}
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+    var pid = 1;
+    apiready = function () {
+        onerror = error_handel;
+        requestData();
+    }
+
+    function requestData(callback) {
+        loading();
+        Ajax('hongbao/tuhao', 'get', '', function (ret) {
+            toast.hide();
+            if( typeof callback == "function" ){
+                callback("刷新完成");
+            }
+            alog(ret);
+            if (ret.status == 1)
+            {
+                alog("理财记录返回结果");
+                alog(ret.info);
+                createView(ret.info);
+            }
+            else {
+                art('ajax错误！');
+            }
+        });
+    }
+
+    function createView () {
+        alog("更新界面");
+        var data = arguments[0];
+        if (typeof data == 'undefined') {
+            art("createView参数错误");
+            return;
+        }
+        alog(data);
+        var licaiList_temp = doT.template($("#LC_log_temp").html());
+        $('#LC_log').html(licaiList_temp(data));
+    }
+
+    //下拉刷新
+    var pullRefresh = new auiPullToRefresh({
+        container: document.querySelector('.aui-refresh-content'),
+        triggerDistance: 100
+    }, function (ret) {
+        if (ret.status == "success") {
+            if(getScrollTop() < 10)
+            {
+                pid = 1;
+                requestData(function (msg) {
+                    art(msg);
+                    pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+                });
+            }
+            else {
+                pullRefresh.cancelLoading();
+            }
+        }
+    });
+</script>
+</html>

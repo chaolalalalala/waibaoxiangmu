@@ -1,0 +1,274 @@
+{include file="sweike:header"}
+
+<link rel="stylesheet" href="/static/default/home/css/sweike/sweiklist.css">
+
+<div class="navlink">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;
+		<a href="{#url('sweike/index')}" class="orange">{#lang('威客任务')}</a> &gt; {#lang('需求大厅')}
+	</div>
+</div>
+<div class="ht13"></div>
+<div class="clear"></div>
+<div class="zblist">
+	<div class="zblist_l">
+		<div class="zbsearch">
+			<div class="itemclass" style="border-bottom:solid 1px #DDD;">
+				<div class="fenlei project">{#lang('项目分类')}：</div>
+				<div class="fenlei_zong">
+				{if !$current_type}
+				<div class="fenlei fenlei1" style="background:#F90;">
+					<a href="{#url('/sweike/lists/type/0/type1/0/type2/0')}" style="color:#FFF;">{#lang('全部')}</a>
+				</div>
+				{else}
+				<div class="fenlei fenlei1">
+					<a href="{#url('/sweike/lists/type/0/type1/0/type2/0')}" style="color:#000;">{#lang('全部')}</a>
+				</div>
+				{/if} {foreach $typelist1 as $k=>$v} {if $current_type==$v['id']}
+				<div class="fenlei fenlei1" style="background:#F90;">
+					<a href="{#url('/sweike/lists/type/'.$v['id'].'/type1/0/type2/0')}" style="color:#FFF;">{$v['type']}</a>
+				</div>
+				{else}
+				<div class="fenlei fenlei1">
+					<a href="{#url('/sweike/lists/type/'.$v['id'].'/type1/0/type2/0')}">{$v['type']}</a>
+				</div>
+				{/if} {/foreach}
+				</div>
+                <!--二级菜单-->
+				<div class="second">
+					{foreach $typelist3 as $k=>$v}
+                    {if $type1 == $v['b']['id'] && $type2==0}
+					<div class="erji" style="display:inline-block;background:#F90;">
+						<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$v['b']['id'].'/type2/0')}" style="color:#FFF;">{$v["b"]['type']}</a>
+					</div>
+					{else}
+					<div class="erji" style="display:inline-block;">
+						<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$v['b']['id'].'/type2/0')}">{$v["b"]['type']}</a>
+					</div>
+					{/if}
+					<div class="aa">
+						{foreach $v["c"] as $kk=>$vv} {if $type2==$vv['id']}
+						<div class="san_foot" style="background:#F90;">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$v['b']['id'].'/type2/'.$vv['id'])}" style="color:#FFF;">{$vv["type"]}</a>
+						</div>
+						{else}
+						<div class="san_foot">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$v['b']['id'].'/type2/'.$vv['id'])}">{$vv["type"]}</a>
+						</div>
+						{/if} {/foreach}
+					</div>
+					{/foreach}
+				</div>
+			</div>
+			<!--<div class="rowline10"></div>-->
+			<div class="itemclass" style="border-bottom:solid 1px #DDD;margin-top: 6px;">
+				<div class="fl item_class_l">{#lang('项目状态')}：</div>
+				<div class="fl item_class_r flagobj">
+					<div class="classoption">
+						<!--<div class="flag_0 searchcurr"><a href="{#url('/sweike/lists/type/'.$current_type.'/type1/0/type2/0/step/'.$step.$sort)}">不限</a></div>-->                        {if $step==1}
+						<div class="flag_1" style="background:#F90;">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$type1.'/type2/'.$type2.'/step/1')}" style="color:#FFF;">{#lang('新发布')}</a>
+						</div>
+						{else}
+						<div class="flag_1">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$type1.'/type2/'.$type2.'/step/1')}">{#lang('新发布')}</a>
+						</div>
+						{/if} {if $step==2}
+						<div class="flag_1" style="background:#F90;">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$type1.'/type2/'.$type2.'/step/2')}" style="color:#FFF;">{#lang('进行中')}</a>
+						</div>
+						{else}
+						<div class="flag_1">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$type1.'/type2/'.$type2.'/step/2')}">{#lang('进行中')}</a>
+						</div>
+						{/if} {if $step==3}
+						<div class="flag_3" style="background:#F90;">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$type1.'/type2/'.$type2.'/step/3')}" style="color:#FFF;">{#lang('已结束')}</a>
+						</div>
+						{else}
+						<div class="flag_3">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$type1.'/type2/'.$type2.'/step/3')}">{#lang('已结束')}</a>
+						</div>
+						{/if} {if $step==4}
+						<div class="flag_4" style="background:#F90;">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$type1.'/type2/'.$type2.'/step/4')}" style="color:#FFF;">{#lang('已关闭')}</a>
+						</div>
+						{else}
+						<div class="flag_4">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$type1.'/type2/'.$type2.'/step/4')}">{#lang('已关闭')}</a>
+						</div>
+						{/if} <span class="clear"></span>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="rowline10"></div>
+			<div class="itemclass" style="border-bottom:solid 1px #DDD;">
+				<div class="fl item_class_l">{#lang('排序')}：</div>
+				<div class="fl item_class_r ysobj">
+					<div class="classoption">
+						<!--<div class="ys_0_0 searchcurr"><a href="#">不限</a></div>-->                        {if $sort==1}
+						<div class="ys_0_1000" style="background:#F90;">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$type1.'/type2/'.$type2.'/step/'.$step.'/sort/1')}" style="color:#FFF;">{#lang('发布时间')}</a>
+						</div>
+						{else}
+						<div class="ys_0_1000">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$type1.'/type2/'.$type2.'/step/'.$step.'/sort/1')}">{#lang('发布时间')}</a>
+						</div>
+						{/if} {if $sort==2}
+						<div class="ys_1000_5000" style="background:#F90;">
+								<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$type1.'/type2/'.$type2.'/step/'.$step.'/sort/2')}" style="color:#FFF;">{#lang('火热程度')}</a>
+						</div>
+						{else}
+						<div class="ys_1000_5000">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$type1.'/type2/'.$type2.'/step/'.$step.'/sort/2')}">{#lang('火热程度')}</a>
+						</div>
+						{/if} {if $sort==3}
+						<div class="ys_5000_10000" style="background:#F90;">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$type1.'/type2/'.$type2.'/step/'.$step.'/sort/3')}" style="color:#FFF;">{#lang('酬金')}</a>
+						</div>
+						{else}
+						<div class="ys_5000_10000">
+							<a href="{#url('/sweike/lists/type/'.$current_type.'/type1/'.$type1.'/type2/'.$type2.'/step/'.$step.'/sort/3')}">{#lang('酬金')}</a>
+						</div>
+						{/if} <span class="clear"></span>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="rowline10"></div>
+		</div>
+		<!--<div class="ycsx">隐藏筛选条件 ↑↑↑</div>-->
+		<div class="clear"></div>
+		<div class="itemlist">
+
+			<div class="itemresult">{#lang('共筛选出')} <span class="red bold" data="{$countnum}">{$countnum}</span> {#lang('条符合条件的项目')}</div>
+			{if $pages['list']}
+			<div class="item_datalist" style="border:1px solid #dadada;">
+
+
+				<!--{#dump($pages['list'])}-->                {foreach $pages['list'] as $v}
+				<div class="dataitem">
+					<div class="item_name">
+						<div class="fl namecc">
+							<span class="itemcc itemcc_2">{$v['type']}</span>&nbsp;
+							<a href="/sweike/details/id/{$v['id']}" class="itemtit" target="_blank">{$v['title']}</a>
+						</div>
+						<div class="fr itemenddate">
+							<span class="startinlist" style="width:18px;" title="{#lang('推荐项目')}"></span>&nbsp;&nbsp;<font color="#ff6600"> {if $v['lasttime']["seconds"]} {$v['lasttime']["days"]}{#lang('天')}{$v['lasttime']["hours"]}{#lang('时')}{$v['lasttime']["minutes"]}{#lang('分')}{$v['lasttime']["seconds"]}{#lang('秒')} {else} {#lang('已结束')} {/if} </font>&nbsp;<span style="color:#D1C3C3">|</span>&nbsp; {#lang('人气')}：{$v['view']}
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="item_state">
+						<div style="float:right">
+							<span style="color:#7B7A7A"><font style="color:#F90">{$v['num']}</font>{#lang('位服务商竞标中')}</span></div>
+						{#lang('状态')}：<span class="statemsg" data="{$v['step']}">
+						{if $v['step'] == 1}
+						{#lang('新发布')}
+						{else if $v['step'] == 2}
+						{#lang('进行中')}
+						{else if $v['step'] == 3}
+						{#lang('已结束')}
+						{else if $v['step'] == 4}
+						{#lang('已关闭')}
+						{/if}
+					</span> &nbsp;&nbsp;<span style="color:#D1C3C3">|</span>&nbsp;&nbsp;<span class="tgdingjin">{#lang('酬金')}<em>{#round($v['price'])}</em>{#strtoupper($v['price_type'])}</span>
+					</div>
+					<div class="clear"></div>
+				</div>
+				{/foreach}
+				<div class="clear"></div>
+				<div class="rowline20"></div>
+				<div class="pages">{$pages['show'] nofilter}</div>
+				<div class="clear"></div>
+			</div>
+
+				{else}
+			<div class="item_datalist" style="border:none;">
+				</div>
+			{/if}
+		</div>
+	</div>
+	<div class="zblist_r">
+		<div class="r_contquan">
+			<div class="r_conta" style="width:210px;">
+				<a href="#" target="_blank"><img src="/static/default/home/img/sweike/anli.jpg" width="210px" height="110px" style="margin-left:-7px;"></a>
+				<div class="fbxa" style="width:210px;">
+					<div class="fbxq_a">{#lang('发布需求，给你贴心服务')}</div>
+					<div class="icon_a">{#lang('更多服务商响应')}</div>
+					<div class="icon_b">{#lang('服务商点对点服务')}</div>
+					<div class="icon_c">{#lang('95%的雇主拿到了满意的方案')}</div>
+					<div class="rowline20"></div>
+					<a class="btn_fb" href="javascript:void(0);" onclick="showA()">{#lang('马上发布需求')}</a>
+				</div>
+			</div>
+		</div>
+		<div class="rowline20"></div>
+		<div class="itemr_topview">
+			<div class="rowline10"></div>
+			<div class="itemr_top_t">{#lang('推荐项目')}<em>TOP10</em></div>
+			<div class="rowline10"></div>
+			<div class="itemr_top_list">
+				<!--{#dump($data)}-->                {foreach $data as $k=>$v}
+				<div class="itemr_top_li">
+					<span class="topno topnoorg">
+						{$k+1}
+					</span><a href="{#url('sweike/details/id/'.$v['id'])}" target="_blank" title={$v['title']}>{$v['title']}</a>
+				</div>
+				{/foreach}
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<style>
+	@media screen and (max-width:1200px){
+		.now{
+			margin-left: 14px;
+		}
+
+
+	}
+</style>
+<script type="text/javascript">
+	$(function(){
+
+		var a = $(".itemr_top_li").length;
+		if(a > 3 ){
+
+			$(".topnoorg:gt(2)").css({
+				"font-size": "14px",
+				"font-weight": "700",
+				"color": "#888",
+				"font-style": "italic"
+
+			});
+		}
+	});
+
+
+//	头部多级菜单js
+	var nav = $('.mainbav');
+
+
+	$(".mainmenu").append(nav);
+
+
+	$(".mainmenu").hover(function(){
+		$(".mainbav").show();
+	},function(){
+		$(".mainbav").hide();
+	});
+
+
+
+</script>
+
+<script>
+	if ($("#sweike_box").length > 0) {
+		$('#sweike_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="sweike:footer"}

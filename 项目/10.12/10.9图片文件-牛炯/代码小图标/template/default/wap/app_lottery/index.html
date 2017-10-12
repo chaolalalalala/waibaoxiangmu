@@ -1,0 +1,381 @@
+	{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+<script type="text/javascript" src="__WAP__/js/ext/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/jquery.rotate.min.js"></script>
+</head>
+<style>
+    .my_body{
+		margin: 10px 10px 10px 10px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background-color: #FFF;
+	}
+	.bank_title{
+		margin: 0 0 0 1rem;
+		height: 3rem;
+		line-height: 3rem;
+	}
+	.bank_title img{
+		height: 1.6rem;
+		margin: 0.7rem 1rem 0 0;
+		vertical-align: middle;
+		float: right;
+	}
+	.bank_body{
+		margin: 0 0 0 1rem;
+	}
+	.bank_body span{
+		display: block;
+	}
+	.bank_body .g{
+		color: gray;
+	}
+	.red{
+		color: #e55600;
+	}
+    .licaiItem {
+        padding-bottom: .625rem;
+    }
+
+    #wheelBG{
+        position: relative;
+    }
+    .wheelPointer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        width: 160px;
+    }
+    .awardLab {
+        position: absolute;
+        z-index: 999;
+        text-align: center;
+        color: #eef3c6;
+        font-size: 0.625rem;
+    }
+    #shadow{
+        display:none;
+        width:100%;
+        margin-top:-0.625rem;
+        height:100%;
+        background-color:rgba(33,33,33,0.5);
+        position:fixed;
+        z-index:9999;
+        bottom:0;
+    }
+    #show_subscribe{
+        z-index:99999;
+        position:absolute;
+        left:0;
+        right:0;
+        top:0;
+        background-color:#fff;
+        bottom:0;
+        width:80%;
+        height:11rem;
+        overflow:hidden;
+        margin:auto;
+        color:#a59494;
+    }
+    #show_subscribe input{
+        color:#666;
+    }
+    .aui-list-header{
+        height:1.5rem;
+        line-height:1.5rem;
+        text-align:center;
+    }
+    .white{
+        color:#fff;
+    }
+</style>
+<body style="background:#e62d2d;overflow-x:hidden;">
+<div id="shadow" onclick="close_form()">
+    <ul class="aui-list aui-form-list" id="show_subscribe" onclick="cancelSendEvent(event) ">
+        <li class="aui-list-header aui-bg-info aui-font-size-16"><span class="white">购买抽奖券</span></li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    购买价格
+                </div>
+                <div class="aui-list-item-input">
+                    <select id="priceSelect">
+                        <option value="-1">请选择套餐</option>
+                    </select>
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    购买数量
+                </div>
+                <div class="aui-list-item-input">
+                    <input type="number" placeholder="请输入购买数量"  id="my_num">
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    交易密码
+                </div>
+                <div class="aui-list-item-input">
+                    <input type="password" placeholder="请输入交易密码"  id="paypassword">
+                </div>
+            </div>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner aui-list-item-center aui-list-item-btn">
+                <div class="aui-btn aui-btn-info aui-col-xs-6" id="btn" onclick="submit_form()">购买</div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div id="wheelBG" style="display:;background-image:url(__WAP__/image/turnplate-bg.png);background-size:100% 100%;">
+        <img id="wheelPointer" class="wheelPointer" onclick="startLottery()" src="__WAP__/image/turnplate-pointer.png"/>
+    <div id="awardLab" class="awardLab" style="display: none"></div>
+</div>
+<div class="wrap">
+	<div class="my_body">
+        <div id="licai_list" style="margin-top: 0.5rem">
+        </div>
+  </div>
+</div>
+<div class="" style="width: 100%;background-color: #FFFFFF;position: fixed;bottom: 0;right: 0;z-index: 999">
+    <p style="text-align: center"> <span> 我的抽奖券</span><span id="ticketNum" style="color: #63A200;">张</span> <em>每次抽奖消耗1张抽奖券</em></p>
+    <div class="aui-btn aui-btn-info" onclick="openBuyView()" style="border-radius: 0;width: 100%;line-height: 1.5rem">点击购买</div>
+</div>
+<script id="licai_list-temp" type="text/x-dot-template">
+	{{? it.length>0 }}
+	{{ for (var i in it){ }}
+    <ul class="aui-border licaiItem" onclick="openDetailView({{=it[i].id}})">
+        <li class="bank_title aui-border-b">
+            <span class="red">{{=it[i].addtime}}</span>
+        </li>
+        <li class="bank_body">
+            <span class="g">连续签到天数:<em>{{=it[i].day}}</em></span>
+            <span class="g">累计签到天数:<em>{{=it[i].num}}</em></span>
+            <span class="g">签到奖励:<em><br>{{=it[i].remark}}</em></span>
+        </li>
+    </ul>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{?}}
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript">
+    var pid = 1;
+    var screenWidth;
+    var rewardData;
+    var isLotterying = false;
+    var lotteryTicket;
+    apiready = function () {
+        onerror = error_handel;
+        initView();
+        requestData();
+    }
+
+    function initView() {
+        screenWidth = document.body.offsetWidth;
+        $('#wheelBG').css({'width':screenWidth,'height':screenWidth});
+
+    }
+
+    function createView () {
+        alog("更新界面");
+        var data = arguments[0];
+        if (typeof data == 'undefined') {
+            art("createView参数错误");
+            return;
+        }
+        alog(data);
+        //设置奖励
+        if ( data.choujiang && data.choujiang.length > 0 ) {
+            rewardData = data.choujiang;
+            var angle = 360/data.choujiang.length;
+            var opt = '';
+            for (var index = 0 ; index < data.choujiang.length ; index++ ) {
+                var ele = $('#awardLab').html(data.choujiang[index].value+data.choujiang[index].title);
+                var css = '';
+                var leftDis = screenWidth/2 - ele.width()/2;
+                css += 'left:' + leftDis + 'px;';
+                css += 'top:' + (screenWidth/2 - 120) + 'px;';
+                css += 'transform-origin:'+ele.width()/2+'px'+' '+'120px'+';';
+                css += 'transform: rotate('+(angle/2+angle*index)+'deg);';
+                opt += '<div class="awardLab" style=\"'+css+'\">'
+                        +data.choujiang[index].value
+                        +data.choujiang[index].title
+                        +'</div>';
+            }
+            $('#wheelBG').html( $('#wheelBG').html() + opt );
+        }
+
+        //设置抽奖券
+        if ( !isNull(data.choujiang_num) )
+        {
+            lotteryTicket = data.choujiang_num.num;
+            $('#ticketNum').html(lotteryTicket+'张');
+        }
+
+        //设置购买抽奖券的价格
+        alog(data.coin_list);
+        if ( !isNull(data.coin_list) && data.coin_list.length > 0) {
+            var opt = '<option value="-1">请选择套餐</option>';
+            for (var index in data.coin_list){
+                var item = data.coin_list[index];
+                var title = item.title + " " + item.price +"个"+ item.name +"/个";
+                opt += '<option value=\"'+item.id+'\">'+title+'</option>';
+            }
+            $('#priceSelect').html(opt);
+        }
+    }
+
+    function requestData(callback) {
+	    if(!chkLogin()){
+		    var req = Ajax
+	    }else {
+		    var req = UserAjax;
+	    }
+        req('choujiang/index', 'get', '', function (ret) {
+            if( typeof callback == "function" ){
+                callback("刷新完成");
+            }
+            alog(ret);
+            if (ret.status == 1)
+            {
+                alog("返回结果");
+                alog(ret.info);
+                createView(ret.info);
+            }
+            else {
+                art('ajax错误！');
+            }
+        });
+    }
+
+    function signNow() {
+        loading();
+        UserAjax('qiandao/up', 'get', '', function (ret) {
+            toast.hide();
+            art(ret.info);
+            if(ret.status == 1){
+                setTimeout('requestData()',2000);
+            }
+        });
+
+    }
+
+    //购买抽奖券
+    function submit_form(){
+	    if (!chkLogin()) {
+		    art("您目前未登录,请先登录");
+		    return false;
+	    }
+        var coinid = $("#priceSelect option:selected").val();
+        var  my_num=$("#my_num").val();
+        var paypassword=$("#paypassword").val();
+        if( coinid == -1 || typeof coinid == 'undefined'){
+            art("请选择购买抽奖券用的币种");
+            return;
+        }
+        if(!(isInteger(my_num))) {
+            art("请填写正确的数字格式")
+            return;
+        }
+        if(!paypassword){
+            art("请填写交易密码")
+            return
+        }
+        UserAjax('choujiang/buy', 'post', {
+            "coinid": coinid,
+            "num": my_num,
+            "paypassword": paypassword,
+        }, function (ret) {
+            if (ret.status == 1) {
+                art(ret.info)
+                //刷新抽奖券数量
+                lotteryTicket = parseInt(lotteryTicket) + parseInt( my_num );
+                updateLotteryNum();
+                clean_form()
+                close_form()
+            }
+            else {
+                art(ret.info)
+            }
+        }, "json");
+    }
+
+    function startLottery () {
+        if (isLotterying) return;
+        isLotterying = !isLotterying;
+        UserAjax('choujiang/up', 'get', '', function (ret) {
+            if ( ret.status == 1){
+                lotteryTicket--;
+                updateLotteryNum();
+                rotateFunc(ret.url,ret.info);
+            }
+            else {
+                art(ret.info);
+            }
+        });
+    }
+
+    var rotateFunc = function(angle,text){
+        $hand = $('#wheelPointer');
+        $hand.stopRotate();
+        $hand.rotate({
+            angle: 0,
+            duration: 5000,
+            animateTo: angle + 1440,
+            callback: function(){
+                isLotterying = !isLotterying;
+                art(text);
+            }
+        });
+    };
+
+    //显示弹框
+    function openBuyView(){
+        $("#shadow").css("display","block")
+    }
+
+    //关闭弹框
+    function close_form(){
+        $("#shadow").css("display","none")
+    }
+
+    //清空弹框值
+    function clean_form(){
+        $("#my_num").val(null);
+        $("#paypassword").val(null);
+        $("#priceSelect option").filter(function(index){return index == 0}).attr("selected","selected");
+    }
+
+    function updateLotteryNum () {
+        $("#ticketNum").html( typeof lotteryTicket == 'undefined' ? '' : lotteryTicket);
+    }
+</script>
+</html>

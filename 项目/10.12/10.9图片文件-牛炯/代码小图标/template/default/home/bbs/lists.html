@@ -1,0 +1,153 @@
+{include file="my_header"}
+<script>
+	$('.navbar-nav li').eq(1).find('a').addClass('active');
+</script>
+<div class="aw-container-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="aw-content-wrap clearfix">
+                <div class="col-sm-12 col-md-9 aw-main-content">
+                    <!-- tab切换 -->
+                    <ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
+                        <!--<li><a href="/">30 天</a></li>-->
+                        <!--<li><a href="/">7 天</a></li>-->
+                        <!--<li class="active"><a href="/">全部</a></li>-->
+                        <h2 class="hidden-xs"><i class="icon icon-topic"></i> 热门话题</h2>
+                    </ul>
+                    <!-- end tab切换 -->
+
+                    <!-- 话题分类 -->
+                    <div class="aw-mod aw-topic-category">
+                        <div class="mod-body clearfix">
+                            <ul>
+                                <li>
+                                    {if $type==0}
+                                    <a class="active" href="/bbs/lists/type/0.html">
+                                        {else}
+                                        <a  href="/bbs/lists/type/0.html">
+                                        {/if}
+                                        全部话题</a>
+                                </li>
+                                {foreach $bbs_type as $k=>$v}
+                                <li>
+                                        {if $v["id"]==$type}
+                                    <a class="active" href="/bbs/lists/type/{$v['id']}.html">
+                                        {else}
+                                    <a href="/bbs/lists/type/{$v['id']}.html">
+                                        {/if}
+                                        {$v["title"]}
+                                    </a>
+                                </li>
+                               {/foreach}
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end 话题分类 -->
+
+                    <!-- 我关注的话题 -->
+                    <div class="aw-mod aw-topic-list">
+                        <div class="mod-body clearfix">
+                            {foreach $pages["list"] as $k=>$v}
+                            <div class="aw-item">
+                                <!-- 话题图片 -->
+                                <a class="img aw-border-radius-5" href="/bbs/topic/id/{$v['id']}.html" data-id="5">
+                                     {if $v["logo"]}
+                                    <img style="width:50px;height:50px" src="__UP__/{$v['logo']}" alt=""/>
+                                    {else}
+                                    <img src="__IMG__/bbs/topic-mid-img.png" alt=""/>
+                                    {/if}
+                                </a>
+                                <!-- end 话题图片 -->
+                                <p class="clearfix">
+                                    <!-- 话题内容 -->
+                                    <span class="topic-tag">
+                                        <a class="text" href="/bbs/topic/id/{$v['id']}.html" data-id="5">{$v["title"]}</a>
+                                    </span>
+                                    <!-- end 话题内容 -->
+                                </p>
+                                <p class="text-color-999">
+                                    <span>{$v["num"]} 个讨论</span>
+                                    <span>{$v["zan"]} 个关注</span>
+                                </p>
+                                <p class="text-color-999">
+                                    最后更新: {#addtime($v["endtime"])}</p>
+                            </div>
+                            {/foreach}
+                        </div>
+                        <div class="mod-footer clearfix">
+                            <div class="pages" style="height:40px">{$pages['show'] nofilter}</div>
+                        </div>
+                    </div>
+                    <!-- end 我关注的话题 -->
+                </div>
+                <!-- 侧边栏 -->
+                <div class="col-sm-3 col-md-3 aw-side-bar hidden-sm hidden-xs">
+                    <!-- 今日话题 -->
+                    <div class="aw-mod topic-daily hidden-xs">
+                        <div class="mod-head">
+                            <h3>今日话题</h3>
+                        </div>
+                        <div class="mod-body">
+                            <dl>
+                                <dt class="pull-left">
+                                    <!-- 话题图片 -->
+                                    <a data-id="370" class="img aw-border-radius-5" href="/bbs/topic/id/{$bbs_today['id']}.html">
+                                        {if $bbs_today["logo"]}
+                                        <img pull-left src="__UP__/{$bbs_today['logo']}" alt=""/>
+                                        {else}
+                                        <img src="__IMG__/bbs/topic-mid-img.png" alt=""/>
+                                        {/if}
+                                    </a>
+                                    <!-- end 话题图片 -->
+                                </dt>
+                                <dd class="pull-left">
+                                    {$bbs_today['title']}
+                                </dd>
+                            </dl>
+                            <!-- 话题描述 -->
+                            <p>
+                                <span>{$bbs_today['content'] nofilter}</span>...<a href="/bbs/topic/id/{$bbs_today['id']}.html">进入话题 »</a></p>
+                            <!-- end 话题描述 -->
+                        </div>
+                    </div>
+                    <!-- end 今日话题 -->
+                    <!-- 新增话题 -->
+                    <div class="aw-mod new-topic">
+                        <div class="mod-head">
+                            <h3>新增话题</h3>
+                        </div>
+                        <div class="mod-body clearfix">
+                            <div class="aw-topic-bar">
+                                <div class="topic-bar clearfix">
+                                    {foreach $new_bbs as $v}
+                                    <span class="topic-tag">
+                                        <a class="text" href="/bbs/topic/id/{$v['id']}.html" data-id="3778">{$v["title"]}</a>
+                                    </span>
+                                    {/foreach}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end 新增话题 -->
+                </div>
+                <!-- end 侧边栏 -->
+            </div>
+        </div>
+    </div>
+</div>
+<a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});"><i class="icon icon-up"></i></a>
+
+<!-- DO NOT REMOVE -->
+<div id="aw-ajax-box" class="aw-ajax-box"></div>
+
+<div style="display:none;" id="__crond">
+
+</div>
+<script>
+    if ($("#bbs_box").length > 0) {
+        $('#bbs_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}

@@ -1,0 +1,218 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<style>
+	span{
+		color:#a59494;
+	}
+	.my_body{
+		margin: 20px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul,.my_title ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+	.my_body li{
+		border-radius: 2px;
+		margin: 1rem 0 0;
+		display: -webkit-box;
+		height: 2rem;
+		padding:0 ;
+		background-color: white;
+	}
+	.my_body li input{
+		display: block;
+		margin-left:0.5rem;
+		-webkit-box-flex: 1;
+		background-color: rgba(255, 255, 255, 0);
+		outline: none;
+		color: #666;;
+		height: 2rem;
+		line-height:2rem;
+	}
+	.btn{
+		display: block;
+		color: #FFFFFF;
+		margin: 0 30px 10px;
+		text-align: center;
+		border-radius: 8px;
+		height: 2rem;
+		line-height: 2rem;
+		background-color: #e55600;
+	}
+	.notice span{
+		height: 2rem;
+		line-height: 2rem;
+		color: #DADADA;
+	}
+	#city{
+		display:block;
+	}
+	#city select{
+		/*很关键：将默认的select选择框样式清除*/
+		appearance:none;
+		-moz-appearance:none;
+		-webkit-appearance: listbox;
+		text-align: left;
+		float:left;
+		width:30%;
+		height:1rem;
+		line-height:1rem;
+		padding:0;
+		margin:0 1.5%;
+	}
+</style>
+<body>
+<div class="wrap">
+    <div class="my_body">
+        <ul>
+            <li>
+                <input tapmod="" onclick="chose_name()" name="truename"  type="text" id="true_name" class="" value="" readonly>
+            </li>
+            <li>
+                <input tapmod="" onclick="_focus(this)" name="name" id="name" type="text"
+                       placeholder="输入备注名称">
+            </li>
+              <li>  <select name="bank" id="bank_type" tapmod="">
+                    <option value="all" style="color:#a59494">--选择银行--</option>
+                </select>
+	        </li>
+	        <li id="city">
+		        <select class="prov"></select>
+		        <select class="city" disabled="disabled"></select>
+		        <select class="dist" disabled="disabled"></select>
+	        </li>
+	        <li>
+                <input tapmod="" onclick="_focus(this)" name="bank_bankaddr" id="bank_bankaddr" type="text" placeholder="输入开户银行地址">
+            </li>
+            <li>
+                <input tapmod="" onclick="_focus(this)" name="bank_num" id="bank_num" type="text" placeholder="输入银行卡号">
+            </li>
+            <li>
+                <input tapmod="" onclick="_focus(this)" name="bank_num2" id="bank_num2" type="text" placeholder="确认银行卡号">
+            </li>
+	        <li>
+		        <input tapmod="" onclick="_focus(this)" name="bank_num2" id="pay_password" type="password" placeholder="输入交易密码">
+	        </li>
+        </ul>
+    </div>
+    <div class="btn" tapmode="" onclick="add_bank()">确认添加</div>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/jquery.cityselect.js?v0.0.2"></script>
+<script type="text/javascript">
+	function clean_view(){
+		$("#name").val(null);
+		$("#bank_type option").first().prop("selected","selected")
+		$("#bank_bankaddr").val(null);
+		$("#city .prov option").first().prop("selected","selected")
+		$("#city .city option").first().prop("selected","selected")
+		$("#city .dist option").first().prop("selected","selected")
+		$("#bank_num").val(null);
+		$("#bank_num2").val(null);
+		$("#pay_password").val(null);
+	}
+    function add_bank(){
+        var name = $('#name').val();
+        var bank_type = $('#bank_type option').not(function(){ return !this.selected }).val();
+	    var prov = $('#city .prov option:selected').text();
+	    var city = $('#city .city option:selected').text();
+	    var dist = $('#city .dist option:selected').text();
+        var bank_bankaddr = $('#bank_bankaddr').val();
+        var bank_num = $('#bank_num').val();
+        var bank_num2 = $('#bank_num2').val();
+	    var paypassword=$('#pay_password').val();
+	    if(!name){
+		    art('输入一个备注名称');
+		    return;
+	    }
+	    if(bank_type=="all"){
+            art('请选择银行类别');
+            return;
+        }
+        if(!prov){
+            art('选择省份名称');
+            return;
+        }
+        if(!bank_bankaddr){
+            art('输入开户行地址');
+            return;
+        }
+        if(!bank_num){
+            art('输入卡号');
+            return;
+        }
+        if(bank_num != bank_num2){
+            art('两次卡号不一致');
+            return;
+        }
+	    if(!paypassword){
+		    art('请输入交易密码')
+		    return;
+	    }
+	    if(!city){
+		    art('请选择城市');
+	    }
+       loading("提交中……")
+			    UserAjax('finan/bank_up', 'post',
+				    {
+					    'name': name,
+					    'bank': bank_type,
+					    'bankprov': prov,
+					    'bankcity': city+dist,
+					    'bankaddr': bank_bankaddr,
+					    'bankcard': bank_num,
+					    'paypassword': paypassword,
+				    },
+				    function (ret) {
+					    toast.hide();
+					    if (ret.status==1) {
+							    art(ret.info)
+						    clean_view();
+					    } else {
+						   art(ret.info);
+					    }
+				    });
+		    }
+    function get_bank(){
+	    UserAjax('finan/bank_type','get','',function(ret){
+		    if(ret.status== 1){
+			    if(!(typeof ret.info=="undefined")){
+				   var bank=ret.info.bank_list
+				    for(i in bank){
+					   $("#bank_type").append("<option>"+bank[i]+"</option>")
+				    }
+				    $("#true_name").val(ret.info.true_name);
+			    }
+		    }
+	    },"json")
+    }
+    function chose_name(){
+        art('认证姓名不可修改');
+    }
+
+    apiready = function(){
+        onerror = error_handel;
+
+	    $("#city").citySelect({
+		    nodata:"none",
+		    required:false,
+		    prov:'北京',
+		    city:'东城区',
+	    });
+	    get_bank();
+
+    }
+</script>
+</html>

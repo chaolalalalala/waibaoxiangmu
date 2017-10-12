@@ -1,0 +1,92 @@
+{include file="public:header"}
+
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('分红中心')}
+	</div>
+
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('分红中心')}
+					</span>
+	                <span>
+                        <a href="{#url('fenhong98/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('分红列表')}</a>
+                        <a href="{#url('fenhong98/pool')}" id="step2" class="step fz_12 ml20 pd6">{#lang('分红池')}</a>
+                        <a href="{#url('fenhong98/poollog')}" id="step3" class="step fz_12 ml20 pd6">{#lang('分红池记录')}</a>
+                        <a href="{#url('fenhong98/fenhonglog')}" id="step4" class="step fz_12 ml20 pd6">{#lang('分红记录')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			{#slider("fenhong")}
+		</div>
+	</div>
+	<style>
+
+	</style>
+
+	{foreach $pages['list'] as $k => $v}
+	<div class="crowd_con crowd_con_list clear " data="{$v['id']}" onclick="goumai(this);" style="cursor:pointer;border: 6px solid #e8e9ea;">
+		<div class="crowd_con_l ">
+			<ul class="crowd_subscribe clear">
+				<li style=" width: 150px;">
+					<p>{#lang('分红名称')}</p><span class="red">{$v['name']}</span>
+				</li>
+				<li>
+					<p>{#lang('分红池')}</p><span class="red">{$v['poolname']}</span>
+				</li>
+				<li>
+					<p>{#lang('分红币种')}</p><span class="red">{$v['holdcoin']}</span>
+				</li>
+				<li>
+					<p>{#lang('奖励币种')}</p><span class="red">{$v['gaincoin']}</span>
+				</li>
+				<li style="    width: 200px;">
+					<p>{#lang('分红总量')}</p><span class="red">{$v['num']}</span>
+				</li>
+				<li>
+					<p>{#lang('须持有天数')}</p><span class="red">{$v['holdtime']}</span>
+				</li>
+				<li>
+					<p>{#lang('发放时间')}</p><span class="red">{#addtime($v['endtime'],'Y/m/d')}</span>
+				</li>
+
+				<li style="margin-top: 5px;">
+					<a href="{#url('fenhong98/detail/id/'.$v['id'])}" class="btns" style="padding: 10px 30px;">{#lang('查看详情')}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	{/foreach}
+	<div class="pages">{$pages['show'] nofilter}</div>
+</div>
+<script>
+	function goumai(_this) {
+		window.location = "/fenhong98/detail/id/" + $(_this).attr('data');
+	}
+</script>
+<script>
+	if ($("#fenhong_box").length > 0) {
+		$('#fenhong_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

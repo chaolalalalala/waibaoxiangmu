@@ -1,0 +1,264 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="{#url('question/index')}" class="orange">问答中心</a> &gt; {#lang('问答详情')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('问答中心')}
+					</span>
+	                <span>
+                       <a href="{#url('question/index')}" id="step11" class="step fz_12 ml50 pd6 active ">{#lang('问答列表')}</a>
+                        <a href="{#url('question/log')}" id="step12" class="step fz_12 ml20 pd6 ">{#lang('提问记录')}</a>
+                    </span>
+					<span>
+						{if $hints}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="clear mt20" style="margin-left:35px">
+				<div class="crowd_list_state mt10"style="font-size:20px;font-weight:bold">
+					{$qus['title'] nofilter}
+				</div>
+				<span class="crowd_rule_t fz_20">咨询内容</span>
+				<div class="crowd_list_state mt10"style="font-size:medium">
+					{$qus['content'] nofilter}
+				</div>
+				<div style="float:right">
+				</div>
+			</div>
+			<div class="crowd_con_r" style="margin-top:25px;margin-left:00px">
+				<div class="crowd_my" style="float: left">
+					<div class="login_text zin90 clear mt10"style="width:860px;z-index:2">
+						<textarea style="z-index:-1;position:relative;width:910px;min-height: 100px;border: 2px #cccccc solid;overflow:auto;word-break:break-all;float:right" id="answer" ></textarea>
+						<button type="submit" class="btns2"style="float:left;width:150px;font-size:medium" onclick="answer()" >发表回复</button>
+						<div class="user-profile clearfix" style="margin: 20px;">
+							<ul class="ace-thumbnails">
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="crowd_con clear"style="font-size:small;margin-top:-100px">
+
+				<div class="crowd_con_l " >
+					<ul class="crowd_subscribe clear"style="width:auto;margin-top:0px;margin-left:-330px">
+						<li><p> 浏览次数：{$qus["view"]}</p></li>
+						<li style="width:165px"><p>发布人：{$name}</p></li>
+
+						<li style="width:200px"><p> 问答状态：{ if $arr["status"]==1}
+						        客服还未回复
+						        {else if $arr["status"]==2}
+						        {$arr["content"]}
+						        {/if}
+						</p></li>
+
+					</ul>
+				</div>
+			</div>
+			<div class="detail-Parameter" style="width: 1060px;background-color:#ffffff;height:auto">
+				<h4 class="intro-title" style="margin-left:30px">币民都在说</h4>
+				{foreach $list as $val}
+				<div style="padding-bottom: 20px;height:auto;clear:both">
+					<!--头	-->
+					<div class="comment-title">
+						<span style="color: #777; padding-left: 3px;font-size:15px;margin-left:30px">{$val['username']}:</span>
+					</div>
+					<!--回答-->
+				    <div style="border-bottom: 1px dotted #DCDCDC;min-height:50px" class="mt10">
+					   <span style="font-size:15px;margin-left:50px">{$val['content']}</span>
+						<span style="float: right; margin-right: 10px;">
+						    <input type="button" style="width:120px" class="btns2" onclick="showA('{$val['id']}')" value="点击评论">
+						</span>
+				    </div>
+					<!--按钮-->
+
+					{foreach $val as $value}
+					{if is_array($value)}
+					{foreach $value as $v}
+					<div style="margin-left:200px;margin-top:10px;margin-bottom:10px;border-bottom: 1px dotted #DCDCDC;">
+						<div >
+							<span style="color: #FF731E;">{$v[username]}</span> <span style="color: #777; padding-left: 3px;">：</span>
+							<span>{$v['content']}</span>
+						</div>
+						<div style="margin-left: 730px; margin-right: 10px;">
+							<span >
+								<span> <a  onclick="goodplus('{$v['id']}')"> <img src="__IMG__/weike/zan.png"></a>{$v['zan']}人赞</span>
+								<span><a  onclick="badplus('{$v['id']}')" > <img src="__IMG__/weike/cai.png"></a>{$v['cai']}人踩</span>
+							</span>
+						</div>
+						<span>{#addtime($val['addtime'])}</span>
+					</div>
+					{/foreach}
+					{/if}
+					{/foreach}
+					</div>
+				{/foreach}
+			</div>
+			<div class="pages">{$pages['show'] nofilter}</div>
+		</div>
+	</div>
+</div>
+<div class="all_mask_loginbox" id="step1" style="display: none;">
+	<div class="login_title pl20">我要评论</div>
+	<form id="form-login" class="mask_wrap login-fb">
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">我的评论：</div>
+			<input id="comment" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">输入密码：</div>
+			<input id="paypassword" class="texts" type="password"><a href="/findpwd/paypassword" class="move ml5">忘记?</a>
+		</div>
+		<div class="login_button">
+			<input type="button" class="btns2" value="立即评论" onclick="comments();">
+		</div>
+	</form>
+	<div class="mask_wrap_close " onclick="showB()"><i class="fa fa-close fa-2x move"></i></div>
+</div>
+<div id="step2" class="all_mask" style="height: 0px;display: none;"></div>
+
+<script>
+	var eleID = 0;
+	function showA() {
+		eleID = arguments[0];
+		$("#step1").show();
+		$("#step2").show();
+	}
+	function showB() {
+		$("#step1").hide();
+		$("#step2").hide();
+	}
+
+	function answer(){
+		var id =  "{$qus['id']}";
+		var answer = $("#answer").val();
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '输入密码，并确认',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('question/answer')}",
+							{
+								id     : id,
+								answer : answer,
+								paypassword: val
+							},
+							function (data) {
+								if (data.status == 1) {
+									layer.msg(data.info, {icon: 1});
+									window.setTimeout("location.reload()",1000);
+								} else {
+									layer.msg(data.info, {icon: 2});
+									if (data.url) {
+										window.location = data.url;
+									}
+								}
+							}, "json");
+				}
+				;
+			});
+		});
+
+	}
+    //点赞
+	function goodplus(id){
+
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		$.post("{#url('question/likes')}", {
+			id: id,
+
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				window.setTimeout("location.reload()", 1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+
+	}
+	function badplus(id){
+
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		$.post("{#url('question/dislikes')}", {
+			id: id,
+
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				window.setTimeout("location.reload()", 1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+
+	}
+	function comments() {
+		var comment     = $('#comment').val();
+		var paypassword = $('#paypassword').val();
+		if (comment == "" || comment == null) {
+			layer.tips('请输入我的问题', '#comment', {tips: 2});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips('请输入交易密码', '#paypassword', {tips: 2});
+			return false;
+		}
+		$.post("{#url('question/comment')}", {
+			id: eleID,
+			comment:comment,
+			paypassword: paypassword
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				window.setTimeout("location.reload()", 1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+</script>
+
+<script>
+	if ($("#weike_box").length > 0) {
+		$('#weike_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

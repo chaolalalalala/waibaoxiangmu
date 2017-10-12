@@ -1,0 +1,564 @@
+{include file="sweike:header"}
+<div class="fl slideBox">
+    <div class="hd">
+        <ul class="num">
+
+        </ul>
+    </div>
+    <div class="bd">
+        <div class="tempWrap" style="overflow:hidden; position:relative; width:680px">
+            <ul class="ban" style="width: 4760px; position: relative; overflow: hidden; padding: 0px; margin: 0px; left: 0px;">
+                {foreach $banner as $v}
+                <li class="clone" style="float: left; width: 680px;">
+                    <a href="/" title="" target="_blank"><img src="__UP__/{$v['img']}" alt=" "></a>
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //轮播
+    $(function () {
+        var i = 0;
+
+        var clone = $(".tempWrap .ban li").first().clone();//克隆第一张图片
+        $(".tempWrap .ban").append(clone);//复制到列表最后
+        var size = $(".tempWrap .ban li").size();
+
+
+        for (var j = 0; j < size - 1; j++) {
+            $(".hd .num").append("<li></li>");
+        }
+
+        $(".hd .num li").first().addClass("on");
+
+        /*自动轮播*/
+
+        var t = setInterval(function () {
+            i++;
+            move();
+        }, 5000);
+
+        /*鼠标悬停事件*/
+
+        $(".slideBox").hover(function () {
+            clearInterval(t);//鼠标悬停时清除定时器
+        }, function () {
+            t = setInterval(function () {
+                i++;
+                move();
+            }, 5000); //鼠标移出时清除定时器
+        });
+
+
+        /*鼠标滑入原点事件*/
+
+        $(".hd .num li").hover(function () {
+
+            var index = $(this).index();//获取当前索引值
+            i = index;
+            $(".tempWrap .ban").stop().animate({left: -index * 680}, 500);
+            $(this).addClass("on").siblings().removeClass("on");
+        });
+
+
+        /*向左按钮*/
+//			$(".banner .btn_l").click(function () {
+//				i++;
+//				move();
+//			})
+
+
+        /*向右按钮*/
+//			$(".banner .btn_r").click(function () {
+//				i--;
+//				move();
+//			})
+
+        /*移动事件*/
+        function move() {
+
+            if (i == size) {
+                $(".tempWrap .ban").css({left: 0});
+                i = 1;
+
+            }
+            if (i == -1) {
+                $(".tempWrap .ban").css({left: -(size - 1) * 680});
+                i = size - 2;
+
+            }
+            $(".tempWrap .ban").stop().animate({left: -i * 680}, 500);
+
+            if (i == size - 1) {
+                $(".hd .num li").eq(0).addClass("on").siblings().removeClass("on");
+            } else {
+                $(".hd .num li").eq(i).addClass("on").siblings().removeClass("on");
+            }
+
+        }
+    });
+</script>
+<div class="fl freeshop_border">
+    <div class="title_1">
+        {#lang('众包服务，上动说科技')}
+        <div class="note_1">
+            {#lang('我们为您而改变')}！
+        </div>
+    </div>
+    <div class="pt20 pl10">
+        <div class="fl word_1"><strong>{#lang('订单')}</strong></div>
+        <div class="fl pl5">
+            <div class="word_2"><strong>{#lang('不用苦找，更不用等待')}!</strong></div>
+            <div class="word_3">{#lang('加入vip,订单速配，成交量翻倍')}！</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <a class="btnshop" href="javascript:void(0);" target="_blank" onclick="showA()">{#lang('立即发布任务')}</a>
+    <div class="notice">
+        <div>
+            <div class="fl word_4">{#lang('网站公告')}</div>
+            <div class="fl line_1"></div>
+            <div class="fl word_5"><a href="/article/index/id/2" target="_blank">{#lang('更多')}</a></div>
+            <div class="fl line_2"></div>
+            <div class="clear"></div>
+        </div>
+        <ul>
+            {foreach $article as $v}
+            <li>
+                <a title={$v['title']} href="/article/detail/id/{$v.id}" target="_blank">•&nbsp;{$v['title']}</a>
+            </li>
+            {/foreach}
+        </ul>
+    </div>
+</div>
+<div class="clear"></div>
+</div>
+<div class="ht20"></div>
+<div class="wrapper">
+    <div style="position:absolute;z-index:11;right:336px;padding-top:10px">
+        {foreach $tjtype as $v}
+        <a href="/sweike/lists/type1/{$v['id']}" target="_blank" style="font-size:18px;font-weight:bold;width:249px;display:block;float:left"> {$v["type"]}</a> {/foreach}
+    </div>
+    <div class="fl hottui">
+    </div>
+    <div class="fl hottui_1" style="position:relative">
+        <a href="/shangbiao/" target="_blank"> <img src="__IMG__/sweike/index/tui_1.jpg" alt=""> </a>
+    </div>
+    <div class="fl hottui_1">
+        <a href="/shangbiao/" target="_blank"> <img src="__IMG__/sweike/index/tui_2.jpg" alt=""> </a>
+    </div>
+    <div class="fl hottui_1">
+        <a href="/shangbiao/" target="_blank"> <img src="__IMG__/sweike/index/tui_3.jpg" alt=""> </a>
+    </div>
+    <div class="fl hottui_1">
+        <a href="/shangbiao/" target="_blank"> <img src="__IMG__/sweike/index/tb_zt.jpg" alt=""> </a>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="wrapper" style="display:none;">
+    <div class="ht35"></div>
+    <div>
+        <div class="fl redvertical4"></div>
+        <h5 class="fl">{#lang('钜惠专场')}</h5>
+        <div class="fl subtitle_1"></div>
+        <div class="fr subtitle_2"></div>
+        <div class="clear"></div>
+    </div>
+    <div class="ht25"></div>
+    <div class="redline2">
+        <div class="smallcircle"></div>
+    </div>
+    <div class="clear"></div>
+    <div class="speciallist">
+        <ul>
+            <li>
+                <div class="special_1"></div>
+                <div class="word_b_28 color_1">{#lang('品牌logo')}</div>
+                <div class="word_24 color_5">{#lang('限时')}<span class="word_b_66 color_1">98</span><span class="word_b_35 color_5">{#lang('元')}</span>
+                </div>
+                <div class="word_14 color_6">{#lang('最后10天，过时我们不卖了')}</div>
+                <div class="word_18 pt18"><a class="color_1" href="#" target="_blank">{#lang('立即购买')} &gt;</a></div>
+            </li>
+            <li>
+                <div class="special_2"></div>
+                <div class="word_b_28 color_2">{#lang('画册设计')}</div>
+                <div class="word_24 color_5">{#lang('限时')}<span class="word_b_66 color_2">50</span><span class="word_24 color_5">{#lang('元')}/P</span>
+                </div>
+                <div class="word_14 color_6">{#lang('最后10天，过时我们不卖了')}</div>
+                <div class="word_18 pt18"><a class="color_2" href="#" target="_blank">{#lang('立即购买')} &gt;</a></div>
+            </li>
+            <li>
+                <div class="special_3"></div>
+                <div class="word_b_28 color_3">{#lang('取名改名')}</div>
+                <div class="word_24 color_5 pt34">{#lang('限时')}<span class="word_b_41 color_3">199</span><span class="word_24 color_5">{#lang('元/个')}</span>
+                </div>
+                <div class="word_14 color_6">{#lang('最后10天，过时我们不卖了')}</div>
+                <div class="word_18 pt18"><a class="color_3" href="#" target="_blank">{#lang('立即购买')} &gt;</a></div>
+            </li>
+            <li class="mr15">
+                <div class="special_4"></div>
+                <div class="word_b_28 color_4">{#lang('新房效果图')}</div>
+                <div class="word_24 color_5 pt7">{#lang('限时')}<span class="word_b_66 color_4"></span><span class="word_b_35 color_4"><span class="word_b_59">1</span>000</span><span class="word_b_35 color_5">{#lang('元')}</span>
+                </div>
+                <div class="word_14 color_6">{#lang('最后10天，过时我们不卖了')}</div>
+                <div class="word_18 pt18"><a class="color_4" href="#" target="_blank">{#lang('立即购买')} &gt;</a></div>
+            </li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="ht35"></div>
+<div class="wrapper">
+    <div>
+        <div class="fl redvertical4"></div>
+        <h5 class="fl">{#lang('推荐项目')}</h5>
+        <div class="fr subtitle_3"></div>
+        <div class="clear"></div>
+    </div>
+    <div class="grayline2">
+        <div class="circle_1">
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="fl urgentitem">
+        <div class="ht25"></div>
+        <div class="item_border">
+            <div class="title_2">{#lang('十万火急，着急选稿')}</div>
+            <ul>
+                {foreach $sweike1 as $v}
+                <li class="itempage1 aa">
+                    <a class="fl" href="/sweike/details/id/{$v['id']}" title="{$v['title']}" target="_blank">{#strtoupper($v["price_type"])}&nbsp;<font class="color_df231b b">{#round($v['price'],0)}</font>&nbsp;{$v['title']}</a><span class="fr word_12 gray">{$v['num']}{#lang('人投标')}</span>
+                    <div class="clear"></div>
+                </li>
+                {/foreach}
+                <li>
+                    <a class="btn_fabu" href="javascript:void(0);" onclick="showA()" target="_blank">{#lang('我也需要发布项目')}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="item_border">
+            <div class="title_2">{#lang('优质项目，赶快行动')}</div>
+            <ul>
+                {foreach $sweike2 as $v}
+                <li class="itempage1 aa">
+                    <a class="fl" href="/sweike/details/id/{$v['id']}" title="{$v['title']}" target="_blank">{#strtoupper($v["price_type"])}&nbsp;<font class="color_df231b b">{#round($v['price'],0)}</font>&nbsp;{$v['title']}</a><span class="fr word_12 gray">{$v['num']}{#lang('人投标')}</span>
+                    <div class="clear"></div>
+                </li>
+                {/foreach}
+                <li>
+                    <a class="btn_fabu" href="javascript:void(0);" onclick="showA()" target="_blank">{#lang('我也需要发布项目')}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="fr urgentvike">
+        <div class="bd">
+            <div class="tempWrap myscroll" style="overflow:hidden; position:relative; height:255px">
+                <ul class="picList " style="height: 850px; position: relative; padding: 0px; margin: 0px; top: 0px;">
+                    {foreach $weike_tender as $v}
+                    <li class="clone" style="height: 72px;">
+                        <div class="fl">
+                            {if $v['img']}
+                            <a style="pointer-events:none;" target="_blank"><img src="__UP__/{$v['img']}" alt=""></a> {else}
+                            <a style="pointer-events:none;" target="_blank"><img src="__IMG__/sweike/nohead.jpg" alt=""></a> {/if}
+                        </div>
+                        <div class="fl pl10" style="width:235px; overflow:hidden;">
+                            <div class="color_929292 lineheight20">
+                                <a class="color_313131 weight700" href="/" target="_blank" title="" style="pointer-events:none;">{$v['username']}</a>&nbsp;{#lang('成功中标了')}
+                            </div>
+                            <div class="color_616161 lineheight20">
+                                <span class="color_e32424">{#strtoupper($v["price_type"])}&nbsp;{#round($v['price'],0)}</span>&nbsp;<a href="/sweike/details/id/{$v['id']}">{$v['weike_title']}</a>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+        <a class="btn_up" href="/sweike/lists" target="_blank"> {#lang('去任务大厅')} </a>
+    </div>
+    <div class="clear"></div>
+</div>
+<script>
+    $(function () {
+        $('.myscroll').myScroll({
+            speed: 40, //数值越大，速度越慢
+            rowHeight: 72 //li的高度
+        });
+    });
+</script>
+<div class="wrapper" style="display:none;">
+    <div class="ht35"></div>
+    <div class="fl ad_1"></div>
+    <div class="fl ad_1"></div>
+    <div class="fl ad_2"></div>
+    <div class="clear"></div>
+</div>
+<div class="ht35"></div>
+<div class="wrapper">
+    <div class="sidebar_hot">
+        <div class="fl redvertical4"></div>
+        <h5 class="fl">{#lang('热点需求')}</h5>
+        <div class="huakuai1" style="left:108px;"></div>
+        <div class="fr hotneeds_note">{#lang('各类项目在此汇聚')}！</div>
+        <div class="fl">
+            {foreach $dataa as $v}
+            <a class="tjed act" href="/sweike/lists/type1/{$v['id']}" target="_blank">{$v['type']}</a> {/foreach}
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div>
+        {foreach $dataa as $v }
+        <div class="fl hotneeds" style="display:none">
+            <ul>
+                {foreach $v['weikelist'] as $val }
+                <li>
+                    <a class="itemname" href="/sweike/details/id/{$val['id']}" title="{$v['title']}" target="_blank"><span class="price">{#round($val['price'])}&nbsp;{#strtoupper($val["price_type"])}</span>&nbsp;{$val['title']}</a>
+                    <div class="author"><a class="author" href="{$val['adress']}" target="_blank">{$val["username"]}</a>&nbsp;发布&nbsp;&nbsp;{$val['num']}
+                    </div>
+                </li>
+                {/foreach}
+            </ul>
+            <div class="clear"></div>
+        </div>
+        {/foreach}
+    </div>
+    <div class="fr hotborder">
+        <div class="hottags">
+            <div class="title_3">
+                {#lang('热门标签')}&nbsp;&nbsp;<span class="explain_1">{#lang('给您最快捷的浏览方式')}！</span>
+            </div>
+            <div>
+                <table>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="pl12 hotgonglue" style="display:none">
+            <div class="title_3">{#lang('威客攻略')}</div>
+            <div class="gongluelist">
+                <a class="color_666" href="/" title="" target="_blank">⋅&nbsp;{#lang('建设商城类的网站应做好五个方面')}</a>
+            </div>
+            <div class="gongluelist">
+                <a class="color_666" href="/" title="" target="_blank">⋅&nbsp;{#lang('家具风水有哪些要注意的地方')}？</a>
+            </div>
+            <div class="gongluelist">
+                <a class="color_666" href="/" title="" target="_blank">⋅&nbsp;{#lang('网站选择关键词要注意哪两点')}</a>
+            </div>
+            <div class="gongluelist">
+                <a class="color_666" href="/" title="" target="_blank">⋅&nbsp;{#lang('怎样选择真正有效的学习方法呢')}？</a>
+            </div>
+            <div class="gongluelist">
+                <a class="color_666" href="/" title="" target="_blank">⋅&nbsp;{#lang('英语翻译员必须具备的素质')}</a>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+</div>
+<script>
+    $.get('{#url("sweike/info")}', function (data) {
+        var data = data.url;
+        var length = data.length;
+		var count = Math.ceil(length/4);
+		var opt = '';
+		for (var row = 0; row < count ; row++)
+		{
+			opt += '<tr>';
+			for (var col = 0; col < 4; col++)
+			{
+				var index = row*4 + col;
+
+				if (index == length)
+					break;
+				var classArr = ['red','green','black','orange','blue'];
+				var arrindex = parseInt((classArr.length)*Math.random());
+
+				var classname = classArr[arrindex];
+				opt += '<td><a class="'+ classname +'" href="/sweike/lists/type1/'+data[index].id+'\" target="_blank">'+data[index].type+'</a></td>';
+
+            }
+            opt += '</tr>';
+        }
+
+        $('tbody').html(opt);
+
+    }, 'json');
+
+
+    $('.hotneeds').eq(0).toggle();
+    $('.fl .tjed').hover(function () {
+
+        var idx = $(this).index();
+        $('.hotneeds').eq(idx).show().siblings('.hotneeds').hide();
+        $(this).addClass('act').siblings().removeClass('act');
+        var left = 108 + idx * 120;
+        $('.huakuai1').css({'left': left + 'px'})
+
+    })
+</script>
+<div class="ht35" style="display:none"></div>
+<div class="wrapper" style="display:none">
+    <div class="fl ad_3">
+        <a href="" target="_blank" title=""><img src="" alt="" style="width: 390px;"></a>
+    </div>
+    <div class="fr ad_2">
+        <a href="" target="_blank" title="{#lang('服务商')}："><img src="" alt="{#lang('服务商')}：" style="width: 390px;"></a>
+    </div>
+    <div class="fr ad_2" style="margin-right: 15px;">
+        <a href="" target="_blank" title="{#lang('服务商')}："><img src="" alt="{#lang('服务商')}：" style="width: 390px;"></a>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="ht35" style="display:none"></div>
+<div class="wrapper" style="display:none">
+    <div class="sidebar_case">
+        <div class="fl redvertical4"></div>
+        <h5 class="fl">{#lang('优秀案例')}</h5>
+        <div class="fr">
+            <a class="tjed" href="" target="_blank">{#lang('标志设计')}</a>
+            <a class="tjed" href="" target="_blank">{#lang('包装设计')}</a>
+            <a class="tjed" href="" target="_blank">{#lang('VI设计')}</a>
+            <a class="tjed" href="/" target="_blank">{#lang('卡通设计')}</a>
+            <a class="tjed" href="/" target="_blank">{#lang('装修设计')}</a>
+            <a class="tjed" href="/" target="_blank">{#lang('建筑设计')}</a>
+            <a class="tjed" href="/" target="_blank">{#lang('工业设计')}</a>
+            <a class="tjed" href="/" target="_blank">{#lang('网站建设')}</a>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="goodcase" style="display:none">
+        <div class="fl">
+            <div class="detail_border" style="width: 248px;height: 347px; border-bottom:solid 1px #EAE8EB; ">
+                <dl class="case_1">
+                    <dt>
+                        <a href="" title="" target="_blank"><img src="" alt=""></a>
+                    </dt>
+                    <dd>
+                        <a href="" title="" target="_blank"></a>
+                    </dd>
+                    <dd>{#lang('服务商')}：<a href="" title="" target="_blank"></a><br></dd>
+                    <dd>{#lang('成交价')}：<font color="#ff6600">888{#lang('元')}</font></dd>
+                    <dd>
+                        <a href="/" target="_blank" style="margin-top:20px;width:95%;" class="guyong"></a>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="fl">
+            <div class="detail_border">
+                <dl class="case_2">
+                    <dt>
+                        <a href="" title="" target="_blank"><img src="" alt=""></a>
+                    </dt>
+                    <dd>
+                        <a href="" title="" target="_blank"></a>
+                    </dd>
+                </dl>
+                <div class="cgalxz">
+                    <a class="casetitle" href="" title="" target="_blank"></a><br> {#lang('服务商')}：<a href="" title="" target="_blank"></a><br>{#lang('成交价')}：<font color="#ff6600">4000{#lang('元')}</font><br>
+                    <a href="" target="_blank" class="guyong">{#lang('雇佣TA')}</a>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="ht35" style="display:none"></div>
+<div class="wrapper" style="display:none">
+    <div class="sidebar">
+        <div class="fl redvertical4"></div>
+        <h5 class="fl">{#lang('我们为他们解决了')}</h5>
+        <div class="clear"></div>
+    </div>
+    <div class="solved">
+        <div class="fl solved_1 pr25 br1">
+            <h5 class="fl">{#lang('雇主心声')}</h5>
+            <div class="clear"></div>
+            <div class="solved_one">
+                <div class="fl">
+                    <a href="" target="_blank"><img src="" alt=""></a>
+                </div>
+                <div class="fl info">
+                    <div>
+                        <a class="title" href="" title="" target="_blank"></a>
+                    </div>
+                    <div class="abstract"></div>
+                    <div class="fabudate"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="solved_list">
+                <div>
+                    <a class="title" href="" title="" target="_blank"></a>
+                </div>
+                <div class="abstract"></div>
+                <div class="fabudate">2017-01-05 14:31</div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="ht35" style="display:none"></div>
+<div class="wrapper" style="display:none">
+    <div class="ad_4">
+        <a href="" target="_blank"><img src="" alt=""></a>
+    </div>
+</div>
+<div class="ht35"></div>
+<div class="wrapper">
+    <div class="fabu_process">
+        <div class="fabu_1">
+            <div class="fabu_1_1"><strong>{#lang('编写需求')}</strong></div>
+            <div class="fabu_1_2">{#lang('托管赏金，正式发布')}</div>
+        </div>
+        <div class="fabu_2">
+            <div class="fabu_1_1"><strong>{#lang('威客参与')}</strong></div>
+            <div class="fabu_1_2">{#lang('提交作品，等待评标')}</div>
+        </div>
+        <div class="fabu_3">
+            <div class="fabu_1_1"><strong>{#lang('确定方案')}</strong></div>
+            <div class="fabu_1_2">{#lang('雇主公布中标结果')}</div>
+        </div>
+        <div class="fabu_4">
+            <div class="fabu_1_1"><strong>{#lang('验收付款')}</strong></div>
+            <div class="fabu_1_2">{#lang('交接文件，交易完成')}</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="ht35"></div>
+<div class="total" style="display: none">
+    <div class="wrapper">
+        <div class="total_1">
+            <div class="totalnum">2287{#lang('元')}</div>
+            <div class="totalname">{#lang('交易总额')}</div>
+        </div>
+        <div class="total_2">
+            <div class="totalnum">13{#lang('个')}</div>
+            <div class="totalname">{#lang('项目总数')}</div>
+        </div>
+        <div class="total_3">
+            <div class="totalnum">1021{#lang('名')}</div>
+            <div class="totalname">{#lang('威客总数')}</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="ht10" style="display:none"></div>
+<script>
+    if ($("#sweike_box").length > 0) {
+        $('#sweike_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="sweike:footer"}
+

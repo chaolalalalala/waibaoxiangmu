@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Google双重验证 - 安全中心 - 币火网 -  www.bihuo168.com </title>
+<meta name="Keywords" content="{$seos['keywords']}">
+<meta name="Description" content=" {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+<link rel="stylesheet" href="/static/style/safeadd.css">
+<link rel="stylesheet" href="/static/style/safeadd04.css">
+
+
+
+<script language="javascript">
+//alert("此功能正在升级中，请稍后再试！"); top.location='/u/safe.jsp';
+</script>
+
+
+
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="/u/safe.jsp" class="">{#lang('安全中心')} </a> &gt; {#lang('Google双重验证')}
+	</div>
+	<div class="main-content">
+		{include file="user:left"}
+		<div class="tag-list-content assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('Google双重验证')}
+					</span>
+					<span>
+						{if $user['google']}
+                        <a onclick="step1();" id="step1" class="step fz_12 ml50 pd6 active">{#lang('配置验证模块')}</a>
+                        <a onclick="step2();" id="step2" class="step fz_12 ml20 pd6">{#lang('关闭双重验证')}</a>
+						{/if}
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right fz_14 mr5 move"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<form id="form-gaa" class="bg_w">
+				{if !$user['google']}
+				<div class="pb29">
+					<div class="dv_info">
+						<p>Google Authenticator {#lang('双重验证可以更安全的保护您的账户，未开户双重验证不影响正常的交易 开户双重验证功能后，在您每次进行提现操作时，系统都会提示您输入手机应用程序上显示的一次性密码，来确保您的资金安全。您可以依照下面的步骤来设置并启用这一功能')}。</p>
+					</div>
+					<div class="dv_title">
+						<em class="dv_num_1"></em> {#lang('在您的手机上安装双重验证程序：Google Authenticator ')}
+					</div>
+					<br>
+					<div class="dv_content">
+						<div class="mbphone_btn" id="mbphone_btn">
+							<dl>
+								<dt>iPhone {#lang('手机：在App Store 中搜索 Google Authenticator ')}</dt>
+								<dd>
+									<a target="_blank"
+									   href="http://itunes.apple.com/cn/app/google-authenticator/id388497605?mt=8">{#lang('点此查看 ')}</a>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Android {#lang('手机：在应用市场中搜索“谷歌身份验证器”，或搜索 Google Authenticator ')}</dt>
+								<dd>
+									<a target="_blank" href="http://apk.hiapk.com/html/2013/07/1643619.html">{#lang('点此下载')}</a>
+								</dd>
+							</dl>
+							<dl>
+								<dt>Nokia {#lang('手机：不支持扫描二维码，可手动输入密钥')}</dt>
+								<dd>
+									<a target="_blank" href="http://code.google.com/p/lwuitgauthj2me/"> {#lang('点此下载')}</a>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="dv_title">
+						<em class="dv_num_2"></em> {#lang('安装完成后，您需要对该应用程序进行如下配置')}
+					</div>
+					<div class="dv_content">
+						<p>{#lang(' 在“Google Authenticator (身份验证器)”应用程序中，点击“添加新账户 (iOS 下是 + 号)”，然后选择“扫描条形码”。将手机上的相机镜头对准下图扫描该条形码')}。</p>
+						<div class="dv_ewm" id="qrcode"></div>
+						<script type="text/javascript" src="__EXT__/jquery/jquery.qrcode.min.js"></script>
+						<script>
+							$('#qrcode').qrcode({
+								render: "table",
+								size: 200,
+								text: "{$qrCodeUrl}"
+							});
+						</script>
+						<p>
+							{#lang('如果您无法扫描成功上图的条形码，您还可以手动添加账户，并输入如下密匙')}：<b>{$asecret}</b>
+						</p>
+					</div>
+					<div class="dv_title">
+						<em class="dv_num_3"></em>{#lang('配置完成')}
+					</div>
+					<div class="dv_content">
+						<p>{#lang('配置完成后，手机上会显示一个 6 位数字，每隔 30 秒变化一次。这个数字即为您的双重验证密码')}。</p>
+						<p class="orange">{#lang('请勿删除此双重验证密码账户，否则会导致您无法进行账户操作')}</p>
+						<p class="orange">
+							{#lang('您可将密钥记录下来')}: <b>{$asecret}</b> {#lang('如果误删，可通过手动输入密钥来恢复')}。
+						</p>
+						<p>{#lang('输入双重验证密码，以开启或关闭双重验证功能')}</p>
+						<div class="dv_input">{#lang('双重验证密码')}： <input id="gas" type="password" name="ga" class="texts mr5"/> <span>{#lang('请输入手机应用程序上显示的双重验证密码')}</span> <input type="hidden" name="secret" value="{$asecret}">
+						</div>
+						<div class="dv_radio">
+							{#lang('配置验证模块')}： <input class="checkbox" type="checkbox" id="ga-logins" checked="1" name="login">{#lang('账户登录')} <input class="checkbox" type="checkbox" id="ga-transfers" checked="1" name="transfer">{#lang('资金转出')} <input class="checkbox" type="checkbox" id="ga-trades" checked="1" name="trade">{#lang('挂单交易')}
+						</div>
+						<div class="dv_submit">
+							<!--input type="button" onclick="google_up()" value="{#lang('验证并启用')}" class="btns2"-->
+							<input type="button" onclick="google_up----()" value="{#lang('此功能正在升级中！')}" class="btns2">
+						</div>
+					</div>
+				</div>
+				<script>
+					function google_up() {
+						var ga          = $('#gas').val();
+						var ga_login    = $('#ga-logins').is(':checked') ? 1 : 0;
+						var ga_transfer = $('#ga-transfers').is(':checked') ? 1 : 0;
+						var ga_trade    = $('#ga-trades').is(':checked') ? 1 : 0;
+
+						if (ga == "" || ga == null) {
+							layer.tips("{#lang('请输入交易密码')}", '#gas', {tips: 3});
+							return false;
+						}
+						$.post("{#url('user/google_up')}", {
+							ga: ga,
+							ga_login: ga_login,
+							ga_transfer: ga_transfer,
+							ga_trade: ga_trade,
+						}, function (data) {
+							if (data.status == 1) {
+								layer.msg(data.info, {icon: 1});
+								if (data.url) {
+									setTimeout(function(){
+										window.location = data.url;
+									},1000);
+								} else {
+									setTimeout(function(){
+										window.location.reload();
+									},1000)
+								}
+							} else {
+								layer.msg(data.info, {icon: 2});
+								if (data.url) {
+									setTimeout(function(){
+										window.location = data.url;
+									},1000);
+								}
+							}
+						}, 'json');
+					}
+				</script>
+				{else}
+				<div class="band_succ mb20 move" style=" margin-left: 210px;">
+					<i class="fa fa-check mr5"></i>{#lang('您的账户已启用谷歌验证')}
+				</div>
+				<div class="ga_hove ge_set set_verify step1 ">
+					<ul>
+						<li>{#lang('配置验证模块')}：</li>
+						<li>
+							<input type="checkbox" id="ga-login" name="login" style="vertical-align: -2px;"> {#lang('账户登录')} <span>({#lang('账户登录时显示双重认证码')})</span>
+						</li>
+						<li>
+							<input type="checkbox" id="ga-transfer" name="transfer" style="vertical-align: -2px;"> {#lang('资金转出')} <span>({#lang('资金转出时显示双重认证码')})</span>
+						</li>
+						<li>
+							<input type="checkbox" id="ga-trade" name="trade" style="vertical-align: -2px;"> {#lang('挂单交易')} <span>({#lang('挂单交易时显示双重认证码')})</span>
+						</li>
+						<li>
+							<div class="mt5 mb5 ">
+								<input id="ga" placeholder="{#lang('请输入双重验证密码')}" type="password" class="texts">
+							</div>
+						</li>
+						<li>
+							<div class="mt10 mb10 ">
+								<input class="btns2" value="{#lang('保存')}" type="button" onclick="google_set()">
+							</div>
+						</li>
+					</ul>
+					<script>
+						if ("{$ga_login}" == 1) {
+							$("#ga-login").attr("checked", true);
+						}
+						if ("{$ga_transfer}" == 1) {
+							$("#ga-transfer").attr("checked", true);
+						}
+						if ("{$ga_trade}" == 1) {
+							$("#ga-trade").attr("checked", true);
+						}
+
+						function step1() {
+							$(".step").removeClass('active');
+							$('#step1').addClass('active');
+							$(".step2").hide();
+							$(".step1").show();
+						}
+
+						function google_set() {
+							var ga          = $('#ga').val();
+							var ga_login    = $('#ga-login').is(':checked') ? 1 : 0;
+							var ga_transfer = $('#ga-transfer').is(':checked') ? 1 : 0;
+							var ga_trade    = $('#ga-trade').is(':checked') ? 1 : 0;
+
+							if (ga == "" || ga == null) {
+								layer.tips("{#lang('请输入双重验证密码')}", '#ga', {tips: 3});
+								return false;
+							}
+							$.post("{#url('user/google_set')}", {
+								ga: ga,
+								ga_login: ga_login,
+								ga_transfer: ga_transfer,
+								ga_trade: ga_trade,
+							}, function (data) {
+								if (data.status == 1) {
+									layer.msg(data.info, {icon: 1});
+									if (data.url) {
+										setTimeout(function(){
+											window.location = data.url;
+										},1000);
+									} else {
+										setTimeout('location.reload()',1000);
+									}
+								} else {
+									layer.msg(data.info, {icon: 2});
+									if (data.url) {
+										setTimeout(function(){
+											window.location = data.url;
+										},1000);
+									}
+								}
+							}, 'json');
+						}
+					</script>
+				</div>
+				<div class="ga_hove off_fn set_verify step2" style="display:none;">
+					<ul>
+						<li>{#lang('关闭双重验证功能')}：</li>
+						<li>
+							<div class="mt10 mb10 ">
+								<input id="ga_del" placeholder="{#lang('请输入双重验证密码')}" type="password" class="texts">
+							</div>
+						</li>
+						<li>
+							<div class="mt10 mb10 ">
+								<input class="btns2" value="{#lang('取消双重验证')}" type="button" onclick="google_del()">
+							</div>
+						</li>
+					</ul>
+					<script>
+						function step2() {
+							$(".step").removeClass('active');
+							$('#step2').addClass('active');
+							$(".step1").hide();
+							$(".step2").show();
+						}
+						function google_del() {
+							var ga = $('#ga_del').val();
+							if (ga == "" || ga == null) {
+								layer.tips("{#lang('请输入双重验证密码')}", '#ga_del', {tips: 3});
+								return false;
+							}
+							$.post("{#url('user/google_del')}", {
+								ga: ga,
+							}, function (data) {
+								if (data.status == 1) {
+									layer.msg(data.info, {icon: 1});
+									if (data.url) {
+										setTimeout(function(){
+											window.location = data.url;
+										},1000)
+
+									} else {
+										setTimeout(function(){
+											window.location.reload();
+										},1000)
+									}
+								} else {
+									layer.msg(data.info, {icon: 2});
+									if (data.url) {
+										setTimeout(function(){
+											window.location = data.url;
+										},1000)
+									}
+								}
+							}, 'json');
+						}
+					</script>
+				</div>
+				{/if}
+			</form>
+		</div>
+	</div>
+</div>
+<script>
+	$('.user_google').addClass('active');
+</script>
+{include file="aaapublic:footer"}

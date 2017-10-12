@@ -1,0 +1,98 @@
+{include file="public:header"}
+<div class="autobox">
+    <div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="{#url('qiandao/index')}" class="orange">{#lang('每日签到')}</a> &gt; {#lang('奖励规则')}
+    </div>
+    <div class="main-content">
+        <div class="assets_content bg_w">
+            <div class="safe_center clear">
+                <h1>
+	<span>
+						{#lang('奖励规则')}
+					</span>
+					<span>
+                        <a href="{#url('qiandao/index')}" id="step1" class="step fz_12 ml20 pd6  active">{#lang('奖励规则')} </a>
+                        <a href="{#url('qiandao/award')}" id="step3" class="step fz_12 ml20 pd6  ">{#lang('签到记录')}</a>
+						<a href="javascript:;"  class="step fz_12 ml50 pd6 btns2 " onclick="qiandao_up()" style="width:100px;line-height: inherit;">{#lang('点击签到')}</a>
+
+					</span>
+                    <span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+
+                </h1>
+            </div>
+            <div id="hints" class="mytips" style="display:none;">
+	            <script>
+		            var hints = "{$hints['show']}";
+		            if(hints == 1){
+			            $('#hints').show();
+		            }
+	            </script>
+	            {$hints["value"] nofilter}
+            </div>
+	        {#slider("qiandao")}
+
+            <div class="cnyin_record">
+                <div class="f_body">
+                    <div class="f_body_main">
+                        <div class="f_tab_body">
+                            <div>
+                                <table class="f_table" id="investLog_content">
+                                    <tr>
+                                        <th>{#lang('序号')}</th>
+	                                    <th>{#lang('奖励内容')}</th>
+	                                    <th>{#lang('奖励数量')}</th>
+                                        <th>{#lang('奖励币种')}</th>
+                                    </tr>
+                                    {foreach $pages["list"] as $v}
+                                    <tr>
+                                        <td>{$v["id"]}</td>
+	                                    <td>{$v["title"]}</td>
+                                        <td>{$v["num"]}</td>
+                                        <td>{$v["coinname"]}</td>
+	                                    </td>
+                                    </tr>
+                                    {/foreach}
+                                </table>
+                                <div class="pages">{$pages['show'] nofilter}</div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	function qiandao_up() {
+		
+		$.post("{#url('qiandao/up')}", {}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout(function(){
+					window.location = "/qiandao/award";
+				},1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					alert("{#lang('今天已经签到')}")	;
+				}
+			}
+		}, "json");
+	}
+</script>
+
+
+<script>
+    if ($("#qiandao_box").length > 0) {
+        $('#qiandao_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}

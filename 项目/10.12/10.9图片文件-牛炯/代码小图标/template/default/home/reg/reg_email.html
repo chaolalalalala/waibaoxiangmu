@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>邮箱注册 -  币火网 -  www.bihuo168.com </title>
+<meta name="Keywords" content="{$seos['keywords']}">
+<meta name="Description" content=" {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+
+<link rel="stylesheet" type="text/css" href="__HOME__/css/reg.css">
+<div class="g-bd">
+    <div id="reg_app">
+        <div class="m-tab">
+            <div class="u-tab-mobile">
+                <span class="tab-img"></span> <a href="{#url('reg/v2')}" class="link-tab">手机号注册</a>
+            </div>
+            <div class="u-tab-mail">
+                <span class="tab-img-active"></span> <a href="{#url('reg/v2/type/email')}" class="link-tab active">邮箱号注册</a>
+            </div>
+        </div>
+        <div class="m-opr">
+            <div class="m-form">
+                <form action="">
+                    <div class="m-ipt">
+                        <div class="u-ipt u-ipt- u-ipt-">
+                            <div class="u-label"><label>邮箱地址</label><i></i><span class="i-split"></span></div>
+                            <input placeholder="请输入邮箱" id="reg_email">
+                        </div>
+                    </div>
+                    <div class="m-ipt">
+                        <div class="u-ipt u-ipt-small u-ipt-">
+                            <div class="u-label"><label>图形验证码</label><i></i><span class="i-split"></span></div>
+                            <input placeholder="请输入图形验证码" id="reg_code">
+                            <div class="i-vcode">
+                                <img alt="图形验证码" src="{#url('verify/code')}" title="{#lang('换一张')}" onclick="code_new(this);">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-ipt">
+                        <div class="u-ipt u-ipt-small u-ipt-">
+                            <div class="u-label"><label>邮箱验证码</label><i></i><span class="i-split"></span></div>
+                            <input placeholder="请输入邮箱验证码" id="reg_email_code">
+                            <span class="btn-getsms" onclick="send_code(this);" id="reg_send_email">发送验证码</span>
+                        </div>
+                    </div>
+                    <div class="m-ipt">
+                        <div class="u-ipt u-ipt- u-ipt-">
+                            <div class="u-label"><label>登录密码</label><i></i><span class="i-split"></span></div>
+                            <input type="password" placeholder="密码应该在6-16位之间" id="reg_password">
+                        </div>
+                    </div>
+                    <div class="m-ipt">
+                        <div class="u-ipt u-ipt- u-ipt-">
+                            <div class="u-label"><label>确认密码</label><i></i><span class="i-split"></span></div>
+                            <input type="password" placeholder="请再次填写密码" id="reg_repassword">
+                        </div>
+                    </div>
+                    <div class="m-check">
+                        <div class="m-ckinfo">
+	    <span class="u-checkbox">
+	        <input type="checkbox" class="u-agr" id="reg_info">
+	    </span> <span class="u-tip"><label>同意并遵守<a href="javascript:void(0);">《注册协议》</a></label></span>
+                        </div>
+                    </div>
+                    <div class="m-btn">
+                        <span class="b-btn btn-blue" id="curs-reg-btn" onclick="reg_up();">注册</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{include file='aaapublic:footer'}
+
+
+<script type="text/javascript">
+    // 输入框颜色改变
+    $(function () {
+        $('input').focus(function () {
+            $(this).parent().css({
+                'box-shadow': '0px 0px 3px #1583fb',
+                'border': '1px solid #1583fb',
+                'color': '#333'
+            });
+        });
+        $('input').blur(function () {
+            $(this).parent().css({
+                'box-shadow': 'none',
+                'border': '1px solid #e1e1e1',
+                'color': '#333'
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+
+    // 选择框改变
+    $(function () {
+        $('#reg_info').click(function () {
+            if ($(this).is(':checked')) {
+                $(this).attr("checked", "");
+                $(this).parent().addClass('u-checkbox-selected');
+            } else {
+                $(this).attr("checked", "checked");
+                $(this).parent().removeClass('u-checkbox-selected');
+            }
+        });
+    });
+
+
+    // 切换图形验证码
+    function code_new(_this) {
+        $(_this).attr('src', "{#url('user/code')}?t=" + Math.random());
+    }
+
+    // 发送邮箱验证码
+    function send_code(_this) {
+        var reg_email = $('#reg_email').val();
+        var reg_code = $('#reg_code').val();
+
+        if (reg_email == "" || reg_email == null) {
+            layer.tips("{#lang('请输入邮箱')}", '#reg_email', {tips: 3});
+            $('#reg_email').focus();
+            return false;
+        }
+        if (reg_code == "" || reg_code == null) {
+            layer.tips("{#lang('请输入图形验证码')}", '#reg_code', {tips: 3});
+            $('#reg_code').focus();
+            return false;
+        }
+        $.post("{#url('user/reg_send_code')}", {
+            email: reg_email,
+            code: reg_code,
+            type: "{$type}",
+            token: "{$token}"
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                $('#reg_email_code').focus();
+                // 计时器
+                var obj = $('#reg_send_email');
+                var wait = 60;
+                var interval = setInterval(function () {
+                    obj.html(wait + "{#lang('秒可再次发送')}");
+                    wait--;
+                    if (wait < 0) {
+                        clearInterval(interval);
+                        $("#reg_code").click();
+                        $("#reg_code").val('');
+                        obj.html('{#lang("点击重新发送")}');
+                    }
+                    ;
+                }, 1000);
+
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, 'json');
+    }
+
+    // 注册提交
+    function reg_up() {
+        var reg_email = $('#reg_email').val();
+        var reg_code = $('#reg_code').val();
+        var reg_email_code = $('#reg_email_code').val();
+        var reg_password = $('#reg_password').val();
+        var reg_repassword = $('#reg_repassword').val();
+
+        if (reg_email == "" || reg_email == null) {
+            layer.tips("{#lang('请输入邮箱')}", '#reg_email', {tips: 3});
+            $('#reg_email').focus();
+            return false;
+        }
+        if (reg_code == "" || reg_code == null) {
+            /*layer.tips("{#lang('请输入图形验证码')}", '#reg_code', {tips: 3});
+            $('#reg_code').focus();
+            return false;*/
+        }
+        if (reg_email_code == "" || reg_email_code == null) {
+            layer.tips("{#lang('请输入邮箱验证码')}", '#reg_email_code', {tips: 3});
+            $('#reg_email_code').focus();
+            return false;
+        }
+        if (reg_password == "" || reg_password == null) {
+            layer.tips("{#lang('请输入登录密码')}", '#reg_password', {tips: 3});
+            $('#reg_password').focus();
+            return false;
+        }
+        if (reg_repassword == "" || reg_repassword == null) {
+            layer.tips("{#lang('请输入确认密码')}", '#reg_repassword', {tips: 3});
+            $('#reg_repassword').focus();
+            return false;
+        }
+        if (reg_password != reg_repassword) {
+            layer.tips("{#lang('确认密码错误')}", '#reg_repassword', {tips: 3});
+            $('#reg_repassword').focus();
+            return false;
+        }
+        if (!$("#reg_info").is(':checked')) {
+            layer.tips("{#lang('请勾选注册协议')}", '#reg_info', {tips: 3});
+            $('#reg_info').focus();
+            return false;
+        }
+
+        $.post("{#url('user/reg_up')}", {
+            email: reg_email,
+            code: reg_code,
+            email_code: reg_email_code,
+            password: reg_password,
+            repassword: reg_repassword,
+            type: "{$type}",
+            token: "{$token}"
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                $.cookies.set('move_username', reg_email);
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+</script>
+
+
+
+

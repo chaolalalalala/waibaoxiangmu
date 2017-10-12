@@ -1,0 +1,15 @@
+{include file="header"}
+
+<div id="wrapper">
+    {if $show_html}
+        {$show_html nofilter}
+    {else}
+        <div class="well warning_well">
+            <span id="error_text">{#qklang("not found")}</span>
+            <br><a href="javascript:history.back()">返回</a>
+        </div>
+    {/if}
+
+</div>
+
+{include file="footer"}

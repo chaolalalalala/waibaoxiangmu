@@ -1,0 +1,278 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/goods.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/fontawesome/font-awesome.min.css">
+	<style>
+        .h-mid { width:100%; height:45px; float:left; text-align:center; color:#666; font-size:18px; line-height:45px;}
+        .h-mid ul li{ width:20%; float:left; height:45px; text-align:center; }
+        .orderContainer{
+            width: 100%;
+            margin-top: 45px;
+            background: #eeeeeeee;
+        }
+        .orderItem {
+            margin: 0.5rem 0;
+            padding: 0.23rem 0;
+            color: black;
+            box-shadow: 0 1px 1px #999;
+            -webkit-box-shadow:  0 1px 1px #999;
+            -moz-box-shadow:  0 1px 1px #999;
+            background-color: white;
+
+            overflow: hidden;
+        }
+
+        .orderItem li{
+            font-size: 0.65rem;
+            margin: 0.3125rem 0.625rem;
+        }
+        .orderItem ul{
+            clear: both;
+        }
+
+        .orderTotalMsg span {
+
+            margin: 0.325rem 0.325rem;
+        }
+
+        .orderOptionBtns span {
+            margin: 0.325rem 0.325rem;
+            border: #999 1px solid;
+            padding: 0.125rem 0.325rem;
+            border-radius: 0.125rem;
+        }
+
+        .iconfont{
+            padding: 0.25rem 0.45rem;
+            border-radius: 0.2rem;
+            color: white;
+            font-size: 0.8rem !important;
+        }
+        .icon-map-marker{
+            background-color: #49afcd;
+        }
+
+        .hideDiv {
+            display: none;
+        }
+
+	</style>
+</head>
+<body>
+<div class="aui-content aui-margin-b-15">
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">收货地址</li>
+        <li class="aui-list-item"  tapmod onclick="selectAddress()">
+            <div class="aui-list-item-label-icon">
+                <i class="iconfont icon-map-marker"></i>
+            </div>
+            <div class="aui-list-item-inner aui-list-item-arrow">
+                <div class="aui-list-item-label">收货地址:</div>
+<!--                <div class="aui-list-item-text" id="shouhuoAddress">武汉市武昌区友谊大道999</div>-->
+                <div class="aui-list-item-text">
+                    <select id="selectAddress" onchange="selectAddress()">
+                        <option index="-1" value="-1" >请选择收货地址</option>
+                    </select>
+                </div>
+            </div>
+        </li>
+
+    </ul>
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">确认订单信息</li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">商品名称:</div>
+                <div class="aui-list-item-text" id = "goodsName"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">竞拍价:</div>
+                <div class="aui-list-item-text" id="price"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">付款币种:</div>
+                <div class="aui-list-item-text" id="coin"></div>
+            </div>
+        </li>
+    </ul>
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">合计</li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    留言:
+                </div>
+                <div class="aui-list-item-input">
+                    <input id="liuyan" type="text" placeholder="给卖家的留言,最多80字">
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">实付:</div>
+                <div class="aui-list-item-text" id="totalMoney"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">收货人:</div>
+                <div class="aui-list-item-text" id="masterName"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">寄送至:</div>
+                <div class="aui-list-item-text" id="fetchAddress"></div>
+            </div>
+        </li>
+    </ul>
+    <div class="aui-content-padded">
+    <p><div class="aui-btn aui-btn-info" info="" id="buybtn" onclick="buyNow(this)" style="width: 100%;line-height: 1.5rem">立即购买</div></p>
+    </div>
+
+</div>
+
+</body>
+<script type="text/javascript" src="__WAP__/js/aui/aui-slide.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/echo.js"></script>
+<script type="text/javascript">
+	apiready = function () {
+		alog("come");
+		onerror = error_handel;
+		flash(function () {});
+	};
+
+	var shop_info;
+	var addrIndex;
+    var addrId;
+	function addCard(){
+		var shop_card = memObj("shop_card");
+		if(shop_card){
+			shop_card = merge(shop_card,[shop_info['id']]);
+		}else{
+			shop_card = [shop_info['id']];
+		}
+		memObj("shop_card",shop_card);
+		memObj("shop_id_"+shop_info['id'],shop_info);
+		art("成功加入购物车");
+	}
+	function shopBuy(){
+		art("前往购买开发中...");
+	}
+
+	function flash(callback) {
+		var id = iv("id");
+		if(!id){
+			art("商品ID未获取");
+			return;
+		}
+
+        var lastPageParams = {'id':iv('id')};
+        alog(lastPageParams);
+
+		UserAjax('sale/order', 'get', lastPageParams, function (ret) {
+			if (ret.status == 1) {
+				alog(ret);
+				shop_info = ret.info;
+
+                //收货地址
+                if(shop_info.user_goods && shop_info.user_goods.length > 0 ) {
+                    var opt = '';
+                    if ( shop_info.user_goods.length > 0 ) {
+                        addrIndex = 0;
+                        addrId = shop_info.user_goods[0].id;
+                        for( var index = 0; index < shop_info.user_goods.length; index++ ) {
+                            opt += "<option index=\'"+index+"\' value=\'"+shop_info.user_goods[index].id+"\'>"
+                                    +shop_info.user_goods[index].truename+"|"+
+                                    +shop_info.user_goods[index].moble+"|";
+                            var tail = shop_info.user_goods[index].addr+
+                                    "</option>";
+                            opt += tail;
+                        }
+                    }
+                    $('#selectAddress').html(opt);
+                }
+                //商品名称
+                $('#goodsName').html(shop_info.log.saletitle);
+                $('#price').html(shop_info.log.price);
+                $('#coin').html(shop_info.log.coinname);
+                $('#totalMoney').html(shop_info.log.price+''+shop_info.log.coinname);
+                $('#masterName').html(shop_info.user_goods.truename);
+				$("#buybtn").attr('info',shop_info.log.saleid);
+                setFetchAddress();
+				parseTapmode();
+			} else {
+				art(ret.info);
+			}
+		});
+	}
+
+    function selectAddress () {
+
+        var selectOption = $('#selectAddress option').filter(function (){ return this.selected});
+        addrIndex = selectOption.attr("index");
+        addrId = selectOption.val();
+        setFetchAddress();
+    }
+
+    function setFetchAddress(){
+
+        alog("addrIndex===="+addrIndex);
+        var addr = shop_info.user_goods[addrIndex];
+        $('#masterName').html(addr.truename);
+        $('#fetchAddress').html(
+                addr.prov+" "
+                +addr.city+" "
+                +addr.addr
+        );
+    }
+
+    function buyNow(e) {
+	    var id = iv('id');
+        var sale_id =$(e).attr('info');
+        var coinpay = shop_info.log.coinname;
+        var user_goods_id = addrId;
+        var liuyan = $('#liuyan').val();
+
+        if (  isNull( sale_id ) || isNull( id ) )
+        {
+            art('购买信息不存在');
+            return;
+        }
+        if ( isNull( coinpay ) ){
+            art('支付币种错误');
+            return;
+        }
+        if( isNull( user_goods_id )){
+            art('收货地址错误');
+            return;
+        }
+        var params = {
+            'id':id,
+            'sale_id':sale_id,
+            'coinpay':coinpay,
+            'user_goods_id':user_goods_id,
+            'liuyan':liuyan,
+        };
+        loading('提交中...')
+        Ajax('sale/order_up', 'post', params, function (ret) {
+            toast.hide();
+            if ( ret.status == 1 ){
+                art(ret.info);
+                setTimeout("back()",2000);
+            }
+            else {
+                art(ret.info);
+            }
+        });
+    }
+</script>
+</html>

@@ -1,0 +1,60 @@
+{include file="public:header"}
+<style>
+	.pay_res{
+		font-size:26px;
+		display:block;
+		float: left;
+	}
+	.pay_succ{
+		color:greenyellow;
+	}
+	.pay_fail{
+		color:red;
+	}
+</style>
+<div class="autobox" style="    margin-top: 20px;">
+	<div class="wrapper" style="    width: 1200px;    margin-top: 0px;    margin: inherit;">
+		<div id="dialog_ali" class="mana-app styled-pane"
+		     style="width: 1200px; overflow: visible; display: block;   position: initial;    min-height: 400px;border: none;box-shadow: none;">
+			<div class="mana-app-title" style="line-height: 34px;">
+				{#lang('订单支付结果')}
+			</div>
+		
+			<div style="padding-top: 0px;width: 80%;margin: 0 auto;">
+				<div style="background-color: #fef8f2;line-height: 60px;padding: 0 30px;margin: 10px 0 10px 0;">
+					{if $PayReturn['status'] == 1}
+						<span class="pay_res pay_succ" style="
+						    color: #2eb457;
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    height: 360px;
+    line-height: 360px;
+">
+							{#lang('订单')}({$PayReturn['orderno']}){#lang('支付成功 跳转中')}...
+						</span>
+						<script>
+							setTimeout(function () {
+								window.location.href = "/finan/pay.html";
+							}, 3000);
+						</script>
+					{else}
+						<span  class="pay_res pay_fail">{#lang('支付失败')}</span>
+						<br>
+						<div>
+							{#lang('备注信息')}:
+							<pre style="padding: 10px;background-color: #f8f9fc;color: #aeadad;">
+								{$PayReturn['msg']}
+								<br>
+								{$PayReturn['Remark']}
+							</pre>
+						</div>
+					{/if}
+				</div>
+			</div>
+
+			<div style="clear: both"></div>
+		</div>
+	</div>
+</div>
+{include file="public:footer"}

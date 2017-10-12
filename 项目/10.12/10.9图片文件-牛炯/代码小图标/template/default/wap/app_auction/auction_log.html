@@ -1,0 +1,249 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+	.my_body{
+		margin: 10px 10px 10px 10px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+
+	.my_body ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		/*border: 1px solid #55585D;*/
+		background-color: #FFF;
+	}
+	.bank_title{
+		margin: 0 0 0 1rem;
+		height: 3rem;
+		line-height: 3rem;
+		/*border-bottom: 1px solid #55585D;*/
+	}
+	.bank_title img{
+		height: 1.6rem;
+		margin: 0.7rem 1rem 0 0;
+		vertical-align: middle;
+		float: right;
+	}
+	.bank_body{
+		margin: 0 0 0 1rem;
+	}
+	.bank_body span{
+		display: block;
+	}
+	.bank_body .g{
+		color: gray;
+	}
+	.r{
+		float: right;
+		margin-right: 1rem;
+	}
+	.red{
+		color: #e55600;
+	}
+    .green{
+        color: green;
+    }
+
+    .licaiItem {
+        padding-bottom: .625rem;
+    }
+
+</style>
+<body>
+<section class="aui-refresh-content">
+<div class="wrap">
+	<div class="my_body">
+        <div id="licai_list" style="margin-top: 0.5rem">
+        </div>
+  </div>
+</div>
+</section>
+<script id="licai_list-temp" type="text/x-dot-template">
+	{{? it.length>0 }}
+	{{ for (var i in it){ }}
+    <ul class="aui-border licaiItem" onclick="openDetailView({{=it[i].saleid}})">
+        <li class="bank_title aui-border-b">
+            {{? it[i].status == 0 }}
+            <span class=" green">未成功</span>
+            {{?? it[i].status == 1 }}
+            <span class="longText red">竞拍成功,请于{{=it[i].time}}分钟内付款 | <em onclick="payOrder(event,{{=it[i].id}})" class="green">去付款</em></span>
+            {{?? it[i].status == 2 }}
+            <span class="">已付款 | <em onclick="sureGoods(event,{{=it[i].id}})" class="green">确认收货</em> </span>
+            {{?? it[i].status == 3 }}
+            <span class=" green">已完成</span>
+            {{? }}
+        </li>
+        <li class="bank_body">
+            <span class="red">{{=it[i].addtime}}</span>
+            <span class="g">编号:<em>{{=it[i].id}}</em></span>
+            <span class="g">商品名称:<em>{{=it[i].saletitle}}</em></span>
+            <span class="g">出价:<em>{{=it[i].price}}{{=it[i].coinname}}</em></span>
+            <span class="g">收货地址:<em>{{=it[i].addr}}</em></span>
+        </li>
+    </ul>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{?}}
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/aui/aui-dialog.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript">
+    var pid = 1;
+    apiready = function () {
+        onerror = error_handel;
+        requestData();
+    }
+    function createView () {
+        alog("更新界面");
+        var data = arguments[0];
+        if (typeof data == 'undefined') {
+            art("createView参数错误");
+	        emptyData($("#licai_list"))
+	        return;
+        }
+        alog(data);
+        var licaiList_temp = doT.template($("#licai_list-temp").html());
+        if (pid == 1)
+        {
+            //第一页 -- 覆盖
+            $('#licai_list').html(licaiList_temp(data.list));
+        }
+        else if( data.list.length > 0){
+            //非第一页且有数据 -- 追加
+            $('#licai_list').html(  $('#licai_list').html() + licaiList_temp(data.list));
+        }
+
+        if( pid > Math.ceil( parseInt(data.count)/parseInt(data.pageSize) ) ){
+            art("没有更多数据了");
+        }else {
+            art('第'+pid+'页');
+            pid++;
+        }
+    }
+
+    function requestData(callback) {
+	    if (!chkLogin()) {
+		    emptyData($("#licai_list"))
+		    art("您目前未登录,请先登录");
+		    return false;
+	    }
+	    loading("加载中……")
+        var params = {"pid":pid };
+        UserAjax('sale/log', 'get', params, function (ret) {
+	        toast.hide()
+	        if( typeof callback == "function" ){
+                callback("刷新完成");
+            }
+            alog(ret);
+            if (ret.status == 1)
+            {
+                alog("返回结果");
+                alog(ret.info);
+                createView(ret.info);
+            }
+            else {
+                art('ajax错误！');
+            }
+        });
+    }
+
+    //上拉加载
+    window.onscroll = function () {
+        if (isScrollToBottom())
+        {
+            requestData();
+        }
+    };
+
+        //下拉刷新
+        var pullRefresh = new auiPullToRefresh({
+            container: document.querySelector('.aui-refresh-content'),
+            triggerDistance: 100
+        }, function (ret) {
+            if (ret.status == "success") {
+                if(getScrollTop() < 10)
+                {
+                    pid = 1;
+                    requestData(function (msg) {
+                        art(msg);
+                        pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+                    });
+                }
+                else {
+                    pullRefresh.cancelLoading();
+                }
+            }
+        });
+
+    function payOrder (event,id) {
+        cancelSendEvent(event,id);
+        //去付款
+        openWinWithParams('orderDetail_h','app_auction',{'id':id});
+    }
+
+    function sureGoods ( event, goodsId) {
+        cancelSendEvent(event);
+
+        var dialog = new auiDialog();
+        dialog.prompt({
+            title: "请输入交易密码",
+            text:"交易密码",
+            buttons: ['取消','确定'],
+            textType:"password"
+        }, function (ret) {
+            if (ret.buttonIndex == 2) {
+                var	password = ret.text;
+                if (password.length == 0)
+                {
+                    art('请输入交易密码');
+                    return;
+                }
+                loading("操作中……");
+                UserAjax('sale/shouhuo','post',{
+                    'id':goodsId,
+                    'paypassword':password,
+                },function(ret){
+                    toast.hide();
+                    if(ret.status==1){
+                        art(ret.info);
+	                    setTimeout(function() {
+		                    pid=1;
+		                    requestData();
+	                    },500)
+                    }else{
+                        art(ret.info);
+                    }
+                });
+            }
+        });
+
+    }
+
+
+    function openDetailView(goodsID){
+
+
+	    openWinWithParams('auctionDetail_h','app_auction',{'id':goodsID});
+
+    }
+
+</script>
+</html>

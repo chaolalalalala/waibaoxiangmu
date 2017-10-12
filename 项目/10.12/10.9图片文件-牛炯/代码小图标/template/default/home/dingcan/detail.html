@@ -1,0 +1,495 @@
+{include file="header"}
+<style>
+	.dzapp_wechat_window{
+		width:740px;
+		clear:both
+	}
+	.layui-layer-setwin .layui-layer-close2{
+		z-index:19891019;
+	}
+
+	.dzapp_wechat_qrcode{
+		float:left;
+		border-right:dotted;
+		border-right-color:#DDD;
+		margin-right:20px;
+	}
+
+	.dzapp_wechat_tips{
+		color:#AAA;
+	}
+
+	.dzapp_wechat_tips h3{
+		color:#000;
+		font-size:16px;
+		font-weight:bold;
+	}
+
+	#dzapp_wechat_nav1{
+		float:left;
+		height:23px;
+		width:100px;
+	}
+
+	#dzapp_wechat_nav2{
+		float:left;
+		height:23px;
+		width:100px;
+	}
+
+	#dzapp_wechat_nav3{
+		float:right;
+		margin-top:8px;
+	}
+
+	#dzapp_wechat_sidenav_wx{
+		width:48px;
+		height:48px;
+		display:none;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+	}
+
+	#dzapp_wechat_sidenav_yx{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+	}
+
+	#dzapp_wechat_sidenav_weibo{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+	}
+
+	#dzapp_wechat_sidenav_renren{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+	}
+
+	#dzapp_wechat_sidenav_tencent{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+	}
+
+	#dzapp_wechat_sidenav_fuwu{
+		width:48px;
+		height:48px;
+		position:fixed;
+		-webkit-transition:all .7s ease-out .1s;
+		-moz-transition:all .7s ease-out;
+		-o-transition:all .7s ease-out .1s;
+		transition:all .7s ease-out .1s;
+		left:60px;
+	}
+
+	.dzapp_position1{
+		top:200px;
+	}
+
+	.dzapp_position2{
+		top:260px;
+	}
+
+	.dzapp_position3{
+		top:320px;
+	}
+
+	.dzapp_position4{
+		top:380px;
+	}
+
+	.dzapp_position5{
+		top:440px;
+	}
+
+	.dzapp_position6{
+		top:500px;
+	}
+	#day,#hour,#coin{
+		border: 1px solid #e6e6e6;
+		border-radius: 4px;
+	}
+</style>
+<a id="dzapp_wechat_sidenav_wx" class="dzapp_position1" href="plugin.php?id=dzapp_wechat:entry&action=qrcode" onclick="showWindow('qrcode', this.href)"></a>
+<div id="wp" class="wp">
+
+	<div id="pt" class="bm cl">
+		<div class="z">
+			<i class="fa fa-home fa-lg left move mr5" style="margin-top:7px;" ></i>
+			<a class="move" href="/dingcan/index/type/2">商家>&nbsp;&nbsp;</a>
+			<a class="move" href="/dingcan/index/type/1">订餐>&nbsp;&nbsp;</a>
+			<a class="move" href="/dingcan/index/type/1">套餐>&nbsp;&nbsp;</a>
+			<font class="goods_name">{$dingcan['title']}</font>
+		</div>
+	</div>
+	<div class="wp cl">
+		<div class="dingcan_left z">
+			<div class="ban" id="demo1">
+				<div class="ban2" id="ban_pic1">
+					<div class="prev1" id="prev1"></div>
+					<div class="next1" id="next1"></div>
+					<ul>
+						{foreach $dingcan_img as $k=>$v}
+						<li><a href="javascript:;"><img src="__UP__/{$v['img']}"></a></li>
+						{/foreach}
+					</ul>
+				</div>
+				<div class="min_pic cl">
+					<div class="num cl" id="ban_num1">
+						<ul class=" cl">
+							{foreach $dingcan_img as $k=>$v}
+							<li><a href="javascript:;"><img src="__UP__/{$v['img']}"></a></li>
+							{/foreach}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="dingcan_right y">
+			<h1 class="ml_20">{$dingcan['title']}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$dingcan['content']}</h1>
+			<div class="dingcan_type cl ml_20 mt_10">
+				{if $seller['can'] == 3}
+				<i class="z">午餐</i> <i class="z">晚餐</i>
+				{elseif $seller['can'] == 1}
+				<i class="z">午餐</i>
+				{elseif $seller['can'] == 2}
+				<i class="z">晚餐</i>
+				{/if}
+
+			</div>
+			<div class="ml_20 mt_10 c_999">
+				<em class="f_30">{$dingcan['price']}</em> 元 / 适合<em class="f_16">{$dingcan['num']}</em>人
+			</div>
+			<p class="ml_20 c_999 f_14">
+				{if $seller['yuding'] == 1}
+					免预约 随时退
+				{else}
+					需要预约
+				{/if}
+			</p>
+			<div class="ml_20 dingcan_right_shop mt_15">
+				<img src="__UP__/{$seller['img']}">
+				<h2 class="wrap f_16 c_333">{$seller['title']}</h2>
+				<div class="wrap  f_14 c_333">{$seller['tel']}</div>
+				<p class="wrap  f_14 c_333">{$seller['addr']}</p>
+			</div>
+			<div class="dingcan_right_btn ml_20">
+				<a class="z right_menu">菜单</a>
+				<a class="z" href="javascript:;"  onclick="order()">购买</a>
+			</div>
+		</div>
+	</div>
+	<div class="wp dingcan_view">
+		<h1 class="view_iB cl"><span><i></i>温馨提醒</span></h1>
+		<div class="cl">使用日期：{#date('Y-m-d',$dingcan['kaitime'])}-{#date('Y-m-d',$dingcan['endtime'])}<br/>
+		                {if $dingcan['yuyue']==1}
+		                请联系商家提前预约{/if}
+		                {if $dingcan['yuyue']==0}
+		                免预约{/if}<br/>
+		                消费高峰时可能需要等位<br/>
+		                团购用户不可同时享受商家其他优惠</div>
+		<h1 class="view_iC cl"><span><i></i>推荐理由</span></h1>
+		<div class="cl">视觉与味觉的双重享受<br/> 百余种美味的饕餮盛宴<br/>{$dingcan['content']}</div>
+		<h1 class="view_iD cl"><span><i></i>餐厅配置</span></h1>
+		<style>
+			.view_shop_tag ul li{
+				width:120px;
+				margin-top:10px;
+				text-align:center;
+			}
+		</style>
+		<div class="cl view_shop_tag">
+			<ul>
+				{if $seller['wifi'] == 1}
+				<li class="z">
+					<img src="__UP__/public/120233u045tb008tb75rr5.png"/>
+					<div>Wi-Fi</div>
+				</li>
+				{/if}
+				<!--<li class="z">
+					<img src="__UP__/120540xm9779pryjqdzrrp.png"/>
+					<div>有露天位</div>
+				</li>-->
+				{if $seller['park'] == 1}
+				<li class="z">
+					<img src="__UP__/public/120339tjb6gy2pyp3dw7y6.png"/>
+					<div>提供车位</div>
+				</li>
+				{/if}
+			</ul>
+		</div>
+		<h1 class="view_iA cl"><span><i></i>猜你喜欢</span></h1>
+		<div class="cl">
+			<ul class="dingcan_view_ul cl">
+				{foreach $like as $k=>$v}
+					<li class="z">
+						<a href="/dingcan/detail/id/{$v['id']}">
+							<span><img src="__UP__/{$v['img']}" class="yc_8 scale" height="190"></span>
+							<h3 class="wrap">{$v['title']}</h3>
+							<div class="wrap">￥<em class="f_30">{$v['price']}</em></div>
+						</a>
+					</li>
+				{/foreach}
+			</ul>
+		</div>
+	</div>
+	<div class="dingcan_meun">
+		<a href="javascript:;" class="iconfont">✖</a>
+		<div class="meun_mealpic"><img src="__UP__/{$dingcan['img']}"/></div>
+		<div class="meun_title"><span>MENU</span></div>
+		<div class="meun_mealcontent">
+			{$dingcan['menu'] nofilter}</div>
+	</div>
+	<div class="dingcan_meun_bg"></div>
+	<div id="fwin_order" class="fwinmask" style="display:none;">
+		<table cellpadding="0" cellspacing="0" class="fwin">
+			<tbody>
+
+			<tr><td class="m_l" style="cursor:move" >&nbsp;&nbsp;</td><td class="m_c" id="fwin_content_order" fwin="order"><h3 class="flb" id="fctrl_order" style="cursor: move;">
+		<em>{$seller['title']} {$seller['tel']}</em>
+	</h3>
+		<style>
+			.dingcan_goods>img{ width: 120px; float: left;}
+			.dingcan_goods>p{  line-height: 30px; font-size: 14px; float: left; margin-left: 10px; color: #333;}
+			.pre,.pre:focus,.pre,.pre:hover,.add,.add:focus,.add:hover,#input_people,#num{ line-height: 34px;height: 34px; width: 40px; display: block; text-align: center; font-size: 18px; color: #666; float: left;border-bottom: 1px solid #eaeaea;border: 1px solid #eaeaea;}
+			#input_people,#num{border-right:0; border-left:0; float: left; width: 60px; height: 34px; padding: 0; text-align: center; font-size: 16px; font-weight: 500;}
+		</style>
+		<form name="checkform" method="post" id="upform" action="/dingcan/order">
+
+
+			<input type="hidden" name="id" value="{$dingcan['id']}">
+			<div class="c refund-div">
+				<div class="dingcan_goods"><img src="__UP__/{$dingcan['img']}"><p>{$dingcan['title']}</p></div>
+				<table class="tfm">
+					<tbody>
+					<tr>
+						<th><strong class="rq y">*</strong><label >时间:</label></th>
+						<td>
+							<select id="day" name="day" onchange="change_hour();" fwin="order">
+								<option value="">---请选择---</option>
+								{foreach $time as $v}
+								<option value="{$v}">{$v}</option>
+								{/foreach}
+							</select>
+							<select id="hour" name="hour" fwin="order">
+								<option value="">---请选择---</option>
+							</select>
+						</td>
+					</tr>
+
+					<tr>
+						<th><strong class="rq y">*</strong><label >付款币种:</label></th>
+						<td>
+							<select id="coin" name="coin" >
+								<option value="">---请选择---</option>
+								{foreach $coinarr as $k => $v}
+									<option value="{$v['id']}">{$v['title']}/{$v['name']}</option>
+								{/foreach}
+							</select>
+						</td>
+					</tr>
+
+					<tr>
+						<th><label>购买数量:</label></th>
+						<td>
+							<a href="javascript:;" onclick="change_num('del');" class="pre">-</a>
+							<font id="num" fwin="order">1</font><input type="hidden" name="num" id="input_num" value="1" fwin="order">
+							<a href="javascript:;" onclick="change_num('add');" class="add">+</a>
+						</td>
+					</tr>
+
+					<script>
+						function change_num(option) {
+
+							var price = 220.00;
+
+							var num = parseInt(document.getElementById("num").innerHTML);
+
+							if(option == 'del' && num > 1) {
+								num = num - 1;
+							}
+							if(option == 'add') {
+								num = num + 1;
+							}
+
+							var total = parseFloat(num * price).toFixed(2);
+
+							document.getElementById("num").innerHTML = num;
+							document.getElementById("input_num").value = num;
+							document.getElementById("total").innerHTML = total;
+						}
+					</script>
+
+
+					<tr>
+						<th><label>购买人:</label></th>
+						<td>
+							<input type="text" name="name" id="name" class="px" value="">
+						</td>
+					</tr>
+					<tr>
+						<th><label>联系电话:</label></th>
+						<td>
+							<input type="text" name="tel" id="tel" class="px" value="">
+						</td>
+					</tr>
+					<tr>
+						<th><label>用餐人数:</label></th>
+						<td>
+							<input type="text" name="people"  class="px" value="">
+						</td>
+					</tr>
+					<tr>
+						<th><label>总价：</label></th>
+						<td><font id="total" fwin="order">220.00</font>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<p class="o pns">
+				<button type="button" class="pn pnc" onclick="up()"><strong>提交</strong></button>
+			</p>
+		</form>
+				<input type="hidden" name="user" value="{$user['username']}">
+		<script>
+
+			function up(){
+				var user=$('input[name="user"]').val();
+				if(user){
+					var day=$('#day').val();
+					var hour=$('#hour').val();
+					var coin=$('#coin').val();
+					var name=$('#name').val();
+					var tel=$('#tel').val();
+					if( day == '' || day == null){
+						layer.tips('请选择日期','#day',{tips:2});
+						return false;
+					}
+					if( hour == '' || hour == null){
+						layer.tips('请选择时间','#hour',{tips:2});
+						return false;
+					}
+					if( coin == '' || coin == null){
+						layer.tips('请选择币种','#coin',{tips:2});
+						return false;
+					}
+					if( name == '' || name == null){
+						layer.tips('请输入购买人','#name',{tips:2});
+						return false;
+					}
+					if( tel == '' || tel == null){
+						layer.tips('请输入电话','#tel',{tips:2});
+						return false;
+					}
+					$('#upform').submit();
+				}else{
+					loginpop();
+				}
+
+
+
+			}
+
+
+
+			function change_hour() {
+				var time2 = $("#day").find("option:selected").text();
+				time2='"'+time2+'"';
+
+				var select_time={};
+				select_time[time2]=["11:30","12:00","12:30","13:00","13:30","14:00","14:30","18:00","18:30","19:00","19:30","20:00"];;
+				var day = document.getElementById('day').value;
+
+				if(!day) {
+					document.getElementById('hour').innerHTML = '';
+				}
+
+				var option = '<option value="">---请选择---</option>';
+				for(var i = 0; i < select_time[time2].length; i++) {
+					option += '<option value="' + select_time[time2][i] + '">'+ select_time[time2][i] +'</option>';
+				}
+				document.getElementById('hour').innerHTML = option;
+			}
+
+		</script>
+			</td><td class="m_r" style="cursor:move" onmousedown="dragMenu($('fwin_order'), event, 1)" ondblclick="hideWindow('order')" "=""></td></tr><tr><td class="b_l"></td><td class="b_c" style="cursor:move" onmousedown="dragMenu($('fwin_order'), event, 1)" ondblclick="hideWindow('order')"></td><td class="b_r"></td></tr></tbody></table></div>
+	<script src="__HOME__/dingcan/js/pic_tab.js" type="text/javascript"></script>
+	<script type="text/javascript">
+
+		$('#demo1').banqh({
+			box: "#demo1",
+			pic: "#ban_pic1",
+			pnum: "#ban_num1",
+			prev: "#prev1",
+			next: "#next1",
+			autoplay: true,
+			interTime: 5000,
+			delayTime: 400,
+			order: 0,
+			picdire: true,
+			mindire: true,
+			min_picnum: 5,
+			pop_up: false
+		})
+		$(".right_menu").click(function () {
+			$(".dingcan_meun").animate({top: "50px"});
+			$(".dingcan_meun_bg").fadeIn();
+		})
+		$(".dingcan_meun>a").click(function () {
+			$(".dingcan_meun").animate({top: "-120%"});
+			$(".dingcan_meun_bg").fadeOut(2000);
+		})
+
+
+	</script>
+</div>
+
+<script>
+	function order(){
+		var user=$('input[name="user"]').val();
+		if(user) {
+			layer.open({
+				type: 1,
+				title: 0,
+				anim: 2,
+				area: ['580px', '573px'],
+				content: $('#fwin_order')
+
+			})
+		}else{
+			loginpop();
+		}
+	}
+
+
+</script>
+{include file="public:footer"}
+

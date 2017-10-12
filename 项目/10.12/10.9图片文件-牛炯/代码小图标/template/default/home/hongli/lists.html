@@ -1,0 +1,257 @@
+{include file="public:header"}
+<style>
+    .f_table td{
+        border-bottom:5px solid #EDEDED;
+        font-size:14px;
+    }
+    .f_table th{
+        border-bottom:3px solid #DEDBDB;
+        font-size:14px;
+    }
+    .content {
+        border-radius: 4px;
+        width: 600px;
+        border: 1px solid #7F7F7F;
+        /*position: absolute;*/
+        position: fixed;
+        left: 50%;
+        top: 300px;
+        margin-left: -285px;
+        box-shadow: 0 0 15px #7F7F7F;
+        background: #FFF;
+        padding-top: 10px;
+        /*padding-bottom: auto;*/
+        z-index: 1000;
+    }
+</style>
+<link rel="stylesheet" href="__CSS__/shop.css"/>
+<div class="autobox">
+	<div class="now">
+		<a href="/" class=""><i class="fa fa-home fa-lg move mr5"></i>{#lang('首页')}</a> &gt; <a href="{#url('hongli/index')}" class="">{#lang('增值计划')}</a> &gt; {#lang('计划列表')}
+	</div>
+	<div class=" assets_content bg_w" style="min-height:30px;">
+		<div class="safe_center clear">
+			<h1>
+					<span>
+						{#lang('增值计划')}
+					</span>
+	                <span>
+                        <a href="{#url('hongli/index')}" id="step11" class="step fz_12 ml50 pd6 active">{#lang('计划列表')}</a>
+                        <a href="{#url('hongli/log')}" id="step12" class="step fz_12 ml20 pd6">{#lang('个人中心')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+			</h1>
+		</div>
+		<div id="hints" class="mytips" style="display:none;">
+			<script>
+				var hints = "{$hints['show']}";
+				if(hints == 1){
+					$('#hints').show();
+				}
+			</script>
+			{$hints["value"] nofilter}
+		</div>
+	</div>
+	<div class="mall_list_all ">
+		<div class="mall_screen mt10 bg_w mb10">
+			<div class="mall_two_list mall_two_list1 clearfix" id="mall_types_list">
+				<em>计划分类：</em>
+				<ul class="clearfix">
+					{if $type=="0"}
+					<li class="active" style="width: 80px" >
+						{else}
+					<li style="width: 80px">
+						{/if} <a href="{#url('hongli/lists/type/0/sort/'.$sort)}">全部</a>
+					</li>
+					{if $hongli_type}
+					{foreach $hongli_type as $k => $v}
+                    {if $type==$v['id']}
+					<li class="active" style="width: 80px">
+						{else}
+					<li style="width: 80px">
+						{/if} <a href="{#url('hongli/lists/type/'.$v['id'].'/sort/'.$sort)}">{$v['type']}</a>
+					</li>
+					{/foreach}
+					{/if}
+                    
+				</ul>
+			</div>
+			<div class="mall_sort">
+                <em>计划排序：</em>
+				<ul id="sort_list" style="margin-left: 0px;">
+					{if $sort}
+					<li>
+						{else}
+					<li class="active">
+						{/if} <a href="{#url('hongli/lists/type/'.$type)}">综合排序<i class="fa fa-angle-down"></i></a></li>
+					{if $sort!="1"}
+					<li>
+						{else}
+					<li class="active">
+						{/if} <a href="{#url('hongli/lists/type/'.$type.'/sort/1')}">总量<i class="fa fa-angle-down"></i></a></li>
+					{if $sort!="2"}
+					<li>
+						{else}
+					<li class="active">
+						{/if} <a href="{#url('hongli/lists/type/'.$type.'/sort/2')}">周期<i class="fa fa-angle-down"></i></a></li>
+					<!--{if $sort!="3"}
+					<li>
+						{else}
+					<li class="active">
+						{/if} <a href="{#url('hongli/lists/type/'.$type.'/sort/3')}">日化利率<i class="fa fa-angle-down"></i></a></li>-->
+
+
+
+				</ul>
+			</div>
+		</div>
+
+        <div class="w1190 project " >
+            <table class="f_table" id="investLog_content" style="background-color: #ffffff">
+                <thead>
+                <tr>
+                    <th>{#lang('项目')}</th>
+                    <th>{#lang('融资金额')}</th>
+                    <th>{#lang('融资期限')}</th>
+                    <th>{#lang('预计收益率')}</th>
+                    <th>{#lang('收益币种')}</th>
+                    <th>{#lang('进度')}</th>
+                    <th>{#lang('操作')}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {foreach $pages["list"] as $k => $v}
+                <tr>
+                    <td>
+                        <a  style="color:#0092ce" onclick="showC('{$v['content']}')" href="javascript:void(0)" >
+                        <img src="__UP__/{$v['img']}" alt="" width="88" style="vertical-align: -10px;height:31px;">
+                                                                              {$v["name"]}{$v["qi"]}期</a>
+                    </td>
+                    <td>{$v['num']}   {#strtoupper($v["coinname"])}</td>
+                    <td>{$v["tian"]}天</td>
+                    <td>{$v['fee']}%</td>
+                    <td>{#strtoupper($v['feecoin'])}</td>
+                    <td>{#round($v['deal']/$v["num"]*100,2)}%</td>
+                    <td>
+                        <input type="button" class="btns"  style="width: 80px" onclick="showA(this);" data="{$v['id']}"   class="green" value="{#lang('立即购买')}">
+                    </td>
+                </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        </div>
+        <div class="pages">{$pages['show'] nofilter}</div>
+	</div>
+</div>
+<div class="all_mask_loginbox" id="step1" style="display: none; position: fixed;">
+    <div class="login_title pl20">购买增值计划</div>
+    <form id="form-login" class="mask_wrap login-fb">
+        <div class="login_text zin80">
+            <div class="mask_wrap_title" style="margin-left: -150px">剩余<span id="coinname"></span>:</div>
+            <input id="hongli_coin" class="texts" type="text" readonly>
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">购买数量：</div>
+            <input id="num" class="texts" type="text">
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">交易密码：</div>
+            <input id="paypassword" class="texts" type="password"><a href="/findpwd/paypassword" class="move ml5">忘记?</a>
+        </div>
+        <div class="login_button">
+            <input type="button" class="btns2" value="立即购买" onclick="buy();">
+        </div>
+    </form>
+    <div class="mask_wrap_close " onclick="showB()"><i class="fa fa-close fa-2x move"></i></div>
+</div>
+<div id="step2" class="all_mask" style="height: 0px;display: none;"></div>
+
+
+<div class="content" id="step3" style="display: none;">
+    <div class="login_title pl20">项目介绍</div>
+    <div class=" zin90 ml15" style="min-width: 580px;min-height: 250px;margin-right: 15px;overflow-y: scroll;">
+        <span id="plipala" style="font-size: 15px; text-align:center; margin-bottom: 20px"></span>
+    </div>
+    <div class="mask_wrap_close " onclick="showD()"><i class="fa fa-times fz_20 move" aria-hidden="true"></i></div>
+</div>
+<div id="step4" class="all_mask" style="height: 0px;display: none;"></div>
+
+<script type="text/javascript">
+    function showC() {
+        var back = arguments[0];
+        $("#plipala").html(back);
+        $("#step3").show();
+        $("#step4").show();
+    }
+    function showD() {
+        $("#step3").hide();
+        $("#step4").hide();
+    }
+
+    var eleID = 0;
+    function showA(o) {
+        var id = $(o).attr("data");
+        eleID = id;
+        $.post("{#url('hongli/get_info')}", {
+            id: id,
+        }, function (data) {
+            if (data.status == 1) {
+                $("#hongli_coin").val(data.url.coinnum);
+                $("#coinname").html(data.url.coin);
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+        $("#step1").show();
+        $("#step2").show();
+    }
+    function showB() {
+        $("#step1").hide();
+        $("#step2").hide();
+    }
+
+    //购买奖券
+    function buy() {
+        var num        = $('#num').val();
+        var paypassword = $('#paypassword').val();
+        if (num == "" || num == null) {
+            layer.tips('请输入购买数量', '#num', {tips: 2});
+            return false;
+        }
+        if (paypassword == "" || paypassword == null) {
+            layer.tips('请输入交易密码', '#paypassword', {tips: 2});
+            return false;
+        }
+        $.post("{#url('hongli/up')}", {
+            id: eleID,
+            num:num,
+            paypassword: paypassword,
+            token:'{$token}'
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                setTimeout('location.reload()',1000);
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+</script>
+<script>
+	if ($("#hongli_box").length > 0) {
+		$('#hongli_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

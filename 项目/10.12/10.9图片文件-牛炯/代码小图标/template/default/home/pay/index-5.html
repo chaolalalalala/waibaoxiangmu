@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="renderer" content="webkit">
+	<meta name="format-detection" content="telephone=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>{$config['web_title']}</title>
+	<meta name="Keywords" content="{$config['web_keywords']}">
+	<meta name="Description" content="{$config['web_description']}">
+	<meta name="author" content="bihuo168.com">
+	<meta name="coprright" content="bihuo168.com">
+	<link rel="shortcut icon" href="/favicon.ico"/>
+	<link rel="stylesheet" href="__EXT__/Font-Awesome-4.4.0/css/font-awesome.min.css">
+	<!--[if IE 7]>
+	<link rel="stylesheet" href="__EXT__/Font-Awesome-4.4.0/css/font-awesome-ie7.min.css">    <![endif]-->
+	<!--<link rel="stylesheet" href="__CSS__/{$theme}.css"/>-->
+	<!---->
+	<!---->
+	<link rel="stylesheet" href="__CSS__/common.css"/>
+	<link rel="stylesheet" href="__CSS__/style.css"/>
+	<script type="text/javascript" src="__EXT__/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+	<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+	<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+	<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+</head>
+<!--[if lt IE 10]>
+<div id="kie-bar" class="kie-bar">
+	{#lang('您现在使用的浏览器版本过低，可能会导致浏览效果和信息的缺失。 建议立即升级到')}
+	<a href="http://rj.baidu.com/soft/detail/14917.html" target="_blank" title="{#lang('免费升级至IE8浏览器')}">IE 10+</a> {#lang('或')}
+	<a href="http://rj.baidu.com/soft/detail/14744.html" target="_blank" title="{#lang('免费升级至360安全浏览器')}">{#lang('谷歌浏览器')}</a> {#lang('或')}
+	<a href="http://rj.baidu.com/soft/detail/17451.html" target="_blank" title="{#lang('免费升级至360安全浏览器')}">{#lang('360安全浏览器')}</a> ，{#lang('安全更放心')}！
+</div><![endif]-->
+<style>
+.deposit-info-title{width:90%;margin:0 auto;padding-bottom:10px;border-bottom:1px dotted #DEDEDE;text-align:center;font-size:24px;color:#E55600;font-weight:400;margin-top:20px}
+.cuntips{width:77%;margin:20px auto;color:#E55600;font-size:14px}
+.cuntips span{color:#E55600}
+.doubles input{font-size:12px;padding:9px 8px;width:100px;border:1px solid #D5D5D5;height:14px}
+.zxc{width:205px;height:200px;overflow:scroll}
+.zxc li{cursor:pointer;float:left;text-align:left;width:205px;overflow:hidden;background-color:#FFF;border:1px solid transparent;padding:5px 12px;margin-bottom:0!important;height:42px;box-sizing:border-box}
+.zxc li:hover{background-color:#EEE}
+.blankRemittance ul li{min-height:35px;line-height:35px;margin-bottom:10px}
+.blankRemittance ul li.tipps{line-height:25px;margin-bottom:15px}
+.blankRemittance ul li.safetyTips{line-height:25px}
+.blankRemittance ul li span.cc1{font-size:14px}
+.blankRemittance ul li span.cc1{display:inline-block;text-align:right;width:145px}
+.displayBankNumberNew{position:absolute;left:169px;top:58px;z-index:3;background:#FFFFE4;height:25px;line-height:25px;border:1px solid #E4E4E4;font-weight:600;font-size:16px;min-width:199px;max-width:250px;overflow:hidden}
+.blankRemittance ul li span.cc2{display:inline-block;font-size:14px;font-weight:700;padding-left:20px;text-align:left}
+.button-main2{border-radius:3px;margin-top:0;background:#AA5800;border:#AA5800 solid 1px;height:35px;line-height:35px;color:#FFF;padding:0 15px;cursor:pointer;display:inline-block;font-size:14px;margin-bottom:20px}
+.online_pay .text{color:#333}
+.blankRemittance ul li span.care{display:inline-block;font-size:14px;padding-left:20px;text-align:left;width:360px;color:#767676}
+.blankRemittance ul li span.safe{display:inline-block;background:#FFFCF0;font-size:12px;margin-left:14px;padding:10px;text-align:left;width:480px;color:#767676}
+.blankRemittance ul li span input.blankInformation{height:25px;width:185px;padding-left:10px;border:1px solid #D5D5D5}
+.mana-app-table{padding-left:0}
+.naka{width:200px!important}
+input.naka{padding-left:5px;font-size:14px}
+.mana-app-table.info tr td:first-child{text-align:right;padding-right:10px}
+.mana-app-table.info tr td{height:36px;line-height:28px;font-size:14px; border:1px solid #ccc;}
+
+.mana-app-table1.info tr td{height:36px;line-height:28px;font-size:14px; border:1px solid #ccc; text-align:center;}
+.mana-app-table2.info tr td{height:36px;line-height:28px;font-size:14px; }
+#right_cny{color:red}
+.mana-app-table tr td:first-child{text-align:right}
+.lighttips{background-color:#FFFCF0;margin-top:5px;width:90%;margin:10px auto;height:36px;line-height:36px;padding-left:10px;color:#333;font-size:14px}
+.lighttips a{color:#E55600}
+.blankRemittance ul li{min-height:35px;line-height:35px;margin-bottom:10px}
+.blankRemittance ul li.tipps{line-height:25px;margin-bottom:15px}
+.blankRemittance ul li.safetyTips{line-height:25px}
+.blankRemittance ul li span.cc1{font-size:14px}
+.blankRemittance ul li span.cc1{display:inline-block;text-align:right;width:145px}
+.displayBankNumberNew{position:absolute;left:169px;top:58px;z-index:3;background:#FFFFE4;height:25px;line-height:25px;border:1px solid #E4E4E4;font-weight:600;font-size:16px;min-width:180px;max-width:250px;overflow:hidden}
+.blankRemittance ul li span.cc2{display:inline-block;font-size:14px;font-weight:700;padding-left:20px;text-align:left}
+.button-main2{text-decoration:none!important;margin-top:0;background:#E55600;border:#E55600 solid 1px;height:35px;line-height:35px;color:#FFF;padding:0 15px;cursor:pointer;display:inline-block;font-size:14px;margin-bottom:20px}
+.online_pay .text{color:#333}
+.blankRemittance ul li span.care{display:inline-block;font-size:14px;padding-left:20px;text-align:left;width:360px;color:#767676}
+.dialog_body .connphone li span.cc1{display:inline-block;text-align:right;color:#434A54;width:100px;text-align:left;font-size:12px}
+.dialog_body .connphone li.exampleTips{margin-top:15px;padding:17px}
+.dialog_body .connphone li.exampleTips div{background:#F5F5F5;padding:10px;width:396px;display:inline-block;height:162px}
+.dialog_body .connphone li.exampleTips div p{display:inline-block;height:28px;line-height:28px;margin-top:20px}
+.dialog_body .connphone li.exampleTips div span{height:26px;line-height:28px;display:inline-block;margin:0 5px}
+.dialog_body .connphone li.exampleTips div span.spanInput{background:#FFF;text-align:right;width:148px;padding-right:10px}
+.dialog_body .connphone li.exampleTips div span.spanInput.true{border:1px solid #CCC}
+.dialog_body .connphone li.exampleTips div span.spanInput.error{border:1px solid red}
+.dialog_body .connphone li.exampleTips div img{vertical-align:middle;margin:0 10px 3px}
+.blankRemittance ul li span input.blankInformation{height:25px;width:185px;padding-left:10px;border:1px solid #D5D5D5}
+.dialog_content{display:none;position:absolute;width:666px;z-index:2001;color:#333;background:none repeat scroll 0 0 #FFF;box-shadow:3px -3px 12px #636363}
+.dialog_title{width:100%;height:36px;line-height:36px;padding-left:10px;box-sizing:border-box;font-size:14px;border-bottom:1px solid #E6E6E6;font-weight:700;background-color:#F6F6F9}
+.dialog_body{background:none repeat scroll 0 0 #FFF;overflow:hidden}
+.center{text-align:center}
+.dialog_body .connphone{border-bottom:1px dotted #DEDEDE;padding:5px 0 20px;margin:0 auto;width:90%;margin-top:20px}
+.dialog_body .connphone li{margin-left:100px;padding:6px 30px;text-align:left}
+.dialog_body .connphone li span.cc1{display:inline-block;text-align:right;color:#434A54;width:100px;text-align:left;font-size:14px}
+.dialog_content.modal-out{opacity:0;z-index:1109;-webkit-transition-duration:.3s;transition-duration:.3s;-webkit-transform:translate3d(0,0,0) scale(.815);transform:translate3d(0,0,0) scale(.815)}
+.red{color:red;font-style:normal!important}
+.dialog_closed{position:relative;float:right;font-size:28px;text-decoration:none!important;font-weight:400;margin:0 13px 5px 5px;display:inline-block;width:20px;height:20px;color:#3F3D4D}
+.exampleTips-card{border-radius:4px;min-height:150px;vertical-align:middle}
+.exampleTips-card.correct{background-color:#34CD75;color:#FFF}
+.exampleTips-card.wrong{background-color:#D11222;display:inline-block}
+.exampleTips-card>span{display:block;text-align:center;color:#FFF}
+.exampleTips-card>span>em{background-color:#FFF;width:90%;padding:5px 0;margin:15px auto 30px auto;display:block;border-radius:4px;color:#333;font-style:normal!important}
+.exampleTips-card>span>img{vertical-align:middle;margin-right:10px}
+.exampleTips>span{display:inline-block;width:28%;vertical-align:middle;margin-left:2%}
+.exampleTips .iyou{color:#3F3D4D;padding:8px;width:37%;box-sizing:border-box;text-indent:2em;margin-left:0;line-height:2}
+#form-cnyin input{font-size:12px;padding:12px 8px;width:300px;line-height:39px;border:1px solid #D5D5D5;height:14px}
+#quick-searchdiv{top:33px;left:169px;background-color:#FFF;list-style:none;margin:0;padding:0;width:180px;display:none;margin-top:1px;min-height:0;text-align:left;z-index:999;position:absolute;bottom:10px}
+#quick-searchdiv ul li{width:178px;overflow:hidden;white-space:nowrap;background-color:#FFF;font-family:"Open Sans","Helvetica Neue",Helvetica,sans-serif;margin:0;padding:0;font-variant:normal;color:#000}
+#quick-searchdiv ul{border:1px solid #EAEAEA}
+#quick-searchdiv ul li a{font-size:12px;border-bottom:1px solid #F7F7F7;color:#000;display:block;margin:0;padding:0 8px;text-decoration:none;min-height:20px}
+#quick-searchdiv ul li a:hover{background:#FFFCF0;border-bottom:1px solid #FFFCF0}
+#quick-searchdiv ul li.selected{background-color:#FFFCF0}
+.arrow-down{position:absolute;top:18px;right:-3px;width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid #E55600}
+.banlist-sele{padding-bottom:5px;width:100%;overflow:hidden}
+.banlist-sele li{height:24px;padding:5px 0;padding-left:5px;width:100%;margin-bottom:0!important}
+.banlist-sele li:hover{background-color:#F7F7F7}
+.banlist-sele li.grey:hover{background-color:#FFF}
+#selectedbank{position:absolute;top:0;left:25px}
+.selectbanklist{display:none;position:absolute;top:39px;background-color:#FFF;border:1px solid #e1e1e1;width:317px;box-sizing:border-box}
+.pay_code{width:130px;float:left;text-align:center}
+.pay_code button{width:60px;height:25px;border-radius:3px;background:#E55600;border:none;color:#FFF;margin-top:10px}
+.pay_con{padding:10px 20px;font-size:14px}
+.pay_con span{display:block;float:left}
+.pay_con_r{display:inline-block;float:left;padding-left:38px}
+.pay_con_r p{font-size:12px;line-height:24px}
+.huisedj {color:#C7C4C4;}  
+</style>
+<body>
+<div class="wrapper" style="    width: 699px;    margin-top: 0px;    margin: inherit;">
+	<div id="dialog_ali" class="mana-app styled-pane" style="width: 699px; overflow: visible; display: block;   position: fixed;">
+		<div class="mana-app-title" style="line-height: 34px;"> {$cnyin_type.title}    &nbsp;  | &nbsp; 订单状态:
+		<span id="wait" style="color:#E55600;">
+				{if $cnyin['status'] == 0}
+					({#lang('未付款')})  &nbsp; &nbsp;  <a data="{$cnyin['id']}" data-action="{$cnyin['type']}"  href="javascript:void(0)" onclick="cnyin_huikuan(this)" class="btns2 mt10">{#lang('我要加急')}</a>
+				{else if $cnyin['status'] == 1}
+					({#lang('充值成功')})
+				{else if $cnyin['status'] == 2}
+					({#lang('已入账')})
+				{else if $cnyin['status'] == 3}
+					({#lang('会员催单中')})
+				{else}
+					({#lang('异常')})
+				{/if}
+			</span>
+		</div>
+		<div class="lighttips">{$cnyin_type.remark}</div>
+
+
+
+{if $cnyin.type == "bank"}
+<form style="padding-left: 40px;padding-top: 0px;width: 699px;float: left;">
+
+<table class="mana-app-table1 info" style="width: 95%; padding-top:0; ">
+<tbody>
+<tr>
+<td width=40>类型</td> 
+<td width=155>{#lang('收款人/开户姓名')}</td>
+<td width=199>{#lang('银行账号')}</td>
+<td width=170>{#lang('开户银行/地址')}</td>
+<td width=65>{#lang('入账时间')}</td>
+</tr>
+<tr>
+<td class="huisedj"><!--开户类型-->企业</td>
+<td class="huisedj"><!--收款人-->{$cnyin_type.truename}</td>
+<td class="huisedj"><!--银行账号-->{$cnyin_type.username}</td>
+<td class="huisedj"><!--开户地址-->{$cnyin_type.value}</td>
+<td class="huisedj"><!--入账时间--><font style="color:#E55600;"><b>40</b> 分钟</font></td>
+</tr>
+<tr>
+<td><!--开户类型--><b>法人</b></td>
+<td><!--收款人--><b>谢忠强</b></td>
+<td><!--银行账号--><b>6228 4834 7878 7355 572</b></td>
+<td><!--开户地址--><b>农业银行(江西省赣州市)</b></td>
+<td><!--入账时间--><font style="color:#E55600;"><b>2 秒钟</b></font></td>
+</tr>
+</tbody></table> 
+
+
+<table class="mana-app-table2 info" style="width: 95%; margin-top:20px; ">
+<tr>
+<td width=609 style="text-align:left;"><span style="padding-left:20px;">{#lang('转账金额')}：<b id="right_cny" style="color:#E55600">{$cnyin.num}</b>&nbsp;({$cnyin.num}元，建议转到法人农业银行卡号 自动秒到，企业账号无法秒到)</span></td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td width=609 style="text-align:left;"><span style="padding-left:20px;">{#lang('付款姓名')}：<b style="color:#E55600; font-weight:bold;">{$cnyin.truename}</b> &nbsp;(请用"{$cnyin.truename}"的卡付款 否则无法到账)</span></td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td width=609 style="text-align:left;"><span style="padding-left:20px;">{#lang('备注附言')}：
+<em class="cnyin_msg" style="color:#E55600;font-style:normal;font-weight: bold;">{$id}</em> <font style="color:green; font-weight: bold;">(必填，否则无法到账)</font></span></td>
+<td>&nbsp;</td>
+</tr>
+</tbody></table>
+
+</form>
+
+{else}
+<form style="padding-left: 40px;padding-top: 0px;width: 380px;float: left;">
+<table class="mana-app-table info" style="width: 90%;padding-top:0;">
+<tbody>
+<tr><td width="90">{#lang('官方账号')}：</td><td>&nbsp;{$cnyin_type.username}</td></tr>
+<tr><td>{#lang('开户名称')}：</td><td>&nbsp;{$cnyin_type.truename}</td></tr>
+<tr><td>{#lang('开户地址')}：</td><td>&nbsp;{$cnyin_type.value}</td></tr>
+<tr><td>{#lang('支付金额')}：</td><td><b id="right_cny" style="color:#E55600">&nbsp;{$cnyin.num}</b></td></tr>
+<tr><td>{#lang('实名转账')}：</td><td><b style="color:#E55600">&nbsp;{$cnyin.truename}</b></td></tr>
+<tr><td>{#lang('备注/附言')}：</td>
+<td>&nbsp;<em class="cnyin_msg" style="color:#E55600; font-style:normal; font-weight:bold;">{$id}</em> <font style="color:green; font-weight: bold;">(必填，否则无法到账)</font></td>
+</tr>
+</tbody></table></form>
+{/if}
+
+
+<!--
+{if $cnyin['status'] == 0}
+<tr>
+<td>&nbsp;</td>
+<td><a data="{$cnyin['id']}" data-action="{$cnyin['type']}"  href="javascript:void(0)" onclick="cnyin_huikuan(this)" class="btns2 mt10">{#lang('转完确认')}</a></td>
+<td>&nbsp;</td>
+</tr>
+</tbody></table></form>
+{else}
+</tbody></table></form>
+{/if}
+-->
+
+
+
+		{if $cnyin_type['code']}
+		<div class="pay_code">
+			<img src="__UP__/{$cnyin_type['code']}" width="130">
+			<p style="font-size: 14px; margin-top: 8px;">{#lang('官网收款二维码')}</p>
+			<p style="font-size: 14px; line-height: 30px;">{#lang('扫描二维码进行付款')}</p>
+			{if $cnyin['status'] == 0} {if $cnyin_type['type'] != 'pay'}
+			<a type="button" class="btns" href="/pay/{$cnyin_type['type']}" style="width: 100px;padding: 3px 20px;" target="_blank"> {#lang('去付款')} </a> {/if} {/if}
+		</div>
+		{else}
+
+		<div class="pay_code">
+			{if $cnyin['status'] == 0} {if $cnyin_type['type'] != 'pay'}
+			<a type="button" class="btns" href="/pay/{$cnyin_type['type']}" style="width: 100px;padding: 3px 20px;" target="_blank"> {#lang('去付款')} </a> {/if} {/if}
+		</div>
+
+		{/if}
+
+		<div style="clear: both"></div>
+		<div class="pay_con">
+			<span></span>
+			<div class="pay_con_r">
+				<p>{#lang('转账请在【备注/附言】：输入')} <em class="cnyin_msg" style="font-weight: bold;color:#E55600;font-style:normal;color:#E55600;">{$cnyin.tradeno}</em>
+				<font style="color:green;"> &nbsp;  请认真填写，一字不差，否则无法到账！</font>
+					<br>
+<!--{$cnyin_type.shuoming}-->
+如何填写【备注/附言】：支付宝手机版转账输入金额时会看到(添加备注)，支付宝PC网页版转账(付款说明);<br>
+微信转账(添加转账说明)，电脑网银和手机网银APP转账(备注/附言);  <br>
+入账时间说明：币火机器人自动为会员入帐，支付宝/微信(2秒)、转账到法人卡号(2秒入账)、<br>
+转账到企业公司名账号(40分钟内到)，后续会开发支持信用卡付款。
+
+				</p>
+				<br> <br> <br>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function cnyin_huikuan(_this) {
+		var id = $(_this).attr('data');
+		var type = $(_this).attr('data-action');
+		var ty = "{$ty}";
+
+		if(type == 'tenpay'){
+			layer.config({
+				extend: 'extend/layer.ext.js'
+			});
+			layer.ready(function () {
+				//默认prompt
+				layer.prompt({
+					title: "{#lang('输入充值成功订单后4位，并确认')}",
+					formType: 0
+				}, function (val) {
+					if (val) {
+
+
+						$.post("{#url('finan/pay_huikuan')}", {id: id,type:type, remark: val}, function (data) {
+							if (data.status == 1) {
+								layer.msg(data.info, {icon: 1});
+								if (ty) {
+									$.cookies.set('step', 2);
+									//parent.location = "{#url('finan/pay')}";
+									parent.location = '/u/asset/payin_cny.jsp';
+								} else {
+									parent.location.reload();
+								}
+							} else {
+								layer.msg(data.info, {icon: 2});
+							}
+						}, "json");
+
+
+
+					}
+					;
+				});
+			});
+
+
+
+		}else {
+
+			$.post("{#url('finan/pay_huikuan')}", {id: id}, function (data) {
+				if (data.status == 1) {
+					layer.msg(data.info, {icon: 1});
+					if (ty) {
+						$.cookies.set('step', 2);
+						//parent.location = "{#url('finan/pay')}";
+						parent.location = '/u/asset/payin_cny.jsp';
+					} else {
+						parent.location.reload();
+					}
+				} else {
+					layer.msg(data.info, {icon: 2});
+				}
+			}, "json");
+
+		}
+
+
+
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<link rel="stylesheet" href="__CSS__/lrtk.css"/></head>
+
+<div id="leftsead">
+    <ul>
+        {if $config['contact_weixin']}
+        <li>
+            <a href="/" target="_blank">
+                <div class="hides" style="width:101px;display:none;" id="qq">
+                    <div class="hides" id="p1">
+                        <img src="__UP__/{$config['contact_weixin']}" width="150">
+                    </div>
+                    <div class="hides" id="p2" style="    margin-left: 20px;background-color: #67076f;    border: 1px solid #67076f;">
+                        <span style="color:#FFF;font-size:13px">微信</span>
+                    </div>
+                </div>
+                <img src="__IMG__/kefu/l02.png" width="47" height="49" class="shows"/> </a>
+        </li>
+        {/if}
+
+        {foreach $config['contact_qq'] as $k => $v}
+        <li>
+            <a href="http://wpa.qq.com/msgrd?v=3&amp;uin={$v}&amp;site=qq&amp;menu=yes" target="_blank">
+                <div class="hides" style="width:161px;display:none;" id="qq">
+                    <div class="hides" id="p1">
+                        <img src="__IMG__/kefu/ll04.png">
+                    </div>
+                    <div class="hides" id="p2"><span style="color:#FFF;font-size:13px">{$v}</span>
+                    </div>
+                </div>
+                <img src="__IMG__/kefu/l04.png" width="47" height="49" class="shows"/> </a>
+        </li>
+        {/foreach} {foreach $config['contact_qqun'] as $k => $v}
+        <li>
+            <a href="javascript:void(0)" target="_blank">
+                <div class="hides" style="width:161px;display:none;" id="qq">
+                    <div class="hides" id="p1">
+                        <img src="__IMG__/kefu/ll03.png">
+                    </div>
+                    <div class="hides" id="p4"><span style="color:#FFF;font-size:13px">{$v}</span>
+                    </div>
+                </div>
+                <img src="__IMG__/kefu/l03.png" width="47" height="49" class="shows"/> </a>
+        </li>
+        {/foreach} {foreach $config['contact_moble'] as $k => $v}
+        <li id="tel">
+            <a href="javascript:void(0)">
+                <div class="hides" style="width:161px;display:none;" id="tels">
+                    <div class="hides" id="p1">
+                        <img src="__IMG__/kefu/ll05.png">
+                    </div>
+                    <div class="hides" id="p3"><span style="color:#FFF;font-size:12px">{$v}</span>
+                    </div>
+                </div>
+                <img src="__IMG__/kefu/l05.png" width="47" height="49" class="shows"/> </a>
+        </li>
+        {/foreach}
+        <li id="btn">
+            <a id="top_btn">
+                <div class="hides" style="width:161px;display:none">
+                    <img src="__IMG__/kefu/ll06.png" width="161" height="49"/>
+                </div>
+                <img src="__IMG__/kefu/l06.png" width="47" height="49" class="shows"/> </a>
+        </li>
+    </ul>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#leftsead a").hover(function () {
+            if ($(this).prop("className") == "youhui") {
+                $(this).children("img.hides").show();
+            } else {
+                $(this).children("div.hides").show();
+                $(this).children("img.shows").hide();
+                $(this).children("div.hides").animate({marginRight: '0px'}, '0');
+            }
+        }, function () {
+            if ($(this).prop("className") == "youhui") {
+                $(this).children("img.hides").hide();
+            } else {
+                $(this).children("div.hides").animate({marginRight: '-163px'}, 0, function () {
+                    $(this).hide();
+                    $(this).next("img.shows").show();
+                });
+            }
+        });
+
+        $("#top_btn").click(function () {
+            if (scroll == "off") return;
+            $("html,body").animate({scrollTop: 0}, 600);
+        });
+
+
+    });
+</script>

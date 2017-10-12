@@ -1,0 +1,210 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/common.css">
+</head>
+<style>
+    .my_body{
+        margin: 20px;
+        border-radius: 8px;
+        padding: 0 10px;
+        line-height: 30px;
+    }
+    .my_body ul,.my_title ul{
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 10px;
+        list-style: none;
+    }
+    .my_body li{
+        margin: 0.5rem 0;
+        display: -webkit-box;
+    }
+    .my_body li input{
+        display: block;
+        -webkit-box-flex: 1;
+        background-color: white;
+        outline: none;
+        color: #6d6e71;
+        height: 2.2rem;
+	    padding-left:1rem;
+    }
+    .btn{
+        display: block;
+        color: #FFFFFF;
+        margin: 0 30px;
+        text-align: center;
+        height: 2.2rem;
+        line-height: 2.2rem;
+        background-color: #e55600;
+    }
+    .plus img{
+        height: 2rem;
+        margin-top: 1rem;
+    }
+    .notice{
+        margin: 20px;
+        padding: 0 10px;
+        line-height: 30px;
+    }
+    .notice span{
+        height: 2rem;
+        line-height: 2rem;
+        color: #5f5e5e;
+    }
+    .btn-very{
+        height: 2.2rem;
+        background-color: green;
+        line-height: 2.2rem;
+        padding: 0.65rem 1rem;
+        text-align: center;
+        color: #FFFFFF;
+    }
+    .hideElement {
+        display: none;
+    }
+</style>
+<body>
+<div class="wrap">
+    <div id="show1">
+        <div class="my_body" id="mobile_cont">
+            <ul  class="trblBor" id="old_mobile">
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="moble" id="moble"
+                           type="text" value="" readonly>
+                </li>
+            </ul>
+
+            <ul  class="trblBor hideElement"  id="now_mobile">
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="new_moble" id="mobile"
+                           type="text" placeholder="输入新手机号">
+                </li>
+            </ul>
+            <ul  class="trblBor">
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="verify_code" id="verify_code"
+                           type="text" placeholder="输入验证码">
+                    <span id="send_code" class="btn-very" tapmod="" onclick="send_code()">获取验证码</span>
+                </li>
+            </ul>
+        </div>
+        <div  id="old_mobile_submit" class="btn" tapmode="" onclick="checkOldMobile()">验证旧手机</div>
+        <div  id="now_mobile_submit" class="btn hideElement" tapmode="" onclick="submit()">提交</div>
+        <div  class="notice">
+            <ul>
+                <li>
+                    <span>注册须知:</span>
+                    <span id="withdraw_notice">
+                        1.注册点击下一步,即表明您同意本[注册协议]<br>
+                        2.请务必设置复杂度较高的密码作为登录密码,确保您后续资金财产安全<br>
+                        3.投资有风险,入市需谨慎,请量力而行<br>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript">
+	var auth_code;
+    apiready = function(){
+        onerror = error_handel;
+	    $('#moble').val(iv('mobile'));
+    }
+
+    function checkOldMobile (){
+        loading();
+        var verify_code = $('#verify_code').val();
+        UserAjax('user/old_moble_up','get',
+                {
+                    'code':verify_code,
+                },
+                function(ret){
+                    toast.hide();
+                    if(ret.status == 1){
+                        alog(ret);
+                        auth_code = ret.info.auth_code;
+                        alog("授权码auth_code:"+auth_code);
+                        $('#now_mobile').removeClass('hideElement');
+                        $('#now_mobile_submit').removeClass('hideElement');
+                        $('#old_mobile').addClass('hideElement');
+                        $('#old_mobile_submit').addClass('hideElement');
+                        $('#verify_code').val('');
+                        toast.success({
+                            title:"旧手机验证成功,接下来请验证新手机",
+                            duration:3000
+                        });
+                    }else{
+                        art(ret.info);
+                    }
+                });
+    }
+
+    function submit(){
+        var new_moble = $('#mobile').val();
+        var verify_code = $('#verify_code').val();
+        if(!new_moble){
+            alert('请输入新手机号');
+            return;
+        }
+        if(!verify_code){
+            alert('输入手机验证码');
+            return;
+        }
+        loading('提交中');
+        UserAjax('user/new_moble_up','get',
+                {
+                    'moble':new_moble,
+                    'auth_code':auth_code,
+                    'code':verify_code
+                },
+                function(ret){
+                    toast.hide();
+                    alog(ret);
+                    if(ret.status == 1){
+                        art(ret.info);
+                        setTimeout("back();",2000);
+                    }else{
+                        art(ret.info);
+                    }
+                });
+    }
+
+    function send_code(){
+        if( $('#now_mobile').hasClass('hideElement') )
+        {
+            //验证旧手机
+            createRequestVerifyView('/user/change_old_moble');
+        }else {
+            //验证新手机
+            createRequestVerifyView('/user/change_new_moble');
+        }
+    }
+
+    ///////////////////倒计时//////////////////////////
+    var timer_lock = 0;
+    var countdown = 60;
+    var timerID;
+    function settime(obj) {
+        if (countdown == 0) {
+            obj.css({'background-color':'green'});
+            obj.html("免费获取验证码");
+            clearTimeout(timerID);
+            timer_lock = 0;
+            countdown = 60;
+        } else {
+            timer_lock = 1;
+            obj.css({'background-color':'gray'});
+            obj.html("重新发送(" + countdown + ")");
+            countdown--;
+            timerID = setTimeout(function() {
+                settime(obj)
+            }, 1000)
+        }
+    }
+    ///////////////////倒计时//////////////////////////
+</script>
+</html>

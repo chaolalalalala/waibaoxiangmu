@@ -1,0 +1,624 @@
+{include file="public:header"}
+<title>交易</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<!--<link type="text/css" rel="stylesheet" href="__WAP__/css/common.css">-->
+</head>
+<style>
+    .wrap {
+        min-height: 300px;
+        margin-bottom: 10px;
+    }
+
+    .index-block ul {
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 10px;
+        list-style: none;
+        background-color: #313840;
+        /*border: 1px solid #545353;*/
+        /*-moz-border-radius: 3px;      !* Gecko browsers *!*/
+        /*-webkit-border-radius: 3px;   !* Webkit browsers *!*/
+        /*border-radius:3px;            !* W3C syntax *!*/
+    }
+
+    .index-block li {
+        position: relative;
+        overflow: hidden;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+        -webkit-touch-callout: none;
+        color: #ffffff;
+    }
+
+    .index-block li img {
+        width: 15px;
+        height: 15px;
+        margin: -20px 0 0 10px;
+        vertical-align: middle;
+        line-height: 30px;
+    }
+
+    .index-block li span {
+        height: 30px;
+        padding: 0;
+        line-height: 30px;
+        color: #484848;
+    }
+
+    .index-block-coin .coin-title {
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        list-style: none;
+        background-color: #313840;
+        /*border: 1px solid #545353;*/
+    }
+
+    .index-block-coin .coin-title span {
+        height: 30px;
+        padding: 0;
+        line-height: 30px;
+        color: #484848;
+    }
+
+    .index-block-coin .coin-title .l img {
+        width: 20px;
+        height: 20px;
+        margin: -5px 5px 0 10px;
+        vertical-align: middle;
+        line-height: 30px;
+    }
+
+    .index-block-coin .coin-title .r {
+        float: right;
+        margin-right: 10px;
+    }
+
+    .index-block-coin .coin-title .r img {
+        height: 15px;
+        margin: -20px 0 0 10px;
+        vertical-align: middle;
+        line-height: 30px;
+    }
+
+    .index-block-coin .coin-title li {
+        position: relative;
+        overflow: hidden;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+        -webkit-touch-callout: none;
+        color: #ffffff;
+    }
+
+    .index-block-coin .coin-block-wrap {
+        /*border-left: 1px solid #545353;*/
+        /*border-right: 1px solid #545353;*/
+        /*border-bottom: 1px solid #545353;*/
+    }
+
+    .index-block-coin .coin-block-wrap-h {
+        height: 20px;
+        padding: 5px 0;
+    }
+
+    .index-block-coin .new-price {
+        color: #484848;
+        font-size: 20px;
+        font-weight: bold;
+        margin-left: 10px;
+        line-height: 20px;
+        height: 20px;
+    }
+
+    .index-block-coin .new-change {
+        float: right;
+        line-height: 20px;
+        height: 20px;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+    .color-r {
+        color: red;
+    }
+
+    .color-g {
+        color: green;
+    }
+
+    .index-block-coin .coin-block-body {
+        /*background-color: green;*/
+        /*height: 30px;*/
+    }
+
+    .index-block-coin .coin-block-body table {
+        /*background-color: red;*/
+        height: 30px;
+        width: 100%;
+        color: #656B65;
+    }
+
+    .index-block-coin .coin-block-body tr {
+        height: 20px;
+    }
+
+    .coin-block-body td {
+        width: 25%;
+    }
+
+
+    .index-trade span {
+        /* display: none; */
+        float: left;
+        width: 33%;
+        line-height: 30px;
+        text-align: center;
+        height: 30px;
+        color: #484848;
+    }
+
+
+    .hide {
+        display: none;
+    }
+
+    .trade_block {
+        /*margin: 0 10px;*/
+        margin-bottom: 5px;
+        position: relative;
+        /*border: 1px solid #56595D;*/
+        background-color: #ffffff;
+    }
+
+    .trade_block table {
+        width: 100%;
+    }
+
+    .trade_block table tr {
+        height: 50px;
+        /*border: 1px solid #313840;*/
+        /*background-color: #1F2229;*/
+    }
+
+    .trade_block .t_title {
+        background-color: #4E565F;
+        height: 40px;
+    }
+
+    .t_title td, .t_title td span {
+        color: #484848;
+        font-size: 0.10px;
+        width: 40px;
+    }
+
+    .t_title td {
+        padding-left: 10px;
+    }
+
+    .l_t {
+        color: #484848;
+        font-size: 14px;
+        padding-left: 10px;
+        width: 80px;
+    }
+
+    .trade_block_div {
+        color: #484848;
+        /*background-color: red;*/
+        width: 100%;
+        height: 40px;
+        /*border-bottom: 1px solid #56595D;*/
+    }
+
+    .trade_block_div_ul_1 {
+        color: #484848;
+        float: left;
+        /*background-color: green;*/
+        height: 40px;
+    }
+
+    .trade_block_div_ul_1 li {
+        color: #484848;
+        font-size: 12px;
+        margin-left: 10px;
+        height: 20px;
+        line-height: 20px;
+    }
+
+    .trade_block_div_ul_1 .g {
+        color: green;
+        margin-left: 20px;
+    }
+
+    .trade_block_div_ul_1 .r {
+        color: red;
+        margin-left: 5px;
+    }
+
+    .trade_block_div_ul_2 {
+        color: #FF6C00;
+        float: right;
+        /*background-color: #1ea8b9;*/
+        height: 40px;
+        line-height: 40px;
+        text-align: right;
+        padding-right: 15px;
+        font-size: 12px;
+    }
+
+    .aui-input-row .aui-input {
+        color: #484848;
+    }
+
+    .coin-title-sub span {
+        color: #A29C9C;
+    }
+
+    #trade-show-guadan {
+        background-color: #fff;
+        /*margin: 0 10px;*/
+    }
+
+    #trade-show-guadan table {
+        width: 100%;
+        /*border: 1px solid #56595D;*/
+    }
+
+    .trade-show-thread {
+        height: 30px;
+        /*border: 1px solid #56595D;*/
+        color: #484848;
+    }
+
+    #trade-show-guadan table tr {
+        height: 30px;
+    }
+
+    .ts-buy {
+        color: #e9854f;
+    }
+    .buy_background {
+        background-color: #e9854f !important;
+    }
+
+    .ts-sale {
+        color: #1eae58;
+    }
+    .sale_background {
+        background-color: #1eae58;
+    }
+
+    .ml-1 {
+        padding-left: 10px;
+    }
+
+
+    #trade-show-cedan {
+        /*margin: 0 10px;*/
+    }
+
+    #trade-show-cedan table {
+        width: 100%;
+        background-color: #fff;
+        /*border: 1px solid #56595D;*/
+    }
+
+    .trade-show-thread {
+        height: 30px;
+        /*border: 1px solid #56595D;*/
+        color: #484848;
+    }
+
+    .table-container table {
+        width: 100%;
+        background-color: #fff;
+    }
+
+    .table-container table tr {
+
+    }
+
+    #trade-show-cedan table tr {
+        height: 30px;
+    }
+
+    .no_bg {
+        background: 0 !important;
+    }
+
+    .my_top_1 {
+        padding: 5px 0;
+        height: 50px;
+    }
+
+    .my_top_1 ul {
+        width: 100%;
+    }
+
+    .my_top_1 li {
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+        font-size: 16px;
+    }
+
+    .my_top_1 span {
+        color: #FF6C00;
+    }
+
+    .dw {
+        color: #7A7B7B;
+    }
+
+    .cyite li {
+        text-align: center;
+        width: 100%;
+        line-height: 30px;
+        height: 30px;
+        color: #606467;
+        font-size: 14px;
+        padding-bottom: 30px;
+    }
+
+    .cyite li span {
+        color: #e55600;
+    }
+
+    .textRed td {
+        color: #e9854f;
+    }
+
+    .textGreen td {
+        color: #1eae58;
+    }
+
+    .trade-show-thread td {
+        font-size: 0.8rem;
+    }
+
+    table td {
+        font-size: 0.7rem;
+    }
+	.trade_main{
+		display:none;
+	}
+
+</style>
+
+<body>
+<div class="wrap">
+    <div id="trade_main">
+        <!--买入-->
+        <div id="trade_buy" class="aui-border table-container  trade_main">
+            <table>
+                <thead>
+                <tr class="trade-show-thread">
+                    <td class="ml-1">买入</td>
+                    <td>价格(¥)</td>
+                    <td>数量</td>
+	                <td style="width:30%">比例</td>
+                </tr>
+                </thead>
+
+                <tbody id="depth_buy">
+<!--                <tr class="ts-sale">-->
+<!--                    <td class="ml-1">卖1</td>-->
+<!--                    <td>0.93</td>-->
+<!--                    <td>1236.98</td>-->
+<!--                </tr>-->
+<!--                <tr class="ts-buy">-->
+<!--                    <td class="ml-1">买1</td>-->
+<!--                    <td>0.93</td>-->
+<!--                    <td>1236.98</td>-->
+<!--                </tr>-->
+
+                    <tr class="ts-buy">
+                        <td colspan="5" style="text-align: center">暂无数据</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+	    <div id="trade_sale" class="aui-border table-container  trade_main">
+		    <table>
+			    <thead>
+			    <tr class="trade-show-thread">
+				    <td class="ml-1">卖出</td>
+				    <td>价格(¥)</td>
+				    <td>数量</td>
+				    <td style="width:30%">比例</td>
+			    </tr>
+			    </thead>
+
+			    <tbody id="depth_sell">
+			    <!--                <tr class="ts-sale">-->
+			    <!--                    <td class="ml-1">卖1</td>-->
+			    <!--                    <td>0.93</td>-->
+			    <!--                    <td>1236.98</td>-->
+			    <!--                </tr>-->
+			    <!--                <tr class="ts-buy">-->
+			    <!--                    <td class="ml-1">买1</td>-->
+			    <!--                    <td>0.93</td>-->
+			    <!--                    <td>1236.98</td>-->
+			    <!--                </tr>-->
+
+			    <tr class="ts-buy">
+				    <td colspan="5" style="text-align: center">暂无数据</td>
+			    </tr>
+			    </tbody>
+		    </table>
+	    </div>
+
+        <!--成交记录-->
+        <div id="trade_log" class="aui-border table-container trade_main">
+            <table>
+                <thead>
+                <tr class="trade-show-thread">
+                    <td class="ml-1">时间</td>
+                    <td>成交价</td>
+                    <td>成交量</td>
+                    <td>总额</td>
+                </tr>
+                </thead>
+
+                <tbody id="depth_log">
+<!--                <tr class="ts-buy">-->
+<!--                    <td class="ml-1">12-22 17:27:07</td>-->
+<!--                    <td>0.93</td>-->
+<!--                    <td>1236.98</td>-->
+<!--                    <td>986.98</td>-->
+<!--                </tr>-->
+<!--                -->
+<!--                <tr class="ts-sale">-->
+<!--                    <td class="ml-1">12-22 17:27:07</td>-->
+<!--                    <td>0.93</td>-->
+<!--                    <td>1236.98</td>-->
+<!--                    <td>986.98</td>-->
+<!--                </tr>-->
+
+                    <tr class="ts-buy">
+                        <td colspan="5" style="text-align: center">暂无数据</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script id="buy_temp" type="text/x-dot-template">
+
+	{{? it.length>0 }}
+    {{~it:value:index}}
+    <tr class="ts-buy">
+        <td class="ml-1">{{=value.title}}</td>
+        <td>{{=value.price}}</td>
+        <td>{{=value.nums}}</td>
+	    <td>
+		    <div class="aui-progress aui-progress-xs">
+		    <div class="aui-progress-bar" style="width:{{=value.precent}}%;background:#e9854f"></div>
+	        </div>
+	    </td>
+    </tr>
+    {{~}}
+
+    {{??}}
+
+    <tr class="ts-buy">
+        <td colspan="5" style="text-align: center">暂无数据</td>
+    </tr>
+    {{?}}
+</script>
+
+<script id="sell_temp" type="text/x-dot-template">
+
+	{{? it }}
+
+	{{~it:value:index}}
+	<tr class="ts-sale">
+		<td class="ml-1">{{=value.title}}</td>
+		<td>{{=value.price}}</td>
+		<td>{{=value.nums}}</td>
+		<td>
+			<div class="aui-progress aui-progress-xs">
+			<div class="aui-progress-bar" style="width:{{=value.precent}}%;background:#1eae58"></div>
+		    </div>
+		</td>
+	</tr>
+	{{~}}
+	{{??}}
+
+	<tr class="ts-buy">
+		<td colspan="5" style="text-align: center">暂无数据</td>
+	</tr>
+	{{?}}
+</script>
+
+<script id="log_temp" type="text/x-dot-template">
+    {{? it }}
+    {{~ it:value:key}}
+    {{? value.type == 'buy' }}
+    <tr class="ts-buy">
+        {{??}}
+    <tr class="ts-sale">
+        {{?}}
+        <td class="ml-1">{{=value.addtime}}</td>
+        <td>{{=value.price}}</td>
+        <td>{{=value.nums}}</td>
+        <td>{{=value.mum}}</td>
+    </tr>
+    {{~}}
+    {{??}}
+    <tr class="ts-buy">
+        <td colspan="5" style="text-align: center">暂无数据</td>
+    </tr>
+    {{?}}
+
+</script>
+
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript">
+	var type;
+    function change_type(id, cid) {
+        sctab(id, cid);
+    }
+
+    apiready = function () {
+        onerror = error_handel;
+	    sctab(1)
+    }
+
+    function requestData() {
+        var market_name = iv('market_name');
+         Ajax('trade/depth_json','GET', {
+		 'market':market_name,
+          'type' : type
+         }, function(ret){
+	         if(ret.status == 1){
+		         if(type == 'buy'){
+			         var temp = doT.template($("#buy_temp").html());
+			         $("#depth_buy").html(temp(ret.info));
+		             return;
+		           }
+		         if(type == 'sell'){
+			         var temp = doT.template($("#sell_temp").html());
+			         $("#depth_sell").html(temp(ret.info));
+			         return;
+		         }
+		         if(type == 'log'){
+			         var temp = doT.template($("#log_temp").html());
+			         $("#depth_log").html(temp(ret.info));
+			         return;
+		         }
+	         }
+         })
+    }
+
+
+    //切换按钮
+    function sctab(id) {
+	    $(".trade_main").hide()
+	    if(id == 1){
+		    $("#trade_buy").show()
+		    type = 'buy'
+		    requestData();
+		    return
+	    }
+	    if(id == 2){
+		    $("#trade_sale").show()
+		    type = 'sell'
+		    requestData();
+		    return
+	    }
+	    if(id == 3){
+		    $("#trade_log").show()
+		    type = 'log'
+		    requestData();
+	    }
+    }
+
+</script>
+</html>

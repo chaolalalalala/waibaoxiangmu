@@ -1,0 +1,369 @@
+{include file="my_header"}
+<div class="aw-container-wrap">
+	<div class="container">
+		<div class="row">
+			<div class="aw-content-wrap clearfix">
+				<div class="col-sm-12 col-md-9 aw-main-content">
+					<!-- 话题推荐bar -->
+					<!-- 话题推荐bar -->
+					<!-- 话题bar -->
+					<div class="aw-mod aw-topic-bar" id="question_topic_editor" data-type="question" data-id="31557">
+						<div class="tag-bar clearfix">
+                            <span class="topic-tag" data-id="571">
+								<a href="/bbs/lists/id/{$bbs['id']}.html" class="text">{$bbs['title']}</a>
+							</span>
+						</div>
+					</div>
+					<!-- end 话题bar -->
+					<div class="aw-mod aw-question-detail aw-item">
+						<div class="mod-head">
+							<h1>
+								{$bbs_act["title"]} </h1>
+						</div>
+						<div class="mod-body">
+							<div class="content markitup-box">
+								{$bbs_act["content"]}
+							</div>
+						</div>
+						<div class="mod-footer">
+							<div class="meta">
+								<span class="text-color-999">{#addtime($bbs_act["addtime"])}</span>
+								<a data-id="31557" class="aw-add-comment text-color-999 " data-first-click="hide" onclick="click_scroll();"><i class="icon icon-comment"></i>添加回复</a>
+							</div>
+						</div>
+						<!-- 站内邀请 -->
+						<div class="aw-invite-box collapse">
+							<div class="mod-head clearfix">
+								<div class="search-box pull-left">
+									<input id="invite-input" class="form-control" type="text" placeholder="搜索你想邀请的人..."/>
+									<div class="aw-dropdown">
+										<p class="title">没有找到相关结果</p>
+										<ul class="aw-dropdown-list"></ul>
+									</div>
+									<i class="icon icon-search"></i>
+								</div>
+								<div class="invite-list pull-left collapse">
+									已邀请:
+								</div>
+							</div>
+						</div>
+						<!-- end 站内邀请 -->
+						<!-- 相关链接 -->
+						<div class="aw-question-related-box collapse">
+							<form action="/" method="post" onsubmit="return false" id="related_link_form">
+								<div class="mod-head">
+									<h2>与内容相关的链接</h2>
+								</div>
+								<div class="mod-body clearfix">
+									<input type="hidden" name="item_id" value="31557"/>
+									<input type="text" class="form-control pull-left" name="link" value=""/>
+									<a  class="pull-left btn btn-success">提交</a>
+								</div>
+							</form>
+						</div>
+						<!-- end 相关链接 -->
+					</div>
+					<!--回复区-->
+					<div class="aw-mod aw-question-comment">
+						<div class="mod-head">
+							<ul class="nav nav-tabs aw-nav-tabs active">
+								<h2 class="hidden-xs">{$bbs_act["num"]} 个回复</h2>
+							</ul>
+						</div>
+
+						<div class="mod-body aw-feed-list">
+							{foreach $pages["list"] as $v}
+							<div class="aw-item"  id="answer_list_48751" data-id="{$v['id']}">
+								<div class="mod-head">
+									<a class="anchor" name="answer_48751"></a>
+									<!-- 用户头像 -->
+									<a class="aw-user-img aw-border-radius-5" href="javascript:void(null)" data-id="36110"> {if $v["userimg"]}
+										<img src="__UP__/{$v['userimg']}" alt=""/> {else}
+										<img src="__IMG__/bbs/avatar-max-img.png" alt=""/> {/if}
+									</a>                                        <!-- end 用户头像 -->
+									<div class="title">
+										<p>
+											<a class="aw-user-name" href="javascript:void(null)" data-id="36110">{$v["username"]}</a>
+										</p>
+									</div>
+								</div>
+								<div class="mod-body clearfix">
+									<!-- 评论内容 -->
+									<div class="markitup-box">
+										{$v["content"] nofilter}
+									</div>
+									<!-- end 评论内容 -->
+								</div>
+								<div class="mod-footer">
+									<!-- 社交操作 -->
+									<div class="meta clearfix">
+										<span class="text-color-999 pull-right">{#addtime($v["addtime"])}</span>
+										<!-- 投票栏 -->
+											<span class="operate">
+												<a href="javascript:;" class="agree" onclick="zan($(this))" data-id="{$v['id']}"><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-agree" data-original-title="赞同回复"></i>
+													<b class="count">{$v["zan"]}</b></a>
+                                            </span>
+										<!-- end 投票栏 -->
+											<span class="operate">
+												<a class="aw-add-comment" data-type="answer" data-first-click="hide" href="javascript:;" onclick="formShow($(this))"><i class="icon icon-comment"></i> {$v["num"]}</a>
+											</span>
+										<!-- 可显示/隐藏的操作box -->
+										<div class="more-operate">
+											<div class="btn-group pull-left">
+												<!--<a class="text-color-999 dropdown-toggle" data-toggle="dropdown">-->
+													<!--<i class="icon icon-share"></i> 分享 </a>-->
+												<!--<div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">-->
+													<!--<ul class="aw-dropdown-list">-->
+														<!--<li>-->
+															<!--<a onclick="AWS.User.share_out({webid: 'tsina', title: $(this).parents('.aw-item').find('.markitup-box').text()});"><i class="icon icon-weibo"></i> 微博</a>-->
+														<!--</li>-->
+														<!--<li>-->
+															<!--<a onclick="AWS.User.share_out({webid: 'qzone', title: $(this).parents('.aw-item').find('.markitup-box').text()});"><i class="icon icon-qzone"></i> QZONE</a>-->
+														<!--</li>-->
+														<!--<li>-->
+															<!--<a onclick="AWS.User.share_out({webid: 'weixin', title: $(this).parents('.aw-item').find('.markitup-box').text()});"><i class="icon icon-wechat"></i> 微信</a>-->
+														<!--</li>-->
+													<!--</ul>-->
+												<!--</div>-->
+											</div>
+										</div>
+										<!-- end 可显示/隐藏的操作box -->
+									</div>
+									<div class="aw-comment-box" id="aw-comment-box-answer-48755" style="display:none;">
+										<div class="aw-comment-list">
+											<ul>
+												{foreach $v["pid_list"] as $vv}
+												<li>
+													<a class="aw-user-name" href="javascript:void(null)" data-id="15605"> {if $vv["userimg"]}
+														<img src="__UP__/{$vv['userimg']}" alt=""/> {else}
+														<img src="__IMG__/bbs/avatar-max-img.png" alt=""/> {/if} </a>
+													<div>
+														<p class="clearfix">
+															<a href="javascript:void(null)" class="aw-user-name author" data-id="15605">{$vv["username"]}</a> •
+															<span>{#addtime($vv["addtime"])}</span>
+														</p>
+														<p class="clearfix"> {$vv["content"] nofilter}</p>
+													</div>
+												</li>
+												{/foreach}
+											</ul>
+										</div>
+										<form action="/bbs/disc_up" method="post" onsubmit="return false">
+											<div class="aw-comment-box-main">
+												<textarea class="aw-comment-txt form-control" rows="2" name="message" placeholder="评论一下..." onfocus="btnShow($(this))"></textarea>
+												<div class="aw-comment-box-btn">
+													<span class="pull-right">
+														<a href="javascript:;" class="btn btn-mini btn-success" onclick="disc_up($(this))">评论</a>
+														<a href="javascript:;" class="btn btn-mini btn-gray close-comment-box" onclick="quxiao($(this).parent().parent());">取消</a></span>
+												</div>
+											</div>
+										</form>
+									</div>
+									<!-- end 社交操作 -->
+								</div>
+							</div>
+							{/foreach}
+						</div>
+						<div class="mod-footer">
+                            <div class="pages" style="height:40px">
+                                {if $pages}
+                                {$pages['show'] nofilter}
+                                {/if}
+                            </div>
+						</div>
+					</div>
+					<!-- end 问题详细模块 -->
+					<!-- 回复编辑器 -->{if !$user}
+					<div class="aw-mod aw-replay-box question">
+						<a name="answer_form"></a>
+						<p align="center">要回复问题请先<a href="/login/index.html">登录</a>或<a href="/login/register.html">注册</a>
+						</p>
+					</div>
+					{else}
+					<!--问题回复-->
+					<div class="aw-mod aw-replay-box question">
+						<form action="/bbs/disc_up/id/{$bbs_act['id']}"  method="post" id="answer_form" class="question_answer_form">
+							<!--<input type="hidden" name="post_hash" value="d448f2a2cf94214409108c41740eaade" />-->
+							<!--<input type="hidden" name="question_id" value="31548" />-->
+							<!--<input type="hidden" name="attach_access_key" value="8781fa110db2acf73ac43ab5cfe96576" />-->
+							<div class="mod-head">
+								<a href="javascript:void(null)" class="aw-user-name"> {if $bbs_act["userimg"]} <img src="__UP__/{$bbs_act['userimg']}" alt=""/> {else}
+									<img src="__IMG__/bbs/avatar-max-img.png" alt=""/> {/if} </a>
+								<p>{$bbs_act["username"]}</p>
+							</div>
+							<div class="mod-body">
+								<div class="aw-mod aw-editor-box">
+									<div class="mod-head">
+										<div class="wmd-panel">
+											<!--回复框-->
+											<textarea class="wmd-input" id="demo_2" rows="15" name=""></textarea>
+										</div>
+									</div>
+									<div class="mod-body clearfix">
+										<a href="javascript:;" onclick="reply();" class="btn btn-normal btn-success pull-right btn-reply">回复</a>
+										<span class="pull-right text-color-999" id="answer_content_message">&nbsp;</span>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					{/if}
+					<!-- end 回复编辑器 -->
+				</div>
+				<!-- 侧边栏 -->
+				<div class="col-md-3 aw-side-bar hidden-xs hidden-sm">
+					<!-- 发起人 -->
+					<div class="aw-mod">
+						<div class="mod-head">
+							<h3>发起人</h3>
+						</div>
+						<div class="mod-body">
+							<dl>
+								<dt class="pull-left aw-border-radius-5">
+									 {if $bbs_act["userimg"]} <img src="__UP__/{$bbs_act['userimg']}" alt=""/> {else}
+										<img src="__IMG__/bbs/avatar-max-img.png" alt=""/> {/if}
+								</dt>
+								<dd class="pull-left">
+									<a class="aw-user-name" href="javascript:void(null)" data-id="36233">{$bbs_act["username"]}</a>
+									<p></p>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<!-- end 发起人 -->
+					<!-- 问题状态 -->
+					<div class="aw-mod question-status">
+						<div class="mod-head">
+							<h3>问题状态</h3>
+						</div>
+						<div class="mod-body">
+							<ul>
+								<li>最新活动: <span class="aw-text-color-blue">{#addtime($bbs_act["endtime"])}</span></li>
+								<li>浏览: <span class="aw-text-color-blue">{$bbs_act["view"]}</span></li>
+								<li>回复: <span class="aw-text-color-blue">{$bbs_act["num"]}</span> 人</li>
+								<li class="aw-border-radius-5" id="focus_users"></li>
+							</ul>
+						</div>
+					</div>
+					<!-- end 问题状态 -->
+				</div>
+				<!-- end 侧边栏 -->
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="__EXT__/layui-master/src/layui.js"></script>
+<link rel="stylesheet" href="__EXT__/layui-master/src/css/layui.css">
+<script>
+	var demo_2_text;
+	var layedit;
+	layui.use('layedit', function(){
+		layedit = layui.layedit;
+
+		demo_2_text = layedit.build('demo_2', {
+			//hideTool: ['image']
+			uploadImage: {
+				url: '/ajax/imgUpload/type/img_bbs/'
+				,type: 'post'
+			}
+			//,tool: []
+			//,height: 100
+		});
+	});
+</script>
+<script>
+	function formShow(a){
+		var showType= a.attr('data-first-click');
+		if(showType=='hide'){
+			a.parents('.mod-footer').find('.aw-comment-box').show();
+			a.attr('data-first-click','show');
+		}else{
+			a.parents('.mod-footer').find('.aw-comment-box').fadeOut();
+			a.attr('data-first-click','hide');
+		}
+
+	}
+
+	function quxiao(a){//取消评论
+		a.fadeOut();
+	}
+	function btnShow(b){//评论框焦点事件
+
+		b.siblings('.aw-comment-box-btn').fadeIn();
+	}
+
+	function reply(){
+		var wId={$bbs_act['id']};//问题id
+//		var content=$('.wmd-input').val();
+
+		var content = layedit.getContent(demo_2_text);
+		if(content =='' || content =='undefined'){
+			layer.tips('请输入回复内容','.wmd-input',{tips:2});
+			return false;
+		}
+		$.post('{#url("bbs/disc_up")}',{
+			pid:wId,
+			content:content
+		},function(data){
+			if(data.status == 1){
+				layer.msg(data.info, {type:1})
+				setTimeout('window.location.reload()',2000)
+			}else{
+				layer.msg(data.info, {type:1})
+			}
+		},'json')
+
+	}
+	function disc_up(a){
+		var wId={$bbs_act['id']};//问题id
+		var qid= a.parents('.aw-item').attr('data-id');
+		var content= a.parents('.aw-comment-box-main').children('textarea').val();
+		$.post('{#url("bbs/disc_up")}',{
+			pid:wId,
+			qid:qid,
+			content:content
+		},function(data){
+			console.log(data);
+			if(data.status == 1){
+				layer.msg(data.info, {type:1});
+				setTimeout('window.location.reload()',2000)
+			}else{
+				layer.msg(data.info, {type:1})
+			}
+		},'json')
+
+	}
+	function zan(a){
+		var id= a.attr('data-id');
+		var zanCount= parseInt(a.find('b').text());
+		$.post('{#url("bbs/zan")}',{
+			id:id
+		},function(data){
+			if(data.status == 1){
+				a.addClass('active');
+				a.find('b').text(zanCount+1);
+				layer.msg(data.info, {type:1})
+			}else{
+				layer.msg(data.info, {type:1})
+			}
+		},'json')
+	}
+	function click_scroll() {
+		var scroll_offset = $(".layui-layedit").offset(); //得到pos这个div层的offset，包含两个值，top和left
+		console.log(scroll_offset)
+		$("body,html").animate({
+			scrollTop:scroll_offset.top //让body的scrollTop等于pos的top，就实现了滚动
+		},1000);
+	}
+</script>
+<a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});"><i class="icon icon-up"></i></a>
+<!-- DO NOT REMOVE -->
+
+<script>
+	if ($("#bbs_box").length > 0) {
+		$('#bbs_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

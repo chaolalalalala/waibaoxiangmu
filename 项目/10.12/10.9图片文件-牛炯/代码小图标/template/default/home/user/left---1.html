@@ -1,0 +1,112 @@
+<style>
+	.nav-tab-list .nav-tab-hover{
+		width:100%;
+		top:60px;
+		height:50px;
+		line-height:50px;
+		background:#EAEDF4;
+		position:absolute;
+		box-sizing:content-box;
+
+		z-index:1;
+		transition:all 0.5s;
+		-webkit-transition:all 0.5s;
+		display:none;
+	}
+</style>
+<script type="text/javascript">
+	// 左边tab切换&浮动导航
+	$(function () {
+		// 左边tab切换&浮动导航
+		(function () {
+			var tab   = $('.nav-tab-list dd');
+			var hover = $('.nav-tab-hover');
+			var pos   = 0;
+			tab.each(function (index) {
+				var $this = $(this);
+				if ($this.hasClass('active')) {
+					pos = index;
+				}
+				$this.hover(function () {
+					_moveTo(index);
+				}, function () {
+					_moveTo(pos);
+				});
+			});
+			_moveTo(pos);
+			$('.nav-tab-hover').show();
+			function _moveTo(index) {
+				hover.css("top", 60 + 50 * index);
+				tab.removeClass('active');
+				tab.eq(index).addClass('active');
+			}
+		})();
+	});
+
+	$(window).on('scroll resize', function () {
+		if (document.body.scrollTop < 100) {
+			$('#left-nav-bar').css("top", 0);
+		} else if (document.body.scrollTop > ($('.tag-list-content').height() - $('#left-nav-bar').height() + 100)) {
+			$('#left-nav-bar').css("top", ($('.tag-list-content').height() - $('#left-nav-bar').height()));
+		} else {
+			$('#left-nav-bar').css("top", document.body.scrollTop - 100);
+		}
+	});
+</script>
+<!-- 左边浮动导航 start -->
+<div class="left-nav-bar" id="left-nav-bar">
+	<div class="left-nav-slider">
+		<dl class="nav-tab-list">
+			<dt>
+				<a href="/u/safe.jsp"><i class="fa fa-shield fa-lg mr10"></i>{#lang('安全中心')}</a>
+			</dt>
+			<dt class="nav-tab-hover hover1"></dt>
+			<dd class="user_index">
+				<a href="/u/safe.jsp"> <i class="fa fa-diamond fa-lg fa-fw mr5"></i> <span>{#lang('账户预览')}</span> <i class="fa fa-angle-right  fa-lg right mr10 mt17"></i> </a>
+			</dd>
+			<dd class="user_truename">
+				<a href="/u/safe/auth.jsp"> <i class="fa fa-list-alt fa-lg fa-fw mr5"></i> <span>{#lang('实名认证')}</span> <i class="fa fa-angle-right   fa-lg right mr10 mt17"></i> </a>
+			</dd>
+			<dd class="user_password">
+				<a href="/u/safe/password.jsp"> <i class="fa fa-unlock-alt fa-lg fa-fw mr5"></i> <span>{#lang('登录密码')}</span> <i class="fa fa-angle-right   fa-lg right mr10 mt17"></i> </a>
+			</dd>
+			<dd class="user_paypassword">
+				<a href="/u/safe/safeword.jsp"> <i class="fa fa-key fa-lg fa-fw mr5"></i> <span>{#lang('交易密码')}</span> <i class="fa fa-angle-right   fa-lg right mr10 mt17"></i> </a>
+			</dd>
+			<dd class="user_google">
+				<a href="/u/safe/google.jsp"> <i class="fa fa-shield fa-lg fa-fw mr5"></i> <span>{#lang('Google验证')}</span> <i class="fa fa-angle-right   fa-lg right mr10 mt17"></i> </a>
+			</dd>
+			<dd class="user_moble">
+				<a href="/u/safe/mobile.jsp"> <i class="fa fa-tablet fa-lg fa-fw mr5"></i> <span>{#lang('绑定手机')}</span> <i class="fa fa-angle-right   fa-lg right mr10 mt17"></i> </a>
+			</dd>
+			<!--<dd>
+				<a href="{#url('user/email')}"> <i class="fa fa-envelope fa-lg fa-fw mr5"></i> <span>{#lang('绑定邮箱')}</span> <i class="fa fa-angle-right   fa-lg right mr10 mt17"></i> </a>
+			</dd>-->
+		<!--	<dd>
+				<a href="{#url('user/details')}"> <i class="fa fa-align-justify fa-lg fa-fw mr5"></i> <span>{#lang('详细资料')}</span> <i class="fa fa-angle-right   fa-lg right mr10 mt17"></i> </a>
+			</dd>-->
+			<dd class="user_log">
+				<a href="/u/safe/userlog.jsp"> <i class="fa fa-search fa-lg fa-fw mr5"></i> <span>{#lang('操作记录')}</span> <i class="fa fa-angle-right   fa-lg right mr10 mt17"></i> </a>
+			</dd>
+			<!--<dd>
+				<a href="{#url('user/log')}"> <i class="fa fa-search fa-lg fa-fw mr5"></i> <span>{#lang('账户日志')}</span> <i class="fa fa-angle-right   fa-lg right mr10 mt17"></i> </a>
+			</dd>-->
+			<dd class="user_goods">
+				<a href="/u/safe/mailing.jsp"> <i class="fa fa-globe fa-lg fa-fw mr5"></i> <span>{#lang('邮寄地址')}</span> <i class="fa fa-angle-right   fa-lg right mr10 mt17"></i> </a>
+			</dd>
+            <dd class="user_help">
+                <a href="/u/safe/feedback.jsp"> <i class="fa fa-envelope fa-lg fa-fw mr5"></i> <span>{#lang('问题反馈')}</span> <i class="fa fa-angle-right   fa-lg right mr10 mt17"></i> </a>
+            </dd>
+			<dd class="user_api">
+				<a href="/u/safe/api.jsp"> <i class="fa fa-align-justify  fa-lg fa-fw mr5"></i> <span>{#lang('API申请')}</span> <i class="fa fa-angle-right   fa-lg right mr10 mt17"></i> </a>
+			</dd>
+		</dl>
+	</div>
+</div>
+<script>
+	if ($("#user_box").length > 0) {
+		$('#user_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>

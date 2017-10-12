@@ -1,0 +1,174 @@
+{include file="public:header"}
+<title>设置</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/fontawesome/font-awesome.min.css">
+	<style>
+        .exitLoginBtn {
+            background-color: #FFFFFF !important;
+            border: none;
+            color: red;
+        }
+		.warn{
+			background:red;
+		}
+	</style>
+</head>
+<body>
+<div class="aui-content aui-margin-b-15">
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">账户管理</li>
+		<li class="aui-list-item"  tapmod  style="display:none" id="truename1"  onclick="openRenzheng()">
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				<div class="aui-list-item-title">实名认证 </div>
+				<div class="aui-list-item-right">
+					<div class="aui-label aui-label-info warn">未认证</div>
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item"  tapmod id="truename2" onclick="show_user_info()">
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				<div class="aui-list-item-title">实名认证 </div>
+				<div class="aui-list-item-right">
+					<div class="aui-label aui-label-info">已认证</div>
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item" id="moble1" style="display:none" tapmod onclick="show_user_moble()">
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				<div class="aui-list-item-title">绑定手机 </div>
+				<div class="aui-list-item-right">
+					<div class="aui-label aui-label-info warn" >未绑定</div>
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item" id="moble2" tapmod onclick="show_user_moble()">
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				<div class="aui-list-item-title">绑定手机 </div>
+				<div class="aui-list-item-right">
+					<div class="aui-label aui-label-info" >已绑定</div>
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item"  tapmod onclick="show_bank()">
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				<div class="aui-list-item-title">银行卡管理 </div>
+				<div class="aui-list-item-right">
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item"  tapmod onclick="show_ecoin()">
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				<div class="aui-list-item-title">钱包地址管理 </div>
+				<div class="aui-list-item-right">
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item"  tapmod onclick="open_goodsAddr()">
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				<div class="aui-list-item-title">收货地址管理 </div>
+				<div class="aui-list-item-right">
+				</div>
+			</div>
+		</li>
+	</ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">密码管理</li>
+		<li class="aui-list-item"  tapmod onclick="alpwd()">
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				<div class="aui-list-item-title">修改登录密码 </div>
+			</div>
+		</li>
+		<li class="aui-list-item"  tapmod onclick="alpaypwd()">
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				修改交易密码
+			</div>
+		</li>
+	</ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">其他</li>
+		<li class="aui-list-item"  tapmod onclick="clear_cache()">
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				<div class="aui-list-item-title">清除缓存</div>
+			</div>
+		</li>
+		<li class="aui-list-item aui-margin-b-15"  tapmod onclick="update()">
+			<div class="aui-list-item-inner">
+                <div class="aui-list-item-label">版本更新</div>
+                <div class="aui-list-item-text">v0.0.12</div>
+			</div>
+		</li>
+		<div class="aui-btn aui-btn-block aui-btn-outlined exitLoginBtn" tapmod onclick="loginOut()">安全退出</div>
+	</ul>
+</div>
+</body>
+<script type = "text/javascript" >
+    apiready = function () {
+        onerror = error_handel;
+	    chk_name();
+    }
+    function open_goodsAddr(){
+	    open_win('goods_addr_h','setting')
+    }
+
+    //检测实名认证
+    function chk_name(){
+		var userinfo = memObj('userinfo');
+		    if(!userinfo){
+//			   art('用户信息获取失败')
+	            $("#truename2").hide();
+			    $("#truename1").show();
+			    $("#moble2").hide();
+			    $("#moble1").show();
+			    return;
+		    }
+
+		var truename = userinfo.baseinfo.truename;
+		    if(!truename){
+			    $("#truename2").hide();
+			    $("#truename1").show();
+		    }
+    }
+
+    //打开钱包地址管理
+    function show_ecoin() {
+        openWin({
+            name: 'addr_qianbao_h',
+            url: aurl('html/setting/addr_qianbao_h'),
+            slidBackEnabled:false,
+            delay: 100,
+            pageParam:{
+                'title' : '钱包地址管理',
+                'target':'html/setting/addr_qianbao_h'
+            },
+        });
+    }
+
+    function alpwd(){
+        open_win('alpwd_h', 'setting');
+    }
+
+    function alpaypwd(){
+        open_win('alpaypwd_h', 'setting');
+    }
+
+    function show_user_info(){
+        open_win('info_h', 'setting');
+    }
+
+    function show_user_moble(){
+        open_win('mobleInfo_h', 'setting');
+    }
+
+    function show_bank() {
+        open_win('bank_h', 'setting');
+    }
+
+    function update(){
+        art('已是最新版本');
+    }
+
+    function clear_cache(){
+	    setTimeout('art("清除完成")',1000)
+    }
+</script>
+</html>

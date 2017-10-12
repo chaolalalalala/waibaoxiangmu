@@ -1,0 +1,204 @@
+{include file="public:header"}
+<style>
+	.mybtn{
+		width:auto;
+		height:25px;
+		line-height:25px;
+		padding:0 10px;
+		font-size:12px;
+	}
+</style>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;
+		<a href="/factory/" class=""> {#lang('养殖工厂')}</a>&gt; {#lang('养殖市场')}
+	</div>
+	<div class=" assets_content bg_w" style="min-height:30px;">
+		<div class="safe_center clear">
+			<h1>
+					<span>
+						{#lang('养殖工厂')}
+					</span>
+	                <span>
+                        <a href="{#url('factory/index')}" id="tabmenu1" class="step fz_12 ml50 pd6  ">{#lang('我的养殖场')}</a>
+                        <a href="{#url('factory/market')}" id="tabmenu2" class="step fz_12 ml20 pd6 active">{#lang('养殖市场')}</a>
+                        <a href="{#url('factory/buyLog')}" id="tabmenu3" class="step fz_12 ml20 pd6 ">{#lang('购买记录')}</a>
+		                <a href="{#url('factory/gainLog')}" id="tabmenu4" class="step fz_12 ml20 pd6 ">{#lang('我的收获')}</a>
+                    </span>
+                    <span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+			</h1>
+		</div>
+		<div id="hints" class="mytips" style="display:none;">
+			<script>
+				var hints = "{$hints['show']}";
+				if(hints == 1){
+					$('#hints').show();
+				}
+			</script>
+			{$hints["value"] nofilter}
+		</div>
+		<div class="cnyin_record">
+			<div class="f_body">
+				<div class="f_body_main">
+					<div class="f_tab_body">
+						<div>
+							<table class="f_table" id="investLog_content">
+								<tr>
+									<th>序号</th>
+									<th>名称</th>
+									<th>售价</th>
+									<th>库存</th>
+									<th>喂食量</th>
+									<th>食物</th>
+									<th>喂食(收货)周期</th>
+									<th>产量</th>
+									<th>产品名</th>
+									<th>产品单价</th>
+									<th>寿命</th>
+									<th>操作</th>
+								</tr>
+								{foreach $pages["list"] as $v}
+								{if $v["type"]==1}
+								<tr>
+									<td>{$v["id"]}</td>
+									<td>{$v["goodsName"]}</td>
+									<td>{$v["price"]}{$v["coin"]}</td>
+									<td>{$v["leftNum"]}</td>
+									<td>{$v["feedNum"]}</td>
+									<td>{$v["food"]}</td>
+									<td>{$v["feedCycle"]}天</td>
+									<td>{$v["productNum"]}</td>
+									<td>{$v["productName"]}</td>
+									<td>{$v["productPrice"]}元/个</td>
+									<td>{$v["lifeLength"]}天</td>
+									<td>
+										<input type="button" class="btns2 mybtn" id="{$v['id']}" onclick="factory_buy(this)" value="购买">
+									</td>
+								</tr>
+								{else if $v["status"]==1}
+								<tr>
+									<td>{$v["id"]}</td>
+									<td>{$v["goodsName"]}</td>
+									<td>{$v["price"]}{$v["coin"]}</td>
+									<td>{$v["leftNum"]}</td>
+									<td>{#lang('----')}</td>
+									<td>{#lang('----')}</td>
+									<td>{#lang('----')}</td>
+									<td>{#lang('----')}</td>
+									<td>{#lang('----')}</td>
+									<td>{#lang('----')}</td>
+									<td>{#lang('----')}</td>
+									<td>
+										<input type="button" class="btns2 mybtn" id="{$v['id']}" onclick="factory_buy(this)" value="购买">
+									</td>
+								</tr>
+									{/if}
+
+								{/foreach}
+							</table>
+							<div class="pages">{$pages['show'] nofilter}</div>
+						</div>
+					</div>
+					</section>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="all_mask_loginbox" id="step1" style="display: none; position: fixed;">
+	<div class="login_title pl20">购买养殖物品</div>
+	<form id="form-login" class="mask_wrap login-fb">
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">购买数量：</div>
+			<input id="num" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">交易密码：</div>
+			<input id="paypassword" class="texts" type="password"><a href="/findpwd/paypassword" class="move ml5">忘记交易密码?</a>
+		</div>
+		<div class="login_button">
+			<input type="button" class="btns2" value="立即购买" onclick="buy();"  >
+		</div>
+	</form>
+	<div class="mask_wrap_close " onclick="closeAlert()"><i class="fa fa-close fa-2x move"></i></div>
+</div>
+<div id="step2" class="all_maskII" style="height: 0px;display: none;"></div>
+
+<script type="text/javascript">
+
+	function buy(){
+
+		var num = $('#num').val();
+		var passwrod = $('#paypassword').val();
+
+		if ( !isIntZ(num) ){
+			layer.tips("请输入正整数", "#num");
+			return;
+		}
+		if( !isPassword(passwrod) ){
+			layer.tips("请输入6位数或6位以上的交易密码","#paypassword");
+			return;
+		}
+
+		$.post("{#url('factory/buy')}",{
+			id:selectedGoodsId,
+			paypassword:passwrod,
+			num:num
+		},function (data){
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				window.setTimeout("location.reload()", 1000);
+			}else{
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+	var selectedGoodsId = 0;
+	//购买设备
+	function factory_buy(o) {
+		var id = $(o).attr('id');
+		selectedGoodsId = id;
+
+		$("#step1").show();
+		$("#step2").show();
+
+	}
+
+	function closeAlert(){
+		$("#step1").hide();
+		$("#step2").hide();
+	}
+
+	/**
+	 *是否为正整数
+	 */
+	function isIntZ(obj){
+		var reg = /^[1-9]\d*$/;
+		return reg.test(obj);
+	}
+
+	/**
+	 * 是否为合法密码,6到18位
+	 */
+	function isPassword(obj){
+		var reg = /^\w{6,}$/;
+		return reg.test(obj);
+	}
+</script>
+<script>
+	if ($("#pool1_box").length > 0) {
+		$('#pool1_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+</div>
+{include file="public:footer"}

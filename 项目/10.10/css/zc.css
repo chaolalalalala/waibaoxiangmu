@@ -1,0 +1,149 @@
+/*<!--	banner	-->*/
+
+header{
+	
+}
+.banner{
+
+
+}
+.banner>img{
+	display: block;
+}
+.banner>ul{
+	height:1.8rem;
+	background: #fff;
+	padding-top: 0.8rem;
+}
+.banner>ul li:nth-child(1) a{
+	display: inline-block;
+	padding: 0 0.5rem;
+	margin-left: 0.5rem;
+}
+.banner>ul li:nth-child(1) img{
+	width: 0.528rem;
+}
+.banner>ul li:nth-child(2){
+	font-size: 0.768rem;
+	color: #84ab28;
+	text-align: center;
+	font-family: pingfangcenter;
+}
+body{
+	padding: 0;
+}
+body>img{
+	display: block;
+}
+body>div{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top:2.44rem;
+}
+
+.banner{
+	padding: 0;
+}
+
+
+/*表单*/
+form{
+	font-size: 0;
+	margin: 0 1.488rem;
+	margin-top: 3rem;
+}
+form>div{
+	border-bottom: 1px solid #7B735E;
+	padding: 0.2rem 0;
+	margin-top: 1.8rem;
+}
+form div span{
+	display: inline-block;
+	vertical-align: middle;
+	width: 1.08rem;
+	margin-left: 0.72rem;
+	margin-right: 1.128rem;
+}
+form div input{
+	display: inline-block;
+	vertical-align: middle;
+	width: 10rem;
+	border: none;
+	background: none;
+	outline: none;
+	font-size: 0.768rem;
+	font-family: pingfangcenter;
+	color: #e0e0df;
+}
+form div input::-moz-placeholder{
+	font-size: 0.768rem;
+	font-family: pingfangcenter;
+	color: #e0e0df;
+}
+form div input::-ms-input-placeholder{
+	font-size: 0.768rem;
+	font-family: pingfangcenter;
+	color: #e0e0df;
+}
+form div input::-webkit-input-placeholder{
+	font-size: 0.768rem;
+	font-family: pingfangcenter;
+	color: #e0e0df;
+}
+
+form .yanzhengma{
+	border: none;
+	text-align: center;
+}
+form .yanzhengma input{
+	border: 1px solid #95938F;
+	width: 5rem;
+	padding: 0.5rem 0;
+	border-radius:6px;
+	margin-left: 0.3rem;
+	text-align: center;
+	letter-spacing: 0.3rem;
+}
+form .yanzhengma .ht{
+	width: 4rem;
+	font-family: yanzhengma;
+	font-size: 1rem;
+	color: white;
+	border: 1px solid #95938F;
+	border-radius:6px;
+	padding: 0.2rem 0 0.3rem 0;
+	letter-spacing: 0.3rem;
+	text-align: center;
+}
+form .yanzhengma div{
+	display: inline-block;
+	border: none;
+	width: 1.344rem;
+	vertical-align: middle;
+}
+
+form .yanzhengma div img.active{
+	width: 1.344rem;
+	animation: xuanzhuan 0.8s linear infinite;
+}
+@keyframes xuanzhuan{
+	from{
+		transform: rotateZ(0);
+	}
+	to{
+		transform: rotateZ(-360deg);
+	}
+}
+form div:nth-child(6){
+	border: 1px solid #9D9B9B;
+	font-size: 0.816rem;
+	color: #e0e0df;
+	font-family: pingfangcenter;
+	text-align: center;
+	border-radius:30px;
+	margin-top: 1.5rem;
+	padding: 0.3rem 0;
+	letter-spacing: 0.3rem;
+	text-indent:0.5rem;
+}

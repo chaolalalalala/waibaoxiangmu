@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{$seos['title']}</title>
+<meta name="Keywords" content="必火网,币火网,币火,火币,比特币BTC行情,Agrello,omg,KyberNetwork,Lisk,PST,Primas,Asch阿希AschLiteClient,以太坊ETH币,莱特币LTC,Eth,飞币FID,HSR,印链INS,BCC,量子链QTUM,比原链BTM,NEOANS,比特股BTS,莱特币LTC,EOSEOS,以太经典ETC,bitcoin">
+<meta name="Description" content="必火网是江西实业集团旗下区块链产业，bihuo168.com必火网提供BTC比特币/LTC莱特币/ETH/ETC交易系统，必火网,币火网,火币,多重技术安全防护金融级别比特币虚拟币交易网，保障交易系统安全。平台运营3年多零安全事故，比特币交易免手续费，快速充值机器人自动收款自动入金入账秒充提现，币种：Agrello,omg,KyberNetwork,Lisk,PST,Primas,Asch阿希AschLiteClient,知产币IPC,LISKLSK,玄链XNC,谷壳币GOOC,以太坊ETH,量子链QTUM,钛币TIC,医疗链HCC,AchainACT,ICO币,BCC,比原链BTM,UGTokenUGT,瑞波币XRP,NEOANS,乐园通PGC,点点币PPC,游戏点GAME,绿币VTC,阿希币XAS,红贝壳RSS,质数币PM,选举链ELC,比特币BTC,美人鱼币MRYC,B-TokenBTK,比特股BTS,莱特币LTC,黑币BLK,泽塔币ZET,EOSEOS,以太经典ETC,里约币RIO,未来币NXT,普银PEB,安网币DNC,最大币MAX,聚宝币JBC,维理币VRC,世界币WDC,无限币IFC,鲨之信SKT,企鹅链QEC,狗狗币DOGE,活力币HLB,地球币EAC,保罗币PLC,行云币MCC,冰河币FZ,招财币ZCC,美通币MET,一号币YTC,猴宝币MTC,幸运币LKC,雪山古树XSGS,传送币TFC,肯特币KTC等">
+    <!--<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css">-->
+    <meta name="renderer" content="webkit"> <!-- 360強切chrome 模式 -->
+    <link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style/css/clear-css.css">
+    <link rel="stylesheet" href="/static/style/css/css1.css">
+    <link rel="stylesheet" href="/static/style/css/lunbo.css">
+    <link rel="stylesheet" href="/static/style/css/denglu.css">
+    <link rel="stylesheet" href="/static/style/css/css2.css">
+    <link rel="stylesheet" href="__CSS__/style.css" id="theme" />
+    <script type="text/javascript" src="__EXT__/jquery/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+	<script type="text/javascript" src="/static/extend/layer/layer.js"></script>
+    <script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+	<script type="text/javascript" src="/static/extend/doT/doT.min.js"></script>
+    <link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+    <script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+    <link rel="stylesheet" href="/static/style/articaladd.css">
+    <link rel="stylesheet" href="/static/style/signinadd.css">
+    <style>
+.all_mask_loginbox{border-radius:4px;width:598px;border:1px solid #7F7F7F;position:fixed;left:50%;top:50%;margin-top:-160px;margin-left:-250px;box-shadow:0 0 15px #7F7F7F;background:#FFF;padding-top:10px;padding-bottom:32px;z-index:10000}
+.all_mask{width:100%;background:#000;opacity:.6;filter:alpha(opacity=60);position:absolute;left:0;top:0;z-index:9999}
+.bory2{border-right:1px solid rgba(224,222,221,.27)}
+.shuzi .cw{color:#3dc18e}
+.mask_wrap_close img{width:88%}
+.mask_wrap_close{position:absolute;right:14px;top:12px;width:16px;height:16px;cursor:pointer}
+.bjuzhong1{margin:20px auto}
+.nav_xiala{font-size:14px}
+.ul2 .cw{font-size:15px}
+.fle .text-left{font-size:14px}
+.icon-arrowdown{transform:scale(.7);transition:all 1s;position:relative;top:0;animation:magic-arrow-down 1.7s infinite ease}
+.icon-arrowup{transition:all 1s;position:relative;top:0;animation:magic-arrow-up 1.7s infinite ease}
+@keyframes magic-arrow-down{0%{top:5px;opacity:0}
+30%{opacity:1}
+100%{top:20px;opacity:0}
+}
+@keyframes magic-arrow-up{0%{top:5px;opacity:0}
+30%{opacity:1}
+100%{top:-20px;opacity:0}
+}
+.shuzi .cdf{color:#ccc}
+    </style>
+</head>
+<body>
+
+<div id="all_mask" class="all_mask yincang"></div>
+<div id="all_mask_loginbox" class="all_mask_loginbox yincang" style="">
+    <div class="login_title pl20 textc">登录</div>
+    <form id="form-login" class="mask_wrap login-fb">
+        <div class="login_text zin90">
+            <div class="mask_wrap_title">{#lang('账户')}：</div>
+            <input type="text" id="login_mobles" class="texts" style="display: none;">
+            <input type="text" id="login_moble" name="username" class="texts hg40 w250" placeholder="{#lang('请输入手机/邮箱/用户名')}" style="padding-left: 42px;margin-left:-3px;font-size:16px;" value="{#cookie('moble')}"/>
+            <link rel="stylesheet" href="__EXT__/intlTelInput/css/intlTelInput.css">
+            <script src="__EXT__/intlTelInput/js/intlTelInput.js"></script>
+            <script>
+                $("#login_mobles").intlTelInput({
+                    autoHideDialCode: false,
+                    defaultCountry: "cn",
+                    nationalMode: false,
+                    preferredCountries: ['cn', 'us', 'hk', 'tw', 'mo'],
+                });
+
+                function saoma() {
+                    layer.open({
+                        type: 2,
+                        title: '{#lang("打开手机APP,扫码登录")}',
+                        shadeClose: true,
+                        shade: 0.8,
+                        area: ['300px', "300px"],
+                        content: '/app/login/saoma' //iframe的url
+                    });
+                }
+
+            function kaifaing() {
+			layer.alert('此项功能，暂未启用！<br>如有疑问请联系客服QQ！', {icon: 0});
+			}
+        </script>
+            </script>
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">密码：</div>
+            <input id="login_password" name="password" value="" class="texts hg40 w250"  style="font-size:16px;" type="password" placeholder="请输入登录密码">
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">验证码：</div>
+            <input type="text" id="login_verify" name="check_code" value="" class="texts w145 hg40" style="width:150px;font-size:16px;" onkeydown="on_return();" placeholder="请输入验证码">
+            <span style="vertical-align: -17px;line-height: 20px;">
+            <img id="login_verify_up" class="codeImg reloadverify hg40" src="/ajax/verify.html" title="换一张" onclick="login_verify_ups();" width="100" height="34">
+            </span>
+        </div>
+        <div class="login_button">
+            <input type="button" value="登录" onclick="footer_login();" class="btns2  hg40 w250">
+        </div>
+        <div class="login-footer wwxwwx" style="border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;">
+	   <span style="color: #CCC; float: right; margin-right: 25px;"><a style="font-size: 14px;" href="/reg">免费注册</a>｜<a href="/findpwd" style="font-size: 14px;">忘记密码</a></span>
+        </div>
+    </form>
+    <div class="mask_wrap_close" onclick="wrapClose()"><img src="/static/style/img/close2.png" alt=""></div>
+</div>
+
+<div class="bac1e2">
+    <div class="center cw f-clear head posr">
+        <div class="flle">参考数据：
+            BTC:<span class="c36a btc_price_header">--</span>
+            LTC:<span class="cff7 ltc_price_header">--</span>
+            HSR:<span class="c36a hsr_price_header">--</span>
+            FID:<span class="cff7 fid_price_header">--</span>
+            HCC:<span class="c36a hcc_price_header">--</span>
+            INS:<span class="cff7 ins_price_header">--</span>
+            NEO:<span class="c36a ans_price_header">--</span>
+            QTUM:<span class="cff7 qtum_price_header">--</span>
+            ETH:<span class="c36a eth_price_header">--</span>
+            PAY/Tenx:<span class="cff7 pay_price_header">--</span>
+        </div>
+        <div class="flri nav-btn posr">
+            网站导航
+            <img src="/static/style/img/nav-3.png" alt="">
+            <div class="sanjiao yincang"></div>
+        </div>
+        {include file="aaapublic:nav"}
+    </div>
+
+
+</div>
+<div class="box posr">
+
+    <div class="bandwc  posa">
+        <div class="f-clear nav1">
+            <a href="/"><img src="/static/style/img/logo.png" alt="" class="mart40" style="margin-top:25px;"></a>
+                {if !$userid}
+            <div class="flri china posr cw">
+                <div><img src="__UP__/{$lang_type_cn['img']}" alt="" class=" w34h23 "><!--span> {$lang_type_cn['title']}</span--></div>
+                <!--div class="eng">
+                    <ul>
+                        {foreach $lang_type_list as $k => $v}
+                        <li><img src="__UP__/{$v['img']}" alt="" class=" w34h23 "><span   onclick="chose_lang('{$v.name}')">{$v['title']}</span></li>
+                        {/foreach}
+                    </ul>
+                </div-->
+            </div>
+                {/if}
+            <ul class="cw flri textc w550 mart20">
+                <a href="/">
+                    <li class="flle cff6"><span class="line100">首页</span></li>
+                </a>
+                <a href="/btc.jsp">
+                    <li class="flle posr nav_hover"><span class="line100">专业交易</span>
+                        <i class="caret"></i>
+                        <div class="opa"></div>
+                        <div class="nav_xiala textc f-clear yincang">
+                            <div class="sanjiao3" style="left:160px"></div>
+                            {include file="aaapublic:nav_menu"}
+                        </div>
+                    </li>
+                </a>
+
+                <a href="/u/asset.jsp"><li class="flle posr nav_hover"><span class="line100">财务中心</span></li></a>
+                {if $userid}
+                    <a href="/u/safe.jsp" target="_self"><li class="flle wb14 nav_hover posr"><span class="line100">安全中心</span></li></a>
+                    <a href="/vote.jsp"><li class="flle "><span class="line100">新币投票</span></li></a>
+                    <a href="/u/asset.jsp">
+                    <li class="flle posr nav_hover" style="width: 19%;"><span class="line100fff" id="show_mobile" style="color:#fff">会员******</span> <i class="caret"></i>
+                        <div class="opa"></div>
+                        <div class="nav_xiala2 f-clear yincang" style="background: #fff;">
+                            <div class="sanjiao3"></div>
+                            <div class="yonghu f-clear ">
+                                <span id="show_acc" style="display:inline-block; margin-top: 25px;margin-left: -120px;color:black"></span>
+                                <div class="tuichu flri mart20"><a href="/u/logout.jsp" style="color:black">退出登录</a></div>
+                            </div>
+                            {include file="aaapublic:assets"}
+                        <div class="f-clear  w237">
+                            <div class="nav_xiala2_btn flle cw bacd62"><a href="/u/asset/payin_cny.jsp">充值人民币</a></div>
+                            <div class="nav_xiala2_btn flle cw bac44b marz25"><a href="/u/asset/payout_cny.jsp">提现人民币</a></div>
+                        </div>
+                        </div>
+                    </li>
+                </a>
+                <script>
+                    $.getJSON("/ajax/is_top_user?t=" + Math.random(), function (data) {
+                        if (data) {
+                            if (data['login']) {
+                                $("#show_acc").html('用户名：'+ data['username']);
+                                $("#show_mobile").html(''+ data['moble']);
+                            }
+                        }
+                    });
+                </script>
+                {else}
+                    <a href="/vote.jsp"><li class="flle "><span class="line100">新币投票</span></li></a>
+                    <a href="javascript:loginpop();" target="_self"><li class="flle wb14 nav_hover posr"><span class="line100">会员登录</span></li></a>
+                    <a href="/u/register.jsp"><li class="flle  wb14"><span class="line100">注册</span></li></a>
+                {/if}
+            </ul>
+
+        </div>
+
+    </div>
+    <img src="/static/style/img/bandwc-bg3.png" alt="" class="posa posbott z1000">
+    <ul class="textc posa b0 z1000 f-clear shuzi">
+        <li class="flle">
+            <p class="font14 cdf">BTC</p>
+            <p class="cff7 font30 btc_price">--</p>
+        </li>
+        <li class="flle">
+            <p class="font14 cdf">ETH</p>
+            <p class="cw font30 eth_price">--</p>
+        </li>
+        <li class="flle">
+            <p class="font14 cdf">ETC</p>
+            <p class="cff7 font30 etc_price">--</p>
+        </li>
+        <li class="flle">
+            <p class="font14 cdf">QTUM</p>
+            <p class="cw font30 qtum_price">--</p>
+        </li>
+        <li class="flle">
+            <p class="font14 cdf">BTS</p>
+            <p class="cff7 font30 bts_price">--</p>
+        </li>
+        <li class="flle bory2">
+            <p class="font14 cdf">EOS</p>
+            <p class="cw font30 eos_price">--</p>
+        </li>
+    </ul>
+    <ul class="box2">
+
+        <li class="posr">
+            <!--<a href="">-->
+            <img src="/static/style/img/background_home3.jpg" alt="" class="banner">
+            <!--</a>-->
+            <div class="z1000 posa banx1">
+                <p class="title-p1 cw textc">必火网 - 银行金融级别数字资产买卖网站</p>
+                <p class="bandwc-p2 cw textc mart40">必火网  - 安全运营、多重技术安全防护、7×24小时服务支持</p>
+                <a href="/btc.jsp"><div class="btn1 cw textc mart27">专业交易</div></a>
+            </div>
+        </li>
+        <li class="posr">
+            <!--<a href="">-->
+            <img src="/static/style/img/background_home5-2.jpg" alt="" class="banner">
+            <!--</a>-->
+            <div class="z1000 posa banx1">
+                <p class="title-p1 cw textc">必火网 - 最专业的数字资产买卖网站</p>
+                <p class="bandwc-p2 cw textc mart40">比特币等数字资产不是当局发行的，没有国家或组织承担风险，具有极高的价格波动风险，投资需清晰的认知并有相应承担能力</p>
+                <!--div class="textc mart30">
+                    <<div class="posa bactm"></div>>
+                    <input type="text" class="bg2" placeholder="用户名/手机/邮箱">
+                    <input type="text" class="bg2 marz10" placeholder="密码">
+                    <img src="/static/style/img/jianyou1.png" alt="" class="jiantou marz10">
+
+                </div>
+                <div class="flri cw font14 wangjimm mart10">忘记或未设置登录密码？</div-->
+            </div>
+        </li>
+        <li class="posr">
+            <!--<a href="">-->
+            <img src="/static/style/img/background_home6.jpg" alt="" class="banner">
+            <!--</a>-->
+            <div class="z1000 posa banx1">
+                <p class="title-p1 cw textc">用户至上，承载用户的信赖与支持</p>
+                <p class="bandwc-p2 cw textc mart40">无论经历多少风雨我们始终坚持，用户满意才是我们真正的成功！</p>
+                <a href="/i/i.jsp"><div class="btn2 cw textc mart27">关于我们</div></a>
+            </div>
+        </li>
+        <!--li class="posr">
+            <a href="">
+            <img src="/static/style/img/background_home4.jpg" alt="" class="banner">
+            </a>>
+
+        </li-->
+
+
+    </ul>
+
+    <div class="box3">
+        <div href="#" class="zuo box3-btn1" style="font-family: 黑体;"><</div>
+        <div href="#" class="you box3-btn1" style="font-family: 黑体;">></div>
+    </div>
+    <div class="box4">
+        <span class="bianse"></span>
+        <span class=""></span>
+        <span class=""></span>
+        <!--span class=""></span-->
+    </div>
+</div>
+
+
+<div class="bacw tetec" id="bacw">
+    <div class="center pad70 ">
+        <div class="flle w406 ">
+            <div class="xian"></div>
+            <div class="p1 text-left">BIHUO APP</div>
+            <div class="p2 text-left">手机APP下载（苹果/安卓）</div>
+            <ul class="flex mart50 ul1 f-clear">
+                <li><img src="/static/style/img/hangqing.png" alt="">
+                    <br>
+                    <br>
+                    浏览行情
+                </li>
+                <li><img src="/static/style/img/jiaoyi.png" alt="">
+                    <br>
+                    <br>
+                    酣畅交易
+                </li>
+                <li><img src="/static/style/img/zhangwo.png" alt="">
+                    <br>
+                    <br>
+                    指尖掌握
+                </li>
+
+            </ul>
+            <div class="xiazai mart60">
+                <span class="flle app_down"><img src="/static/style/img/pingguo.png" alt="">iPhone下载</span>
+                <span class="app_down"><img src="/static/style/img/anzhuo.png" alt="">Android下载</span>
+            </div>
+            <script type="text/javascript">
+                $(function() {
+                    $('.app_down').click(function() {
+                        alert('正在上架 请稍后再试');
+                    })
+                })
+            </script>
+        </div>
+        <img src="/static/style/img/app-tu1.png" alt="" class="flri">
+
+    </div>
+</div>
+<div class="bacbg1 textc pad70">
+    <div class="container center">
+        <h3 class="cff6">必火网-银行金融级别的虚币交易网</h3>
+        <p class="mart15" style="font-size:15px; color:#7B4C2B;;line-height:25px;">为保证用户密码和资金安全,必火网已启用https加密,SSL证书加密传输确保数据在传送中不被劫持和改变，<br>
+		率先通过WebTrust和BSI的国际权威认证，网络安全技术已进入国际标准水平，安全运营、多重技术安全防护、7×24小时服务支持</p>
+        <div class="row font14 xiugai1 mart80">
+            <div class="col-xs-3"><img src="/static/style/img/beizi-1.png" alt="" class="mart27">
+
+                <div class="mart27 ">必火-金融风控经验团队
+                    <br>全方位可定制的安全策略体系
+                </div>
+            </div>
+            <div class="col-xs-3"><img src="/static/style/img/anquan-1.png" alt="" class="mart27">
+
+                <div class="mart27 ">专业金融安全级别
+                    <br>重金多重安全防护
+                </div>
+            </div>
+            <div class="col-xs-3"><img src="/static/style/img/sudu-1.png" alt="" class="mart27">
+
+                <div class="mart27 ">资金流转快速
+                    <br>用心服务每一天
+                </div>
+            </div>
+            <div class="col-xs-3"><img src="/static/style/img/kefu-1.png" alt="" class="mart27">
+
+                <div class="mart27 ">电话客服/QQ客服/微信客服
+                    <br>优质客户服务
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--媒体报道-->
+
+
+
+<div class="bacbg1 textc pad70">
+    <div class="center">
+        <div class="wb45 bacw pad20 f-clear flle">
+            <div class="title1 bod f-clear">
+                <div class="flle">
+                    {$article_arr[0]['title']}
+                </div>
+                <a href="/i/blog_t_{$article_arr[0]['id']}.jsp" class="flri">更多>></a>
+            </div>
+            <div class="shuxian flle mart20 marz25"></div>
+            <div class="fle mart27 line35 ca7">
+                {foreach $article_arr[0]['list'] as $k=>$v}
+                    {if $k<7}
+                        <div class="text-left"><img src="/static/style/img/tuoyuan.jpg" alt="" class="tuoyuan"><a href="/i/blog_c_{$v.id}.jsp" target="_blank"> {$v.title} </a></div>
+                    {/if}
+                {/foreach}
+            </div>
+        </div>
+        <div class="wb45 bacw pad20 f-clear flri">
+            <div class="title1 bod f-clear">
+                <div class="flle">
+                    {$article_arr[1]['title']}
+                </div>
+                <a href="/i/blog_t_{$article_arr[1]['id']}.jsp" class="flri">更多>></a>
+            </div>
+            <div class="shuxian flle mart20 marz25"></div>
+            <div class="fle mart27 line35 ca7">
+                {foreach $article_arr[1]['list'] as $k=>$v}
+                    {if $k<7}
+                        <div class="text-left"><img src="/static/style/img/tuoyuan.jpg" alt="" class="tuoyuan"><a href="/i/blog_c_{$v.id}.jsp" target="_blank"> {$v.title} </a></div>
+                    {/if}
+                {/foreach}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--div class="bk-firendLink mart27">
+    <div class="container center">
+        <div class="hd clearfix">
+            <h4 class="pull-left">友情链接</h4>
+        </div>
+        <div class="fd f-clear">
+            <ul class="clearfix font14">
+                <li>  <a href="http://www.btc798.com/" target="_blank">比特币之家</a></li>
+                <li>  <a href="http://www.bitkan.com/" target="_blank">币看比特币</a></li>
+                <li>  <a href="http://www.bitstones.com/" target="_blank">比特四通矿机</a></li>
+                <li>  <a href="http://www.btc123.com/" target="_blank">比特币</a></li>
+                <li>  <a href="http://www.bter.com/" target="_blank">比特儿</a></li>
+                <li>  <a href="http://www.chuwine.com/" target="_blank">大圆银泰</a></li>
+                <li>  <a href="http://www.bi22.com/" target="_blank">外汇论坛</a></li>
+                <li>  <a href="http://www.bajiemoney.com/" target="_blank">理财平台</a></li>
+                <li>  <a href="https://www.xwjr.com/" target="_blank">网络贷款</a></li>
+                <li>  <a href="http://www.bjyhs598.com/" target="_blank">北京印花税</a></li>
+                <li>  <a href="http://www.btcker.com/" target="_blank">币客网</a></li>
+                <li>  <a href="http://www.fx286.com/" target="_blank"> 外汇投资</a></li>
+                <li>  <a href="http://daikuan.51credit.com/" target="_blank">贷款</a></li>
+                <li>  <a href="https://www.8258.com/" target="_blank">穗金所</a></li>
+                <li>  <a href="http://www.jin10.co/" target="_blank">金十数据</a></li>
+            </ul>
+        </div>
+    </div>
+</div-->
+
+
+<script>
+/*
+$(".bjuzhong2 img").hover(function () {
+    var src = $(this)[0].src;
+    src = src.split(".png");
+    src = src[0];
+    $(this).attr("src",src + "-1.png");
+},function () {
+    var src = $(this)[0].src;
+    src = src.split("-1.png");
+    src = src[0] + ".png";
+    $(this).attr("src",src);
+});
+*/
+
+/*
+layer.open({
+title: '必火网 关于防范代币发行融资风险的公告',
+content: '<br>2017年9月4日 人民银行 中央网信办 工业和信息化部 工商总局 银监会 证监会 保监会发布《关于防范ICO代币发行融资风险的公告》，必火网积极响应公告精神和要求，认真自查整改，无实际项目落地的国内币种(ICO代币)已下架， 被下架的币种已停止转入，停止交易，提币转出正常服务。<br><br>必火网自上线以来 严格遵守法律法规，严格执行运营规则，严格风控管理， 一直注重保护用户投资安全，对用户进行风险提示和投资安全教育，<br><font style="color:red;">对于互联网ICO项目一直持拒绝态度，本站从未替会员代投任何非法ICO项目</font>，本站无需提供退币信息展示。对于监管层的决定，我司非常理解并支持拥护，从即日起必火网将暂停所有涉及违规的ICO代币上架，对于已经上架的币积极配合监管部门进行清查整顿。<br>必火是江西省赣州市唯一一家区块链技术研发公司，必火科技有多个实际项目成功落地。打造赣州区块链城市，今年赣州成功上线的有：全国首单区块链票链业务在赣州银行上线（必火科技区块链技术），Java区块链交易系统开发并上线。<br>我们以往落地的项目：     <br>BaiduDj音乐网(<a target="_blank" href="http://www.baidu.dj/">www.baidu.DJ</a> 区块链+P2P技术 舞曲供应商 为全国一线城市的高端酒吧提供海外舞曲资源服务)； <br>Baidu豪车公司(<a target="_blank" href="http://www.baidu.mp/">www.baidu.mp</a> 秒跑线上超跑租用平台 全国首家提供兰博基尼/法拉利等豪车出租自驾的平台)。   <br><br>必火整顿及后续发展工作实施方案：<br> 01).公司注册资本(实缴资本)后续增加5000万，交易平台申请中国人民银行赣州中心支行备案；<br>02).按照江西省通信管理局主管部门的规定申请电信业务经营许可证；申请网络文化经营许可证;<br>03).做完善的业务操作规则、信息安全管理制度、风险控制制度、反洗钱内控制度等管理制度，<br>04).按照反洗钱和反恐怖融资的的相关监管要求，依法履行实名注册、客户身份识别、可疑交易报告、客户身份资料和交易记录保存等反洗钱预防措施。<br>05).按照法律法规和比特币交易有关监管规定要求向中国人民银行及赣州金融监管部门报送比特币交易相关信息;<br>06).对利用比特币进行赌博、传销、洗钱等违法犯罪活动的可疑行为立即采取应对措施，并及时向相关部门报备，配合相关部门做好防范查处金融违法犯罪相关工作;<br>07).按照相关要求做好互联网信息内容管理、网络与信息安全相关工作;<br>08).当按照国家网络安全相关规定和国家信息安全等级保护制度的要求，开展信息系统定级备案和等级测试，具有完善的防火墙、入侵检测、数据加密以及灾难恢复等网络安全设施和管理制度，建立信息科技管理、科技风险管理和科技审计有关制度，配置充足的资源，采取完善的管理控制措施和技术手段保障信息系统安全稳健运行，保护投资者的信息安全。<br>09).服务器留存投资者基本资料、上网登陆日志信息、交易记录等数据和资料，每两年开展一次全面的安全评估，接受国家或行业主管部门的信息安全检查和审计。<br>10).建立客户资金的第三方存管服务，并选择赣州市符合条件的银行业金融机构或有支付许可证的第三方支付机构作为客户的资金的存管机构。<br>11).聘请会计师事务所定期对本机构投资者资金存管、信息披露情况、信息科技基础设施安全、经营合规性等重点环节实施审计，并且应当聘请有资质的信息安全测评认证机构定期对信息安全实施测评认证，并向投资者披露审计和测评认证结果。<br>12).保护广大投资者的利益，对新兴的区块链资产交易品种始终保持开放而谨慎的态度；<br>13).保持现有的优势(24小时机器人充值秒到，交易免费，24小时快速充币转入/快速提币转出/无人工审核，提现5-120分钟到/秒出款机器人)，再营销策划，市场推广等。<br>14).区块链商城正在开发中，等待上线（淘宝网商家与用户的模式，付款方式支持比特币/莱特币/以太坊等主流币）<br>15).必火网功能和体验的优化升级开发。例：苹果APP/安卓APP，K线等。<br><br><font style="color:red;font-size:18px;">风险警示：<br>目前市场整体环境变化莫测，请所有用户谨慎对待，提高风险意识。不投入超过自己承受能力的资金，不投入借贷资金，不信谣不传谣，对自己行为负责，严格遵守国家法律法规。</font><br>不经历风雨，怎能见彩虹，我们看好区块链技术，未来使区块链技术用于各种用途，和我们的工作/生活/社会发展息息相关，希望行业走的更远，合法合规的进行科技创新，是区块链行业各参与企业的唯一选择。<br><br> <br>关于区块链金融监管：<br>2017年3月15日，区块链票链 全国监控运营管理中心揭牌仪式在赣州银行举行，全国首单区块链票链业务在赣州银行成功上线，该业务上线运行1个月规模即达3402.14万元。通过区块链技术，交易双方无需借助第三方信用中介便可开展经济活动，从而有效解决传统金融系统存在的总分重复记账、安全攻击和信任关系等一系列问题，降低金融行业的运行成本，提高整个金融系统的运作效率。<br>2017年7月9日，与工信部国家计算机应急中心、新华网等合作，共建区块链金融产业沙盒园(金融监管沙盒)，这是我国第一个由政府部门主导的监管沙盒,同时建立“工业和信息化部互联网金融安全技术重点实验室赣州试验基地”“新华网区块链与物联网应用双创试验基地”，有效提升跨金融行业、覆盖多个金融市场的交叉性金融风险的识别、防范和化解能力，推动普惠金融和科技金融发展，服务实体经济。<br>监管沙盒园区落地赣州并正式启动意味着江西省赣州市这一革命老区、红色圣地在金融监管层面已经走在了中国前列，也标志着中国的沙盒监管将迈出实质性的一步。目前园区已邀请必火科技等多家知名互联网科技型企业和上市公司入园，园区将借助多项针对性的扶持政策助力园区企业发展。<br>江西省赣州市人民政府十分重视区块链技术在赣州这一革命老区、红色圣地的落地和发展，我们在区块链技术发展应用领域已经与赣州市金融局开展多层次、全方位的多方洽谈、沟通，并已取得共识。<br><br>赣州区块链金融产业沙盒园落地：<a href="http://www.jxjrb.gov.cn/Item/2131.aspx" target="_blank">http://www.jxjrb.gov.cn/Item/2131.aspx</a> (江西省人民政府金融办公室)<br><br> ',
+area: ['1190px', '666px'],
+});
+*/
+
+</script>
+
+
+
+
+
+{include file="aaapublic:footer"}
+
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,323 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/goods.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+	<style>
+		.top_bt, .user_btn, .show_cart{
+			background:url(__WAP__/image/shop/pub_flow.png) no-repeat;
+			background-size:auto 160px;
+			background-position:0 -75px;
+		}
+
+		.navContent li .item1 .ui-number .decrease{
+			background:url(__WAP__/image/shop/shop-cart.png) no-repeat 2px -50px;
+		}
+
+		.navContent li .item1 .ui-number .num{
+			min-height:1rem;
+		}
+
+		.navContent li .item1 .ui-number .increase{
+			background:url(__WAP__/image/shop/shop-cart.png) no-repeat 2px -50px;
+		}
+
+		.footer_nav ul li em{
+			display: block;
+			width: 30px;
+			height: 25px;
+			margin: auto;
+			background: url(__WAP__/image/shop/pub_goods.png) no-repeat;
+			background-size: auto 280px;
+		}
+		.index_floor{
+			margin-bottom:0;
+		}
+	</style>
+</head>
+<body>
+<div class="main" style="margin-top:50px">
+	<div class="tab_nav">
+		<div class="header">
+			<div class="h-mid">
+				<ul>
+					<li><a href="javascript:;" class="on" id="goods_ka1" onclick="chose_tab(1)">商品</a></li>
+					<li><a href="javascript:;" class="" id="goods_ka2" onclick="chose_tab(2)">详情</a></li>
+					<li><a href="javascript:;" class="" id="goods_ka3" onclick="chose_tab(3)">评价</a></li>
+				</ul>
+			</div>
+			<div class="h-right">
+				<aside class="top_bar">
+<!--					<div onclick="show_menu();$('#close_btn').addClass('hid');" id="show_more">-->
+<!--						<a href="javascript:;"></a></div>-->
+<!--					<a href="javascript:art('开发中')" class="show_cart">-->
+<!--						<em style="display: none" class="global-nav__nav-shop-cart-num" id="tp_cart_info">0</em></a>-->
+				</aside>
+			</div>
+		</div>
+	</div>
+	<div class="main" id="user_goods_ka_1" style="display: block;">
+		<div id="aui-slide">
+			<div class="aui-slide-wrap" id="slider">
+			</div>
+			<div class="aui-slide-page-wrap"><!--分页容器--></div>
+		</div>
+		<script id="slider-template" type="text/x-dot-template">
+			{{? it.length>0 }}
+			{{ for(var i in it) { }}
+			<div class="aui-slide-node aui-slide-node-middle aui-slide-node-center">
+				<img src="{{=it[i].img}}"/>
+			</div>
+			{{ } }}
+			{{? }}
+		</script>
+		<div class="s_bottom"></div>
+		<form name="buy_goods_form" method="post" id="buy_goods_form">
+			<div class="product_info">
+				<div class="info_dottm">
+					<h3 class="name" id="goods_title">goods_title</h3>
+				</div>
+				<dl class="goods_price">
+					<dt>
+						<span id="goods_price">￥</span>
+						<!--						<font id="goods_price0">价格：￥169.00元</font> -->
+					</dt>
+				</dl>
+				<!--				<ul class="price_dottm">-->
+				<!--					<li style=" text-align:left">折扣：4.1折</li>-->
+				<!--					<li>3人评价</li>-->
+				<!--					<li style=" text-align:right">0人已付款</li>-->
+				<!--				</ul>-->
+			</div>
+			<section id="search_ka">
+				<div class="ui-sx bian1">
+					<div class="subNavBox">
+						<div class="subNav on"><strong>购买数量</strong></div>
+						<ul class="navContent" style="display: block;">
+							<li style=" border-bottom:1px solid #eeeeee">
+								<div class="item1">
+                  <span class="ui-number">
+
+	                  <div class="aui-bar aui-bar-btn" style="width:80%;" type="count" id="demo">
+		                  <div class="aui-bar-btn-item aui-font-size-20" tapmode="" data-item-order="0" onclick="shop_count(1)">
+			                  <i class="aui-iconfont aui-icon-minus"></i>
+		                  </div>
+		                  <div class="aui-bar-btn-item" tapmode="" data-item-order="1">
+			                  <input type="number" class="aui-input aui-text-center" id="count" value="1">
+		                  </div>
+		                  <div class="aui-bar-btn-item aui-font-size-20 aui-active" onclick="shop_count(2)" tapmode="" data-item-order="2">
+			                  <i class="aui-iconfont aui-icon-plus"></i>
+		                  </div>
+	                  </div>
+
+
+                  </span>
+                                </div>
+							</li>
+						</ul>
+                        <ul class="aui-list aui-form-list" style="width: 100%">
+                            <li class="aui-list-item">
+                                <div class="aui-list-item-inner">
+                                    <div class="aui-list-item-label">
+                                        支付币种
+                                    </div>
+                                    <div class="aui-list-item-input">
+                                        <select id="coinType">
+                                            <option value="人民币">人民币</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+					</div>
+				</div>
+			</section>
+		</form>
+	</div>
+	<div class="main" id="user_goods_ka_2" style="display: none;">
+		<section class="index_floor">
+			<h2 style=" border-bottom:1px solid #ddd "><span></span> 商品信息 </h2>
+			<ul class="aui-list aui-list-in">
+				<li class="aui-list-item">
+					<div id="shop_content"
+					     style="
+                 position:relative;
+                 overflow-x:auto;
+                 overflow-y:auto;
+                 width:100%;
+                 /*overflow:scroll;*/
+                 height:auto;
+                 padding:0.75rem 0.75rem 51px 0;
+                 " >
+					</div>
+				</li>
+			</ul>
+		</section>
+	</div>
+	<div class="tab_attrs tab_item hide" id="user_goods_ka_3" style="display:none;">
+		<div id="ECS_COMMENT">
+			<div class="my_comment_list" id="ECS_MYCOMMENTS">
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+				<!---晒单end-->
+				<div class="comment_list" id="commentList">
+					<ul id="user-comment-list">
+						<li class="comment_item">
+							<div class="content_head" style="border-bottom:1px solid #CCC;">
+								<div class="info">
+									<div class=" comment_star">
+										<div class="one"><em>
+												<span></span>
+											</em></div>
+										<div class="name">
+											用户 <em>
+											</em>
+										</div>
+										<div class="two">2016-04-21 20:59</div>
+									</div>
+								</div>
+								<p> 暂无评价</p>
+							</div>
+						</li>
+                        <script id="user-comment-template" type="text/x-dot-template">
+                            {{? it.length>0 }}
+                            {{ for(var i in it) { }}
+                            <div class="aui-slide-node aui-slide-node-middle aui-slide-node-center">
+                                <img src="/upload/public/788178a61460c593251362474e5a6cd2.jpg"/>
+                            </div>
+                            {{ } }}
+                            {{? }}
+                        </script>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="footer_nav">
+	<ul>
+		<li class="bian"><a href="javascript:back()"><em class="goods_nav1"></em><span>返回</span></a> </li>
+		<li class="bian"><a href="javascript:art('开发中')"><em class="goods_nav2"></em><span>客服</span></a> </li>
+		<li><a href="javascript:art('开发中')" id="favorite_add"><em class="goods_nav3"></em><span>收藏</span></a></li>
+	</ul>
+	<dl>
+		<dd class="flow"><a class="button active_button" href="javascript:void(0);" onclick="addCard();" tapmod="">加入购物车</a> </dd>
+		<dd class="goumai"><a style="display:block;" href="javascript:void(0);" onclick="shopBuy();" tapmod="">立即购买</a> </dd>
+	</dl>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/echo.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-slide.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	apiready = function () {
+		onerror = error_handel;
+		flash(function () {
+		});
+	};
+
+	var shop_info;
+	var shop_counts = 1;
+
+	function addCard(){
+        art("开发中");
+	}
+
+	function shopBuy(){
+        var goodsID = iv('id');
+        if (isNull(goodsID) ){
+            art("商品ID为空");
+            return;
+        }
+        var selectOption = $('#coinType option').filter(function (){ return this.selected});
+        var coinpay = selectOption.val();
+        if( typeof coinpay == 'undefined'){
+            art("支付币种不存在");
+            return;
+        }
+
+		mem( 'coinpay',coinpay);
+        openWinWithParams('orderDetail_h','shop',{
+            id:goodsID,
+            num:shop_counts,
+        })
+
+	}
+
+	function flash(callback) {
+		var id = iv("id");
+		if(!id){
+			art("商品ID未获取");
+			return;
+		}
+
+        loading("加载中,请稍后...")
+		Ajax('shop/view/id/' + id, 'get', '', function (ret) {
+            toast.hide();
+            alog(ret);
+			if (ret.status == 1) {
+                alog('banner==========');
+				alog(ret.info.img);
+				shop_info = ret.info.shop;
+				//轮播图
+                var tempFn = doT.template($("#slider-template").html());
+                $("#slider").html( tempFn(ret.info.img) );
+                setBannerPlay();
+
+                $("#goods_title").html(ret.info.shop.title);
+				$("#shop_content").html(ret.info.shop.content);
+				$("#goods_price").html('￥'+ret.info.shop.price);
+
+                var opt = '';
+                for(var index= 0; index < ret.info.coin.length; index++){
+                    opt +=  '<option value=\"'+ret.info.coin[index]+'\">'+ret.info.coin[index]+'</option>';
+                }
+                alog(opt);
+                $("#coinType").html(opt);
+
+				art('加载成功');
+				parseTapmode();
+			} else {
+				art("返回错误");
+			}
+		});
+	}
+
+    function setBannerPlay() {
+        //轮播图
+        slide = new auiSlide({
+            container: document.getElementById("aui-slide"),
+            "height": 180,
+            "speed": 100,
+            "autoPlay": 0, //自动播放
+            "pageShow": true,
+            "loop": true,
+            "pageStyle": 'dot',
+            'dotPosition': 'center'
+        });
+    }
+
+	function shop_count(type){
+		if(type == 1){
+			if(shop_counts > 1){
+				$("#count").val(--shop_counts);
+			}else{
+				$("#count").val(1);
+			}
+		}
+		if(type == 2){
+			$("#count").val(++shop_counts);
+		}
+	}
+
+	var last_show_id = 1;
+	function chose_tab(id) {
+		$("#user_goods_ka_" + last_show_id).hide();
+		$("#goods_ka" + last_show_id).removeClass("on");
+		last_show_id = id;
+		$("#goods_ka" + id).addClass("on");
+		$("#user_goods_ka_" + id).show();
+	}
+</script>
+</html>

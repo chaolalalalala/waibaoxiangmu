@@ -1,0 +1,249 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+	.my_body{
+		margin: 10px 10px 60px 10px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+
+	.my_body ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		/*border: 1px solid #55585D;*/
+		background-color: #FFF;
+	}
+	.bank_title{
+		margin: 0 0 0 1rem;
+		height: 3rem;
+		line-height: 3rem;
+		color:#a59494;
+		/*border-bottom: 1px solid #55585D;*/
+	}
+	.bank_title img{
+		height: 1.6rem;
+		margin: 0.7rem 1rem 0 0;
+		vertical-align: middle;
+		float: right;
+	}
+	.bank_body{
+		margin: 0 0 0 1rem;
+	}
+	.bank_body span{
+		display: block;
+	}
+	.bank_body .g{
+		color: gray;
+	}
+	.r{
+		float: right;
+		margin-right: 1rem;
+	}
+	.red{
+		color: red;
+	}
+	.green{
+		color:green;
+	}
+
+	.yellow{
+		color:#f60;
+	}
+
+	.gray {
+		color: gray;
+	}
+
+</style>
+<body>
+<section class="aui-refresh-content">
+<div class="wrap">
+	<div class="my_body">
+		<div id="shopping-manage-log">
+		</div>
+  </div>
+</div>
+	</section>
+<script id="shopping-log-temp" type="text/x-dot-template">
+	{{? it.length>0 }}
+	{{ for (var i in it){ }}
+	<ul class="aui-border">
+		<li class="bank_title aui-border-b">
+			<span class="red">订单编号：<em>{{=it[i].id}}</em></span>
+			{{? it[i].status == 0}}
+			<span class="r yellow">未发货</span>
+			{{?? it[i].status == 1}}
+			<span class="r gray">已完成</span>
+			{{?? it[i].status == 2}}
+			<span class="r gray">已撤销</span>
+			{{?? it[i].status == 3}}
+			<span class="r gray">已发货 | <em class="green" onclick="sure_shopping({{=it[i].id}})">确认收货</em></span>
+			{{?? }}
+			<span class="r gray">数据错误</span>
+			{{?}}
+		</li>
+		<li class="bank_body">
+
+			<span class="g">购买时间：<em>{{=it[i].addtime}}</em></span>
+			<span class="g">购买商品：<em class="green" onclick="view({{=it[i].shopid}})">查看商品</em></span>
+			<span class="g">商品价格：<em>{{=it[i].price}}</em></span>
+			<span class="g">购买数量：<em>{{=it[i].num}}</em></span>
+			<span class="g">交易金额：<em>{{=it[i].mum}}</em></span>
+			<span class="g">付款方式：<em>{{=it[i].coinname}}</em></span>
+			<span class="g">付款数量：<em>{{=it[i].xuyao}}</em></span>
+			<span class="g">收货地址：<br/><em>{{=it[i].addr}}</em></span>
+		</li>
+	</ul>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{?}}
+
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/aui/aui-dialog.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	var pid=1;
+	var callback;
+	window.onscroll = function() {
+		if (getScrollTop() + getWindowHeight() == getScrollHeight()) {
+			++pid;
+			getList(callback);
+		}
+		alog(getScrollTop())
+	}
+	apiready = function(){
+		onerror = error_handel;
+
+		getList(callback);
+	}
+
+
+	function list_change(callback){
+		pid=1;
+		getList(callback)
+	}
+
+     function view(id){
+	     openWin({
+		     name: 'goods_info_h',
+		     url: aurl('html/shop/goods_info_h'),
+		     slidBackEnabled: false,
+		     delay: 100,
+		     pageParam: {
+			     "id": id,
+		     }
+	     })
+     }
+
+	function getList(callback){
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			emptyData($("#shopping-manage-log"))
+			return false;
+		}
+//		alert(typeof params);
+		loading("努力加载中……")
+		UserAjax('shop/log', 'get', {
+			'pid':pid,
+		}, function (ret) {
+//			alog(ret);
+			toast.hide()
+			if (ret.status == 1)
+			{
+				var temp = doT.template($("#shopping-log-temp").text());
+//				$("#shopping-manage-log").html(temp(ret.info.list))
+				if(pid==1){
+					art("第"+pid+"页")
+					$("#shopping-manage-log").html(temp(ret.info.list))
+				}
+				else if(pid>Math.ceil(Number(ret.info.count)/Number(ret.info.pageSize))){
+					art("没有更多数据了")
+				}
+				else{
+					art("第"+pid+"页")
+				$("#shopping-manage-log").html($("#shopping-manage-log").html()+temp(ret.info.list));}
+					if(typeof callback == "function"){
+					setTimeout(function () {
+						callback("刷新完成");
+					}, 1000)
+				}
+				parseTapmode();
+			}else {
+				if (typeof callback == "function") {
+					setTimeout(function () {
+						callback("刷新失败");
+					}, 1000)
+				}
+			}
+		},'json');
+	}
+	//下拉刷新
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			if(getScrollTop()<10) {
+				pid=1
+				getList(function (msg) {
+					art(msg);
+					pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+				})
+			}
+			else {
+				pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+			}
+		}
+	})
+
+	function sure_shopping(orderId) {
+		 var dialog = new auiDialog();
+		dialog.alert({
+			title: "请输入交易密码",
+			buttons: ['确定', '取消'],
+			input: true,
+			textType:"password",
+		}, function (ret) {
+			if (ret.buttonIndex == 1) {
+				var paypassword = ret.text;
+				 loading("操作中……")
+				if (typeof orderId == 'undefined') {
+					art("确认收货请求参数错误！");
+					return;
+				}
+				alog("确认收货!");
+				UserAjax( 'hop/shouhuo', 'post',
+					{
+						'id': orderId,
+						'paypassword': paypassword,
+					},
+					function (ret) {
+						toast.hide();
+						art(ret.info);
+						if (ret.status == 1) {
+							pid = 1
+							getList(callback)
+						}
+					}, "json")
+			}
+	   })
+	}
+</script>
+</html>

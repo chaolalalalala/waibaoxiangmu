@@ -1,0 +1,13 @@
+.assets_content h1>span:last-child{
+	background-image: url(../style/img/icon23.png);
+}
+.quicklink.invite-content .area.texts{
+	width: 550px!important;
+	background: #181818;
+}
+.quicklink h4{
+	color: #9e0707!important;
+}
+#qrcode-wallet{
+	margin-right: 50px!important;
+}  

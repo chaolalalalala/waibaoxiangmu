@@ -1,0 +1,190 @@
+{include file="public:header"}
+<title>银行卡</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+	.my_body{
+		margin: 10px 10px 60px 10px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background-color: #FFF;
+	}
+	.bank_title{
+		margin: 0 0 0 1rem;
+		height: 3rem;
+		line-height: 3rem;
+		color:#a59494;
+	}
+	.bank_title img{
+		height: 1.6rem;
+		margin: 0.7rem 1rem 0 0;
+		vertical-align: middle;
+		float: right;
+	}
+	.bank_body{
+		margin: 0 0 0 1rem;
+	}
+	.bank_body span{
+		display: block;
+	}
+	.bank_body .g{
+		color: gray;
+	}
+</style>
+<body>
+<section class="aui-refresh-content">
+<div class="wrap">
+	<div class="my_body">
+	  <div id="addr-list">
+	   </div>
+     </div>
+	</div>
+	</section>
+    <script id="addr-list-template" type="text/x-dot-template">
+        {{? it.length>0}}
+        {{ for(var i in it) { }}
+        <div class="aui-border">
+            <ul>
+                <li class="bank_title aui-border-b">
+                    {{=it[i].name}}
+                    <img tapmod="" onclick="del_bank('{{=it[i].id}}')" src="__WAP__/image/001/delete.png">
+                </li>
+                <li class="bank_body">
+                    <span class="g">联系姓名:<em>{{=it[i].truename}}</em></span>
+                    <span class="g">联系电话:<em>{{=it[i].moble}}</em></span>
+                    <span class="g">所在城市:<em>{{=it[i].prov}} {{=it[i].city}}</em></span>
+                    <span class="g">详细地址:<em>{{=it[i].addr}}</em></span>
+                    <span class="g">添加时间:<em>{{=it[i].addtime}} </em></span>
+                </li>
+            </ul>
+        </div>
+        {{ } }}
+        {{??}}
+            <div style="padding: 10px 0">
+                <ul style="text-align: center;color: #535C6F">
+                    暂无内容
+                </ul>
+            </div>
+        {{? }}
+    </script>
+</body>
+<script src="__WAP__/js/aui/aui-dialog.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript">
+	var paypassword='';
+	var pid=1;
+	window.onscroll = function() {
+		if (getScrollTop() + getWindowHeight() == getScrollHeight()) {
+			++pid;
+			get_data(callback);
+		}
+	}
+	function del_bank(id) {
+		var dialog = new auiDialog();
+		dialog.alert({
+			title: "删除收货地址",
+			msg: "删除不可恢复，确认继续？",
+			buttons: ['确定', '取消'],
+		}, function (ret, err) {
+			if (ret.buttonIndex == 1) {
+				dialog.alert({
+					title: "请输入交易密码",
+					buttons: ['确定', '取消'],
+					input: true,
+					textType: "password",
+				}, function (ret) {
+					if (ret.buttonIndex == 1) {
+						paypassword = ret.text;
+						loading("操作中……")
+						UserAjax('user/goods_del', 'post', {
+							'id': id,
+							'paypassword': paypassword
+						}, function (ret) {
+							toast.hide()
+							if (ret.status == 1) {
+								art(ret.info)
+								pid=1;
+								get_data()
+							} else {
+								art(ret.info)
+							}
+						}, "json");
+					}
+				})
+			}
+		});
+	}
+	function get_data(callback){
+		loading("加载中……")
+		UserAjax('user/goods','get',{
+			'pid':pid,
+		},function(ret){
+			toast.hide()
+			if (ret.status == 1)
+			{
+				var temp = doT.template($("#addr-list-template").text());
+				if(pid==1){
+					art('第'+pid+'页')
+					$("#addr-list").html(temp(ret.info.list))
+				}
+				else if(pid>Math.ceil(Number(ret.info.count)/Number(ret.info.pageSize))){
+					art("没有更多数据了")
+				}
+				else{
+					art('第'+pid+'页')
+					$("#addr-list").html($("#addr-list").html()+temp(ret.info.list))};
+				if(typeof callback == "function"){
+					setTimeout(function () {
+						callback("刷新完成");
+					}, 1000)
+				}
+				parseTapmode();
+			}else {
+				if (typeof callback == "function") {
+					setTimeout(function () {
+						callback("刷新失败");
+					}, 1000)
+				}
+			}
+		},'json');
+	}
+
+	apiready = function(){
+		onerror = error_handel;
+		get_data(callback);
+	}
+	//下拉刷新
+	var callback;
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			if(getScrollTop()<10) {
+				pid=1;
+				get_data(function (msg) {
+					art(msg);
+					pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+				})
+			}
+			else {
+				pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+			}
+		}
+	})
+</script>
+</html>

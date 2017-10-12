@@ -1,0 +1,26 @@
+.assets_content h1>span:last-child{
+	background-image: url(../style/img/icon17.png);
+}
+.coin_list li dd input[type="button"]{
+	color: #fff!important;
+	height: 30px!important;
+    line-height: 28px!important;
+    font-size: 14px!important;
+    background-repeat: no-repeat!important;
+    background-position: 10px center!important;
+    padding-left: 28px!important;
+    width: 80px!important;
+    background-size: 20px 16px !important;
+}
+.coin_list li dd input[type="button"]:first-child{
+	background-color: #830707!important;
+    background-image: url(../style/img/ico_incoin_white.png)!important;
+}
+.coin_list li dd input[type="button"]:last-child{
+	background-color: #157652!important;
+    border: 1px solid #00a867!important;
+	background-image: url(../style/img/ico_outcoin_white.png)!important;
+}
+.coin_list li:hover{
+    background-color: transparent!important;
+}

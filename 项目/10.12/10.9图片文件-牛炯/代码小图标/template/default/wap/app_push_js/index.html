@@ -1,0 +1,446 @@
+{include file="public:header"}
+<title></title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+	.coin-header-img{
+		width: 1.5rem;
+		padding:0.25rem;
+		height: 1.5rem;
+		float:left;
+	}
+	.coin-header-img img{
+		width:100%;
+		height:100%;
+	}
+	.my_body{
+		margin: 10px 10px 10px 10px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+		position:relative;
+	}
+
+	.my_body ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background-color: #FFF;
+	}
+	.bank_title{
+		margin: 0 1rem;
+		height: 3rem;
+		line-height: 3rem;
+	}
+	.bank_body{
+		margin: 0 1rem;
+	}
+	.bank_body span{
+		display: block;
+	}
+	.bank_body .g{
+		color: gray;
+	}
+	.r{
+		float: right;
+		margin-right: 1rem;
+	}
+	.red{
+		color: #e55600;
+	}
+	.green{
+		color:green;
+	}
+	select{
+		color: darkgrey;
+		outline: none;
+		/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+		/*很关键：将默认的select选择框样式清除*/
+		appearance:none;
+		-moz-appearance:none;
+		-webkit-appearance: listbox;
+		/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+		padding-right: 14px;
+		background-color: #FFF;
+		padding-left:1rem;
+		/*height:4rem;*/
+		/*line-height: 4rem;*/
+		text-align: left;
+		border: 0;
+		display: inline-block;
+		width: 100%;
+		margin-top: 10px;
+	}
+	#market-manage-log{
+		margin-top:1rem;
+	}
+	#shadow{
+		display:none;
+		width:100%;
+		margin-top:-0.625rem;
+		height:100%;
+		bottom:0;
+		background-color:rgba(33,33,33,0.5);
+		position:fixed;
+		z-index:99;
+	}
+	#show_subscribe{
+		display:none;
+		z-index:100;
+		position:absolute;
+		left:0;
+		right:0;
+		top:0;
+		background-color:#fff;
+		bottom:0;
+		width:80%;
+		height:13rem;
+		overflow:hidden;
+		margin:auto;
+		color:#a59494;
+	}
+	#show_subscribe input{
+		color:#666;
+	}
+	.aui-list-header{
+		height:1.5rem;
+		line-height:1.5rem;
+		text-align:center;
+	}
+	.white{
+		color:#fff;
+	}
+</style>
+<body>
+<div id="shadow" onclick="close_form()">
+		<ul class="aui-list aui-form-list" id="show_subscribe" onclick="cancelSendEvent(event) ">
+			<li class="aui-list-header aui-bg-info aui-font-size-16"><span class="white">集市操作</span></li>
+			<li class="aui-list-item">
+				<div class="aui-list-item-inner">
+					<div class="aui-list-item-label">
+						购买价格
+					</div>
+					<div class="aui-list-item-input">
+						<input type="text"  id="price" readonly>
+					</div>
+				</div>
+			</li>
+			<li class="aui-list-item">
+				<div class="aui-list-item-inner">
+					<div class="aui-list-item-label">
+						剩余数量
+					</div>
+					<div class="aui-list-item-input">
+						<input type="text"  id="shengyu" readonly>
+					</div>
+				</div>
+			</li>
+			<li class="aui-list-item">
+				<div class="aui-list-item-inner">
+					<div class="aui-list-item-label">
+						交易数量
+					</div>
+					<div class="aui-list-item-input">
+						<input type="number" placeholder="请输入购买数量"  id="my_num">
+					</div>
+				</div>
+			</li>
+			<li class="aui-list-item">
+				<div class="aui-list-item-inner">
+					<div class="aui-list-item-label">
+						交易密码
+					</div>
+					<div class="aui-list-item-input">
+						<input type="password" placeholder="请输入交易密码"  id="paypassword">
+					</div>
+				</div>
+			<li class="aui-list-item">
+				<div class="aui-list-item-inner aui-list-item-center aui-list-item-btn">
+					<div class="aui-btn aui-btn-info aui-col-xs-6" id="btn" onclick="submit_form()">push</div>
+				</div>
+			</li>
+			</ul>
+
+	</div>
+<section class="aui-refresh-content">
+<div class="wrap">
+	<div class="my_body">
+		<select id="select_coin" tapmod="" name="select_coin" onchange="list_change(callback)">
+			<option value="" key="">--选择市场--</option>
+		</select>
+		<div id="market-manage-log">
+		</div>
+  </div>
+</div>
+	</section>
+<script id="market-log-temp" type="text/x-dot-template">
+	{{? it.length>0 }}
+	{{ for (var i in it){ }}
+	<ul class="aui-border" {{?it[i].my}} style="border:1px red solid" {{?}} >
+		<li class="bank_title aui-border-b">
+			<span class="aui-col-xs-2 coin-header-img">
+				<img src="{{=it[i].img}}" class="aui-img-round aui-list-img-sm">
+			</span>
+			<span class="aui-col-xs-4  coin-header-title aui-font-size-16 red">{{=it[i].title}}</span>
+			<span class="r">
+				{{?it[i].my}}
+				 <em class="red">我发布的</em>
+				{{?}}
+			</span>
+		</li>
+		<li class="bank_body">
+			<span class="g">求购价格：<em>{{=it[i].price}}RMB/个</em></span>
+			<span class="g">委托时间：<em>{{=it[i].addtime}}</em></span>
+			<span class="g">求购总量：<em>{{=it[i].num}}</em></span>
+			<span class="g">进度：  <em>{{=it[i].bili}}</em>%</span>
+			<div class="aui-progress aui-progress-xs" style="margin-top:0.5rem;">
+				<div class="aui-progress-bar" style="width:{{=it[i].bili}}%;"></div>
+			</div>
+		</li>
+		{{?!it[i].my}}
+		<div class="aui-content-padded" style="padding-bottom:1rem">
+			<p><div class="aui-btn aui-btn-info" onclick="buy('{{=it[i].id}}','{{=it[i].price}}','{{=it[i].shengyu}}')" style="width: 100%;line-height: 1.5rem">push</div></p>
+		</div>
+		{{??}}
+		<div class="aui-content-padded" style="padding-bottom:1rem">
+			<p><div class="aui-btn aui-btn-danger"  style="width: 100%;line-height: 1.5rem"  onclick="cancel('{{=it[i].id}}')">撤销</div></p>
+		</div>
+		{{?}}
+	</ul>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{?}}
+</script>
+<script id="coin-type-temp" type="text/x-dot-template">
+	<option value="" key="">--选择市场--</option>
+	{{ for (var i in it){ }}
+	<option value="{{=it[i].coin}}" key="">{{=it[i].title}}</option>
+	{{ } }}
+	<option value="my" key="">只看我发布的</option>
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-dialog.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript">
+	var pid=1;
+	var callback;
+	var sub_id;
+	window.onscroll = function() {
+		if (getScrollTop() + getWindowHeight() == getScrollHeight()) {
+			++pid;
+			getList(callback);
+		}
+		alog(getScrollTop())
+	}
+	apiready = function(){
+		onerror = error_handel;
+		get_type()
+	}
+
+   //显示弹框
+	function buy(id,price,shengyu){
+		$("#shadow").css("display","block")
+		$("#show_subscribe").css("display","block")
+		sub_id=id;
+		$("#price").val(price+'RMB/个');
+		$("#shengyu").val(shengyu);
+	}
+
+	//提交交易
+	function submit_form(){
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			return false;
+		}
+	    var  my_num=$("#my_num").val();
+		var paypassword=$("#paypassword").val();
+		if(!(isInteger(my_num))) {
+		   art("请填写正确的数字格式")
+		   return;
+		}
+		if(!paypassword){
+			art("请填写交易密码")
+			return
+		}
+			UserAjax('push_js/buy', 'post', {
+				"id":sub_id,
+				"num": my_num,
+				"paypassword": paypassword,
+			}, function (ret) {
+				if (ret.status == 1) {
+					art(ret.info)
+					clean_form()
+					close_form()
+					setTimeout(function(){
+						scrollTo(0,0)
+						pid=1;
+						getList(callback);
+					},500);
+				}
+				else {
+					art(ret.info)
+				}
+			}, "json");
+	}
+
+	//市场变更刷新
+	function list_change(callback){
+		pid=1;
+		getList(callback);
+	}
+
+	//关闭弹框
+	function close_form(){
+		$("#shadow").css("display","none")
+		$("#show_subscribe").css("display","none")
+		clean_form()
+	}
+	//清空弹框值
+	function clean_form(){
+		$("#price").val(null);
+		$("#shengyu").val(null);
+		$("#my_num").val(null);
+		$("#paypassword").val(null);
+	}
+
+	//获取市场名
+	function get_type(){
+			Ajax('push_js/market','get','',function(ret) {
+				if(ret.status==1) {
+					if(ret.info) {
+						var temp = doT.template($("#coin-type-temp").text());
+						$("#select_coin").html(temp(ret.info))
+					}
+					getList(callback)
+				}
+				else{
+					art(ret.info)
+				}
+			})
+		}
+
+	//获取数据
+	function getList(callback){
+		var market =$('#select_coin option').not(function(){ return !this.selected }).val();
+        if(market == 'my'){
+	        if (!chkLogin()) {
+		        art("您目前未登录,请先登录");
+		        emptyData($("#market-manage-log"))
+		        return false;
+	        }
+        }
+		loading("努力加载中……");
+		Ajax('push_js/index', 'get', {
+			"market":market,
+			'pid':pid,
+		}, function (ret) {
+
+			toast.hide()
+			if (ret.status == 1){
+			    if(ret.info.list) {
+					for (i in ret.info.list) {
+						ret.info.list[i].shengyu=Number(ret.info.list[i].num)-Number(ret.info.list[i].deal)
+                         if(ret.info.list[i].userid == mem('ID')){
+	                         ret.info.list[i].my=1
+                         }
+					}
+
+					var temp = doT.template($("#market-log-temp").text());
+					if (pid == 1) {
+						art("第" + pid + "页")
+						$("#market-manage-log").html(temp(ret.info.list))
+					}
+					else if (pid > Math.ceil(Number(ret.info.count) / Number(ret.info.pageSize))) {
+						art("没有更多数据了")
+					}
+					else {
+						art("第" + pid + "页")
+						$("#market-manage-log").html($("#market-manage-log").html() + temp(ret.info.list));
+					}
+					if (typeof callback == "function") {
+						setTimeout(function () {
+							callback("刷新完成");
+						}, 1000)
+					}
+					parseTapmode();
+				}
+			else
+				{
+					if (typeof callback == "function") {
+						setTimeout(function () {
+							callback("刷新失败");
+						}, 1000)
+					}
+				}
+
+			}
+		},'json');
+	}
+
+	//撤销push收购
+  function	cancel(id){
+	  if (typeof id == 'undefined') {
+		  art("撤单请求参数错误！");
+		  return;
+	  }
+	  var dialog = new auiDialog();
+	  dialog.alert({
+		  title: "请输入交易密码",
+		  buttons: ['确定', '取消'],
+		  input: true,
+		  textType:"password",
+	  }, function (ret) {
+		  if (ret.buttonIndex == 1) {
+			 var paypassword = $("#aui-password").val();
+			  UserAjax('push_js/chexiao', 'POST', {
+				  'id': id,
+				  'paypassword': paypassword
+			  }, function (ret) {
+				  art(ret.info);
+				  if(ret.status==1){
+					  setTimeout(function(){
+						  scrollTo(0,0)
+						  pid=1;
+						  getList(callback);
+					  },500);
+				  }
+			  })
+		  }
+	  })
+  }
+
+
+	//下拉刷新
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			if(getScrollTop()<10) {
+				pid=1
+				getList(function (msg) {
+					art(msg);
+					pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+				})
+			}
+			else {
+				pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+			}
+		}
+	})
+
+</script>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class=""></div>
+    <div class=""></div>
+    <div class=""></div>
+</body>
+<script src="jQuery.js"></script>
+<script>
+
+//    function jQery(selector) {
+//        var obj=this.get(selector);
+//        // obj原生对象集合
+//
+//        this.length=obj.length;
+//        for(var i=0;i<this.length;i++){
+//            this[i]=obj[i];
+//        }
+//    }
+//    jQery.prototype{
+//        get: function(selector) {
+//            return document.querySelector(selector)
+//        }
+//
+//        each:  function(callback) {
+//            for(var i=0;i<this.length;i++){
+//                callback(this[i],i);
+//            }
+//        }
+//
+//        css:function(atr,val){
+//
+//        }
+//        click:function(callback){
+//
+//        }
+//        html:function(callback){
+//
+//        }
+//    }
+//
+//    function $(selector){
+//        return new jQery(selector);
+//    }
+
+    $("div").html(1).css("background","red").click(
+           function(){
+               alert(1)
+           }
+    )
+</script>
+</html>

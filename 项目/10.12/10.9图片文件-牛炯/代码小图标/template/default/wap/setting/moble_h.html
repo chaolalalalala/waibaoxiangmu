@@ -1,0 +1,41 @@
+{include file="public:header"}
+<title>绑定手机</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<body>
+<header  id="header"  class="aui-bar aui-bar-nav aui-bar-dark">
+    <a class="aui-pull-left" tapmod="" onclick="back();">
+        <span class="aui-iconfont aui-icon-left"></span>返回
+    </a>
+    <div class="aui-title">绑定手机</div>
+</header>
+</body>
+<script>
+    apiready = function(){
+	    onerror       = error_handel;
+	    var header    = $api.byId('header');
+	    var width     = getWinWidth();
+	    var headerPos = $api.offset(header);
+	    var height    = getWinHight() - headerPos.h;
+	    openFrame({
+		    name: 'moble',
+		    url: aurl('/setting/moble'),
+		    allowEdit : true,
+		    bounces: false,
+		    opaque: true,
+		    reload: true,
+		    vScrollBarEnabled: true,
+		    hScrollBarEnabled:false,
+		    rect: {
+			    x: 0,
+			    y: headerPos.h,
+			    w: width,
+			    h: height
+		    },
+            pageParam:{
+	            "mobile":iv('mobile'),
+            }
+	    });
+    }
+</script>
+</html>

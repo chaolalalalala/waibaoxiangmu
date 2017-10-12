@@ -1,0 +1,292 @@
+{include file="public:header"}
+<title>虚拟币转出</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/common.css">
+</head>
+	<style>
+		span{
+			color:#a59494;
+		}
+		.btn-very{
+			height: 2.2rem;
+			background-color: green;
+			line-height: 2.2rem;
+			padding: 0rem 1rem;
+			display:block;
+			text-align: center;
+			border-radius: 8px;
+			color:#fff;
+		}
+		.mobile-very{
+			display: none;
+			margin: 30px 20px  60px 20px;
+			border-radius: 8px;
+			padding: 0 10px;
+			line-height: 30px;
+		}
+		#bank_type{
+			width: 100%;
+		}
+		#coin_type{
+			margin:1rem 0;
+			width: 100%;
+		}
+        .my_body{
+            margin: 20px;
+            border-radius: 8px;
+            padding: 0 10px;
+            line-height: 30px;
+        }
+        .my_body ul,.my_title ul{
+            position: relative;
+            padding-left: 0;
+            margin-top: 0;
+            list-style: none;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+        }
+        .my_body li{
+            border-radius: 2px;
+            margin: 1rem 0;
+            display: -webkit-box;
+            height: 2.2rem;
+            padding:0 0 0 0.5rem;
+            background-color: white;
+        }
+        .my_body li input{
+            display: block;
+            -webkit-box-flex: 1;
+            background-color: rgba(255, 255, 255, 0);
+            outline: none;
+            color: #666;
+            height: 2.2rem;
+            line-height:2.2rem;
+        }
+        .btn{
+            display: block;
+            color: #FFFFFF;
+            margin: 0 30px;
+            text-align: center;
+            border-radius: 8px;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            background-color: #e55600;
+        }
+		.notice{
+			margin: 20px;
+			border-radius: 8px;
+			padding: 0 10px;
+			line-height: 30px;
+		}
+        .notice span{
+            height: 2rem;
+            line-height: 2rem;
+            color: #AFB4BD;
+        }
+        select{
+            color: #666;
+            display: block;
+            outline: none;
+            /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+            /*很关键：将默认的select选择框样式清除*/
+            appearance:none;
+            -moz-appearance:none;
+            -webkit-appearance: listbox;
+            /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+            padding-left:0.5rem;
+
+            background-color: #FFF;
+            height:2rem;
+            line-height: 2rem;
+            text-align: left;
+            border: 0;
+            width:100%;
+        }
+		.grey{
+			color:grey;
+		}
+	</style>
+<body>
+<div class="wrap">
+	<div id="show1">
+		<div class="my_body">
+			<span class="grey">可用余额:<span id="keyong"></span></span><br/>
+			<span class="grey">绑定手机号：<span id="mobel"></span></span>
+			<select name="coin" id="coin_type" tapmod="" onchange="get_data()">
+			</select>
+			<!--提现-->
+			<select name="bank" id="bank_type" tapmod="">
+			<option value="0">选择钱包地址</option>
+				<option value='tianjia'>新增钱包地址</option>
+			</select>
+			<ul>
+				<li>
+					<input tapmod="" onclick="_focus(this)" name="num" id="num" type="text"
+					       placeholder="转出数量">
+				</li>
+				<li>
+					<input tapmod="" onclick="_focus(this)" name="paypassword" id="paypassword"
+					       type="password" placeholder="交易密码">
+				</li>
+				<li>
+					<input tapmod="" onclick="_focus(this)" name="verify_code" id="verify_code"
+					       type="text" placeholder="输入验证码">
+					<span id="send_code" class="btn-very" tapmod="" onclick="send_code()">获取验证码</span>
+				</li>
+			</ul>
+		</div>
+		<div class="btn" tapmode="" onclick="up()">确认转出</div>
+	</div>
+</div>
+<script id="coin-addr-template" type="text/x-dot-template">
+	<option value="0">选择钱包地址</option>
+	{{?it}}
+	{{for(var i in it){ }}
+	 <option value='{{=i}}'>{{=it[i]}}</option>
+	 {{ } }}
+	{{?}}
+	<option value='tianjia'>新增钱包地址</option>
+</script>
+</body>
+<script src="__WAP__/js/ext/doT.min.js"></script>
+<script>
+	var coin_id = '';
+	var coin_name='';
+	apiready = function() {
+		onerror = error_handel;
+		get_type();
+		get_data()
+	}
+	function get_type(){
+		var coin_type=memObj('coinTypeList');
+        if ( typeof coin_type == 'undefined' || typeof coin_type == 'null') {
+
+	        //todo 获取币种列表 然后缓存
+	        coin_type = getCoinInfo()
+        }
+		for ( var i in coin_type){
+	   var	opt="<option value="+coin_type[i].name+">"+coin_type[i].title+"</option>"
+		    $("#coin_type").append(opt)
+		}
+		if(typeof iv('ename') ){
+			key =iv('ename');
+			$('#coin_type option').filter(function(){ return this.value == key }).prop("selected","selected");
+		}
+	}
+
+	function get_data() {
+
+		var defaltCoin = $('#coin_type option').not(function(){ return !this.selected }).val();
+		var param = defaltCoin ? { 'coin':defaltCoin } : {};
+
+		UserAjax("finan/coinout", "get", param , function (ret) {
+			if (ret.status==1) {
+				if(!(typeof ret.info =="undefined")){
+                    $("#mobel").html(ret.info.moble);
+					$("#keyong").html(ret.info.keyong);
+					var tempFn = doT.template($('#coin-addr-template').text());
+					$('#bank_type').html(tempFn(ret.info.user_qianbao));
+				}
+			}else{
+				art(ret.info);
+			}
+		}, "json")
+	}
+		$("#bank_type").change(function() {
+
+			var actionTitle = $('#bank_type option').not(function(){ return !this.selected }).val();
+			  if(actionTitle == "tianjia") {
+				$("#bank_type option").first().prop("selected","selected")
+
+				openWin({
+					name: 'addr_qianbao_h',
+					url: aurl('wap/setting/addr_qianbao_h'),
+					slidBackEnabled: false,
+					delay: 100,
+					pageParam: {
+						'coin_id': coin_id,
+						'coin_name': coin_name
+					}
+				});
+			}
+		})
+	function up(){
+		var type = $('#coin_type option').not(function(){ return !this.selected }).val();
+		var addr= $('#bank_type option').not(function(){ return !this.selected }).val();
+		var num = $('#num').val();
+		var verify_code = $('#verify_code').val();
+		var paypassword = $('#paypassword').val();
+		if(addr=="0" || addr=="tianjia"){
+			art('请选择一个钱包地址');
+			return;
+		}
+		if(!num){
+			art('请输入转出数量');
+			return;
+		}
+		if(!paypassword){
+			art('请输入交易密码');
+			return;
+		}
+		if(!verify_code){
+			art('请输入手机验证码');
+			return;
+		}
+		loading("提交中……")
+		UserAjax('finan/coinout_up','post',
+			{
+                'code':verify_code,
+				'coin':type,
+				'num':num,
+				'paypassword':paypassword,
+				'bank':addr,
+			},
+			function(ret){
+				toast.hide();
+				if(ret.status==1){
+					art(ret.info)
+					clean_view();
+				}else{
+					art(ret.info)
+				}
+			});
+	}
+
+	//清空页面
+	function clean_view(){
+		$('#bank_type option').first().prop("selected","selected");
+		$('#num').val(null);
+		$('#verify_code').val(null);
+		$('#paypassword').val(null);
+	}
+
+	function send_code(){
+		createRequestVerifyView('finan/coinout_send_moble');
+	}
+
+	///////////////////倒计时//////////////////////////
+	var timer_lock = 0;
+	var countdown = 60;
+	var timerID;
+	function settime(obj) {
+		if (countdown == 0) {
+			obj.css({'background-color':'green'});
+			obj.html("免费获取验证码");
+			clearTimeout(timerID);
+			timer_lock = 0;
+			countdown = 60;
+			$("#send_code").attr("disabled","true");
+		} else {
+			timer_lock = 1;
+			obj.css({'background-color':'gray'});
+			obj.html("重新发送(" + countdown + ")");
+			countdown--;
+			timerID = setTimeout(function() {
+				settime(obj)
+			}, 1000)
+		}
+	}
+	///////////////////倒计时//////////////////////////
+</script>
+</html>

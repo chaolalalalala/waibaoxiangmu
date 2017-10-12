@@ -1,0 +1,35 @@
+<div style="padding-top: 50px;margin-left: 20px;margin-right: 20px;min-width: 1130px;">
+    <h3>{#qklang('Other Pages')}</h3>
+    <p>
+        <a href="/qukuai/peers">{#qklang('Connected Peers')}</a>
+        -{#qklang('list of nodes currently connected to our node')}
+        <br>
+        <a href="/qukuai/stats">{#qklang('Stats')}</a>
+        -{#qklang('list Stats')}
+        <br>
+        <a href="/qukuai/search">{#qklang('Search')}</a>
+        -{#qklang('Search for block, tx or address')}
+        <br>
+        <a href="/qukuai/api">{#qklang('API')}</a>
+        -{#qklang('list API')}
+
+
+    </p>
+</div>
+
+
+<hr/>
+<script>
+    function chose_lang(lang) {
+        $.cookies.set("lang", lang);
+        window.location.reload();
+    }
+</script>
+<div id="footer">
+    <p>{#qklang('Status')}: <a href="./?q=getinfo">{$footer_status}</a>
+       | {#qklang('Connections')}: <a href="./?page=peers">{$footer_concount}</a>
+        <br/>&copy; <a href="http://www.movesay.com">Movesay.com</a>2017</p>
+</div>
+
+</body>
+</html>

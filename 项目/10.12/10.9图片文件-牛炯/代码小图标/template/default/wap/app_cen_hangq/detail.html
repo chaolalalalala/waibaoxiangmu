@@ -1,0 +1,199 @@
+{include file="public:header"}
+<title></title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/fontawesome/font-awesome.min.css">
+	<style>
+		.h-mid ul li{ width:20%; float:left; height:45px; text-align:center; }
+		.orderItem li{
+			font-size: 0.65rem;
+			margin: 0.3125rem 0.625rem;
+		}
+		.orderItem ul{
+			clear: both;
+		}
+		.orderOptionBtns span {
+			margin: 0.325rem 0.325rem;
+			border: #999 1px solid;
+			padding: 0.125rem 0.325rem;
+			border-radius: 0.125rem;
+		}
+		#name{
+			color:#FF6C33;
+		}
+		#feecoin2{
+			width:50%;
+		}
+		.no-padding{
+			padding:0 !important;
+		}
+		input{
+			text-align:right;
+		}
+		.half{
+			width:49%;
+        float:left;
+			font-size:14px;
+		}
+		.aui-list-in{
+			position:static;
+		}
+	</style>
+</head>
+<body>
+<div class="aui-content aui-margin-b-15">
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">基本信息</li>
+		<li class="aui-list-item half">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">中文名:</div>
+				<div class="aui-list-item-text" id="cname">
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item half">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">英文名:</div>
+				<div class="aui-list-item-text" id="ename">
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item half">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">市场价格:</div>
+				<div class="aui-list-item-text" id="price"></div>
+			</div>
+		</li>
+		<li class="aui-list-item half">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">区块奖励:</div>
+				<div class="aui-list-item-text" id="gk">
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item half">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">交易平台:</div>
+				<a href="#" class="aui-list-item-text" id="market" target="_blank">
+				</a>
+			</div>
+		</li>
+		<li class="aui-list-item half">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">区块时间:</div>
+				<div class="aui-list-item-text" id="gj"></div>
+			</div>
+		</li>
+		<li class="aui-list-item half">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">发布时间:</div>
+				<div class="aui-list-item-text" id="fb"></div>
+			</div>
+		</li>
+		<li class="aui-list-item half">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">挖矿方式:</div>
+				<div class="aui-list-item-text" id="fs"></div>
+			</div>
+		</li>
+		<li class="aui-list-item half">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">英文简称:</div>
+				<div class="aui-list-item-text" id="name"></div>
+			</div>
+		</li>
+		<li class="aui-list-item half">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">全网算力:</div>
+				<div class="aui-list-item-text" id="sl"></div>
+			</div>
+		</li>
+		<li class="aui-list-item half">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">核心算法:</div>
+				<div class="aui-list-item-text" id="sf"></div>
+			</div>
+		</li>
+		<li class="aui-list-item half">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">挖矿难度:</div>
+				<div class="aui-list-item-text"></div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">货币总量:</div>
+				<div class="aui-list-item-text" id="zl"></div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">官方网站:</div>
+				<div class="aui-list-item-text"><a href="" id="office_site" target="_blank"></a></div>
+			</div>
+		</li>
+	</ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">主要特色</li>
+		<li class="aui-list-item">
+			<div  id="ts" >
+			</div>
+		</li>
+	</ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">不足之处</li>
+		<li class="aui-list-item">
+			<div  id="bz" >
+			</div>
+		</li>
+	</ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">币种简介</li>
+		<li class="aui-list-item">
+			<div  id="jj" >
+			</div>
+		</li>
+	</ul>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/echo.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-slide.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	apiready = function () {
+		onerror = error_handel;
+		flash()
+	};
+	function flash() {
+		var params = { 'name':iv('name') };
+		Ajax('cen_hangq/detail', 'get', params, function (ret) {
+			var data = ret.info;
+			if (ret.status == 1) {
+				$("#cname").html(data.title)
+				$("#ename").html(data.name)
+				$("#jj").html(data.jj+data.name)
+				$("#price").html(data.price)
+				$("#gk").html(data.gk)
+				$("#market").html(data.market)
+				$("#market").attr('href','http://'+data.market)
+				$("#gj").html(data.gj)
+				$("#fb").html(data.fb)
+				$("#office_site").html(data.gw)
+				$("#office_site").attr('href',data.gw)
+				$("#fs").html(data.fs)
+				$("#name").html(data.name)
+				$("#sl").html(data.sl)
+				$("#sf").html(data.sf)
+				$("#zl").html(data.zl)
+				$("#ts").html(data.ts)
+				$("#bz").html(data.bz)
+
+			}else {
+				art(ret.info);
+			}
+		});
+	}
+
+</script>
+</html>

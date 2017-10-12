@@ -1,0 +1,77 @@
+{include file="public:header"}
+<script type="text/javascript" src="__EXT__/cen_qu/jquery.min.js"></script>
+<!--<script type="text/javascript" src="__EXT__/coinqu/zhankai.js"></script>-->
+<link rel="stylesheet" type="text/css" href="__EXT__/cen_qu/global.css"/>
+<link rel="stylesheet" href="__EXT__/cen_qu/issue.css"/>
+<style>
+	.h_list{
+		display:inline;
+	}
+	.h_list .bd li:hover{
+		background:none;
+	}
+	.mywallet_list ul{
+		width:auto;
+		margin:5px;
+	}
+	.fa-user,.fa-list-ul{
+		margin-top:5px!important;
+	}
+	.mywallet_btn_box{
+		width:388px;
+	}
+</style>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('导航中心')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center ">
+				<h1>
+					<span>
+						{#lang('导航中心')}
+					</span>
+	                <span>
+                        <a href="{#url('cen_qu/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('导航列表')}</a>
+                    </span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+			</div>
+		</div>
+	</div>
+	<div class="wrapfull" id="h_listw" style="min-height: 500px;background:#fff">
+		{foreach $btc as $k => $v}
+		<div class="wrapfix clearfloat">
+			<div class="h_listtitle clearfloat">
+				<div class="h_left"></div>
+				<div class="h_center">
+					<span><a href="/cen_qu/index?id={$v['id']}">{$v['title']}</a></span></div>
+				<div class="h_right"></div>
+			</div>
+			<a class="cr-title-sub opr-recommends-merge-more-btn" href="javascript:;"
+			   onclick="return false;"> <span>展开/收起</span> <i class="c-icon c-icon-chevron-bottom c-gap-left-small"></i></a> {foreach $v['tit'] as $kk => $vv}
+			<div class="h_list">
+				<div class="hd">{$vv['title']}<em></em></div>
+				<div class="bd">
+					<ul>
+						{foreach $vv['tit1'] as $kkk => $vvv}
+						<li><a href="{$vvv['url']}" target="_blank">{$vvv['title']}</a></li>
+						{/foreach}
+					</ul>
+				</div>
+			</div>
+			                                                                                                                 {/foreach}
+		</div>
+		{/foreach}
+	</div>
+	<script>
+		$('.cr-title-sub').click(function () {
+			$(this).siblings('.h_list').toggle();
+		})
+		// 菜单高亮
+		$('.menu_cen_qu').addClass('active');
+	</script>
+</div>
+{include file="public:footer"}

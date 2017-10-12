@@ -1,0 +1,255 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('币币兑换')}
+	</div>
+	<div class="main-content mb20">
+	    <!--导航-->
+        <div class="assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('币币兑换')}
+					</span>
+                    <span>
+                        <a href="{#url('/duihuan/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('兑换中心')}</a>
+                        <a href="{#url('/duihuan/log')}" id="step2" class="step fz_12 ml20 pd6">{#lang('兑换记录')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="mytable-body pwtrade  ">
+			</div>
+            <!--交易-->
+            <div class="crowd_con clear">
+                <div class="crowd_con_l">
+                    <ul class="crowd_subscribe clear">
+                        <li>
+                            <p>{#lang('兑换期号')}</p>
+							<span class="green" id="id" >
+								 {$duihuan['numid']}
+							</span>
+                        </li>
+                        <li style="width:180px">
+                            <p>{#lang('兑换总数限制')}</p>
+							<span class="red">
+                                {$duihuan['limit']}{#lang('套')}
+							</span>
+                        </li>
+                        <li>
+                            <p>{#lang('今日已兑换')}</p>
+							<span class="green">
+								{$mum}{#lang('套')}
+							</span>
+                        </li>
+                    </ul>
+                     <span style="font-size: 16px;font-weight: bold">{#lang('兑换规则')}：
+                          {if $duihuan["num1"]  && $duihuan['coin1']}
+                          <font class="green" style="font-size: 16px">{$duihuan["num1"]}{#strtoupper($duihuan['coin1'])}</font>
+                          {/if}
+                          {if $duihuan["num1"]  && $duihuan['coin1'] && $duihuan["num2"] && $duihuan['coin2']}
+                          <font class="red">+</font>
+                          {/if}
+                          {if $duihuan["num2"] && $duihuan['coin2']}
+                          <font class="green" style="font-size: 16px">{$duihuan["num2"]}{#strtoupper($duihuan['coin2'])}</font>
+                          {/if}
+                          <font class="red">=</font>
+                           {if $duihuan["num3"] && $duihuan['coin3']}
+                          <font class="green" style="font-size: 16px">{$duihuan["num3"]}{#strtoupper($duihuan['coin3'])}</font>
+                          {/if}
+                          {if $duihuan["num3"]  && $duihuan['coin3'] && $duihuan["num4"] && $duihuan['coin4']}
+                          <font class="red">+</font>
+                          {/if}
+                          {if $duihuan["num4"] && $duihuan['coin4']}
+                          <font class="green" style="font-size: 16px">{$duihuan["num4"]}{#strtoupper($duihuan['coin4'])}</font>
+                          {/if}
+                     </span>
+	                {#lang('(获得币种=支付币种)')}
+                    <!--计时部分-->
+                    <div class="crowd_time">
+                        <div class="dowebok_move">
+                            {if time()<$strtime}
+                            <p class="crowd_con_lp" id="cdstatus">{#lang('距离兑换开始还有')}：</p>
+                            <div class="crowd_time_all dowebok">
+                                <div id="t_d" class="days "></div>
+                                <em>{#lang('天')}</em>
+                                <div id="t_h" class="hours "></div>
+                                <em>{#lang('时')}</em>
+                                <div id="t_m" class="minutes"></div>
+                                <em>{#lang('分')}</em>
+                                <div id="t_s" class="seconds "></div>
+                                <em>{#lang('秒')}</em>
+                            </div>
+                            <script src="__EXT__/jquery/jquery.flipTimer.js"></script>
+                            <script>
+                                $(function () {
+                                    $('.dowebok').flipTimer({
+                                        direction: 'down',
+                                        date: "{#addtime($strtime)}",
+                                        callback: function () {
+                                            window.location.reload();
+                                        }
+                                    });
+                                });
+
+                            </script>
+                            {else if time()>$strtime && time()<$endtime}
+                            <p class="crowd_con_lp" id="cdstatus">{#lang('距离兑换结束还有')}：</p>
+                            <div class="crowd_time_all dowebok">
+                                <div id="t_d" class="days "></div>
+                                <em>{#lang('天')}</em>
+                                <div id="t_h" class="hours "></div>
+                                <em>{#lang('时')}</em>
+                                <div id="t_m" class="minutes"></div>
+                                <em>{#lang('分')}</em>
+                                <div id="t_s" class="seconds "></div>
+                                <em>{#lang('秒')}</em>
+                            </div>
+                            <script src="__EXT__/jquery/jquery.flipTimer.js"></script>
+                            <script>
+                                $(function () {
+                                    $('.dowebok').flipTimer({
+                                        direction: 'down',
+                                        date: "{#addtime($endtime)}",
+                                        callback: function () {
+                                            window.location.reload();
+                                        }
+                                    });
+                                });
+                            </script>
+                            {else}
+                            <p class="crowd_con_lp " style="text-align: center;font-size: 22px;letter-spacing: 1px;line-height: 70px;">{#lang('当前兑换已经结束')}</p>
+                            {/if}
+                        </div>
+                    </div>
+                    <div class="crowd_xq">
+                        <span class=" mr10">{#lang('开始时间')}：<b class="red">{$duihuan['strtime']}:00:00</b></span> <span class=" mr10">{#lang('结束时间')}：<b class="red">{$duihuan['endtime']}:00:00</b></span> <span class=" mr10">  </span>
+                    </div>
+                </div>
+                <div class="crowd_con_r">
+                    <div class="crowd_my">
+                        <h2>{#lang('我要兑换')}</h2>
+                        {if $duihuan['coin3'] && $duihuan['num3']}
+                        <span style="font-weight: bold">{#lang('可用')}{#strtoupper($duihuan['coin3'])}: </span><span style="color: green">{#num($num3)}</span></br>
+                        {/if}
+                        {if $duihuan['coin4'] && $duihuan['num4']}
+                        <span style="font-weight: bold">{#lang('可用')}{#strtoupper($duihuan['coin4'])}: </span><span style="color: green">{#num($num4)}</span>
+                        {/if}
+                        <div class="login_text zin90 clear mt10">
+                            <span>{#lang('兑换数量')}:</span> <input type="text" id="num" class="texts" placeholder="{#lang('请输入购买数(成套兑换)')}" >
+                        </div>
+                        <div class="login_text zin80 clear mt10">
+                            <span>{#lang('交易密码')}:</span>
+                            <input type="password" id="paypassword" class="texts"  placeholder="{#lang('请输入交易密码')}" >
+                        </div>
+                        <div class="login_button">
+                            <input type="button" value="{#lang('立即兑换')}" class="btns2" onclick="duihuan()" style="margin-left: 55px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--介绍-->
+            {if $duihuan["content_kai"]==1}
+            <div class="crowd_list clear">
+                <span class="crowd_rule_t fz_20">{#lang('兑换介绍')}</span>
+                <div class="crowd_list_state mt10">
+                    {$duihuan['content'] nofilter}
+                </div>
+            </div>
+            {/if}
+            <!--记录-->
+            <div class="crowd_list clear">
+                <span class="crowd_rule_t fz_20">{#lang('兑换记录')}</span>
+                <div class="f_tab_body mt20">
+                    <table class="f_table" id="investLog_content">
+                        <thead>
+                        <tr>
+                            <th id="sublist-grid_c0">{#lang('用户')}</th>
+                            <th id="sublist-grid_c1">{#lang('兑换币种1')}</th>
+                            <th id="sublist-grid_c2">{#lang('兑换币种2')}</th>
+                            <th id="sublist-grid_c3">{#lang('支付币种1')}</th>
+                            <th id="sublist-grid_c4">{#lang('支付币种2')}</th>
+                            <th id="sublist-grid_c5">{#lang('兑换数量(套)')}</th>
+                            <th id="sublist-grid_c6">{#lang('兑换时间')}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {foreach $pages['list'] as $k => $v}
+                        <tr>
+                            <td>{$v['userid']}</td>
+                            {if !$v['coin1']}
+                            <td>----</td>
+                            {else}
+                            <td>{#strtoupper($v['coin1'])}</td>
+                            {/if}
+                            {if !$v['coin2']}
+                            <td>----</td>
+                            {else}
+                            <td>{#strtoupper($v['coin2'])}</td>
+                            {/if}
+                            {if !$v['coin3']}
+                            <td>----</td>
+                            {else}
+                            <td>{#strtoupper($v['coin3'])}</td>
+                            {/if}
+                            {if !$v['coin4']}
+                            <td>----</td>
+                            {else}
+                            <td>{#strtoupper($v['coin4'])}</td>
+                            {/if}
+                            <td>{$v['num']}</td>
+                            <td>{#addtime($v['addtime'])}</td>
+                        </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+                    <div class="pages">{$pages['show'] nofilter}</div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+<script>
+    function duihuan() {
+        var id           = "{$duihuan['id']}";
+        var paypassword  = $('#paypassword').val();
+        var num          = $('#num').val();
+        $.post("{#url('duihuan/buy')}", {
+            id:id,
+            num:num,
+            paypassword: paypassword
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.setTimeout("location.reload()", 1000);
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+</script>
+<script>
+	if ($("#duihuan_box").length > 0) {
+		$('#duihuan_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

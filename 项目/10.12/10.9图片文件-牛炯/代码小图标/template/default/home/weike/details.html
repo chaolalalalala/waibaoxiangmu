@@ -1,0 +1,246 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<div class="autobox">
+	<div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="{#url('weike/index')}" class="orange">{#lang('威客任务')}</a> &gt; {#lang('威客详情')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('威客任务')}
+					</span>
+	                <span>
+                       <a href="{#url('weike/index')}" id="step1" class="step fz_12 ml50 pd6 active ">{#lang('威客列表')}</a>
+                        <a href="{#url('weike/log')}" id="step2" class="step fz_12 ml20 pd6 ">{#lang('投稿记录')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="crowd_con clear">
+				<div class="crowd_con_l " >
+					<div class="crowd_bi clear">
+						<h2 class="left">{$arr["title"]}</a></h2>
+						<a class="left ml20 mt20">{#lang('威客编号')}:{$arr["id"]}</a>
+					</div>
+					<ul class="crowd_subscribe clear">
+						<li>
+							<p>{#lang('雇主')}：</p>
+							<span class="red">
+                                 {if !$v["userid"]}
+                                 {#lang('系统管理员')}
+                                 {else}
+                                 {$v["userid"]}
+                                  {/if}
+							</span>
+						</li>
+						<li>
+							<p>  {#lang('任务分类')}：</p>
+							<span class="red">
+                             {$type["type"]}
+							</span>
+						</li>
+						<li>
+							<p> {#lang('任务进度')}：</p>
+							<span class="red">
+                                    {if time()-$arr['addtime'] <= 86400 &$arr["status"]==1 }
+                                    {#lang('新发布')}
+                                    {else if time()-$arr['addtime'] > 86400 & time()<=$arr["endtime"] & $arr["status"]==1 }
+                                    {#lang('进行中')}
+                                    {else if time() > $arr["endtime"] & $arr["status"]==1 }
+                                    {#lang('已结束')}
+                                    {else if $arr["status"]==0}
+                                    {#lang('已关闭')}
+                                    {/if}
+							</span>
+						</li>
+						<li>
+							<p>{#lang('本任务奖励')}：</p>
+							<span class="green">
+								{#round($arr["price"],2)}{$arr["price_type"]}
+							</span>
+						</li>
+					</ul>
+					<div class="crowd_time">
+						<div class="dowebok_move">
+                            {if time()<$arr["endtime"] & $arr["status"]==1 }
+							<p class="crowd_con_lp" id="cdstatus">{#lang('距离投稿结束还有')}：</p>
+							<div class="crowd_time_all dowebok">
+								<div id="t_d" class="days "></div>
+								<em>{#lang('天')}</em>
+								<div id="t_h" class="hours "></div>
+								<em>{#lang('时')}</em>
+								<div id="t_m" class="minutes"></div>
+								<em>{#lang('分')}</em>
+								<div id="t_s" class="seconds "></div>
+								<em>{#lang('秒')}</em>
+							</div>
+							<script src="__EXT__/jquery/jquery.flipTimer.js"></script>
+							<script>
+								$(function () {
+									$('.dowebok').flipTimer({
+										direction: 'down',
+										date: "{#addtime($arr['endtime'])}",
+										callback: function () {
+											window.location.reload();
+										}
+									});
+								});
+							</script>
+							{else}
+							<p class="crowd_con_lp " style="text-align: center;font-size: 22px;letter-spacing: 1px;line-height: 70px;">{#lang('当前任务投稿已经结束')}</p>
+							{/if}
+						</div>
+					</div>
+					<div class="crowd_pro">
+						<!--进度条-->
+
+                        <progress value="" max="100"></progress>
+						<span>{$money['bili']}</span></div>
+					<div class="crowd_xq">
+						<span class=" mr10 fz_14">{#lang('开启时间')}：<b class="red">{#addtime($arr['strtime'], 'Y/m/d')}</b></span> <span class=" mr10 fz_14">{#lang('结束时间')}：<b class="red">{#addtime($arr['endtime'], 'Y/m/d')}</b></span>
+					</div>
+					<div class="crowd_xq mt10">
+					</div>
+				</div>
+				<div class="crowd_con_r">
+					<div class="crowd_my" style="float: right">
+						<h2>{#lang('我要投稿')}</h2>
+						<div class="login_button mt10">
+							<p class="crowd_con_lp crowd_con_lp2" style="    width: 310px;">  {#lang('投稿地址')}:{$arr["adress"]}
+							</p>
+						</div>
+						<div class="login_text clear mt10">
+                            {if $arr["step"]==3}
+                            <textarea style="width:400px;min-height: 100px;border: 1px #cccccc solid;overflow:auto;word-break:break-all;" id="answer" placeholder="{#lang('描叙你的工作')}..." readonly></textarea>
+                            <button type="submit" class="btns2" onclick="submit_data()" disabled>{#lang('任务已结束')}</button>
+                            <div class="user-profile clearfix" style="margin: 10px;">
+                                <ul class="ace-thumbnails">
+                                </ul>
+                            </div>
+                            {else if $arr["status"]==0 }
+                            <textarea style="width:400px;min-height: 100px;border: 1px #cccccc solid;overflow:auto;word-break:break-all;" id="answer" placeholder="{#lang('描叙你的工作')}..." readonly></textarea>
+                            <button type="submit" class="btns2" onclick="submit_data()" disabled>{#lang('任务已关闭')}</button>
+                            <div class="user-profile clearfix" style="margin: 10px;">
+                                <ul class="ace-thumbnails">
+                                </ul>
+                            </div>
+                            {else if $arr["step"]<=2 }
+                            <textarea style="width:400px;min-height: 100px;border: 1px #cccccc solid;overflow:auto;word-break:break-all;" id="answer" placeholder="{#lang('描叙你的工作')}..."></textarea>
+                            <button type="submit" class="btns2" onclick="submit_data()">{#lang('提交')}</button>
+                            <div class="user-profile clearfix" style="margin: 10px;">
+                                <ul class="ace-thumbnails">
+                                </ul>
+                            </div>
+                            {/if}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="crowd_list clear">
+				<span class="crowd_rule_t fz_20">{#lang('任务介绍')}</span>
+				<div class="crowd_list_state mt10">
+					{$arr['content'] nofilter}
+				</div>
+			</div>
+			<div class="crowd_list clear">
+				<span class="crowd_rule_t fz_20">{#lang('投稿记录')}</span>
+				<div class="f_tab_body mt20">
+                    <table class="f_table" id="investLog_content">
+                        <thead>
+                        <tr>
+                            <th id="sublist-grid_c0">{#lang('编号')}</th>
+                            <th id="sublist-grid_c1">{#lang('稿件状态')}</th>
+                            <th id="sublist-grid_c2">{#lang('投标人')}</th>
+                            <th id="sublist-grid_c3">{#lang('投稿时间')}</th>
+                            <th id="sublist-grid_c4">{#lang('投稿内容')}</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {foreach $pages['list'] as $v}
+                        <tr>
+                            <td>{$v['id']}</td>
+                            <td>{if $v['status']==2}
+                                {#lang('审核中')}
+                                {else if $v['status']==1}
+                                {#lang('恭喜你,中标')}
+                                {else if $v['status']==0}
+                                {#lang('审核未通过')}
+                                {else if $v['status']==3}
+                                {#lang('已支付')}
+                                {/if}
+                            </td>
+                            <td>{$v['userid']}</td>
+                            <td>{#addtime($v['addtime'])}</td>
+                            <td>{$v['content']}</td>
+                        </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+					<div class="pages">{$pages['show'] nofilter}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+    function submit_data(){
+        var url    = "/home/weike/tender_add/weikeid/{$arr['id']}";
+        var answer = $("#answer").val();
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        layer.ready(function () {
+            //默认prompt
+            layer.prompt({
+                title: ' {#lang("输入交易密码，并确认")}',
+                formType: 1
+            }, function (val) {
+                if (val) {
+                    //需要执行的方法
+                    $.post(url,
+                            {
+                                content : answer,
+                                paypassword: val
+                            },
+                            function (data) {
+                                if (data.status == 1) {
+                                    layer.msg(data.info, {icon: 1});
+                                    window.setTimeout("location.reload()",1000);
+                                } else {
+                                    layer.msg(data.info, {icon: 2});
+                                    if (data.url) {
+                                        window.location = data.url;
+                                    }
+                                }
+                            }, "json");
+                }
+                ;
+            });
+        });
+
+    }
+</script>
+<script>
+    if ($("#weike_box").length > 0) {
+        $('#weike_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}

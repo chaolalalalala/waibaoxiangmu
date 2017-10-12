@@ -1,0 +1,125 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/goods.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/fontawesome/font-awesome.min.css">
+	<style>
+        .h-mid ul li{ width:20%; float:left; height:45px; text-align:center; }
+        .orderItem li{
+            font-size: 0.65rem;
+            margin: 0.3125rem 0.625rem;
+        }
+        .orderItem ul{
+            clear: both;
+        }
+        .orderOptionBtns span {
+            margin: 0.325rem 0.325rem;
+            border: #999 1px solid;
+            padding: 0.125rem 0.325rem;
+            border-radius: 0.125rem;
+        }
+		#name{
+			color:#FF6C33;
+		}
+	</style>
+</head>
+<body>
+<div class="aui-content aui-margin-b-15">
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">主要内容</li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">分红名称:</div>
+                <div class="aui-list-item-text" id="name">
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">分红总量：</div>
+                <div class="aui-list-item-text" id = "num"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">持币用户:</div>
+                <div class="aui-list-item-text" id = "yonghu"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">持币总额:</div>
+                <div class="aui-list-item-text" id = "chiyou"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">每个分红:</div>
+                <div class="aui-list-item-text" id = "dange"></div>
+            </div>
+        </li>
+    </ul>
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">其他内容</li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">分红币种:</div>
+                <div class="aui-list-item-text" id="coinname"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">奖励币种:</div>
+                <div class="aui-list-item-text" id="coinjian"></div>
+            </div>
+        </li>
+    </ul>
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">分红介绍</li>
+	    <li class="aui-list-item" style="height:300px">
+		    <div id="content"
+		         style="
+                 position:relative;
+                 overflow-x:auto;
+                 overflow-y:auto;
+                 width:100%;
+                 /*overflow:scroll;*/
+                 height:auto;
+                 padding:0.75rem 0.75rem 0 0;
+                 " >
+		    </div>
+	    </li>
+    </ul>
+</div>
+</body>
+<script type="text/javascript">
+	apiready = function () {
+		alog("come");
+		onerror = error_handel;
+		flash()
+	};
+
+	function flash() {
+        var params = {
+	        "id": iv('id'),
+        }
+        Ajax('fenhong/buy', 'get', params, function (ret) {
+            alog(ret);
+            var data = ret.info
+            if (ret.status == 1) {
+	            $("#name").html(data.name)
+	            $("#coinname").html(data.coinname);
+	            $("#coinjian").html(data.coinjian);
+	            $("#num").html(data.num);
+	            $("#chiyou").html(data.chiyou);
+	            $("#yonghu").html(data.yonghu);
+	            $("#dange").html(data.dange);
+	            $("#content").html(data.content);
+            }else {
+                art(ret.info);
+            }
+        });
+	}
+</script>
+</html>

@@ -1,0 +1,60 @@
+{include file="header"}
+<div id="wrapper">
+    <h1>{#qklang('Statistics')}</h1><br/>
+
+    <table class="table table-striped">
+        <tr>
+            <td>
+                <b>{#qklang('Unmined coins')}:</b></td>
+            <td>
+                {$cb_balance} {$curr_code}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>{#qklang('Block Reward')}:</b></td>
+            <td>
+                {$block_rwrd} {$curr_code}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>{#qklang('Block Count')}:</b></td>
+            <td>
+                {$mining_info['blocks']}
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                <b>{#qklang('Avg. Block Time')}:</b></td>
+            <td>
+                {$time_diff['minutes']}
+                {#qklang('minutes')}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>{#qklang('Difficulty')}:</b></td>
+            <td>
+                {$mining_info['difficulty']}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>{#qklang('Hash Rate')}:</b></td>
+            <td>{$mining_info['networkhashps']} GH/s
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>{#qklang('Run Time')}:</b></td>
+            <td>
+                {$time_diff['days']}
+                {#qklang('days')}
+            </td>
+        </tr>
+    </table>
+</div>
+{include file="footer"}

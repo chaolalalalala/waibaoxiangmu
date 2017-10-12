@@ -1,0 +1,450 @@
+{include file="public:header"}
+<title>虚拟币转出</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+	<style>
+		*{
+			-webkit-box-sizing: content-box;
+		}
+		span{
+			color:#a59494;
+		}
+		.btn-very{
+			height: 2.2rem;
+			background-color: green;
+			line-height: 2.2rem;
+			padding: 0rem 1rem;
+			display:block;
+			text-align: center;
+			border-radius: 8px;
+			color:#fff;
+		}
+		.mobile-very{
+			display: none;
+			margin: 30px 20px  60px 20px;
+			border-radius: 8px;
+			padding: 0 10px;
+			line-height: 30px;
+		}
+		#bank_type{
+			width: 100%;
+		}
+		#coin_type{
+			margin:1rem 0;
+			width: 100%;
+		}
+        .my_body{
+            margin: 20px;
+            border-radius: 8px;
+            padding: 0 10px;
+            line-height: 30px;
+        }
+        .my_body ul,.my_title ul{
+            position: relative;
+            padding-left: 0;
+            margin-top: 0;
+            list-style: none;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+        }
+        .my_body li{
+            border-radius: 2px;
+            margin: 1rem 0;
+            display: -webkit-box;
+            height: 2.2rem;
+            padding:0 0 0 0.5rem;
+            background-color: white;
+        }
+        .my_body li input{
+            display: block;
+            -webkit-box-flex: 1;
+            background-color: rgba(255, 255, 255, 0);
+            outline: none;
+            color: #666;
+            height: 2.2rem;
+            line-height:2.2rem;
+        }   
+        .btn{
+            display: block;
+            color: #FFFFFF;
+            margin: 0 30px;
+            text-align: center;
+            border-radius: 8px;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            background-color: #e55600;
+        }
+		.notice{
+			margin: 20px;
+			border-radius: 8px;
+			padding: 0 10px;
+			line-height: 30px;
+		}
+        .notice span{
+            height: 2rem;
+            line-height: 2rem;
+            color: #AFB4BD;
+        }
+        select{
+            color: #666;
+            display: block;
+            outline: none;
+            /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+            /*很关键：将默认的select选择框样式清除*/
+            appearance:none;
+            -moz-appearance:none;
+            -webkit-appearance: listbox;
+            /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+            padding-left:0.5rem;
+
+            background-color: #FFF;
+            height:2rem;
+            line-height: 2rem;
+            text-align: left;
+            border: 0;
+            width:100%;
+        }
+		.grey{
+			color:grey;
+		}
+		.left_info{
+			width:7rem;
+			display:inline-block;
+		}
+		textarea{
+			padding-left:0.5rem;
+			min-height:3.5rem;
+			background:#fff;
+		}
+		.renwu{
+			width:30%;
+			margin-right:3%;
+		}
+
+        .renwu select{
+	        font-size:10px;
+        }
+	</style>
+<body>
+<div class="wrap">
+	<div id="show1">
+		<div class="my_body">
+
+			<ul>
+				<li>
+					<input tapmod="" onclick="_focus(this)"  id="title" type="text"
+					       placeholder="任务标题">
+				</li>
+				<li id="category_con" tapmod="">
+				</li>
+				<textarea placeholder="任务描述" id="content"></textarea>
+				<li>
+					<input id="endtime" class="texts" placeholder="截止日期" type="text" value="" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+				</li>
+				<li>
+					<input tapmod="" onclick="_focus(this)"  id="adress" type="text"
+					       placeholder="投稿地址">
+				</li>
+				<li>
+					<input tapmod="" onclick="_focus(this)"  id="price" type="text"
+					       placeholder="酬劳">
+				</li>
+				<select  id="price_type" tapmod="">
+				</select>
+				<li>
+					<input tapmod="" onclick="_focus(this)" name="paypassword" id="paypassword"
+					       type="password" placeholder="交易密码">
+				</li>
+			</ul>
+		</div>
+		<div class="btn" tapmode="" onclick="up()">发布任务</div>
+	</div>
+</div>
+<script id="coin-template" type="text/x-dot-template">
+	{{?it}}
+	{{for(var i in it){ }}
+	 <option value='{{=it[i].id}}'>{{=it[i].title}}</option>
+	 {{ } }}
+	{{?}}
+</script>
+</body>
+<script src="__WAP__/js/laydate/laydate.js"></script>
+<script src="__WAP__/js/ext/doT.min.js"></script>
+<script>
+	var clas1 = -1;
+	var clas2 = -1;
+	var clas3 = -1;
+	var type = '';
+	var categoryData
+	apiready = function() {
+		onerror = error_handel;
+		laydate({
+			elem: '#endtime',
+			format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+			festival: true, //显示节日
+			choose: function (datas) { //选择日期完毕的回调
+				alert('得到：' + datas);
+			}
+		});
+		getCategory();
+	}
+
+    function get_type(data){
+	    if(!data){
+		    art('币种获取错误')
+		    return;
+	    }
+	    var coinInType = doT.template($("#coin-template").html());
+	    $('#price_type').html(coinInType(data));
+    }
+
+	function getCategory() {
+		Ajax('sweike/json', 'get', '', function (ret) {
+			alog(ret);
+			if (ret.status == 1) {
+				categoryData = ret.info.type;
+				get_type(ret.info.coinlist);
+				updateCategory();
+			}
+			else {
+				art(ret.info);
+			}
+		});
+	}
+
+	function updateCategory() {
+		if (typeof categoryData == 'undefined') {
+			art('分类数据不存在');
+			return;
+		}
+
+		//一级分类
+		var opt = '';
+		opt += '<div class="renwu"><select id="type" onchange="selCat1()">';
+		opt += '<option value="0">选择任务</option>';
+//		clas1 = clas1 == '' ? -1: clas1;
+		for (var index1 = 0; index1 < categoryData.length; index1++) {
+
+			var indVal = index1 + 1 ;
+//			var indVal = index1;
+			opt += '<option value=\"' + indVal + '\">' + categoryData[index1].type + '</option>'
+		}
+		opt += '</select></div>';
+
+		if(clas1 == -1){
+			$('#category_con').html(opt);
+			$("#type option").filter(function(){ return this.value == 0 }).prop('selected','selected');
+			return;
+		}
+
+		//二级分类
+		if (categoryData[clas1].pid_list.length == 0) {
+			opt += '<ul>暂无内容</ul>';
+			return;
+		}
+
+		opt += '<div class="renwu"><select id="type1" onchange="selCat2()">';
+		opt += '<option value="0">选择任务</option>';
+//		clas2 = clas2 == '' ? -1 : clas2;
+		var clas2List = categoryData[clas1].pid_list;
+		for (var index1 = 0; index1 < clas2List.length; index1++) {
+
+			var indVal = index1 + 1 ;
+//			var indVal = index1;
+			opt += '<option value=\"' + indVal + '\">' + clas2List[index1].type + '</option>'
+		}
+		opt += '</select></div>';
+
+		if(clas2 == -1){
+			$('#category_con').html(opt);
+			$("#type option").filter(function(){ return this.value == clas1+1 }).prop('selected','selected');
+			$("#type1 option").filter(function(){ return this.value == 0 }).prop('selected','selected');
+			return;
+		}
+
+		//三级分类
+		opt += '<div class="renwu"><select id="type2" onchange="selCat3()">';
+		opt += '<option value="0">选择任务</option>';
+//		clas3 = clas3 == '' ? -1: clas3;
+//		clas2 = clas2 > clas2List.length - 1 ? -1 : clas2;
+		if (clas2 > clas2List.length - 1) {
+			clas2 = 0;
+		}
+		var clas3List = clas2List[clas2].pid_list;
+		alog(clas3List);
+		for (var index1 = 0; index1 < clas3List.length; index1++) {
+
+			var indVal = index1 + 1 ;
+//			var indVal = index1;
+			opt += '<option value=\"' + indVal + '\">' + clas3List[index1].type + '</option>'
+		}
+		opt += '</select></div>';
+		$('#category_con').html(opt);
+		$("#type option").filter(function(){ return this.value == clas1+1 }).prop('selected','selected');
+		$("#type1 option").filter(function(){ return this.value == clas2+1 }).prop('selected','selected');
+		$("#type2 option").filter(function(){ return this.value == clas3+1 }).prop('selected','selected');
+
+		alog(opt);
+	}
+
+	function createView() {
+
+		alog("更新界面");
+		var argu = arguments[0];
+		if (typeof argu == 'undefined') {
+			art("createView参数错误");
+			return;
+		}
+		alog(argu);
+
+		//主要数据
+		var tempData = argu;
+		var licaiList_temp = doT.template($("#list-template").html());
+
+		if (pid == 1) {
+			//第一页 -- 覆盖
+			$('#goods_list').html(licaiList_temp(tempData.list));
+		}
+		else if (tempData.list.length > 0) {
+			//非第一页且有数据 -- 追加
+			$('#goods_list').html($('#goods_list').html() + licaiList_temp(tempData.list));
+		}
+
+		if (pid > Math.ceil(parseInt(tempData.count) / parseInt(tempData.pageSize))) {
+			art("没有更多数据了");
+		} else {
+			art('第' + pid + '页');
+			pid++;
+		}
+	}
+
+	// index是分类的索引,值和数据源长度相等
+	function selCat1() {
+		index = $("#type option").not(function(){ return !this.selected }).val();
+		clas1 = index -1
+		clas2 = -1
+		clas3 = -1
+		if(clas1==-1) {
+			type=0
+		}else{
+			type = categoryData[clas1].id;
+		}
+		updateCategory()
+	}
+
+	function selCat2() {
+		index = $("#type1 option").not(function(){ return !this.selected }).val();
+		clas2 = index-1;
+		clas3 = -1
+		if(clas2!=-1) {
+			type = categoryData[clas1].pid_list[clas2].id;
+		}
+		updateCategory()
+	}
+
+	function selCat3() {
+		index = $("#type2 option").not(function(){ return !this.selected }).val();;
+		clas3 = index-1;
+		if(clas3!=-1) {
+			type = categoryData[clas1].pid_list[clas2].pid_list[clas3].id;
+		}
+		updateCategory()
+
+	}
+
+	function requestData(callback) {
+
+		var params = {
+			"pid": pid,
+			"type": type,
+			"type1": type1,
+			"type2": type2,
+			"sort": sort,
+			"step":step,
+			"keyword": keyword
+		};
+		alog(params);
+		loading();
+		UserAjax('sweike/lists', 'get', params, function (ret) {
+			toast.hide();
+			if (typeof callback == "function") {
+				callback("刷新完成");
+			}
+			alog(ret);
+			if (ret.status == 1) {
+				createView(ret.info);
+			}
+			else {
+				art('ajax错误！');
+			}
+		});
+	}
+
+	//发布任务
+     function up(){
+	     if (!chkLogin()) {
+		     art("您目前未登录,请先登录");
+		     return false;
+	     }
+	     var title = $("#title").val();
+	     var content = $("#content").val();
+	     var endtime = $("#endtime").val();
+	     var adress = $("#adress").val();
+	     var price = $("#price").val();
+	     var price_type = $("#price_type option").not(function(){ return !this.selected }).val();
+	     var paypassword = $("#paypassword").val();
+
+	     if(!title){
+		     art('请输入任务标题');
+		     return;
+	     }
+	     if(!type){
+		     art('请选择任务种类');
+		     return;
+	     }
+	     if(!content){
+		     art('请输入任务描述');
+		     return;
+	     }
+	     if(!endtime){
+		     art('请输入截止日期');
+		     return;
+	     }
+	     if(!adress){
+		     art('请输入投稿地址');
+		     return;
+	     }
+	     if(!price){
+		     art('请输入酬劳');
+		     return;
+	     }
+	     if(!price_type){
+		     art('请选择酬劳种类');
+		     return;
+	     }
+	     if(!paypassword){
+		     art('请输入交易密码');
+		     return;
+	     }
+	     UserAjax('sweike/up','POST', {
+		     'title':title,
+		     'type':type,
+		     'content':content,
+		     'endtime':endtime,
+		     'adress':adress,
+		     'price':price,
+		     'price_type':price_type,
+		     'paypassword':paypassword
+	     },function(ret){
+		     art(ret.info)
+		     if(ret.status == 1){
+			     setTimeout(function() {
+				     back()
+			     },1000)
+		     }
+	     })
+     }
+
+</script>
+</html>

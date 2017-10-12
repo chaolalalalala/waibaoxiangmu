@@ -1,0 +1,32 @@
+{include file="public:header"}
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('帮助中心')}
+	</div>
+	<div class=" assets_content bg_w" style="min-height:30px;">
+		<div class="safe_center clear">
+			<h1>
+					<span>
+						{#lang('帮助中心')}
+					</span>
+
+			</h1>
+		</div>
+		<div class="cnyin_record" style="height:600px;">
+			</div>
+	</div>
+</div>
+<script>
+	if ($("#help_box").length > 0) {
+		$('#help_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+</div>
+{include file="public:footer"}
+
+
+
+
+

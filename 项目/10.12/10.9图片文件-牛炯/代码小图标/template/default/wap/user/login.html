@@ -1,0 +1,238 @@
+{include file="public:header"}
+<title>登录</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/api.css">
+</head>
+    <style>
+        .content {
+            -webkit-box-flex: 1;
+        }
+        .detail-header a {
+            padding: 25px;
+        }
+        i {
+            display: block;
+            width: 30px;
+            height: 30px;
+            background-size: 30px;
+            background-repeat: no-repeat no-repeat;
+            background-position: center;
+        }
+        .user {
+            width: 3rem;
+            height: 3rem;
+            /*margin: 0.5rem;*/
+            background-image: url("__WAP__/image/newimg/login_username_icon@2x.png");
+        }
+
+        .password {
+            width: 3rem;
+            height: 3rem;
+            /*margin: 0.5rem;*/
+            background-image: url("__WAP__/image/newimg/login_password_icon@2x.png");
+        }
+
+
+        .input-wrap {
+            position: relative;
+            /*border-radius: 2px;*/
+            margin: 1rem 0;
+            display: -webkit-box;
+            /*border: 1px solid #55585D;*/
+            background-color: white;
+            height: 3rem;
+            padding: 0.5rem;
+        }
+
+        .form {
+            margin: 20px;
+            /*border-radius: 8px;*/
+            padding: 0 10px;
+            line-height: 30px;
+        }
+
+        .input-wrap input {
+            display: block;
+            -webkit-box-flex: 1;
+            background-color: rgba(255, 255, 255, 0);
+            outline: none;
+            color: #9E9E9E;
+            height: 3rem;
+        }
+
+        .btn {
+            display: block;
+            color: #FFFFFF;
+            margin: 0 30px;
+            text-align: center;
+            /*border-radius: 8px;*/
+            height: 4rem;
+            line-height: 4rem;
+            background-color: #e55600;
+        }
+
+        input {
+            padding-left: 10px;
+        }
+
+        .other-login div{
+            display: inline-block;
+            position: relative;
+            width: 49.4%;
+            height:60px;
+            background-repeat: no-repeat no-repeat;
+            background-position: center center;
+            background-size: 60px;
+        }
+        .other-login div span{
+            margin-top:70px ;
+        }
+        .user_block{
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+            margin: 0px 30px;
+            padding-bottom: 20px;
+        }
+
+        .user_block span{
+            font-size: 1em;
+            color: #7d7d7d;
+            margin-right: 5px;
+            height: 2rem;
+            line-height: 2rem;
+        }
+        .notice{
+            margin: 20px;
+            /*border-radius: 8px;*/
+            padding: 0 10px;
+            line-height: 30px;
+        }
+        .notice span{
+            display: block;
+            height: 2rem;
+            line-height: 2rem;
+            color: #716f6f;
+        }
+
+        .inputBgColor {
+            background-color: #eaedf4 !important;
+        }
+
+    </style>
+</head>
+<body>
+<div class="content">
+    <div class="form">
+        <div id="web_name" style="display: none">
+            <ul style="text-align: center;margin: 3rem 0;">
+                <li id="web_name_i" style="color: #E55600;font-size: 3rem;font-weight: bold;"></li>
+            </ul>
+        </div>
+        <div class="input-wrap trblBor">
+                <i class="user"></i>
+                <input type="text" tapmode="" onclick="_focus(this);"  placeholder="请输入 用户名/手机/邮箱"
+                       id="username" value="">
+        </div>
+
+
+        <div class="input-wrap trblBor">
+            <i class="password"></i>
+            <input type="password" tapmode="" onclick="_focus(this);" placeholder="请输入密码" id="password" value="">
+        </div>
+
+    </div>
+    <div class="btn" id="login" tapmode="" onclick="login()">登录</div>
+
+
+    <div class="user_block">
+        <span style="float: left;;padding: 1rem 1rem 0 0;" id="ba"></span>
+
+        <span tapmode="" onclick="forget()" style="float: right;;padding: 1rem 0 1rem 0;">忘记密码</span>
+        <span style="float: right;;padding: 1rem 0;">|</span>
+        <span tapmode="" onclick="goReg()" style="float: right;padding: 1rem 0 0 1rem;">注册</span>
+    </div>
+</div>
+
+<div  class="notice">
+    <ul>
+        <li>
+            <span style="display:none">登录提示:</span>
+            <span id="withdraw_notice">
+
+            </span>
+        </li>
+    </ul>
+</div>
+</body>
+<script>
+    function goReg(){
+        openWin({
+            name: 'reg_h',
+            url: aurl('html/user/reg_h'),
+            slidBackEnabled:false,
+            delay:0
+        });
+    }
+
+    function forget(){
+        openWin({
+            name: 'forget_h',
+            url: aurl('html/user/forget_h'),
+            slidBackEnabled:false,
+            delay:200
+        });
+    }
+
+
+    apiready = function () {
+        onerror = error_handel;
+
+        var ret = memObj('initinfo');
+        if(ret){
+            $('#web_name').show();
+            $('#web_name_i').html(ret.WEB_NAME);
+            $('#ba').html('备案号:' + ret.WEB_ICP);
+        }
+    };
+
+    function login() {
+        var username = $("#username").val();
+        var password = $("#password").val();
+        if(!username){
+            art('用户名不能为空');
+            return;
+        }
+        if(!password){
+	        art('密码不能为空');
+            return;
+        }
+	    Ajax(
+		    "login/submit",
+		    "post",
+		    {
+			    username: username,
+			    password:password
+		    }, function (ret, err){
+//                alog(JSON.stringify(ret));
+				if(ret.status == 1){
+                    //登录成功
+                    if(typeof ret.info !== "undefined" &&  typeof ret.info.msg !== "undefined" && typeof ret.info.ID !== "undefined" && typeof ret.info.TOKEN !== "undefined"){
+                        mem('ID',ret.info.ID);
+                        mem('TOKEN',ret.info.TOKEN);
+                        alog("登录成功,获取并缓存 id="+mem('ID'));
+                        alog("获取并缓存 token="+mem('TOKEN'));
+//                        alert(mem('ID') +"==="+ mem('TOKEN'));
+//                        alert("成功");
+                    }else{
+//                        alert("失败");
+                        art("登录成功,但未成功获取Token");
+                    }
+                   open_win( "index",'index');
+				}else{
+					art(ret.info);
+				}
+		    }
+	    );
+      }
+</script>
+</html>

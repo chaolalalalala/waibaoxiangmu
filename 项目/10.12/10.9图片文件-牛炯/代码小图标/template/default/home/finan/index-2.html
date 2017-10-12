@@ -1,0 +1,137 @@
+{include file="bitcoin:header"}
+<link rel="stylesheet" href="/static/style/safeadd.css">
+<link rel="stylesheet" href="/static/style/moneyadd01.css">
+<div class="autobox ">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="movesay">{#lang('首页')}</a> &gt; <a href="/u/asset.jsp" class="movesay">{#lang('财务中心')} </a> &gt; {#lang('我的财产')}
+	</div>
+	<div class="main-content" >
+		{include file="finan:left"}
+		<div class="tag-list-content assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('我的财产')}
+					</span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="pur_dy" style="height: inherit;">
+				{foreach $all_gjb as $k => $v}
+				<ul style="    height: 108px;">
+					<li class="pur_dy_li pur_dy_li2 ml25 ">
+						<a> <img src="__IMG__/public/mall_car.jpg"> <br>{#lang('可用')}{$v['title']}：
+							<em>{#num($user_coin[$v['name']]*1,2)}</em>
+						</a>
+					</li>
+					<li class="pur_dy_li pur_dy_li2">
+						<a> <img src="__IMG__/public/mall_car1.jpg"> <br> {#lang('冻结')}{$v['title']}：
+							<em>{#num($user_coin[$v['name'].'d']*1,2)}</em>
+						</a>
+					</li>
+					{if $v['id']<=1}
+					<li class="pur_dy_li pur_dy_li3">
+						<a> <img src="__IMG__/public/mall_car2.jpg"> <br>{#lang('预估总资产')}：
+							<em>{#num($user['zzc']*1,2)}</em>
+						</a>
+					</li>
+					{/if}
+				</ul>
+				{/foreach}
+			</div>
+			<div class="pur_shop_title">
+				<ul>
+					<li class="pl25 w180">{#lang('币种')}</li>
+					<li class="w120 ml130">{#lang('可用')}</li>
+					<li class="w120 ml130">{#lang('冻结')}</li>
+					<li class="w120 ml130">{#lang('总计')}</li>
+					<li class="w120 ml130">{#lang('折合')}</li>
+					<li class="" style="margin-left: 25px">{#lang('操作')}</li>
+				</ul>
+			</div>
+			<ul class="coin_list" id="grid-finan">
+
+                <li>
+					<dl>
+						<dd class="w200" style="margin-left: 0;">
+							<div class="coin_pic mr20">
+								<img src="__IMG__/public/mall_car.jpg" alt="" width="40"/>
+							</div>
+							<div class="coin_name" style="width: 120px;">
+								{if cookie("lang") == "en"}
+								<div>CNY</div>
+								{else}
+								<div>人民币</div>
+								{/if}
+								<p class="orange">(CNY)</p>
+							</div>
+						</dt>
+						<dd class="">¥{#num($user_coin[$v['name']]*1,2)}  </dd> <!--可用-->
+						<dd class="">¥{#num($user_coin[$v['name'].'d']*1,2)}<!--冻结--></dd>
+						<dd class="">¥{#num(($user_coin[$v['name']]+$user_coin[$v['name'].'d'])*1,2)} <!--总计 --></dd>
+						<dd class="">¥{#num(($user_coin[$v['name']]+$user_coin[$v['name'].'d'])*1,2)}<!--折合--></dd>
+						<dd class="" style=" text-align: right;">
+							<input type="button" value="{#lang('充值')}" class="btns" style="margin-left:-40px;width: 60px"
+                                   onclick="top.location='/u/asset/payin_cny.jsp'">
+                            <input type="button" value="{#lang('提现')}" class="btns" style="margin-left: 10px;width: 60px"
+                                   onclick="top.location='/u/asset/payout_cny.jsp'"/>
+						</dd>
+					</dl>
+				</li>
+
+
+				{foreach $all_xnb as $k => $v}
+                {if  $v['name']!="cny" }
+                <li>
+					<dl>
+						<dd class="w200" style="margin-left: 0;">
+							<div class="coin_pic mr20">
+								<img src="__UP__/{$v['img']}" alt="" width="40"/>
+							</div>
+							<div class="coin_name" style="width: 120px;">
+
+								{if cookie("lang") == "en"}
+								<div>{#strtoupper($v['name'])}</div>
+								{else}
+								<div>{$v['title']} ({#strtoupper($v['name'])})</div>
+								{/if}
+
+
+								<p class="orange">市场价¥{$v['price']}</p>
+							</div>
+						</dt>
+						<dd class="">{#num($user_coin[$v['name']]*1,8)}  </dd> <!--{$user_coin[$v['name']]}-->
+						<dd class="">{#num($v['dongjie']*1,8)}<!--{$v['dongjie']}--></dd>
+						<dd class="">{#num($v['zongji']*1,8)} <!--{$v['zongji']} --></dd>
+						<dd class="">{#num($v['zhehe'])}<!--{$v['zhehe']}--></dd>
+						<dd class="" style=" text-align: right;">
+							<input type="button" value="{#lang('转入')}" class="btns" style="margin-left:-40px;width: 60px"
+                                   onclick="top.location='/u/asset/payin/{#str_replace('_cny', '', $v['name'])}.jsp'">
+                            <input type="button" value="{#lang('转出')}" class="btns" style="margin-left: 10px;width: 60px"
+                                   onclick="top.location='/u/asset/payout/{#str_replace('_cny', '', $v['name'])}.jsp'"/>
+						</dd>
+					</dl>
+				</li>
+                {/if}
+				{/foreach}
+			</ul>
+		</div>
+	</div>
+</div>
+<script>
+	$('.finan_index').addClass('active');
+</script>
+{include file="aaapublic:footer"}

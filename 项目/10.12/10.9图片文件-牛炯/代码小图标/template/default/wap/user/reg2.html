@@ -1,0 +1,299 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<style>
+	span{
+	color:#a59494;
+	}
+
+	.my_body{
+		margin: 20px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+
+	.my_body ul,.my_title ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+
+	.my_body li input{
+		display: block;
+		-webkit-box-flex: 1;
+		background-color: rgba(255, 255, 255, 0);
+		outline: none;
+		color: #a59494;
+		height: 3rem;
+	}
+
+	.btn{
+		display: block;
+		color: #FFFFFF;
+		margin: 0 30px;
+		text-align: center;
+		border-radius: 8px;
+		height: 5rem;
+		line-height: 5rem;
+		background-color: #e55600;
+	}
+
+	.notice{
+		margin: 20px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.notice span{
+		height: 2rem;
+		line-height: 2rem;
+		color: #DADADA;
+	}
+	.btn-very{
+		height: 2.2rem;
+		background-color: green;
+		line-height: 2.2rem;
+		padding: 0.6rem 1rem;
+		text-align: center;
+		/*border-radius: 8px;*/
+		color:#fff;
+	}
+
+	.my_body{
+		margin: 20px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+
+	.my_body ul,.my_title ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+	.my_body li{
+		border-radius: 2px;
+		margin: 1rem 0;
+		display: -webkit-box;
+		height: 2.2rem;
+		padding:0 0 0 0.5rem;
+		background-color: white;
+	}
+	.my_body li input{
+		display: block;
+		-webkit-box-flex: 1;
+		background-color: rgba(255, 255, 255, 0);
+		outline: none;
+		color: #a59494;
+		height: 2.2rem;
+		line-height:2.2rem;
+	}
+	.btn{
+		display: block;
+		color: #FFFFFF;
+		margin: 0 30px;
+		text-align: center;
+		border-radius: 8px;
+		height: 2.5rem;
+		line-height: 2.5rem;
+		background-color: #e55600;
+	}
+
+	.notice span{
+		height: 2rem;
+		line-height: 2rem;
+		color: #666;
+	}
+	select{
+		color: #a59494;
+		display: block;
+		outline: none;
+		/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+
+		/*很关键：将默认的select选择框样式清除*/
+		appearance:none;
+		-moz-appearance:none;
+		-webkit-appearance: listbox;
+		/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+		padding-left:0.5rem;
+
+		background-color: #FFF;
+		height:2rem;
+		line-height: 2rem;
+		text-align: left;
+		border: 0;
+		width:100%;
+	}
+	.reg_check_img{
+		height: 1rem;
+		vertical-align: middle;
+		padding: 0 0.5rem 0 0;
+		margin: -0.1rem 0 0 0;
+	}
+	.green{
+		color:green;
+	}
+
+
+</style>
+<body>
+<div class="wrap">
+    <div id="show1">
+        <div class="my_body">
+            <ul  class="trblBor">
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="username" id="username"
+                           type="text" placeholder="用户名  (字母开头+数字格式  大于6位)" value="qwerty">
+                </li>
+            </ul>
+	        
+            <ul  class="trblBor">
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="email" id="email"
+                           type="text" placeholder="邮箱" value="1@c.c">
+                </li>
+            </ul>
+
+
+            <ul  class="trblBor">
+                <li>
+                    <input tapmod="" type="password" onclick="_focus(this)" name="paypwd" id="paypwd"
+                           type="text" placeholder="设置交易密码" value="qwe123">
+                </li>
+            </ul>
+
+            <ul  class="trblBor">
+                <li>
+                    <input tapmod="" type="password" onclick="_focus(this)" name="paypwd2" id="paypwd2"
+                           type="text" placeholder="重复交易密码" value="qwe123">
+                </li>
+            </ul>
+        </div>
+        <div class="btn" tapmode="" onclick="submit()">完成</div>
+        <!--<div  class="notice">-->
+            <!--<ul>-->
+                <!--<li>-->
+                    <!--<span>温馨提示:</span>-->
+                    <!--<span id="withdraw_notice">-->
+                        <!--1.请务必补充完善个人真实信息<br>-->
+                    <!--</span>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    </div>
+
+</div>
+</body>
+<script type="text/javascript">
+
+    apiready = function(){
+        onerror = error_handel;
+
+        //去掉开发版的默认填写的信息
+        if (!Debug)
+        {
+            $("#username").val('');
+            $("#email").val('');
+            $("#paypwd").val('');
+            $("#paypwd2").val('');
+        }
+    }
+
+    function submit(){
+        var username = $('#username').val();
+        var email = $('#email').val();
+        var paypwd = $('#paypwd').val();
+        var paypwd2 = $('#paypwd2').val();
+        if(!username){
+            art('请填写您的用户名');
+            return;
+        }
+
+	    var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+        if(reg.test(username)){
+	        art('用户名中不能含有汉字');
+	        return
+        }
+
+	    var reg2 = new RegExp("^[A-Za-z]+$");
+	    if(!reg2.test(username.substring(0,1))){
+		    art('用户名只能由字母开头');
+		    return
+	    }
+
+	    var reg3 = new RegExp("^[A-Za-z0-9]+$");
+	    if(!reg3.test(username)){
+		    art('用户名只能由字母和汉字组成');
+		    return
+	    }
+
+	    if(username.length<=6){
+		    art('用户名长度需大于六位');
+		    return
+	    }
+
+        if(!email){
+	        art('请填写您的邮箱账号');
+            return;
+        }
+        if(!paypwd){
+	        art('输入交易密码');
+            return;
+        }
+        if(paypwd != paypwd2){
+	        art('两次输入的交易密码不一致');
+            return;
+        }
+        loading('提交中...');
+        //$username,$mobile,$password,$invit,$truename,$idcard,$paypassword,$reg_code
+        var parms = {
+            'username':username,
+            'email':email,
+            'paypassword':paypwd,
+        };
+        alog("注册第二步,参数列表");
+        alog(parms);
+        UserAjax('login/paypassword_up','post',parms,
+                function(ret){
+                    toast.hide();
+                    alog("注册第二步返回结果");
+                    alog(ret);
+                    if (ret.status == 1)
+                    {
+
+
+	                    //注册成功,实名认证移到其他地方
+	                    art("注册成功");
+	                    setTimeout("backToHome()",2000);
+
+	                    return;
+                        //跳到下一步
+                        alog("open reg3_h");
+                        openWin({
+                            name: 'reg3_h',
+                            url: aurl('html/user/reg3_h'),
+                            slidBackEnabled: false,
+                            delay: 100,
+                            pageParam: {
+                                'title': '完善个人信息',
+                                'target': 'reg3_h'
+                            }
+                        });
+                    }
+                    else {
+                        art(ret.info);
+                    }
+                });
+    }
+</script>
+</html>

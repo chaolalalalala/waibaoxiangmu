@@ -1,0 +1,103 @@
+{include file="public:header"}
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;<a href="/factory/" class=""> {#lang('养殖工厂')}</a>&gt; {#lang('我的收获')}
+	</div>
+	<div class=" assets_content bg_w" style="min-height:30px;">
+		<div class="safe_center clear">
+			<h1>
+					<span>
+						{#lang('养殖工厂')}
+					</span>
+	                <span>
+                         <a href="{#url('factory/index')}" id="step1" class="step fz_12 ml50 pd6  ">{#lang('我的养殖场')}</a>
+                         <a href="{#url('factory/market')}" id="step2" class="step fz_12 ml20 pd6 ">{#lang('养殖市场')}</a>
+                         <a href="{#url('factory/buyLog')}" id="step3" class="step fz_12 ml20 pd6 ">{#lang('购买记录')}</a>
+		                <a href="{#url('factory/gainLog')}" id="step4" class="step fz_12 ml20 pd6 active">{#lang('我的收获')}</a>
+                    </span>
+                    <span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+			</h1>
+		</div>
+		<div id="hints" class="mytips" style="display:none;">
+			<script>
+				var hints = "{$hints['show']}";
+				if(hints == 1){
+					$('#hints').show();
+				}
+			</script>
+			{$hints["value"] nofilter}
+		</div>
+		<div class="cnyin_record">
+			<div class="f_body">
+				<div class="f_body_main">
+					<div class="f_tab_body">
+						<div>
+							<table class="f_table" id="product_content">
+								<tr>
+									<th>名称</th>
+									<th>总数量(份)</th>
+									<th>单价(份/元)</th>
+									<th>折合总额(元)</th>
+									<th>上次收益时间</th>
+								</tr>
+								{foreach $pages['total']['list'] as $v}
+								<tr>
+									<td>{$v["productName"]}</td>
+									<td>{$v["num"]}</td>
+									<td>{$v["price"]}</td>
+									<td>{$v["totalMoney"]}</td>
+									<td>{#addtime($v["addtime"])}</td>
+								</tr>
+								{/foreach}
+							</table>
+							<br/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="cnyin_record">
+			<div class="f_body">
+				<div class="f_body_main">
+					<div class="f_tab_body">
+						<div>
+							<table class="f_table" id="investLog_content">
+								<tr>
+									<th>序号</th>
+									<th>名称</th>
+									<th>数量</th>
+									<th>获取收益时间</th>
+								</tr>
+								{foreach $pages['list']['list'] as $v}
+								<tr>
+									<td>{$v["id"]}</td>
+									<td>{$v["productName"]}</td>
+									<td>{$v["num"]}</td>
+									<td>{#addtime($v["addtime"])}</td>
+								</tr>
+								{/foreach}
+							</table>
+							<div class="pages">{$pages['list']['show'] nofilter}</div>
+							<br/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	if ($("#pool_box").length > 0) {
+		$('#pool_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+<script type="text/javascript">
+</script>
+</div>
+{include file="public:footer"}

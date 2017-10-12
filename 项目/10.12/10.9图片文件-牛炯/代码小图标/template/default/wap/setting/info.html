@@ -1,0 +1,151 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<style>
+    .main{
+        margin: 50px 10px 10px 10px;
+    }
+    .block{
+        margin: 10px;
+    }
+    .block_title{
+        font-size: 18px!important;
+        height: 36px;
+        line-height: 36px;
+        color: green !important;
+        font-weight: bold;
+        margin-bottom: 10px;
+        margin-left: 15px !important;
+        padding-left:0 !important;
+    }
+    .block_title img{
+        margin: 9px 10px 0 0;
+        height: 18px;
+    }
+    .block li{
+        line-height: 30px;
+        height: 30px;
+        padding-left: 50px;
+        font-size: 14px;
+        color: #797A7D;
+    }
+    .my_body{
+        margin: 20px;
+        border-radius: 8px;
+        padding: 0 10px;
+        line-height: 30px;
+    }
+    .my_body ul,.my_title ul{
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 10px;
+        list-style: none;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+    }
+    .my_body li{
+        border-radius: 2px;
+        margin: 1rem 0;
+        display: -webkit-box;
+        border: 1px solid #55585D;
+        background-color: #2F3440;
+        height: 4rem;
+        padding: 0.5rem;
+    }
+    .my_body li input{
+        display: block;
+        -webkit-box-flex: 1;
+        background-color: rgba(255, 255, 255, 0);
+        outline: none;
+        color: #ffffff;
+        height: 4rem;
+    }
+    .btn{
+        display: block;
+        color: #FFFFFF;
+        margin: 0 30px;
+        text-align: center;
+        border-radius: 8px;
+        height: 2.2rem;
+        line-height: 2.2rem;
+        background-color: #1a81d6;
+    }
+	#info{
+		color:#797A7D;
+		margin:2rem 0;
+		border: 1px solid #1a81d6;
+		background: #E9FEE9;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		position: relative;
+		padding-left: 0.2px;
+		display:none;
+	}
+	#info p{
+		padding-left:20px;
+	}
+</style>
+<body>
+<div class="main">
+   <ul id="succ" class="block">
+       <li class="block_title"><img src="__WAP__/image/001/certificate_access.png">已经通过实名认证</li>
+       <li>您的身份信息</li>
+       <li>姓名：<span id="truename"></span></li>
+       <li>证件类型：<span>身份证</span></li>
+       <li>身份证号：<span  id="idcard"></span></li>
+   </ul>
+	<div class="btn" onclick="show_info()">申请修改</div>
+	<div id="info">
+	<p>更改实名认证信息流程：</p>
+	<p>1.发送与上方认证信息一致的证件正反面照片或扫描件以及手持证件头部照给客服</p>
+	<p>2.审核更改申请；审核完成后，客服通知您申请是否通过</p>
+	<p>3.申请通过，请您登录重新进行实名认证</p>
+	<p>4.申请失败，则请您根据提示信息重新提交申请</p>
+		</div>
+		<ul id="fail"  style="display: none">
+        <div class="my_body">
+            <ul>
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="name" id="name" type="text"
+                           placeholder="输入真实姓名">
+                </li>
+                <li>
+                    <input tapmod="" onclick="_focus(this)" name="idcard" id="idcard" type="text"
+                           placeholder="输入身份证号">
+                </li>
+            </ul>
+        </div>
+        <div style="margin: 20px;border-radius: 8px;padding: 0 10px;line-height: 30px;">
+            <span style="height: 2rem;line-height: 2rem;color: #DADADA;">温馨提示:</span>
+        <span style="height: 2rem;line-height: 2rem;color: #AFB4BD;font-size: 12px;text-indent:2em">
+            请务必填写真实可靠信息.如果提供虚假资料,后续充值提现等一系列操作将受到影响.甚至可能封号,后果自负.
+        </span>
+        </div>
+        <div class="btn" tapmode="" onclick="add_addr()">下一步</div>
+    </ul>
+</div>
+</body>
+<script type="text/javascript">
+    apiready = function(){
+        onerror = error_handel;
+        flash();
+    }
+    function show_info(){
+	    $("#info").toggle()
+    }
+    //刷新个人资料
+    function flash(){
+	       var user=memObj('userinfo').baseinfo
+                    if(!user){
+                        art("用户信息获取失败")
+                    }else{
+                        $('#succ').show();
+                        $('#truename').html(user.truename);
+                        $('#idcard').html(user.idcard);
+                    }
+                }
+</script>
+</html>

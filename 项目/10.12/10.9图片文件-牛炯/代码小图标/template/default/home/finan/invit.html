@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>推荐有奖 邀请朋友 - 财务中心 - 币火网 -  www.bihuo168.com </title>
+<meta name="Keywords" content="{$seos['keywords']}">
+<meta name="Description" content=" {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+<link rel="stylesheet" href="/static/style/safeadd.css">
+<link rel="stylesheet" href="/static/style/moneyadd07.css?id=1">
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="movesay">{#lang('首页')}</a> &gt; <a href="/u/asset.jsp" class="movesay">{#lang('财务中心')} </a> &gt; {#lang('推荐有奖')}
+	</div>
+	<div class="main-content">
+		{include file="finan:left"}
+		<div class="tag-list-content assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('推荐有奖 邀请朋友')}
+					</span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div id="qrcode-wallet" style="display: inline-block;margin-top: 60px;float: right;margin-right: 30px;" width="100">
+				<saon id="codeaa"></saon>
+				<p id="qrcode-t" style="font-size: 22px;text-align: center;margin-top: 30px;" class="move">{#lang('您的推广专属二维码')}</p>
+			</div>
+			<div class="quicklink invite-content" style="margin-top: 15px;">
+				<h4>{#lang('专属邀请码')}</h4>
+				<p class="tip">{#lang('这是您的专用邀请码，您可点击【复制】按钮分享给朋友，让他们注册帐号时输入您的邀请码')}：</p>
+				<p>
+					<input type="text" class="area texts" id="invite-input" value="{$user['invit']}" style="width: 100px;vertical-align: bottom;"><input type="button" value={#lang('复制')} data-clipboard-target="invite-input" class="ml20  btn-quick inviteCopyButton  btns2" id="copy_button1" style="width:100px;">
+				</p>
+			</div>
+			<div class="quicklink invite-content">
+				<h4>{#lang('专属链接')}</h4>
+				<p class="tip">{#lang('这是您的专用链接，您可点击【复制】按钮，将本文粘贴并发送给您的好友')}：</p>
+				<p>
+					<input type="text" class="area texts" id="invite-inputa" value="https://{$_SERVER['HTTP_HOST']}/djfrom/{$user['invit']}" style="width: 250px;vertical-align: bottom;"><input type="button" value={#lang('复制')} data-clipboard-target="invite-inputa" class="ml20 btn-quick inviteCopyButton btns2" id="copy_button2" style="width:100px;">
+				</p>
+			</div>
+			<div class="quicklink invite-content">
+				<h4>{#lang('专属广告语')}</h4>
+				<p class="tip">{#lang('这是您的专属广告语，您可点击【复制】按钮，将本文粘贴并发送给您的好友')}：</p>
+				<p>
+					<textarea type="text" class="area texts" id="invite-textarea" style=" height:218px; line-height: 25px;" >https://{$_SERVER['HTTP_HOST']}/djfrom/{$user['invit']} {$web_invit_text}
+
+1).币火优势：行业实力、技术实力、专业安全、速度稳定、智能先进；
+2).充值支持：微信/支付宝/网银充值 (全自动15秒入账)；
+3).自动充值时间：三大充值方式 一律秒到  (机器人全自动处理收款和会员入账) ；
+4).充币1-3个确认 自动入账，提币24小时全自动秒出（无人审核）；
+5).交易手续费免费(0.0%) 提现10-120分钟到账。
+
+					</textarea>
+					<input type="button" value={#lang('复制')} data-clipboard-target="invite-textarea" class="ml20 btn-quick inviteCopyButton zeroclipboard-is-hover btns2 " id="copy_button3" style="width:100px;">
+				</p>
+			</div>
+			<script src="__EXT__/jquery/jquery.copy.js"></script>
+			<script src="__EXT__/jquery/jquery.qrcode.min.js"></script>
+			<script type="text/javascript">
+				$('#codeaa').qrcode({
+					render: "table",
+					size: 200,
+					text: "https://{$_SERVER['HTTP_HOST']}/djfrom/{$user['invit']}" //任意内容
+				});
+			</script>
+			<div class="quicklink">
+				<h4>{#lang('快速分享到社区')}</h4>
+				<div class="reward-share">
+					<a href="javascript:;" title={#lang("分享到新浪微博")} class="wlb_tsina"> <span class="icon icon-sina"></span> <i>{#lang('新浪微博')}</i> </a> <a href="javascript:;" title={#lang("分享到豆瓣网")} class="wlb_douban"> <span class="icon icon-douban"></span> <i>{#lang('豆瓣网')}</i> </a> <a href="javascript:;" title={#lang("分享到QQ空间")} class="wlb_qzone"> <span class="icon icon-qzone"></span> <i>{#lang('QQ空间')}</i> </a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="__JS__/ZeroClipboard.min.js"></script>
+<script>
+	var client = new ZeroClipboard(document.getElementById("copy-button"));
+	client.on("ready", function (readyEvent) {
+		client.on("aftercopy", function (event) {
+			event.target.style.display = "none";
+		});
+	});
+	ZeroClipboard.config({swfPath: '__JS__/ZeroClipboard.swf'});
+	var clip = new ZeroClipboard(document.getElementById("copy"));
+	var _share_title = encodeURI('邀请好友');
+	var _share_content = encodeURI("{$web_invit_text}");
+	var _share_url = encodeURIComponent("https://{$_SERVER['HTTP_HOST']}/djfrom/{$user['invit']}");
+	var _share_pic = '/';
+	$(document).ready(function () {
+		var clip1 = new ZeroClipboard(document.getElementById("copy_button1"));
+		var clip2 = new ZeroClipboard(document.getElementById("copy_button2"));
+		var clip3 = new ZeroClipboard(document.getElementById("copy_button3"));
+		clip1.on("copy", function (e) {
+			layer.msg('复制成功！', {icon: 1});
+		});
+		clip2.on("copy", function (e) {
+			layer.msg('复制成功！', {icon: 1});
+		});
+		clip3.on("copy", function (e) {
+			layer.msg('复制成功！', {icon: 1});
+		});
+		$(".wlb_tsina").click(function () {
+			window.open("http://v.t.sina.com.cn/share/share.php?url=" + _share_url + "&title=" + _share_content);
+		});
+		$(".wlb_douban").click(function () {
+			window.open("http://www.douban.com/recommend/?url=" + _share_url + "&title=" + _share_content);
+		});
+		$(".wlb_qzone").click(function () {
+			window.open("http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=" + _share_url + "&title=" + _share_title + "&pics=" + _share_pic + "&desc=" + _share_content);
+		});
+	});
+</script>
+
+<script>
+	$('.finan_invit').addClass('active');
+</script>
+{include file="aaapublic:footer"}

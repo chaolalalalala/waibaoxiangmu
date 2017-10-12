@@ -1,0 +1,664 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/goods.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+</head>
+<style>
+	.top_bt, .user_btn, .show_cart{
+		background-size:auto 160px;
+		background-position:0 -75px;
+	}
+
+
+	.navContent li .item1 .ui-number .num{
+		min-height:1rem;
+	}
+
+
+	.footer_nav ul li em{
+		display: block;
+		width: 30px;
+		height: 25px;
+		margin: auto;
+		background-size: auto 280px;
+	}
+	.pro ul{
+		margin:0.3rem 0;
+		height:0.7rem;
+	}
+	.pro{
+		height:2rem;
+		margin:0.5rem;
+	}
+	.pro ul li {
+		color:#999;
+		float:left;
+		text-align:center;
+		font-size:0.5rem;
+		height:0.5rem;
+		width:33%;
+		margin:0.1rem 0;
+		height:0.5rem;;
+		padding:0.1rem 0;
+		line-height:0.5rem;
+	}
+	.red{
+		color:red !important;
+	}
+	.h-mid{
+		width:100%;
+	}
+	.h-mid ul li{
+		width:25%;
+	}
+	.product_info{
+		padding-left:0.5rem;
+	}
+	.num{
+		width:33% ;
+	}
+	.green{
+		color:green;
+	}
+	.aui-list-item-title{
+		text-align:center;
+	}
+	#user_goods_ka_1,#user_goods_ka_2,#user_goods_ka_3,#user_goods_ka_4{
+		margin-top:45px;
+	}
+	.shuoming ul li{
+		width:25%;
+		font-size:0.7rem;
+	}
+	.shuoming ul .half{
+		width:12.5%;
+	}
+	.h-mid ul li a.on {
+		color: #03a9f4;
+		border-bottom: 2px solid #03a9f4;
+	}
+	.border .title{
+		padding-left:0.5rem;
+		font-size:0.8rem;
+		color:#666;
+	}
+	.border{
+		margin:2rem 0;
+		border: 1px solid #1a81d6;
+		background: #E9FEE9;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		position: relative;
+		padding-left: 0.2px;
+	}
+	#pid{
+		display:inline-block;
+		background-color:#fff;
+		width:50px;
+		padding:0.25rem;
+		font-size:0.7rem;
+	}
+	.bottom{
+		margin-top:0.5rem;
+		text-align:center;
+	}
+	.licaiItem {
+		padding-bottom: .625rem;
+	}
+	.r{
+		float: right;
+		color:#fff;
+		padding:0.5rem;
+		background:#03a9f4;
+		border-radius:5px;
+		height:1.5rem;
+		font-size:14px;
+		line-height:0.5rem;
+		margin-top:0.75rem;
+		margin-right: 1rem;
+	}
+	#list{
+		position: relative;
+		display: inline-block;
+		font-size: 0.7rem;
+		font-weight: 400;
+		font-family: inherit;
+		text-decoration: none;
+		margin: 0;
+		padding: 0.25rem 0.6rem;
+		width:100%;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		white-space: nowrap;
+		vertical-align: middle;
+		cursor: pointer;
+		touch-action: manipulation;
+		-webkit-user-select: none;
+		user-select: none;
+		color: #ffffff ;
+		background-color: #03a9f4;
+	}
+	.end{
+		width:80%;
+		height:4rem;
+		background-color:lavenderblush;
+		color:#999;
+		margin:0.2rem auto 0;
+		line-height:4rem;
+		font-size:1.5rem;
+		text-align:center;
+	}
+	#search_ka2{
+		display:none;
+	}
+	.jiesu{
+		width:100%;
+		height:100px;
+		background:#F9F3DD;
+		line-height:100px;
+		margin:0 auto;
+		text-align:center;
+		font-size:24px;
+	}
+	.gray{
+		color:gray;
+	}
+
+	.my_body {
+		margin: 10px 0px 10px 0px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul {
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background-color: #FFF;
+	}
+	.bank_title {
+		margin: 0 0 0 1rem;
+		height: 3rem;
+		line-height: 3rem;
+	}
+	.bank_title img {
+		height: 1.6rem;
+		margin: 0.7rem 1rem 0 0;
+		vertical-align: middle;
+		float: right;
+	}
+	.bank_body {
+		margin: 0 0 0 1rem;
+	}
+	.bank_body span {
+		display: block;
+	}
+	.bank_body .g {
+		color: gray;
+	}
+	.red {
+		color: #e55600;
+	}
+	.gray {
+		color: gray;
+	}
+</style>
+<body>
+<div class="main">
+	<div class="tab_nav">
+		<div class="header">
+			<div class="h-mid">
+				<ul>
+					<li><a href="javascript:;" class="on" id="goods_ka1" onclick="chose_tab(1)">威客详情</a></li>
+					<li><a href="javascript:;" class="" id="goods_ka2" onclick="chose_tab(2)">参与记录</a></li>
+					<li><a href="javascript:;" class="" id="goods_ka3" onclick="chose_tab(3)">类似需求</a></li>
+				</ul>
+			</div>
+			<div class="h-right">
+				<aside class="top_bar">
+					<!--					<div onclick="show_menu();$('#close_btn').addClass('hid');" id="show_more">-->
+					<!--						<a href="javascript:;"></a></div>-->
+					<!--					<a href="javascript:art('开发中')" class="show_cart">-->
+					<!--						<em style="display: none" class="global-nav__nav-shop-cart-num" id="tp_cart_info">0</em></a>-->
+				</aside>
+			</div>
+		</div>
+	</div>
+	<div class="main" id="user_goods_ka_1" style="display: block;">
+		<div class="aui-content aui-margin-b-15">
+			<ul class="aui-list aui-list-in">
+				<li class="aui-list-header">主要内容</li>
+				<li class="aui-list-item">
+					<div class="aui-list-item-inner">
+						<div class="aui-list-item-label">任务名称:</div>
+						<div class="aui-list-item-text" id="LC_name">
+						</div>
+					</div>
+				</li>
+				<li class="aui-list-item">
+					<div class="aui-list-item-inner">
+						<div class="aui-list-item-label">任务分类:</div>
+						<div class="aui-list-item-text" id = "LC_total"></div>
+					</div>
+				</li>
+				<li class="aui-list-item">
+					<div class="aui-list-item-inner">
+						<div class="aui-list-item-label">任务进度:</div>
+						<div class="aui-list-item-text" id = "LC_limitNum"></div>
+					</div>
+				</li>
+				<li class="aui-list-item">
+					<div class="aui-list-item-inner">
+						<div class="aui-list-item-label">本任务奖励:</div>
+						<div class="aui-list-item-text" id = "LC_finish"></div>
+					</div>
+				</li>
+			</ul>
+			<ul class="aui-list aui-list-in">
+				<li class="aui-list-header">时间</li>
+				<li class="aui-list-item">
+					<div class="aui-list-item-inner">
+						<div class="aui-list-item-label">开始时间:</div>
+						<div class="aui-list-item-text" id = "LC_startTime"></div>
+					</div>
+				</li>
+				<li class="aui-list-item">
+					<div class="aui-list-item-inner">
+						<div class="aui-list-item-label">结束时间:</div>
+						<div class="aui-list-item-text" id="LC_endTime"></div>
+					</div>
+				</li>
+			</ul>
+			<ul class="aui-list aui-list-in">
+				<li class="aui-list-header">任务介绍</li>
+				<li class="aui-list-item" style="height:300px">
+					<div id="LC_content"
+					     style="
+                 position:relative;
+                 overflow-x:auto;
+                 overflow-y:auto;
+                 width:100%;
+                 /*overflow:scroll;*/
+                 height:auto;
+                 padding:0.75rem 0.75rem 0 0;
+                 " >
+					</div>
+				</li>
+			</ul>
+			<ul class="aui-list aui-list-in" id="jinbiao" style="display:none">
+				<li class="aui-list-header">我要投稿</li>
+				<li class="aui-list-item">
+					<div class="aui-list-item-inner">
+						<div class="aui-list-item-label" id="LC_canUseTitle">投稿地址</div>
+						<div class="aui-list-item-text" id="LC_canUseValue"></div>
+					</div>
+				</li>
+				<li class="aui-list-item">
+					<div class="aui-list-item-inner">
+						<div class="aui-list-item-label">
+							描述:
+						</div>
+						<div class="aui-list-item-input">
+							<textarea id="LC_description" placeholder="请描述您的工作"></textarea>
+						</div>
+					</div>
+				</li>
+				<li class="aui-list-item">
+					<div class="aui-list-item-inner">
+						<div class="aui-list-item-label">
+							交易密码:
+						</div>
+						<div class="aui-list-item-input">
+							<input id="paypassword" type="password" placeholder="请输入交易密码">
+						</div>
+					</div>
+				</li>
+				<div class="aui-content-padded" onclick="buyNow()">
+					<p><div class="aui-btn aui-btn-info"  style="width: 100%;line-height: 1.5rem">提交</div></p>
+				</div>
+			</ul >
+			<div id="jiesu" style="display:none">
+             <div class="jiesu">当前竞标已结束</div>
+			</div>
+		</div>
+	</div>
+	<div class="main" id="user_goods_ka_2" style="display: none;">
+		<div class="wrap">
+			<div class="my_body">
+		<div id="log">
+
+		</div>
+				</div>
+			</div>
+		<div class="bottom">
+			<div class="aui-btn aui-btn-info" onclick="change_pid('last')" id="last_pid">上一页</div>
+			<span> 第<input type="" id="pid">页/共<span id="cur">1</span>页</span>
+			<div class="aui-btn aui-btn-info" onclick="change_pid('next')" id="next_pid">下一页</div>
+			<div class="aui-btn aui-btn-info" onclick="change_pid()">跳转</div>
+		</div>
+	</div>
+	<div class="tab_attrs tab_item hide" id="user_goods_ka_3" style="display:none;">
+		<div id="leishi">
+
+		</div>
+	</div>
+</div>
+</body>
+<script id="log-template" type="text/x-dot-template">
+	{{? it.length > 0 }}
+	{{ for(var i in it) { }}
+	<ul class="aui-border licaiItem">
+		<li class="bank_title aui-border-b overHide" >
+			<span class="red overHide">{{=it[i].content}}</span>
+			{{? it[i].publisher}}
+			    {{? it[i].status == 1}}
+			     <span class="r" onclick="pay('{{=it[i].id}}')">
+				支付酬劳
+			     </span>
+			     {{?? it[i].status == 2}}
+			<span class="r" onclick="check('{{=it[i].id}}')">
+				确认中标
+			</span>
+			     {{?}}
+		   {{?}}
+		</li>
+		<li class="bank_body">
+			<span class="g">用户名:<em>{{=it[i].username}}</em></span>
+			<span class="g">发布时间:<em>{{=it[i].addtime}}</em></span>
+		</li>
+	</ul>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{? }}
+</script>
+
+<script id="list-template" type="text/x-dot-template">
+	{{? it.length > 0 }}
+	{{ for(var i in it) { }}
+	<ul class="aui-border licaiItem" onclick="openDetailView({{=it[i].id}})">
+		<ul class="aui-list aui-media-list">
+			<li class="aui-list-item aui-list-item-middle">
+				<div class="aui-media-list-item-inner">
+					<div class="aui-list-item-inner">
+						<div class="aui-list-item-text">
+							<div class="aui-list-item-title aui-font-size-14 aui-col-xs-6" style="text-align:left">
+								<div class="red">{{=it[i].price}} <em class="green">{{=it[i].price_type}}</em></div>
+								<div>{{=it[i].title}}</div>
+							</div>
+							<div class="aui-list-item-title aui-font-size-14 aui-col-xs-6" style="text-align:end">
+								<div style="visibility:hidden">占位</div>
+								<div class="gray">{{=it[i].num}}人浏览</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</ul>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{? }}
+</script>
+
+
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-dialog.js"></script>
+<script type="text/javascript">
+	apiready = function () {
+		onerror = error_handel;
+		flash();
+	};
+
+	var shop_info;
+	var  pid=1;
+	var  cur;
+
+
+	function flash() {
+		var params = {
+			'id':iv('itemId'),
+			'pid' : pid
+		};
+		if(!chkLogin()){
+			var req = Ajax
+		}else {
+			var req = UserAjax;
+		}
+		req('sweike/details', 'get', params, function (ret) {
+			alog(ret);
+			if (ret.status == 1) {
+				var data = ret.info;
+				 var detail =  data.detail
+				$('#LC_name').html(detail.title);
+				$('#LC_total').html(detail.type_title);
+//                1新发布 2进行中 3已结束 4已关闭
+				var jindu = ['新发布','进行中','已结束','已关闭'];
+				if( detail.step < 5 && detail.step > 0 )
+					$('#LC_limitNum').html(jindu[detail.step - 1]);
+				if(detail.step<=2){
+					$("#jinbiao").show();
+				}else(
+						$("#jiesu").show()
+				)
+				$('#LC_finish').html(detail.price + detail.price_type);
+				$('#LC_startTime').html(detail.addtime);
+				$('#LC_endTime').html(detail.endtime);
+				$('#LC_content').html(detail.content);
+				$('#LC_canUseValue').html(detail.adress);
+					var log = doT.template($("#log-template").text());
+					var logData=data.log
+				if(detail.userid==mem('ID')){
+					for (var i in logData.list){
+						logData.list[i].publisher=1
+					}
+				}
+				$("#last_pid").css('visibility','inherit');
+				$("#next_pid").css('visibility','inherit');
+				cur=Math.ceil(Number(logData.count)/Number(logData.pageSize));
+				if(pid==1){
+					$("#last_pid").css('visibility','hidden');
+				}
+				if(pid==cur) {
+					$("#next_pid").css('visibility', 'hidden');
+				}
+				if(cur == 0){
+					pid = 0;
+					$("#last_pid").css('visibility','hidden');
+					$("#next_pid").css('visibility', 'hidden');
+				}
+				$("#log").html( log(logData.list) );
+				$("#pid").val(pid);
+				$("#cur").html(cur);
+
+				var leishi =doT.template($("#list-template").text());
+				$("#leishi").html( leishi(data.leishi) );
+
+			}else {
+				art(ret.info);
+			}
+		});
+	}
+
+	function change_pid(n){
+		if(n=='last'){
+			--pid;
+		}
+		else if(n=='next'){
+			++pid;
+		}
+		else{
+			if($("#pid").val()>cur || $("#pid").val()<1 || !isInteger($("#pid").val())){
+				art('请输入正确的页码')
+				return;
+			}
+			pid=$("#pid").val();
+		}
+		flash();
+	}
+	function setBannerPlay() {
+		//轮播图
+		slide = new auiSlide({
+			container: document.getElementById("aui-slide"),
+			"height": 180,
+			"speed": 100,
+			"autoPlay": 0, //自动播放
+			"pageShow": true,
+			"loop": true,
+			"pageStyle": 'dot',
+			'dotPosition': 'center'
+		});
+	}
+
+	function change_pid(n){
+		if(n=='last'){
+			--pid;
+		}
+		else if(n=='next'){
+			++pid;
+		}
+		else{
+			if($("#pid").val()>cur || $("#pid").val()<1 || !isInteger($("#pid").val())){
+				art('请输入正确的页码')
+				return;
+			}
+			pid=$("#pid").val();
+		}
+		flash();
+	}
+
+	function openDetailView(itemId) {
+		openWinWithParams('weikeDetail_h', 'app_sweike', {
+			'itemId': itemId
+		});
+	}
+
+	function buyNow(){
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			return false;
+		}
+		var id=iv('itemId');
+		var content = $("#LC_description").val();
+		var paypassword = $("#paypassword").val();
+		if(!id){
+			art("威客详情获取失败")
+			return
+		}
+		if(!content){
+			art("请输入描述")
+			return;
+		}
+		if(!paypassword){
+			art("请输入交易密码")
+			return
+			}
+		loading()
+		UserAjax('sweike/tender_add','POST',{
+			'weikeid':iv('itemId'),
+			'content':content,
+			'paypassword':paypassword
+		},function(ret){
+			toast.hide()
+			art(ret.info)
+            if(ret.status==1) {
+	            $("#paypassword").val(null);
+	            $("#LC_description").val(null);
+	            if (cur == 0) {
+		            pid = 1
+		            flash();
+	            } else {
+		            change_pid(1)
+	            }
+            }
+		})
+	}
+
+	//确认中标
+	function check(id){
+		var dialog = new auiDialog();
+		dialog.alert({
+			title: "请输入交易密码",
+			buttons: ['确定', '取消'],
+			input: true,
+			textType:"password",
+		}, function (ret) {
+			if (ret.buttonIndex == 1) {
+				var	paypassword = $("#aui-password").val()
+				loading("操作中……")
+				UserAjax('sweike/check','post',{
+					'id':id,
+					'paypassword':paypassword,
+				},function(ret){
+					toast.hide()
+					art(ret)
+					if(ret.status==1){
+						art(ret.info)
+						setTimeout(function(){
+						change_pid(1)
+						},1000);
+					}else{
+						art(ret.info);
+					}
+				},"json");
+			}
+		})
+	}
+
+	//支付酬劳
+	function pay(id) {
+		var dialog = new auiDialog();
+		dialog.alert({
+			title: "请输入交易密码",
+			buttons: ['确定', '取消'],
+			input: true,
+			textType: "password",
+		}, function (ret) {
+			if (ret.buttonIndex == 1) {
+				var paypassword = $("#aui-password").val()
+				loading("操作中……")
+				UserAjax('sweike/pay', 'post', {
+					'id': id,
+					'paypassword': paypassword,
+				}, function (ret) {
+					toast.hide()
+					art(ret)
+					if (ret.status == 1) {
+						art(ret.info)
+						setTimeout(function () {
+							change_pid(1)
+						}, 1000);
+					} else {
+						art(ret.info);
+					}
+				}, "json");
+			}
+		})
+	}
+
+
+	var last_show_id = 1;
+	function chose_tab(id) {
+		$("#user_goods_ka_" + last_show_id).hide();
+		$("#goods_ka" + last_show_id).removeClass("on");
+		last_show_id = id;
+		$("#goods_ka" + id).addClass("on");
+		$("#user_goods_ka_" + id).show();
+	}
+</script>
+</html>

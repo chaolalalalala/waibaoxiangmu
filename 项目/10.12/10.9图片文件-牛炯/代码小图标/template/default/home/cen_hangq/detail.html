@@ -1,0 +1,214 @@
+{include file="public:header"}
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>DUX</title>
+	<link rel="stylesheet" href="__EXT__/cen_hangq/zui.min.css"/>
+	<link rel="stylesheet" href="__EXT__/cen_hangq/zui-theme-green.css"/>
+	<link rel="stylesheet" href="__EXT__/cen_hangq/home.css"/>
+	<script type="text/javascript" src="__EXT__/cen_hangq/jquery.js"></script>
+	<script type="text/javascript" src="__EXT__cen_hangq/zui.min.js"></script>
+	<script type="text/javascript" src="__EXT__/cen_hangq/layer.js"></script>
+</head>
+<div class="container">
+	<div id="main">
+		<div class="row">
+			<div class="col-md-3">
+				<div id="hotnews">
+					<div class="table-responsive">
+						<table class="table table-hover table-striped" style="    margin-bottom: 0px;">
+							<thead>
+							<tr>
+								<th class="text-center" width="200" style="    background-color: #FFF;">币种</th>
+								<th class="text-center" style="    background-color: #FFF;">发行总量</th>
+							</tr>
+							</thead>
+							<tbody>
+							{foreach $coin_hq as $k => $v}
+							<tr>
+								<td class="text-left"><a href="/cen_hangq/detail/name/{$v['name']}.html">
+									<img src="{$v['img']}" width="24" style="margin-right: 8px;">{#strtoupper($v['name'])}-{$v['title']}
+								</a></td>
+								<td class="text-center">{$v['z']}</td>
+							</tr>
+							{/foreach}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="coin-content">
+					<div class="col-md-3 coin-info">
+						<a href="#" title="修改头像"><img src="{$coin_hq1['img']}"></a>
+					</div>
+					<div class="col-md-9">
+						<div class="items">
+							<div class="item">
+								<div class="coin-info">
+									<h2>
+										<a href="###" style="white-space: nowrap;">{$coin_hq1['title']}（{$coin_hq1['name']}）简介</a>
+									</h2>
+								</div>
+								<div class="item-content">{$coin_hq1['jj']}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="coin-content">
+					<ul class="bqnav" style="margin:auto;">
+						{foreach $coin_hq_type as $k=>$v}
+						<li>
+							<a href="{$coin_hq_Value[$v['name']]}" class="btn btn-primary">{$coin_hq1['title']}{$v['title']}</a>
+						</li>
+						{/foreach}
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="coin-content">
+					<div class="table-responsive">
+						<table class="szb-view-table">
+							<tbody>
+							<tr>
+								<td class="bg_menu">中文名：</td>
+								<td class="text_words">{$coin_hq1['title']}</td>
+								<td class="bg_menu">英文名：</td>
+								<td class="text_words_last">{$coin_hq1['name']}</td>
+								<td class="bg_menu">市场价格：</td>
+								<td class="text_words_last">{$coin_hq1['price']}</td>
+							</tr>
+							<tr>
+								<td class="bg_menu">所属国家：</td>
+								<td class="text_words"></td>
+								<td class="bg_menu">区块奖励：</td>
+								<td class="text_words">{$coin_hq1['gk'].$coin_hq1['name']}</td>
+								<td class="bg_menu">交易平台：</td>
+								<td class="text_words"><a href="https://yunbi.com/">{$coin_hq1['market']}</a></td>
+							</tr>
+							<tr>
+								<td class="bg_menu">区块时间：</td>
+								<td class="text_words">{$coin_hq1['gj']}天</td>
+								<td class="bg_menu">发布时间：</td>
+								<td class="text_words">{$coin_hq1['publishtime']}</td>
+								<td class="bg_menu">官网网站：</td>
+								<td class="text_words">{$coin_hq1['gw']}</td>
+							</tr>
+							<tr>
+								<td class="bg_menu">挖矿方式：</td>
+								<td class="text_words"></td>
+								<td class="bg_menu">英文简称：</td>
+								<td class="text_words">{$coin_hq1['name']}</td>
+								<td class="bg_menu">全网算力：</td>
+								<td class="text_words">{$coin_hq1['sl'].$coin_hq1['name']}/年</td>
+							</tr>
+							<tr>
+								<td class="bg_menu">核心算法：</td>
+								<td class="text_words">{$coin_hq1['sf']}</td>
+								<td class="bg_menu">挖矿难度：</td>
+								<td class="text_words"></td>
+								<td class="bg_menu">货币总量：</td>
+								<td class="text_words">{$coin_hq1['zl']}</td>
+							</tr>
+							<tr>
+								<td class="bg_menu">主要特色：</td>
+								<td class="text_words" colspan="5">{$coin_hq1['ts']}</td>
+							</tr>
+							<tr>
+								<td class="bg_menu text_words_last ">不足之处：</td>
+								<td class="text_words_last" colspan="5">{$coin_hq1['bz']}</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!--<div class="col-md-9  hidden-xs">-->
+			<!--<div class="coin-content">-->
+			<!--<div class="cards coin-cards">-->
+			<!--<div class="col-md-4 col-sm-6 col-lg-3">-->
+			<!--<div class="card">-->
+			<!--<img src="__HOME__/img/tx/1.jpg" alt="" width="190">-->
+			<!--<div class="card-actions">-->
+			<!--<div class="card-heading pull-left"><strong>良辰美景</strong></div>-->
+			<!--<div class="pull-right text-danger"><i class="icon-heart-empty"></i> 520 人喜欢</div>-->
+			<!--</div>-->
+			<!--<div class="card-content text-muted">良辰美景奈何天，赏心乐事谁家院。</div>-->
+			<!--</div>-->
+			<!--</div>-->
+			<!--<div class="col-md-4 col-sm-6 col-lg-3">-->
+			<!--<div class="card"><img src="__HOME__/img/tx/5.jpg" alt="" width="190">-->
+			<!--<div class="card-actions">-->
+			<!--<div class="card-heading pull-left"><strong>良辰美景</strong></div>-->
+			<!--<div class="pull-right text-danger"><i class="icon-heart-empty"></i> 520 人喜欢</div>-->
+			<!--</div>-->
+			<!--<div class="card-content text-muted">良辰美景奈何天，赏心乐事谁家院。</div>-->
+			<!--</div>-->
+			<!--</div>-->
+			<!--<div class="col-md-4 col-sm-6 col-lg-3">-->
+			<!--<div class="card"><img src="__HOME__/img/tx/100.jpg" alt="" width="190">-->
+			<!--<div class="card-actions">-->
+			<!--<div class="card-heading pull-left"><strong>良辰美景</strong></div>-->
+			<!--<div class="pull-right text-danger"><i class="icon-heart-empty"></i> 520 人喜欢</div>-->
+			<!--</div>-->
+			<!--<div class="card-content text-muted">良辰美景奈何天，赏心乐事谁家院。</div>-->
+			<!--</div>-->
+			<!--</div>-->
+			<!--<div class="col-md-4 col-sm-6 col-lg-3">-->
+			<!--<div class="card"><img src="__HOME__/img/tx/168.jpg" alt="" width="190">-->
+			<!--<div class="card-actions">-->
+			<!--<div class="card-heading pull-left"><strong>良辰美景</strong></div>-->
+			<!--<div class="pull-right text-danger"><i class="icon-heart-empty"></i> 520 人喜欢</div>-->
+			<!--</div>-->
+			<!--<div class="card-content text-muted">良辰美景奈何天，赏心乐事谁家院。</div>-->
+			<!--</div>-->
+			<!--</div>-->
+			<!--<div class="col-md-4 col-sm-6 col-lg-3">-->
+			<!--<div class="card"><img src="__HOME__/img/tx/1.jpg" alt="" width="190">-->
+			<!--<div class="card-actions">-->
+			<!--<div class="card-heading pull-left"><strong>良辰美景</strong></div>-->
+			<!--<div class="pull-right text-danger"><i class="icon-heart-empty"></i> 520 人喜欢</div>-->
+			<!--</div>-->
+			<!--<div class="card-content text-muted">良辰美景奈何天，赏心乐事谁家院。</div>-->
+			<!--</div>-->
+			<!--</div>-->
+			<!--<div class="col-md-4 col-sm-6 col-lg-3">-->
+			<!--<div class="card"><img src="__HOME__/img/tx/5.jpg" alt="" width="190">-->
+			<!--<div class="card-actions">-->
+			<!--<div class="card-heading pull-left"><strong>良辰美景</strong></div>-->
+			<!--<div class="pull-right text-danger"><i class="icon-heart-empty"></i> 520 人喜欢</div>-->
+			<!--</div>-->
+			<!--<div class="card-content text-muted">良辰美景奈何天，赏心乐事谁家院。</div>-->
+			<!--</div>-->
+			<!--</div>-->
+			<!--<div class="col-md-4 col-sm-6 col-lg-3">-->
+			<!--<div class="card"><img src="__HOME__/img/tx/168.jpg" alt="" width="190">-->
+			<!--<div class="card-actions">-->
+			<!--<div class="card-heading pull-left"><strong>良辰美景</strong></div>-->
+			<!--<div class="pull-right text-danger"><i class="icon-heart-empty"></i> 520 人喜欢</div>-->
+			<!--</div>-->
+			<!--<div class="card-content text-muted">良辰美景奈何天，赏心乐事谁家院。</div>-->
+			<!--</div>-->
+			<!--</div>-->
+			<!--<div class="col-md-4 col-sm-6 col-lg-3">-->
+			<!--<div class="card"><img src="__HOME__/img/tx/100.jpg" alt="" width="190">-->
+			<!--<div class="card-actions">-->
+			<!--<div class="card-heading pull-left"><strong>良辰美景</strong></div>-->
+			<!--<div class="pull-right text-danger"><i class="icon-heart-empty"></i> 520 人喜欢</div>-->
+			<!--</div>-->
+			<!--<div class="card-content text-muted">良辰美景奈何天，赏心乐事谁家院。</div>-->
+			<!--</div>-->
+			<!--</div>-->
+			<!--</div>-->
+			<!--</div>-->
+			<!--</div>-->
+		</div>
+	</div>
+</div>
+{include file="public:footer"}
+<script>
+	// 菜单高亮
+	$('.menu_cen_hangq').addClass('active');
+</script>

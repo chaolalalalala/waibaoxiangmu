@@ -1,0 +1,181 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/shop.css"/>
+<div class="autobox">
+	<div class="autobox">
+		<div class="now">
+			<a href="/" class=""><i class="fa fa-home fa-lg move mr5"></i>{#lang('首页')}</a> &gt; <a href="{#url('sale/index')}" class="">{#lang('拍卖中心')}</a> &gt; {#lang('确认订单')}
+		</div>
+		<div class="main-content">
+			<div class=" assets_content bg_w" style="min-height:30px;">
+				<div class="safe_center clear">
+					<h1>
+					<span>
+						{#lang('拍卖中心')}
+					</span>
+	                <span>
+                        <a href="{#url('sale/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('拍卖中心')}</a>
+                        <a href="{#url('sale/log')}" id="step2" class="step fz_12 ml20 pd6">{#lang('拍卖记录')}</a>
+                        <a href="{#url('sale/danbaolog')}" id="step3" class="step fz_12 ml20 pd6 " >{#lang('担保记录')}</a>
+                         <!--<a href="{#url('sale/fenhong')}" id="step4" class="step fz_12 ml20 pd6 ">{#lang('积分分红')}</a>-->
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+					</h1>
+				</div>
+				<div id="hints" class="mytips" style="display:none;">
+					<script>
+						var hints = "{$hints['show']}";
+						if(hints == 1){
+							$('#hints').show();
+						}
+					</script>
+					{$hints["value"] nofilter}
+				</div>
+			</div>
+		</div>
+		<div class="assets_center clear po_re ">
+			<div class="assets_content   ">
+				<div class="page-content bg_w">
+					<h3>选择收货地址
+						<span class="addr-tools">
+							<a href="{#url('user/goods')}" class="mgr-addrs" target="_blank">管理收货地址</a>
+						</span>
+					</h3>
+					<div class="addr-list clearfix mb30">
+						{foreach $user_goods as $k => $v}
+						<div id="{$v['id']}" class="addr-tag checked">
+							<div class="addr-tag-content">
+								{if $v['default']} <span class="default-addr">默认地址</span> {/if}
+								<h4>
+									<em class="addr-province-city">{$v['prov']} {$v['city']}</em>
+									（<em class="addr-name">{$v['truename']}</em> 收）
+								</h4>
+								<p>
+									<em class="addr-detail">{$v['addr']}</em>
+									<em class="addr-tel">{$v['moble']}</em>
+								</p>
+							</div>
+							<i class="addr-checked"></i>
+						</div>
+						{/foreach}
+					</div>
+					<h3>确认订单信息</h3>
+					<input type="hidden" id="voucherName" value="">
+					<table class="order-table">
+						<tbody>
+						<tr class="order-table-header">
+							<th class="green-bt">商品名称</th>
+							<th>竞拍价</th>
+							<th>付款币种</th>
+						</tr>
+						<tr id="3">
+							<td class="td-left">{$log['saletitle']}</td>
+							<td>
+								<em class=" goods-aruos">{#num($log['price'])}</em>
+							</td>
+							<td>
+                                {$log['coinname']}
+                            </td>
+						</tr>
+						</tbody>
+					</table>
+					<div class="order-count clearfix" style="width:600px">
+						<p class="float-l">
+							<textarea maxlength="80" id="liuyan" placeholder="给卖家留言：最多输入80字" class="sayto-seller"></textarea>
+						</p>
+					</div>
+					<div class="order-submit" style="margin-top: -90px;margin-right: 50px">
+						<p>
+							实付{$log['coinname']}：<strong class="red"><span style="" id="shiji" class="actual-aruo-count mr10 jisuanb">{#num($log['price'])}</span> </strong>
+						</p>
+						<p class="dark goods-receiver">
+							<em>收货人：</em>--
+						</p>
+						<p class="dark goods-sendto">
+							<em>寄送至：</em>--
+						</p>
+						<a href="javascript:;" class="submit-btn">提交订单</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	// 收货地址id
+	var addrId = _addrId = $('.addr-tag').first().attr('id');
+	// 选中收货地址
+	$('.addr-list').on('click', '.addr-tag', function () {
+		$('.addr-tag').removeClass('checked');
+		$(this).addClass('checked');
+		addrId = _addrId = this.id;
+		modifyOrderInfo($(this));
+	});
+
+	// 默认选中第一个收货地址
+	$('.addr-tag').first().click();
+
+
+	// 修改右下角收货人信息
+	function modifyOrderInfo(elem) {
+		var html1 = '<em>收货人：</em> ' + elem.find('.addr-name').html() + ' ' + elem.find('.addr-tel').html();
+		var html2 = '<em>寄送至：</em> ' + elem.find('.addr-province-city').html() + ' ' + elem.find('.addr-detail').html();
+		$('.goods-receiver').html(html1);
+		$('.goods-sendto').html(html2);
+	}
+
+	// 提交订单
+    $('.submit-btn').click(function () {
+        var coinpay = "{$log['coinname']}";
+        var id      = "{$log['id']}";
+        var sale_id="{$log['saleid']}";
+        var user_goods_id = _addrId;
+        var liuyan = $('#liuyan').val();
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        layer.ready(function () {
+            layer.prompt({
+                title: "请输入交易密码",
+                formType: 1
+            }, function (val) {
+                if (val) {
+                    $.post("{#url('sale/order_up')}", {
+                        id: id,
+                        coinpay: coinpay,
+                        sale_id:sale_id,
+                        user_goods_id:user_goods_id,
+                        liuyan:liuyan,
+                        token: "{$token}"
+                    }, function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                           setTimeout(function(){
+	                           window.location ="{#url('sale/log')}";
+                           },1000);
+
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, "json");
+                }
+                ;
+            });
+        });
+    });
+
+</script>
+<script>
+	if ($("#sale_box").length > 0) {
+		$('#sale_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

@@ -1,0 +1,244 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<style>
+	.my_charge li,span{
+		color:#a59494;
+	}
+    #common_notice {
+        color:#a59494;
+        margin-top: -0.5rem;
+    }
+    .my_body ul,.my_title ul{
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 10px;
+        list-style: none;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+    }
+    .my_body li{
+        border-radius: 2px;
+        margin: 1rem 0;
+        display: -webkit-box;
+        border: 1px solid #55585D;
+        background-color: #2F3440;
+        height: 4rem;
+        padding: 0.5rem;
+    }
+    .my_body li input{
+        display: block;
+        -webkit-box-flex: 1;
+        background-color: rgba(255, 255, 255, 0);
+        outline: none;
+        color: #ffffff;
+        height: 4rem;
+    }
+    select{
+        color: white;
+        display: block;
+        outline: none;
+        /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+        /*很关键：将默认的select选择框样式清除*/
+        appearance:none;
+        -moz-appearance:none;
+        -webkit-appearance: listbox;
+        /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+        padding-right: 14px;
+        background-color: #1F2229;
+        height:4rem;
+        line-height: 4rem;
+        text-align: left;
+        border: 0;
+    }
+    .btn2{
+        display: block;
+        color: #FFFFFF;
+        text-align: center;
+        border-radius: 8px;
+        height: 2.2rem;
+        line-height: 2.2rem;
+        background-color: #e55600;
+    }
+    .plus img{
+        height: 2rem;
+        margin-top: 1rem;
+    }
+    .notice span{
+        height: 2rem;
+        line-height: 2rem;
+        color: #DADADA;
+    }
+    .my_charge{
+        margin: 20px;
+        border-radius: 8px;
+        padding: 0 10px;
+        line-height: 30px;
+    }
+    .my_charge ul{
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 10px;
+        list-style: none;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        background-color: #ffffff;
+    }
+    .my_charge li{
+        border-radius: 2px;
+        height: 1.5rem;
+        margin: 0 1rem;
+    }
+    .my_charge .order{
+    }
+    .red{
+        color: #e55600;
+        font-weight: bold;
+    }
+    .green{
+        color: green;
+        font-weight: bold;
+    }
+    .blue{
+        color: #0096e0;
+        font-weight: bold;
+    }
+    .cnotice{
+        margin: 1rem;
+    }
+    .qrcode{
+        display: inline-block;
+    }
+    #qrcode{
+        width: 100%;
+    }
+    .btn_gray{
+        background-color: gray;
+    }
+</style>
+<body>
+<div class="wrap">
+    <div class="my_charge">
+        <ul>
+            <li class="order">支付方式:<span id="order_payType">支付宝</span></li>
+            <li class="order">订单状态:<span class="red" id="order_status">未付款1</span></li>
+            <li class="order">订单时间:<span id="order_time">2016-05-18</span></li>
+            <li class="order">备注单号:<span id="order_no" class="red">No339536</span></li>
+            <li class="order">充值金额：<span id="order_num"  class="green">00.00</span> </li>
+            <li class="order">账户名称：<span id="accountName" class="blue"></span></li>
+            <li class="order">收款账号：<span id="accountNo" class="blue"> 0000</span></li>
+            <li class="qrcode">
+                <img src="" id="qrcode" style="background-color: white;">
+            </li>
+            <li class="qrcode"><span style="padding: -1rem 1rem" id="qrcode_remark"></span></li>
+        </ul>
+        <ul>
+            <li>付款说明</li>
+            <div class="cnotice">
+                <p id="common_notice">
+                    一·打开支付工具<br>
+                </p>
+            </div>
+        </ul>
+        <div class="btn2 btn_gray" tapmode="" id="hadPayBtn">我已付款,立即查看</div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    apiready = function(){
+        onerror = error_handel;
+        inquireOrder();
+    }
+
+    function inquireOrder(){
+        var chargeId = iv('id');
+        if ( isNull(chargeId) )
+        {
+            art("请求充值详情时,订单号错误");
+            return;
+        }
+        loading();
+        UserAjax('finan/pay','get',
+                {
+                    'id':chargeId
+                },
+                function(ret){
+                    toast.hide();
+                    alog('======================');
+                    console.log(ret);
+                    if (ret.status == 1)
+                    {
+                        //返回值
+                        //0 未付款 1 充值成功 2 人工到账 3 处理中
+                        var payType = ret.info.gm.title;
+                        var status = ret.info.status;
+                        var payStatus;
+                        if (status == 0){
+                            payStatus = "未付款";
+                            $('#hadPayBtn').removeClass('btn_gray').attr('onclick','huikuan()');
+                        }else if (status == 1){
+                            payStatus = "充值成功";
+                        }else if (status == 2){
+                            payStatus = "人工到账";
+                        }else if (status == 3){
+                            payStatus = "处理中";
+                        }
+                        var orderTime = ret.info.addtime;
+                        var orderNo =   ret.info.tradeno;
+                        var orderNum = ret.info.num;
+                        var accountName = ret.info.gm.truename;
+                        var accountNo =   ret.info.gm.username;
+                        var qrcodeImgUrl = ret.info.gm.code;
+                        var remark = ret.info.gm.remark;
+                        var notice = ret.info.gm.shuoming;
+                        $('#order_payType').html(payType);
+                        $('#order_status').html(payStatus);
+                        $('#order_time').html(orderTime);
+                        $('#order_no').html(orderNo);
+                        $('#order_num').html("￥"+orderNum);
+                        $('#accountName').html(accountName);
+                        $('#accountNo').html(accountNo);
+                        $('#qrcode').attr("src",qrcodeImgUrl);
+                        $('#qrcode_remark').html(remark);
+                        $('#common_notice').html(notice);
+                    }
+                    else {
+                        alog(ret.info);
+                    }
+                });
+    }
+
+    function huikuan(){
+        var payID = iv('id');
+        if(typeof payID == 'undefined')
+        {
+            art("返回结果错误");
+            return;
+        }
+        loading();
+        UserAjax('/finan/pay_huikuan','post',
+                {
+                    'id':payID
+                },
+                function(ret){
+                    toast.hide();
+                    alog("点击我已收款之后,返回");
+                    alog(ret);
+                    if (ret.status == 1)
+                    {
+                        //操作成功
+                        art(ret.info);
+                        setTimeout("back()",3000);
+                    }
+                    else {
+                        art(ret.info);
+                    }
+                });
+    }
+</script>
+</html>

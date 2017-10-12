@@ -1,0 +1,135 @@
+{include file="bitcoin:header"}
+<link rel="stylesheet" href="/static/default/home/css/issue.css" />
+<link rel="stylesheet" href="/static/style/issueadd.css" />
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">首页</a> &gt; ICO项目认购    </div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span><a href="/issue" id="step1" class="step fz_12 pd6 active"><img src="/static/style/img/weituotu.png" alt="">ICO项目</a></span>
+					<span><a href="/issue/log.html" id="step2" class="step fz_12 ml20 pd6 "><img src="/static/style/img/weituotu.png" alt="">我的记录</a>
+						<!--a href="/issue/invit.html" id="step3" class="step fz_12 ml20 pd6"><img src="/static/style/img/weituotu.png" alt="">我的赠送</a-->
+					</span>
+					<span></span>
+				</h1>
+			</div>
+
+
+<!--
+			<div id="hints" class="mytips" style="display:none;">
+			<script>
+				var hints = "{$hints['show']}";
+				if (hints == 1) {
+					$('#hints').show();
+				}
+			</script>
+			{$hints["value"] nofilter}
+		</div>
+		{#slider("issue")}
+-->
+
+
+	</div>
+	{if $pages['list']} {foreach $pages['list'] as $k => $v}
+	<div class="crowd_con crowd_con_list clear " data="{$v['id']}" onclick="goumai(this);" style="cursor:pointer;  /*border: 6px solid #e8e9ea;*/ ">
+	    <div class="crowd_con_l ">
+	        <ul class="crowd_subscribe clear">
+	            <li style="padding-right: 30px;    width: 80px;">
+	                <img src="__UP__/{$v['coin']['img']}" style="width: 48px;    margin-top: -3px;">
+	            </li>
+	            <li style="    width: 190px;">
+	                <p>{#lang('项目名称')}</p><span class="">{$v['name']}</span>
+	            </li>
+	            <li>
+	                <p>{#lang('认购总量')}</p><span class="red">{$v['num']} {#strtoupper($v['coinname'])}</span>
+	            </li>
+	            <li>
+	                <p>{#lang('认购单价')}</p>
+	                <span class="red">{#num($v['price'],$v['coin']['round'])} {#strtoupper($v['buycoin'])}</span>
+	            </li>
+	            <li>
+	                <p>{#lang('认购限量')}</p>
+	                <span class="red">{if $v['limit']}{$v['limit']}{else}0.00{/if} {#strtoupper($v['coinname'])}</span>
+	            </li>
+	            <li>
+	                <p>{#lang('开启时间')}</p><span class="red">{#addtime($v['strtime'],'Y/m/d')}</span>
+	            </li>
+	            <li>
+	                <p>{#lang('结束时间')}</p><span class="red">{#addtime($v['sndtime'],'Y/m/d')}</span>
+	            </li>
+	            <li>
+	                <p>{#lang('累计已认购')}</p><span class="green">{$v['deal']} {#strtoupper($v['coinname'])}</span>
+	            </li>
+	            <li style="margin-top: 5px;">
+	                <a href="/myico/ico{$v['id']}.jsp" class="btns" style="padding: 10px 30px;">{#lang('项目详情')}</a>
+	            </li>
+	        </ul>
+	    </div>
+	</div>
+	{/foreach} {/if}
+
+	<!--div class="pages">{$pages['show'] nofilter}</div-->
+
+</div>
+
+
+<script>
+    function goumai(_this) {
+        window.location = "/myico/ico"+$(_this).attr('data')+".jsp";
+    }
+</script>
+
+
+<script>
+    if ($("#issue_box").length > 0) {
+        $('#issue_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+
+
+<div class="clear">
+</div>
+
+
+
+<script>
+	$(document).ready(function () {
+
+		$("#leftsead a").hover(function () {
+			if ($(this).prop("className") == "youhui") {
+				$(this).children("img.hides").show();
+			} else {
+				$(this).children("div.hides").show();
+				$(this).children("img.shows").hide();
+				$(this).children("div.hides").animate({marginRight: '0px'}, '0');
+			}
+		}, function () {
+			if ($(this).prop("className") == "youhui") {
+				$(this).children("img.hides").hide();
+			} else {
+				$(this).children("div.hides").animate({marginRight: '-163px'}, 0, function () {
+					$(this).hide();
+					$(this).next("img.shows").show();
+				});
+			}
+		});
+
+		$("#top_btn").click(function () {
+			if (scroll == "off") return;
+			$("html,body").animate({scrollTop: 0}, 600);
+		});
+
+
+	});
+</script>
+
+<!--底部-->
+{include file="aaapublic:footer"}
+
+</body>
+
+</html>

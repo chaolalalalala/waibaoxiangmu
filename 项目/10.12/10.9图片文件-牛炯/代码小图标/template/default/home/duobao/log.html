@@ -1,0 +1,183 @@
+{include file="public:header"}
+<style>
+    .fb_table td{
+        border:1px solid #EDEDED;
+        font-size:14px;
+        height: 40px;
+        text-align: center;
+    }
+    .content {
+        border-radius: 4px;
+        width:600px;
+        height:250px;
+        border: 1px solid #7F7F7F;
+        position: fixed;
+        left: 50%;
+        top: 300px;
+        margin-left: -285px;
+        box-shadow: 0 0 15px #7F7F7F;
+        background: #FFF;
+        padding-top: 10px;
+        /*padding-bottom: auto;*/
+        z-index: 1000;
+    }
+</style>
+<link rel="stylesheet" href="__CSS__/shop.css"/>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="{#url('duobao/index')}" class="orange">{#lang('一元夺宝')}</a> &gt; {#lang('夺宝记录')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('一元夺宝')}
+					</span>
+	                <span>
+                        <a href="{#url('duobao/index')}" id="step11" class="step fz_12 ml50 pd6 ">{#lang('宝贝列表')}</a>
+                        <a href="{#url('duobao/log')}" id="step12" class="step fz_12 ml20 pd6 active">{#lang('夺宝记录')}</a>
+                    </span>
+					<span>
+						{if $hints}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				{$hints nofilter}
+			</div>
+			<div class="cnyin_record">
+				<div class="f_body">
+					<div class="f_body_main">
+						<div class="f_tab_body">
+							<div>
+								<table class="f_table" id="investLog_content">
+									<thead>
+									<tr>
+                                        <th>{#lang('宝贝编号')}</th>
+										<th>{#lang('购买时间')}</th>
+										<th>{#lang('夺宝名称')}</th>
+										<th>{#lang('购买数量')}</th>
+										<th>{#lang('付款方式')}</th>
+										<th>{#lang('付款数量')}</th>
+                                        <th>{#lang('夺宝号')}</th>
+                                        <th>{#lang('状态')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{if $pages['list']}
+									{foreach $pages['list'] as $k => $v}
+									<tr>
+                                        <td>{$v['dbid']}</td>
+										<td>{#addtime($v['addtime'])}</td>
+										<td>{$v['name']}</td>
+										<td>{$v['num']}</td>
+										<td>{$v['coinpay']}</td>
+										<td>{$v['fee']}</td>
+                                        <td> <a onclick='showA("{$v['hao']}")' href="javascript:void(0)" class="cancel"> {#lang('查看更多')}</a></td>
+                                        <td>
+                                            {if $v["status"]==1}
+                                            <a href="/duobao/details/id/{$v['dbid']}">{#lang('查看详情')}</a>
+                                            {else if $v["status"]==2}
+                                            <span style="color: limegreen"> {#lang('恭喜你中奖')}</span>
+                                            {/if}
+                                        </td>
+									</tr>
+									{/foreach}{/if}
+									</tbody>
+								</table>
+								{if $pages['show']}
+								<div class="pages">{$pages['show'] nofilter}</div>{/if}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="content" id="step1" style="display: none;">
+    <div class="login_title pl20" style="margin-bottom: 10px">{#lang('夺宝号')}</div>
+    <div class="login_text zin90 ml10" style="width: 580px;height: 190px;overflow-y: scroll;">
+        <table class="fb_table" style="overflow: scroll">
+            <tbody id="plipala" style="">
+            </tbody>
+        </table>
+    </div>
+    <div class="mask_wrap_close " onclick="showB()"><i class="fa fa-times fz_20 move" aria-hidden="true"></i></div>
+</div>
+<div id="step2" class="all_mask" style="height: 0px;display: none;"></div>
+
+<script>
+    function showA() {
+        var back = arguments[0];
+        var data = JSON.parse(back);
+        var opt = '';
+        var length = data.length;
+        var count = Math.ceil(length/5);
+        for (var row = 0; row < count ; row++)
+        {
+            opt += '<tr>';
+            for (var col = 0; col < 5; col++)
+            {
+                var index = row*5 + col;
+                if (index == length )
+                break;
+                opt += '<td>'+data[index]+'</td>';
+            }
+            opt += '</tr>';
+        }
+        $('#plipala').html(opt);
+        $("#step1").show();
+        $("#step2").show();
+    }
+
+    function showB() {
+        $("#step1").hide();
+        $("#step2").hide();
+    }
+
+	$('.unlock').click(function () {
+		var id = $(this).attr('data');
+
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+
+
+		layer.ready(function () {
+			layer.prompt({
+				title: "请输入交易密码",
+				formType: 1
+			}, function (val) {
+				if (val) {
+					$.post("{#url('shop/shouhuo')}", {id: id,paypassword:val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							location.reload();
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+	});
+
+
+
+</script>
+<script>
+	if ($("#duobao_box").length > 0) {
+		$('#duobao_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

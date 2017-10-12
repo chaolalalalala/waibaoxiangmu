@@ -1,0 +1,308 @@
+a:hover, a:visited, a:link{
+	text-decoration:none;
+}
+.detail-bom {
+	margin: 20px 0;
+	position: relative;
+	width:1200px;
+	margin:auto;
+}
+
+.detail-bom-left {
+	background-color: #fff;
+}
+.ui-tab-orange {
+	padding-left: 30px;
+}
+.ui-tab-h70 {
+	height: 70px;
+}
+.ui-tab-orange {
+	border-bottom: 1px #E2E3E7 solid;
+}
+.ui-tab-items {
+	border-bottom: 1px solid #E5E5E5;
+	font-size: 14px;
+	zoom: 1;
+}
+.ui-tab-items:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+.ui-tab-items:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+.ui-tab-items li {
+	list-style: none;
+	vertical-align: top;
+	position: relative;
+	float: left;
+	margin-bottom: -1px;
+	margin-right: -1px;
+}
+.ui-tab-orange .ui-tab-item a {
+	height: 69px;
+	line-height: 69px;
+	padding: 0 30px;
+	font-size: 14px;
+	text-align: center;
+	background: #fff;
+	color: #333;
+	display: inline-block;
+	border: none;
+	background: #fff;
+}
+.ui-tab-orange .ui-tab-item-current a {
+	color: #ED7C5E;
+	padding: 0 10px;
+	margin: 0 20px;
+	font-weight: 400;
+	border-bottom: 3px #ED7C5E solid;
+}
+.ui-tab-item {
+	display: inline-block;
+	
+}
+.ui-tab-content {
+	border-width: 0 0 1px;
+	border-style: solid;
+	border-color: #E5E5E5;
+	background: #FFF;
+
+	overflow: hidden;
+	padding: 0 20px;
+	margin-top: 20px;
+
+}
+.f_table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 1px solid #EFEFEF;
+	margin-bottom: 20px;
+}
+
+
+.pr0 {
+	padding-right: 0px;
+}
+
+
+
+.oh {
+	overflow: hidden;
+}
+.borderrgrey {
+	border-right: 1px #e5e5e5 solid;
+}
+.tc {
+	text-align: center;
+}
+.f26 {
+	font-size: 26px;
+}
+.bg-white {
+	background-color: white;
+}
+.ls4 {
+	letter-spacing: 4px;
+}
+.pt28 {
+	padding-top: 28px;
+}
+.mb0 {
+	margin-bottom: 0px;
+}
+.deepskyblue {
+	color: deepskyblue;
+}
+.tc {
+	text-align: center;
+}
+.f26 {
+	font-size: 26px;
+}
+
+.mb5 {
+	margin-bottom: 5px;
+}
+.darkgray {
+	color: #999;
+}
+.f14 {
+	font-size: 14px;
+}
+.borderbdottedBlue {
+	border-bottom: 1px #a4dcfe dotted;
+}
+
+.mr20 {
+	margin-right: 20px;
+}
+.ml20 {
+	margin-left: 20px;
+}
+.darkgray {
+	color: #999;
+}
+.cadetblue {
+	color: #666;
+}
+.h293 {
+	height: 293px;
+}
+.f56 {
+	font-size: 56px;
+}
+.relative {
+	position: relative;
+}
+.bg-white {
+	background-color: white;
+}
+
+
+.darklight {
+	color: #343434;
+}
+.f18 {
+	font-size: 18px;
+}
+.darkgray {
+	color: #999;
+}
+.f24 {
+	font-size: 24px;
+}
+.mb12 {
+	margin-bottom: 12px;
+}
+.btn-default {
+	color: deepskyblue;
+	border: 2px deepskyblue solid;
+}
+.pr30 {
+	padding-right: 30px;
+}
+.pl30 {
+	padding-left: 30px;
+}
+.pt10 {
+	padding-top: 10px;
+}
+
+.btn-default {
+	background-color: #fff;
+}
+.btn {
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	border-radius: 4px;
+}
+
+.borderbgrey {
+	border-bottom: 1px #e5e5e5 solid;
+}
+
+.borderrgrey {
+	border-right: 1px #e5e5e5 solid;
+}
+.pt45 {
+	padding-top: 45px;
+}
+
+.cb {
+	clear: both;
+}
+.pt45 {
+	padding-top: 45px;
+}
+
+.layout {
+	width: 988px;
+	margin: auto;
+}
+.negml15 {
+	margin-left: -15px;
+}
+.lh38 {
+	line-height: 38px;
+}
+.f28 {
+	font-size: 28px;
+}
+.cadetblue {
+	color: #666;
+}
+.jie{
+	width:1200px;background:#fff;margin:auto;margin-bottom:20px;
+}
+
+
+.f28 a:hover{
+	color:deepskyblue;
+}
+.bt{
+	border-top:1px solid #e5e5e5;
+}
+
+.f_table th{
+	background: deepskyblue;!important;
+	color: #fff;
+	font-weight: bold;
+	font-size: 16px;
+}
+.f_table tr:nth-child(even){
+background-color:#e5e5e5;
+}
+.f_table tr:hover {
+	background-color: #E9FEE9;
+}
+.btn-default:hover {
+	color: white;
+	background-color: deepskyblue;
+	border: 2px deepskyblue solid;
+}
+.btns2,.btns3{
+	width: 100px;
+	background: deepskyblue;
+}
+
+.btns3{
+	width: 100px;
+	height: 34px;
+	line-height: 24px;
+	border-radius: 4px;
+	color: #FFF;
+	font-size: 14px;
+	text-align:center;
+}
+.btns3:hover {
+	opacity: 0.9;
+	color: #FFF;
+	cursor:pointer;
+}

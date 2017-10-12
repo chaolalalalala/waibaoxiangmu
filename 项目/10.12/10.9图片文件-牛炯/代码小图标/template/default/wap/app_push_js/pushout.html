@@ -1,0 +1,244 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/common.css">
+</head>
+<style>
+	span{
+		color:#a59494;
+	}
+	.btn-very{
+		height: 2.2rem;
+		background-color: green;
+		line-height: 2.2rem;
+		padding: 0rem 1rem;
+		display:block;
+		text-align: center;
+		border-radius: 8px;
+		color:#fff;
+	}
+	.mobile-very{
+		display: none;
+		margin: 30px 20px  60px 20px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	#bank_type{
+		width: 100%;
+	}
+	#coin_type{
+		margin:1rem 0;
+		width: 100%;
+	}
+	.my_body{
+		margin: 20px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul,.my_title ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+	.my_body li{
+		border-radius: 2px;
+		margin: 1rem 0;
+		display: -webkit-box;
+		height: 2.2rem;
+		padding:0 0 0 0.5rem;
+		background-color: white;
+	}
+	.my_body li input{
+		display: block;
+		-webkit-box-flex: 1;
+		background-color: rgba(255, 255, 255, 0);
+		outline: none;
+		color: #666;
+		height: 2.2rem;
+		line-height:2.2rem;
+	}
+	.btn{
+		display: block;
+		color: #FFFFFF;
+		margin: 0 30px;
+		text-align: center;
+		border-radius: 8px;
+		height: 2.5rem;
+		line-height: 2.5rem;
+		margin-bottom:3rem;
+		background-color: #e55600;
+	}
+	.notice{
+		margin: 20px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.notice span{
+		height: 2rem;
+		line-height: 2rem;
+		color: #AFB4BD;
+	}
+	select{
+		color: #666;
+		display: block;
+		outline: none;
+		/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+		/*很关键：将默认的select选择框样式清除*/
+		appearance:none;
+		-moz-appearance:none;
+		-webkit-appearance: listbox;
+		/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+		padding-left:0.5rem;
+
+		background-color: #FFF;
+		height:2rem;
+		line-height: 2rem;
+		text-align: left;
+		border: 0;
+		width:100%;
+	}
+	.grey{
+		color:grey;
+	}
+	.left_info{
+		width:7rem;
+		display:inline-block;
+	}
+</style>
+<body>
+<div class="wrap">
+	<div id="show1">
+		<div class="my_body">
+			<select name="coin" id="coin_type" tapmod="" onchange="change_data()">
+			</select>
+			<ul>
+				<li>
+					<input tapmod="" onclick="_focus(this)" id="uid" type="text"
+					       placeholder="接收方UID">
+				</li>
+				<li>
+					<input tapmod="" onclick="_focus(this)" id="name" type="text"
+					       placeholder="接收方姓名">
+				</li>
+
+				<li>
+					<input tapmod="" onclick="_focus(this)" name="price" id="price" type="text"
+					       placeholder="交易价格">
+				</li>
+				<li>
+					<input tapmod="" onclick="_focus(this)" name="price" id="num" type="text"
+					       placeholder="交易价格">
+				</li>
+				<li>
+					<input tapmod="" onclick="_focus(this)" name="paypassword" id="paypassword"
+					       type="password" placeholder="交易密码">
+				</li>
+			</ul>
+		</div>
+		<div class="btn" tapmode="" onclick="up()">发布求购</div>
+	</div>
+</div>
+<script id="coin-template" type="text/x-dot-template">
+	{{?it.length>0}}
+	{{for(var i in it){ }}
+	<option value='{{=it[i].coin}}'>{{=it[i].title}}</option>
+	{{ } }}
+	{{?}}
+</script>
+</body>
+<script src="__WAP__/js/ext/doT.min.js"></script>
+<script>
+	var coin_id = '';
+	var coin_name='';
+	var finan=''
+	apiready = function() {
+		onerror = error_handel;
+		get_data();
+	}
+	function get_data(){
+		Ajax("push_js/market", "get", {},function(ret){
+			if(ret.status==1) {
+				var coin = ret.info;
+				var cointemp= doT.template($("#coin-template").text());
+				$("#coin_type").html(cointemp(coin));
+			}
+		},'json')
+	}
+
+	function up(){
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			return false;
+		}
+		var name =$('#name').val();
+		var uid=$("#uid").val();
+		var coin = $('#coin_type option').not(function(){ return !this.selected }).val();
+		var num = $('#num').val();
+		var price= $("#price").val();
+		var paypassword = $('#paypassword').val();
+		if(!coin){
+			art('请选择求购币种');
+			return;
+		}
+		if(!uid){
+			art('请输入接收方UID');
+			return
+		}
+		if(!name){
+			art('请输入接收方姓名');
+			return;
+		}
+		if(!num){
+			art('请输入交易数量');
+			return;
+		}
+		if(!price){
+			art('请输入交易价格');
+			return;
+		}
+		if(!paypassword){
+			art('请输入交易密码');
+			return;
+		}
+
+		loading("提交中……")
+		UserAjax('push_js/push','post',
+				{
+					'coin':coin,
+					'uid':uid,
+					'uname':name,
+					'price':price,
+					'num':num,
+					'paypassword':paypassword
+				},
+				function(ret){
+					toast.hide();
+					if(ret.status==1){
+						art(ret.info);
+						clean_view();
+						get_data();
+					}else{
+						art(ret.info)
+					}
+				});
+	}
+
+	//清空页面
+	function clean_view(){
+		$('#coin_type option').first().prop("selected","selected");
+		$('#num').val(null);
+		$('#uid').val(null);
+		$('#name').val(null);
+		$('#price').val(null);
+		$('#paypassword').val(null);
+	}
+
+
+</script>
+</html>

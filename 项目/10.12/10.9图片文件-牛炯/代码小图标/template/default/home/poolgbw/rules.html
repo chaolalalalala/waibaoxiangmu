@@ -1,0 +1,57 @@
+{include file="public:header"}
+    <link rel="stylesheet" href="__CSS__/poolgbw.css?v="/>
+	<style type="text/css">
+		.dh_d div.one_8{ color:#ffffff; font-size:18px; line-height:30px;font-weight:bold; width:26%; padding:10px 5px;}
+		.dh_d div.one_8 span{ color:#ffffff; font-size:14px; line-height:30px;font-weight:normal;}
+	</style>
+<div name="from1"  id="from1" class="form">
+	<div class="work_bg" style="margin-top:-3px;margin-bottom: -40px">
+		<div class="work_content" style="position:relative;">
+			<style type="text/css">
+				.wj_cols { background:#595959;border:2px solid #333; border-radius:10px;width:220px; font-family:'微软雅黑'; }
+				.wj_cols ul{  width:100%; }
+
+				.wj_cols ul li{ width:100%;  height:38px; overflow:hidden;background:url('/style/images/wk_but2.png') no-repeat; }
+				.wj_cols ul li.wk_select{ width:100%;   height:auto;background:url('/style/images/wk_but1.png') no-repeat; }
+				.wj_cols ul li a{ display:block; padding-left:42px; font-size:15px; color:#fff;  height:38px; line-height:38px; font-weight:bold; }
+				.wj_cols ul li span{ display:block; padding-left:23px; font-size:13px; color:#fff; background:url('/style/images/ulist.png') no-repeat 5px 15px; height:38px; line-height:38px; border-bottom:1px solid #666; }
+
+			</style>
+			<div id="DivWk_No" class="work_pic" style="display:block;">
+				<img src="__IMG__/poolgbw/wk0.png" />
+			</div>
+			<div class="kj_bt1">
+				<a href="{#url('poolgbw/index')}" id="step1" class="but_will" style="color:#fff;">{#lang('我的矿机')}</a>
+			</div>
+			<div class="kj_bt2">
+				<a href="{#url('poolgbw/market')}" id="step2" class="but_will" style="color:#fff;">{#lang('矿机市场')}</a>
+			</div>
+			<div class="kj_bt3" style="color:#fff; font-size:16px; font-weight:bold;">
+				<a href="{#url('poolgbw/log')}" id="step3" class="but_will" style="color:#fff;">{#lang('收益记录')}</a>
+			</div>
+			<div class="kj_bt4" style="color:#fff; font-size:16px; font-weight:bold;">
+				<a href="{#url('poolgbw/rules')}" id="step4" class="but_will3" style="color:#fff;">{#lang('挖矿规则')}</a>
+			</div>
+			<div class="remarks" style="margin:20px 0px;padding-top:0px;">
+				<h3>操作步骤：</h3>
+				<div id="step">{$message["step"]}</div>
+			</div>
+			<div class="remarks" style="margin:20px 0px;padding-top:0px;">
+				<h3>挖矿说明：</h3>
+				<div id="rule">{$message["rule"]}</div>
+			</div>
+			<div class="remarks" style="margin:20px 0px;padding-top:0px;">
+				<h3>举例说明：</h3>
+				<div id="example">{$message["example"]}</div>
+			</div>
+		</div>
+		</div>
+		<!--content-->
+	</div>
+</div>
+<script>
+	$("#step").html($("#step").text())
+	$("#rule").html($("#rule").text())
+	$("#example").html($("#example").text())
+</script>
+{include file="public:footer"}

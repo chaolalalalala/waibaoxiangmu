@@ -1,0 +1,121 @@
+{include file="public:header"}
+<title>分红详情</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<body>
+<div class="aui-content aui-margin-b-15">
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">主要内容</li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">分红名称:</div>
+<!--                <div class="aui-list-item-text" id="shouhuoAddress">武汉市武昌区友谊大道999</div>-->
+                <div class="aui-list-item-text" id="name">
+
+                </div>
+            </div>
+        </li>
+	    <li class="aui-list-item">
+		    <div class="aui-list-item-inner">
+			    <div class="aui-list-item-label">分红池名称：</div>
+			    <div class="aui-list-item-text" id = "poolname"></div>
+		    </div>
+	    </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">分红币种：</div>
+                <div class="aui-list-item-text" id = "holdcoin"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">奖励币种:</div>
+                <div class="aui-list-item-text" id = "gaincoin"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">分红总量:</div>
+                <div class="aui-list-item-text" id = "num"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">须持有天数：</div>
+                <div class="aui-list-item-text" id = "holdtime"></div>
+            </div>
+        </li>
+	    <li class="aui-list-item">
+		    <div class="aui-list-item-inner">
+			    <div class="aui-list-item-label">发放时间：</div>
+			    <div class="aui-list-item-text" id = "endtime"></div>
+		    </div>
+	    </li>
+
+    </ul>
+    <ul class="aui-list aui-list-in">
+	    <li class="aui-list-header">分红介绍</li>
+	    <li class="aui-list-item" style="height:300px">
+		    <div id="content"
+		         style="
+                 position:relative;
+                 overflow-x:auto;
+                 overflow-y:auto;
+                 width:100%;
+                 /*overflow:scroll;*/
+                 height:auto;
+                 padding:0.75rem 0.75rem 0 0;
+                 " >
+		    </div>
+	    </li>
+    </ul>
+
+</div>
+
+
+</body>
+<script type="text/javascript">
+	apiready = function () {
+		alog("come");
+		onerror = error_handel;
+		if ( chk_dev() )
+		{
+
+		}
+		else {
+			api.parseTapmode();
+
+		}
+		flash()
+	};
+
+
+
+	function flash() {
+		if(!chkLogin()){
+			var req = Ajax
+		}else {
+			var req = UserAjax;
+		}
+		var params = { 'id':iv('id')};
+        req('fenhong98/buy', 'get', params, function (ret) {
+            alog(ret);
+            var data = ret.info
+            if (ret.status == 1) {
+	            $("#name").html(data.name)
+	            $("#gaincoin").html(data.gaincoin)
+	            $("#poolname").html(data.poolname)
+	            $("#holdcoin").html(data.holdcoin)
+	            $("#holdtime").html(data.holdtime)
+	            $("#endtime").html(data.endtime)
+	            $("#num").html(data.num)
+	            $("#content").html(data.content)
+            }else {
+                art(ret.info);
+            }
+        });
+	}
+
+
+</script>
+</html>

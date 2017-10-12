@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="renderer" content="webkit">
+	<meta name="format-detection" content="telephone=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>{$seos['title']}</title>
+	<meta name="Keywords" content="{$seos['keywords']}">
+	<meta name="Description" content="{$seos['description']}">
+	<meta name="author" content="bihuo168.com">
+	<meta name="coprright" content="bihuo168.com">
+	<link rel="shortcut icon" href="/favicon.ico"/>
+	<link rel="stylesheet" href="__EXT__/Font-Awesome-4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="__CSS__/style.css" id="theme"/>
+	<link rel="stylesheet" href="__CSS__/common.css"/>
+	<link rel="stylesheet" href="__CSS__/xissue/base.css"/>
+	<link rel="stylesheet" href="__CSS__/xissue/index.css"/>
+	<link rel="stylesheet" href="__CSS__/xissue/index_animation.css"/>
+	<script type="text/javascript" src="__EXT__/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+	<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+	<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+	<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+	<!--轮播图 start-->{#config("slider_first",intval(config("slider_first")) +1)} {if config("slider_first")== 1}
+	<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+	<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+	<!--<script type="text/javascript" src="__JS__/xissue/base.js"></script>-->
+	<!--<script type="text/javascript" src="__JS__/xissue/index.js"></script>-->
+
+	{/if}
+	<!--轮播图主体-->
+</head>
+<body lang="zh-CN">
+<!--[if lt IE 10]>
+<div id="kie-bar" class="kie-bar ">
+	{#lang('您现在使用的浏览器版本过低，可能会导致浏览效果和信息的缺失。 建议立即升级到')}
+	<a href="http://rj.baidu.com/soft/detail/14917.html" target="_blank" title="{#lang('免费升级至IE8浏览器')}">IE 10+</a> {#lang('或')}
+	<a href="http://rj.baidu.com/soft/detail/14744.html" target="_blank" title="{#lang('免费升级至360安全浏览器')}">{#lang('谷歌浏览器')}</a> {#lang('或')}
+	<a href="http://rj.baidu.com/soft/detail/17451.html" target="_blank" title="{#lang('免费升级至360安全浏览器')}">{#lang('360安全浏览器')}</a> ，{#lang('安全更放心')}！
+</div><![endif]-->
+<div id="example1" style="z-index: 999;min-width: 1200px;width:100%;" ;>
+	<div class="header">
+		<div class="header-content">
+			<ul class="trade-status" style="z-index:99999">
+				<li style="padding: 0px 10px 0px 0px;">
+					<i class="fa fa-list-ul fa-lg left move mr5"></i> <a href="#" id="game_top">{#lang('应用')}
+					<i class="fa fa-angle-down"></i> </a>
+					<div id="game_list" class="deal_list  game_list" style="display: none;    width: 360px;">
+						<div id="game-nav-body" style="">
+							<dl style="display: block;width: 360px;">
+								{foreach $game as $k => $v}
+								<dd style="height: 32px;line-height: 33px;">
+									<a href="{$v['url']}" style="padding-left:4px;"><img src="{$v['img']}" style="width: 28px; vertical-align: -4px;margin-right: 5px;">{#lang($v['title'])}</a>
+								</dd>
+								{/foreach}
+							</dl>
+						</div>
+						<i class="fa fa-caret-up move" style="position: absolute;top: -21px;left: 0px;font-size: 28px;    padding: 0px 20px;"></i>
+						<div class="nocontent"></div>
+					</div>
+				</li>
+				<li>
+					<i class="fa fa-bar-chart-o fa-lg left move mr5"></i> <a href="#" id="trade_top" class="darker">{#lang('交易中心')}
+					<i class="fa fa-angle-down"></i> </a>
+					<!--模板-->
+					<script id="trade_list_tpl" type="text/x-dot-template">
+						<ul id="trade-nav-tabs">
+							{{ for(var k in it) { }}
+							<li class="trade-tab {{? k == 0}}current{{?}}">
+								{{=it[k]['title']}}
+							</li>
+							{{ } }}
+						</ul>
+						<div id="trade-nav-body">
+							{{ for(var k in it) { }} {{? k == 0}}
+							<dl style="display: block">
+								{{??}}
+								<dl style="display: none">
+									{{?}} {{ for(var kk in it[k]['data']) { }}
+									<dd>
+										<a href="/trade/index/market/{{=kk}}"><img src="__UP__/{{=it[k]['data'][kk]['img']}}" style="width: 18px;vertical-align: -4px;margin-right: 5px;">{{=it[k]['data'][kk]['title']}}</a>
+									</dd>
+									{{ } }}
+								</dl>
+								{{ } }}
+							</dl>
+						</div>
+						<i class="fa fa-caret-up move" style="position: absolute;top: -21px;left: 18px;font-size: 28px;"></i>
+						<div class="nocontent"></div>
+					</script>
+					<div id="trade_list" class="deal_list " style="left:14px; ">
+					</div>
+				</li>
+				<!--<li>
+					<i class="fa fa-area-chart fa-lg left move mr5"></i>
+					<a href="/" id="block_chart" class="darker">{#lang('区块浏览器')}</a>
+				</li>
+
+
+
+
+
+-->
+			</ul>
+			<ul class="trade-status" style="margin-left:10px;">
+				<li id="index_box">
+					<a href="/">{#lang('首页')}</a>
+				</li>
+				{foreach $daohang as $k => $v}
+				<li id="{$v['name']}_box">
+					<a href="{$v['url']}">{#lang($v['title'])}</a>
+				</li>
+				{/foreach}
+			</ul>
+			<ul class="user-status">
+				{if $userid}
+				<li>
+					<i class="fa fa-user fa-lg left move mr5"></i>
+					<a href="{#url('user/index')}" id="user_top" class="move">{$user['username']}</a>
+					<div id="mywallet_list" class="mywallet_list" style="display: none;">
+						<div class="clear">
+							<ul class="freeze_list">
+								<h4>{#lang('可用人民币')}</h4>
+								<li style=" padding: 0;">
+									<a href="javascript:void(0)">
+										<img src="__IMG__/public/cny.png" width="18" class="left mt5 mr5">
+										<span class="fz_14">{#num($user_coin['cny'])}</span></a>
+								</li>
+							</ul>
+							<ul class="freeze_list">
+								<h4>{#lang('冻结人民币')}</h4>
+								<li style=" padding: 0;">
+									<a href="javascript:void(0)">
+										<img src="__IMG__/public/cny.png" width="18" class="left mt5 mr5">
+										<span class="fz_14">{#num($user_coin['cnyd'])}</span></a>
+								</li>
+							</ul>
+							<ul class="balance_list">
+								<h4>{#lang('预估总资产')}:</h4>
+								<li style=" padding: 0;">
+									<a href="javascript:void(0)">
+										<img src="__IMG__/public/cny.png" width="18" class="left mt5 mr5 ">
+										<span class="fz_14">{#num($user['zzc'])}</span></a>
+								</li>
+							</ul>
+						</div>
+						<div class="mywallet_btn_box">
+							<a href="{#url('finan/pay')}" class="texts">{#lang('人民币充值')}</a>
+							<a href="{#url('finan/out')}" class="texts">{#lang('人民币提现')}</a>
+							<a href="{#url('finan/coinin')}" class="texts">{#lang('虚拟币转入')}</a>
+							<a href="{#url('finan/coinout')}" class="texts">{#lang('虚拟币转出')}</a>
+							<a href="{#url('finan/trades')}" class="texts">{#lang('委托管理')}</a>
+							<a href="{#url('finan/order')}" class="texts">{#lang('成交查询')}</a>
+							<a href="{#url('finan/index')}" class="texts">{#lang('财务中心')}</a>
+							<a href="{#url('user/index')}" class="texts">{#lang('安全中心')}</a>
+						</div>
+						<i class="fa fa-caret-up move" style="position: absolute;top: -21px;right: 34px;font-size: 28px;"></i>
+						<div class="nocontent"></div>
+					</div>
+				</li>
+				<li>
+					<a href="{#url('login/loginout')}" class="">{#lang('退出')}</a>
+				</li>
+				{else}
+
+
+				<li>
+					<i class="fa fa-user left move fz_16"></i> <a href="/reg" class="ma-l move"> {#lang('注册')}</a>
+				</li>
+				<li>
+					<a href="javascript:loginpop();" class="darker">{#lang('登录')}</a>
+				</li>
+				{/if} {if $lang_type_list}
+				<li style="padding: 0px 0px 0px 10px;border-right: 1px solid #FFF;">
+					<a href="#" id="lang_top" class="" style="padding-left:3px;">
+
+						<span id="lang-show">
+						<img src="__UP__/{$lang_type_cn['img']}" style="width: 18px; height:18px;vertical-align: -4px;margin-right: 5px;">{$lang_type_cn['title']}</span>
+						<i class="icon-angle-down"></i> </a>
+					<div id="lang_list" class="deal_list  lang_list" style="display: none;    left: 13px;width: 110px;">
+						<div id="lang-nav-body">
+							<ul class="lang-chose">
+								{foreach $lang_type_list as $k => $v}
+								<dd style="height: 32px;line-height: 33px;  width: 100px;">
+									<li onclick="chose_lang('{$v.name}')" style="    padding-left: 0px;    width: 100px;">
+										<img src="__UP__/{$v['img']}" style="width: 18px; height:18px;vertical-align: -4px;margin-right: 5px;">{$v['title']}
+									</li>
+								</dd>
+								{/foreach}
+							</ul>
+						</div>
+						<i class="fa fa-caret-up move" style="position: absolute;top: -21px;right: 34px;font-size: 28px;"></i>
+						<div class="nocontent"></div>
+					</div>
+				</li>
+				{/if}
+				<!--<li style="padding: 0px 0px 0px 10px;border-right: 1px solid #FFF;">
+					<i class="fa fa-stop fa-lg  left move"></i>
+					<i class="fa fa-spin icon-refresh left move" style="margin-top: -2px;border:none;font-size: 16px;"></i>
+					<a href="#" id="theme_top" class="" style="padding-left:3px;">{#lang('皮肤')}
+						<i class="icon-angle-down"></i> </a>
+					<div id="theme_list" class="deal_list  theme_list" style="display: none;    width: 120px;">
+						<div id="theme-nav-body">
+							<ul class="theme-base">
+								<li onclick="chose_theme('style_a')" style="background-color:#EA644A;"></li>
+								<li onclick="chose_theme('style_b')" style="background-color:#F1A325;"></li>
+								<li onclick="chose_theme('style')" style="background-color:#38B03F;"></li>
+								<li onclick="chose_theme('stylec')" style="background-color:#03B8CF;"></li>
+							</ul>
+						</div>
+						<i class="fa fa-caret-up move" style="position: absolute;top: -21px;right: 18px;font-size: 28px;"></i>
+						<div class="nocontent"></div>
+					</div>
+				</li>-->
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="header-nav-wrap has-sub-nav">
+	<div class="header-nav-wrap-inner">
+		<div class="main-nav">
+			<div class="grid-1200 nav-wrap pr clearfix">
+				<div class="main-nav-logo fl" style="width:200px;height:70px;">
+					{if $config['web_logo']} <a href="/"><img src="__UP__/{$config['web_logo']}" alt=""/></a> {else}
+					<a href="/" class="xiaozhu-logo"> <i class="move-self move-logo2 move"></i> </a> {/if}
+				</div>
+				<div class="nav fl">
+					<ul class="nav-box nav-box121 fl clearfix" id="navBox" style="display:none">
+						<li id="nav-index" class="nav-item">
+							<a class="nav-item-primary" href="//jr.jd.com" clstag="jr|keycount|jr_shouye|shouye">{#lang('首页')}<i></i></a>
+						</li>
+						<li id="nav-licai" class="nav-item nav-col5 current">
+							<a class="nav-item-primary" href="//licai.jd.com" clstag="jr|keycount|jr_shouye|jr_shouye_licai">{#lang('理财')}<i></i><b></b></a>
+							<div class="dropbox sub-box">
+								<dl>
+									<dt>{#lang('理财精选')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-lcsy" href="//licai.jd.com/" clstag="jr|keycount|jr_shouye|nav_licai_lcsy">{#lang('理财首页')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-xjk" href="//trade.jr.jd.com/myxjk/jrbincome.action" clstag="jr|keycount|jr_shouye|nav_licai_xjk">{#lang('京东小金库')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-xbjx" href="//xiaobai.jr.jd.com/xiaobai/main.htm" clstag="jr|keycount|jr_shouye|nav_licai_xbjx"> {#lang('小白理财')} </a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('稳健理财')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-dingqi" href="//dq.jd.com" clstag="jr|keycount|jr_shouye|nav_licai_dingqi">{#lang('定期')}</a><a target="_blank" id="nav-piaoju" href="//bill.jr.jd.com/buy/list.htm" clstag="jr|keycount|jr_shouye|nav_licai_piaoju">{#lang('票据')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-gushou" href="//jdd.jr.jd.com/index.html" clstag="jr|keycount|jr_shouye|nav_licai_gusho">{#lang('固收')}</a><a target="_blank" id="nav-quanshang" href="//qslc.jd.com/productsInfo/productsInfos.html" clstag="jr|keycount|jr_shouye|nav_licai_quanshang">{#lang('券商')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('基金理财')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-jijin" href="//fund.jd.com" clstag="jr|keycount|jr_shouye|nav_licai_jijin">{#lang('基金超市')}<span class="tips-wrap"><img class="popup-tips" src="//img30.360buyimg.com/jr_image/jfs/t3109/259/4412186676/1918/5f99762c/58455bd6Nff80ce06.gif"></span></a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-jjdt" href="//trade.jr.jd.com/jjdt/index.action" clstag="jr|keycount|jr_shouye|nav_licai_jjdt">{#lang('基金定投')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-jzzh" href="//sa.jd.com/list.html" clstag="jr|keycount|jr_shouye|nav_licai_jzzh">{#lang('基智账户')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('特色理财')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-jdtj" href="//gold.jr.jd.com/taojin/index.htm" clstag="jr|keycount|jr_shouye|nav_licai_jdtj">{#lang('京东黄金')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('投资讯息')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-htcl" href="//licaishi.jd.com/huitou/index" clstag="jr|keycount|jr_shouye|nav_licai_htcl">{#lang('慧投策略')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-club" href="//club.jr.jd.com/" clstag="jr|keycount|jr_shouye|nav_licai_jrsq">{#lang('金融社区')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<div class="subbox-ad" data-adid="1766321">
+									<a href="//c.jr.jd.com/flow/nc?campId=1768275&amp;ad_id=1766321&amp;mat=1769408&amp;unit=1769070&amp;type=1&amp;price=5000&amp;day=1486951320&amp;uuid=24570e57-8dca-4acf-af7a-bf9365795424&amp;loc=1&amp;userPin=jrscb&amp;to=http://fund.jd.com/" target="_blank"><img class="lazyload-img" data-src="//img30.360buyimg.com/jr_image/jfs/t3706/104/13973387/67126/c7e1ba12/57fc3b24N87a425d2.png"></a>
+								</div>
+							</div>
+						</li>
+						<li id="nav-zhongchou" class="nav-item nav-col5">
+							<a class="nav-item-primary" href="//z.jd.com" target="_blank" clstag="jr|keycount|jr_shouye|zc">{#lang('众筹')}<i></i><b></b></a>
+							<div class="dropbox sub-box">
+								<dl>
+									<dt>{#lang('产品众筹')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-zcyx" href="//z.jd.com/sceneIndex.html?from=header" clstag="jr|keycount|jr_shouye|nav_zc_zcyx">{#lang('众筹优选')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-fqxm" href="//trade-z.jd.com/funding/agreement.action" clstag="jr|keycount|jr_shouye|nav_zc_fqxm">{#lang('发起项目')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-qzc" href="//q.jd.com/lcf/activity.html" clstag="jr|keycount|jr_shouye|nav_zc_qzc">{#lang('轻众筹')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('众筹分类')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-zckj" href="//z.jd.com/bigger/search.html?categoryId=10&amp;from=header" clstag="jr|keycount|jr_shouye|nav_zc_kj">{#lang('科技')}</a><a target="_blank" id="nav-zcjd" href="//z.jd.com/bigger/search.html?categoryId=18&amp;from=header" clstag="jr|keycount|jr_shouye|nav_zc_jd">{#lang('家电')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-zcms" href="//z.jd.com/bigger/search.html?categoryId=36&amp;from=header" clstag="jr|keycount|jr_shouye|nav_zc_ms">{#lang('美食')}</a><a target="_blank" id="nav-zcmx" href="//z.jd.com/bigger/search.html?categoryId=12&amp;from=header" clstag="jr|keycount|jr_shouye|nav_zc_mx">{#lang('美学')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-zcwh" href="//z.jd.com/bigger/search.html?categoryId=38&amp;from=header" clstag="jr|keycount|jr_shouye|nav_zc_wh">{#lang('文化')}</a><a target="_blank" id="nav-zcgy" href="//z.jd.com/bigger/search.html?categoryId=13&amp;from=header" clstag="jr|keycount|jr_shouye|nav_zc_gy">{#lang('公益')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('东家')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-djjx" href="//dj.jd.com/" clstag="jr|keycount|jr_shouye|nav_dj_djjx"> {#lang('东家精选')}
+													<span class="tips-wrap"><img class="popup-tips" src="//img30.360buyimg.com/jr_image/jfs/t3067/307/377695533/193/afb89a57/57b3cb49N93ae08c5.png"></span>
+												</a></li>
+											<li>
+												<a target="_blank" id="nav-wytz" href="//dj.jd.com/search.html?projectModel=0" clstag="jr|keycount|jr_shouye|nav_dj_wytz">{#lang('我要投资')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-tzjt" href="//zbbs.jd.com/portal.php?mod=list&amp;catid=1" clstag="jr|keycount|jr_shouye|nav_dj_djsq">{#lang('东家社区')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('互动尝鲜')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-zcsq" href="//zbbs.jd.com/?from=header" clstag="jr|keycount|jr_shouye|nav_zc_zcsq">{#lang('众筹社区')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-pingce" href="//pingce.jd.com/index.html?from=header" clstag="jr|keycount|jr_shouye|nav_zc_pingce">{#lang('0元评测')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-jianhuo" href="//zan.jd.com/?from=header" clstag="jr|keycount|jr_shouye|nav_zc_jianhuo">{#lang('尖er货')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>众创生态<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-jdct" href="//y.jd.com/bsyPlan" clstag="jr|keycount|jr_shouye|nav_licai_jdct">{#lang('京东创投')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-cyfw" href="//y.jd.com" clstag="jr|keycount|jr_shouye|nav_licai_cyfw">{#lang('创业服务')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-zcxy" href="//y.jd.com/zcCollege" clstag="jr|keycount|jr_shouye|nav_licai_zcxy">{#lang('众创学院')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<div class="subbox-ad" data-adid="1766322">
+									<a href="//c.jr.jd.com/flow/nc?campId=1768276&amp;ad_id=1766322&amp;mat=1769410&amp;unit=1769073&amp;type=1&amp;price=5000&amp;day=1486951320&amp;uuid=281749ff-dad9-4113-abfc-454549374914&amp;loc=1&amp;userPin=jrscb&amp;to=http://z.jd.com/project/details/73611.html" target="_blank"><img class="lazyload-img" data-src="//img30.360buyimg.com/jr_image/jfs/t3163/108/5949813814/18482/d2514dbb/58991ec2N1c0f1150.jpg"></a>
+								</div>
+							</div>
+						</li>
+						<li id="nav-baoxian" class="nav-item nav-col4">
+							<a class="nav-item-primary" href="//bao.jd.com/" clstag="jr|keycount|jr_shouye|baoxian">{#lang('保险')}<i></i><b></b></a>
+							<div class="dropbox sub-box">
+								<dl>
+									<dt>{#lang('保险精选')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-bxsy" href="//bao.jd.com/" clstag="jr|keycount|jr_shouye|nav_bx_bxsy">{#lang('保险首页')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-chexian" href="//bao.jd.com/vehicle" clstag="jr|keycount|jr_shouye|nav_bx_chexian">{#lang('车险')}</a><a target="_blank" id="nav-nianjin" href="//bao.jd.com/bonus" clstag="jr|keycount|jr_shouye|nav_bx_nianjin">{#lang('年金')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-cqx" href="//bao.jd.com/longterm" clstag="jr|keycount|jr_shouye|nav_bx_cqx">{#lang('长期险')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('保障险')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-bxywx" href="//bao.jd.com/accident" clstag="jr|keycount|jr_shouye|nav_bx_bxywx">{#lang('意外险')}</a><a target="_blank" id="nav-bxccx" href="//bao.jd.com/property" clstag="jr|keycount|jr_shouye|nav_bx_bxccx">{#lang('财产险')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-bxlxx" href="//bao.jd.com/travel" clstag="jr|keycount|jr_shouye|nav_bx_bxlxx">{#lang('旅行险')}</a><a target="_blank" id="nav-bxcxx" href="//bao.jd.com/innovate" clstag="jr|keycount|jr_shouye|nav_bx_bxcxx">{#lang('创新险')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-bxjkx" href="//bao.jd.com/health" clstag="jr|keycount|jr_shouye|nav_bx_bxjkx">{#lang('健康险')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<div class="subbox-ad" data-adid="1766323">
+									<a href="//c.jr.jd.com/flow/nc?campId=1768277&amp;ad_id=1766323&amp;mat=1769412&amp;unit=1769076&amp;type=1&amp;price=5000&amp;day=1486951320&amp;uuid=a598b0e8-3df7-45e5-8426-e57bcdace13b&amp;loc=1&amp;userPin=jrscb&amp;to=http://bao.jd.com/" target="_blank"><img class="lazyload-img" data-src="//img30.360buyimg.com/jr_image/jfs/t2740/117/4284588623/19886/9ba5e26a/57b42dd6N83732e95.jpg"></a>
+								</div>
+							</div>
+						</li>
+						<li id="nav-baitiao" class="nav-item nav-col6">
+							<a class="nav-item-primary" href="//www.baitiao.com/" clstag="jr|keycount|jr_shouye|bt">{#lang('白条')}<i></i><b></b></a>
+							<div class="dropbox sub-box">
+								<dl>
+									<dt>{#lang('购物打白条')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-jdbt" href="//www.baitiao.com/" clstag="jr|keycount|jr_shouye|nav_bt_jdbt">{#lang('白条')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-btyh" href="//baitiao.jd.com/coupon/init" clstag="jr|keycount|jr_shouye|nav_bt_btyh">{#lang('白条优惠')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-bthk" href="//baitiao.jd.com/v3/activity/open" clstag="jr|keycount|jr_shouye|nav_bt_bthk">{#lang('白条还款')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('生活打白条')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-buycar" href="//chedai.jd.com/" clstag="jr|keycount|jr_shouye|nav_bt_buycar">{#lang('买车')}</a>
+												<a target="_blank" id="nav-travel" href="//sfy.jd.com/" clstag="jr|keycount|jr_shouye|nav_bt_travel">{#lang('旅游')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-zufang" href="//sale.jd.com/act/xkoGXlMsiV28ye.html" clstag="jr|keycount|jr_shouye|nav_bt_zufang">{#lang('租房')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-mfzx" href="//fang.jd.com/" clstag="jr|keycount|jr_shouye|nav_bt_mfzx">{#lang('买房装修')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('信用服务')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-xbxy" href="//credit.jd.com/" clstag="jr|keycount|jr_shouye|nav_bt_xbxy">{#lang('小白信用')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-btlmk" href="//bk.jd.com/" clstag="jr|keycount|jr_shouye|nav_bt_btlmk">{#lang('白条联名卡')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-jdgb" href="//coin.jd.com/" clstag="jr|keycount|jr_shouye|nav_bt_jdgb">{#lang('京东钢镚')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('个人/企业服务')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-jdjt" href="//baitiao.jd.com/bul/home" clstag="jr|keycount|jr_shouye|nav_bt_jdjt">{#lang('金条')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-dzyd" href="//dang.jd.com/" clstag="jr|keycount|jr_shouye|nav_bt_dzyd">{#lang('抵质押贷')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('校园金融')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-xybt" href="//baitiao.jd.com/stu/home" clstag="jr|keycount|jr_shouye|nav_bt_xybt">{#lang('校园白条')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-xyzq" href="//edu.jd.com/" clstag="jr|keycount|jr_shouye|nav_bt_xyzq">{#lang('校园特权')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('农村金融')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-xcbt" href="//nj.jd.com/indexForXcbt" clstag="jr|keycount|jr_shouye|nav_bt_xcbt">{#lang('乡村白条')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-jnd" href="//nj.jd.com/" clstag="jr|keycount|jr_shouye|nav_bt_jnd">{#lang('京农贷')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<div class="subbox-ad" data-adid="1766324">
+									<a href="//c.jr.jd.com/flow/nc?campId=1768278&amp;ad_id=1766324&amp;mat=1769414&amp;unit=1769079&amp;type=1&amp;price=5000&amp;day=1486951320&amp;uuid=d9d63737-2350-4b6d-906a-a6dcee1baba6&amp;loc=1&amp;userPin=jrscb&amp;to=http://baitiao.jd.com/" target="_blank"><img class="lazyload-img" data-src="//img30.360buyimg.com/jr_image/jfs/t3142/114/385449432/43280/5aee15e0/57b42db8N8283d049.jpg"></a>
+								</div>
+							</div>
+						</li>
+						<li id="nav-loan" class="nav-item nav-col4">
+							<a class="nav-item-primary" href="//loan.jd.com/home/index.htm" clstag="jr|keycount|jr_shouye|jingdongdai">{#lang('企业金融')}<i></i><b></b></a>
+							<div class="dropbox sub-box">
+								<dl>
+										<dt>{#lang('企业中心')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-qyjrjx" href="//loan.jd.com/home/index.htm" clstag="jr|keycount|jr_shouye|nav_bx_qyjrjx">{#lang('企业金融介绍')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-qyfwpt" href="//ft.jd.com" clstag="jr|keycount|jr_shouye|nav_bx_qyfwpt">{#lang('企业金融服务')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('企业融资')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-jbb" href="//loan.jd.com/scf/" clstag="jr|keycount|jr_shouye|nav_qyjr_jbb">{#lang('京保贝')}</a>
+												<a target="_blank" id="nav-jxd" href="//loan.jd.com/home.htm" clstag="jr|keycount|jr_shouye|nav_qyjr_jxd">{#lang('京小贷')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-dcrz" href="//dcrz.jd.com/guide.htm" clstag="jr|keycount|jr_shouye|nav_qyjr_dcrz">{#lang('动产融资')}</a>
+												<a target="_blank" id="nav-qyjc" href="//jincai.jd.com/apply/list.html" clstag="jr|keycount|jr_shouye|nav_qyjr_jdjc">{#lang('企业金采')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('企业理财')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-qyjk" href="//8.jd.com" clstag="jr|keycount|jr_shouye|nav_qyjr_qyjk">{#lang('企业金库')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('客服中心')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-cjwt" href="//jrhelp.jd.com/show/getTrdTabList?id=650" clstag="jr|keycount|jr_shouye|nav_qyjr_cjwt">{#lang('常见问题')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<div class="subbox-ad" data-adid="1766325">
+									<a href="//c.jr.jd.com/flow/nc?campId=1768279&amp;ad_id=1766325&amp;mat=1785283&amp;unit=1769081&amp;type=1&amp;price=5000&amp;day=1486951320&amp;uuid=000e303b-858a-441e-9f16-5b9986e103c8&amp;loc=1&amp;userPin=jrscb&amp;to=https://ft.jd.com/html/index/" target="_blank"><img class="lazyload-img" data-src="//img30.360buyimg.com/jr_image/jfs/t3619/185/435617084/16300/bb66bf82/580976b4N9a488efb.jpg"></a>
+								</div>
+							</div>
+						</li>
+						<li id="nav-stock" class="nav-item nav-col5">
+							<a class="nav-item-primary" href="//gupiao.jd.com/" clstag="jr|keycount|jr_shouye|gupiao">{#lang('股票')}<i></i><b></b></a>
+							<div class="dropbox sub-box">
+								<dl>
+									<dt>{#lang('炒股工具')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-appdownload" href="//gupiao.jd.com/download/" clstag="jr|keycount|jr_shouye|nav_stock_appdownload">{#lang('APP下载')}<span class="tips-wrap"><img class="popup-tips" src="//img30.360buyimg.com/jr_image/jfs/t3067/307/377695533/193/afb89a57/57b3cb49N93ae08c5.png"></span></a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-jskh" href="//gupiao.jd.com/openAll/" clstag="jr|keycount|jr_shouye|nav_stock_jskh">{#lang('极速开户')}<span class="tips-wrap"><img class="popup-tips" src="//img30.360buyimg.com/jr_image/jfs/t2668/192/4319196202/259/ec06b945/57b3caa3N30d1e872.png"></span></a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('特色功能')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-sszx" href="//gupiao.jd.com/" clstag="jr|keycount|jr_shouye|nav_stock_sszx">{#lang('实时资讯')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-fxnr" href="//gupiao.jd.com/find/" clstag="jr|keycount|jr_shouye|nav_stock_fxnr">{#lang('发现牛人')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-mgjy" href="//gupiao.jd.com/usTrade" clstag="jr|keycount|jr_shouye|nav_stock_mgjy">{#lang('美股交易')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('量化交易')}<i class="sub-line"></i></dt>
+									<dd>
+										<ul>
+											<li>
+												<a target="_blank" id="nav-lhpt" href="//quant.jd.com" clstag="jr|keycount|jr_shouye|nav_stock_sszx">{#lang('量化平台')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-cljs" href="//quant.jd.com/contest/index" clstag="jr|keycount|jr_shouye|nav_stock_fxnr">{#lang('策略榜')}</a>
+											</li>
+											<li>
+												<a target="_blank" id="nav-lhsq" href="//club.jr.jd.com/quant/index" clstag="jr|keycount|jr_shouye|nav_stock_mgjy">{#lang('量化社区')}</a>
+											</li>
+										</ul>
+									</dd>
+								</dl>
+								<div class="fl nav-app-qrcode">
+									<a target="_blank" href="//gupiao.jd.com/download/"><img src="//img30.360buyimg.com/jr_image/jfs/t3823/42/2905450090/29361/6d748366/586df89fN6b21e29e.png"></a>
+								</div>
+								<div class="subbox-ad" data-adid="1766326">
+									<a href="//c.jr.jd.com/flow/nc?campId=1768280&amp;ad_id=1766326&amp;mat=1769419&amp;unit=1769085&amp;type=1&amp;price=5000&amp;day=1486951320&amp;uuid=c3409f1f-d9b2-499d-bf16-535ea4af94bc&amp;loc=1&amp;userPin=jrscb&amp;to=https://gupiao.jd.com/activity/accountGift2.html" target="_blank"><img class="lazyload-img" data-src="//img30.360buyimg.com/jr_image/jfs/t3889/73/1190271767/96593/ae2bb2/586c607eNa5fac73e.png"></a>
+								</div>
+							</div>
+						</li>
+						<li id="nav-dongjiacaifu" class="nav-item" style="position: relative;">
+							<a class="nav-item-tips-year" href="//rich.jd.com" clstag="jr|keycount|jr_index|flag_dongjiacaifu" target="_blank" style="background: transparent url() no-repeat scroll 0% 0%; width: 30px; right: -6px; z-index: 100; top: -8px;"></a>
+							<a class="nav-item-primary" href="//rich.jd.com/" clstag="jr|keycount|jr_shouye|dongjiacaifu">{#lang('东家财富')}<i></i><b></b></a>
+						</li>
+					</ul>
+				</div>
+				<div class="main-nav-search">
+					<div class="search-wrap">
+						<input class="search-ipt" id="J_searchIpt" title="请输入搜索内容" autocomplete="off" placeholder="{#lang('大额转入看这里')}" type="text">
+						<a class="search-btn" id="searchBtn" clstag="jr|keycount|jr_search|search_button" href="javascript:;"></a>
+					</div>
+				</div>
+
+				<div class="nav-mask"></div>
+			</div>
+		</div>
+		<!--<div class="sub-nav">-->
+			<!--<div class="grid-1200 sub-nav-wrap">-->
+				<!--<a id="nav-licaiIndex" class="sub-nav-item current" href="//licai.jd.com">理财</a>-->
+				<!--<a id="nav-xiaojinku" class="sub-nav-item" href="//xjk.jr.jd.com/index.htm">京东小金库</a>-->
+				<!--<a id="nav-xiaobai" class="sub-nav-item" href="//xiaobai.jr.jd.com/xiaobai/main.htm" clstag="jr|keycount|jr_licai_sub|xblc">京东小白理财</a>-->
+				<!--<a id="nav-fund" class="sub-nav-item" href="//fund.jd.com">基金理财</a>-->
+				<!--<a id="nav-bill" class="sub-nav-item" href="//bill.jr.jd.com/buy/list.htm">票据理财</a>-->
+				<!--<a id="nav-insurance" class="sub-nav-item" href="//dq.jd.com/">定期理财</a>-->
+				<!--<a id="nav-fblc" class="sub-nav-item" href="//jdd.jr.jd.com/">固收理财</a>-->
+				<!--<a id="nav-zhcx" class="sub-nav-item" clstag="jr|keycount|jr_shouye|sub_zhcx" href="//trade.jr.jd.com/asyncpublicnews/newsindex.htm">纵横财讯</a>-->
+				<!--<a id="nav-caishen" class="sub-nav-item" href="//club.jr.jd.com/">理财问答</a>-->
+			<!--</div>-->
+		<!--</div>-->
+	</div>
+</div>
+<script>
+	$('#trade_top').hover(function () {
+		$('#trade_list').show();
+	}, function () {
+		$('#trade_list').hide();
+	});
+	$('#trade_list').hover(function () {
+		$('#trade_list').show();
+	}, function () {
+		$('#trade_list').hide();
+	});
+
+	$.post("/ajax/top_coin_menu?t=" + Math.random(), function (data) {
+		if (data) {
+			var interText = doT.template($("#trade_list_tpl").text());
+			$("#trade_list").html(interText(data));
+
+			var $li = $('#trade-nav-tabs > li');
+			var $ul = $('#trade-nav-body > dl');
+
+			$li.mouseover(function () {
+				var $this = $(this);
+				var $t    = $this.index();
+				$li.removeClass();
+				$this.addClass('current');
+				$ul.css('display', 'none');
+				$ul.eq($t).css('display', 'block');
+			})
+		}
+	}, "json");
+
+	$('#game_top').hover(function () {
+		$('#game_list').show();
+	}, function () {
+		$('#game_list').hide();
+	});
+	$('#game_list').hover(function () {
+		$('#game_list').show();
+	}, function () {
+		$('#game_list').hide();
+	});
+
+
+	$('#user_top').hover(function () {
+		$('#mywallet_list').show();
+	}, function () {
+		$('#mywallet_list').hide();
+	});
+	$('#mywallet_list').hover(function () {
+		$('#mywallet_list').show();
+	}, function () {
+		$('#mywallet_list').hide();
+	});
+
+
+	$('#theme_top').hover(function () {
+		$('#theme_list').show();
+	}, function () {
+		$('#theme_list').hide();
+	});
+	$('#theme_list').hover(function () {
+		$('#theme_list').show();
+	}, function () {
+		$('#theme_list').hide();
+	});
+	$(document).ready(function () {
+		var theme = $.cookies.get("theme");
+		if (theme) {
+			$('#theme').attr("href", "__CSS__/" + theme + ".css");
+		} else {
+
+		}
+	});
+	function chose_theme(theme) {
+		$.cookies.set("theme", theme);
+		window.location.reload();
+	}
+
+
+	$('#lang_top').hover(function () {
+		$('#lang_list').show();
+	}, function () {
+		$('#lang_list').hide();
+	});
+	$('#lang_list').hover(function () {
+		$('#lang_list').show();
+	}, function () {
+		$('#lang_list').hide();
+	});
+
+	function chose_lang(lang) {
+		$.cookies.set("lang", lang);
+		window.location.reload();
+	}
+
+
+	function expect() {
+		layer.msg('{#lang("暂未上线，敬请期待")}!', {icon: 6});
+	}
+
+
+	$('#moban_top').hover(function () {
+		$('#moban_list').show();
+	}, function () {
+		$('#moban_list').hide();
+	});
+	$('#moban_list').hover(function () {
+		$('#moban_list').show();
+	}, function () {
+		$('#moban_list').hide();
+	});
+</script>
+<script>
+	$(document).ready(function () {
+		$("#example1").posfixed({});
+	});
+</script>
+
+
+

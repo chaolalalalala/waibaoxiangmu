@@ -1,0 +1,231 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/index.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+	<style>
+		.floor_body ul li .price .price_pro{
+			font-size:10px !important;
+		}
+		.floor_body ul li img{
+			width:100%;
+			height:100%;
+		}
+		.price ul li {
+			color:#999;
+			font-size:0.5rem;
+			height:0.5rem;
+			width:50%;
+			margin:0.1rem 0;
+			padding:0;
+			line-height:0.5rem;
+		}
+		.goods-name{
+			margin:0.1rem 0 ;
+			padding: 0.3rem;
+			text-align:left;
+			height:1rem;
+			line-height:1rem;
+			font-size:0.6rem;
+			text-align:center;
+			color:#999;
+		}
+		.aui-progress{
+			width:80%;
+			margin:0.3rem auto;
+		}
+		.red{
+			color:red !important;
+		}
+		.aui-btn{
+			font-size:12px;
+			margin-top:0.5rem;
+			background-color:#dd2726;
+		}
+		.r{
+			float:right;
+		}
+		.aui-label {
+			display: inline-block;
+			padding: 0.1em 0.35em;
+			font-size: 0.6rem;
+			line-height: 1rem;
+			color: #616161;
+			margin:0.2rem;
+			background-color: #fff;
+			text-align: center;
+			white-space: nowrap;
+			float:left;
+			vertical-align: baseline;
+			border-radius: 0.15em;
+		}
+		.floor_body h3 {
+			height: 1.5rem;
+			line-height: 1.5rem;
+			font-size: 0.8rem;
+			font-weight: normal;
+			color: #7f7f7f;
+			margin-bottom: 0.5rem;
+		}
+		.floor_body h3 em {
+			width: 0.3rem;
+			height:0.8rem;
+			background: #E4010D;
+			margin-right: 0.2rem;
+			margin-top: 0.35rem;
+			float: left;
+		}
+		.floor_body h3 a{
+			display:block;
+			float:right;
+		}
+		.active{
+			background-color:#e51c23;
+			color:#FFF;
+		}
+	</style>
+</head>
+<body>
+   <div id="page" class="showpage">
+	<div>
+		<!--块状导航-->
+		<div id="shop_list">
+		</div>
+		<!--开始分类显示-->
+		<script id="duobao_list-template" type="text/x-dot-template">
+			{{for (var i in it){ }}
+			  {{? i == 'new'}}
+			        {{? it[i].length>0}}
+			<section class="index_floor_lou" id="new">
+			<div class="floor_body">
+				<h3>
+					<em></em>最新揭晓
+					<div class="r">
+						<span class="aui-label r active" onclick="open_type_list()">更多>></span>
+					</div>
+				</h3>
+				<div id="scroll_promotion">
+					<ul>
+						{{for (var k in it[i]){ }}
+						<li onclick='open_datail("{{=it[i][k].id}}")' tapmod="">
+							<a href="javascript:void(0);"></a>
+							<div class="index_pro">
+								<a href="javascript:void(0);">
+									<div class="products_kuang" style="height: 7.4rem">
+										<img src="{{=it[i][k].img}}">
+									</div>
+									<div class="goods-name">{{=it[i][k].name}}</div>
+								</a>
+								<div class="price">
+									<ul><li style="width:40%">中奖号</li><li class="red" style="font-size:10px;width:60%">{{=it[i][k].jianghao}}</li></ul>
+								</div>
+							</div>
+						</li>
+						{{ } }}
+					</ul>
+				</div>
+			</div>
+			</section>
+			         {{?}}
+			  {{??}}
+			       {{? it[i].c.length>0}}
+			<section class="index_floor_lou">
+				<div class="floor_body">
+					<h3>
+						<em></em>{{=it[i].a}}
+
+						<div class="r">
+							{{for (var j in it[i].b){ }}
+							<span class="aui-label r" onclick="{{=it[i].b[j].id}}">{{=it[i].b[j].title}}</span>
+							{{ } }}
+							<span class="aui-label r active" onclick="open_type_list()">更多>></span>
+						</div>
+					</h3>
+					<div id="scroll_promotion">
+						<ul>
+							{{for (var k in it[i].c){ }}
+							<li onclick='open_datail("{{=it[i].c[k].id}}")' tapmod="">
+								<a href="javascript:void(0);"></a>
+								<div class="index_pro">
+									<a href="javascript:void(0);">
+										<div class="products_kuang" style="height: 7.4rem">
+											<img src="{{=it[i].c[k].img}}">
+										</div>
+										<div class="goods-name">{{=it[i].c[k].name}}</div>
+									</a>
+									<div class="price">
+										<div class="aui-progress aui-progress-xs">
+											<div class="aui-progress-bar aui-bg-danger" style="width:{{=it[i].c[k].bili}}%;"></div>
+										</div>
+										<ul><li class="red">{{=it[i].c[k].getnum}}</li><li>{{=it[i].c[k].mum}}</li></ul>
+										<ul><li>已参与</li><li>总需人数</li></ul>
+									</div>
+									<div class="aui-btn aui-btn-danger">立即夺宝</div>
+								</div>
+							</li>
+							{{ } }}
+						</ul>
+					</div>
+				</div>
+			</section>
+			         {{?}}
+			    {{?}}
+			{{ } }}
+		</script>
+	</div>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/echo.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-slide.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	apiready = function () {
+		alog("come");
+		onerror = error_handel;
+		flash();
+	};
+
+	function flash() {
+        loading("加载中……")
+		Ajax('duobao/index', 'get', '', function (ret) {
+			toast.hide();
+			if (ret.status == 1) {
+				var temp=doT.template($("#duobao_list-template").text());
+				$('#shop_list').html(temp(ret.info))
+				$('#shop_list').prepend($('#new'))
+		}
+		   else{
+				art(ret.info)
+			}
+		},'json');
+	}
+
+    //打开全部分类
+	function open_type_list(){
+		openWin({
+			name: 'duobao_list_h',
+			url: aurl('app_duobao/duobao_list_h'),
+			slidBackEnabled:false,
+			delay: 100
+		});
+	}
+
+	//打开分类商品
+	function open_datail(id){
+		if(!id){
+			art("商品id 获取失败");
+			return;
+		}
+		openWin({
+			name: 'duobao_info_h',
+			url: aurl('app_duobao/duobao_info_h'),
+			slidBackEnabled:false,
+			delay: 100,
+			pageParam: {
+				'id': id,
+			}
+		});
+	}
+</script>
+</html>

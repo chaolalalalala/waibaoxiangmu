@@ -1,0 +1,88 @@
+{include file="public:header"}
+
+<div class="autobox">
+    <div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="/hongbao/index" class="">{#lang('人人红包')}</a> &gt;{#lang('发红包记录')}
+    </div>
+    <div class="main-content mb20" >
+        <div class=" assets_content bg_w" style="min-height:30px;">
+            <div class="safe_center clear">
+                <h1>
+					<span>
+						{#lang('人人红包')}
+					</span>
+	                <span>
+                        <a href="{#url('hongbao/index')}" id="step1" class="step fz_12 ml50 pd6 ">{#lang('红包列表')}</a>
+                       <a href="{#url('hongbao/log')}" id="step2" class="step fz_12 ml20 pd6 ">{#lang('抢红包记录')}</a>
+                         <a href="{#url('hongbao/sendlog')}" id="step3" class="step fz_12 ml20 pd6 active ">{#lang('发红包记录')}</a>
+                    </span>
+                    <span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+                </h1>
+            </div>
+            <div id="hints" class="mytips" style="display:none;">
+	            <script>
+		            var hints = "{$hints['show']}";
+		            if(hints == 1){
+			            $('#hints').show();
+		            }
+	            </script>
+	            {$hints["value"] nofilter}
+            </div>
+            <div class="cnyin_record">
+                <div class="f_body">
+                    <div class="f_body_main">
+                        <div class="f_tab_body">
+                            <div >
+                                <table class="f_table" id="investLog_content" >
+                                    <thead>
+                                    <tr>
+                                        <th id="sublist-grid_c0">红包ID</th>
+                                        <th id="sublist-grid_c1">时间</th>
+                                        <th id="sublist-grid_c2">用户名</th>
+                                        <th id="sublist-grid_c4">标题</th>
+                                        <th id="sublist-grid_c7">金额</th>
+                                        <th id="sublist-grid_c3">币种</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {if $pages['list']}
+                                    {foreach $pages['list'] as $v}
+                                    <tr>
+                                        <td>{$v['id']}</td>
+                                        <td>{#addtime($v['addtime'])}</td>
+                                        <td>{if  !$v['userid']}
+                                            管理员
+                                            {else}
+                                            {$v['userid']}
+                                            {/if}
+                                        </td>
+                                        <td>{$v['title']}</td>
+                                        <td>{#round($v['money'],5)}</td>
+                                        <td>{$v['money_type']}</td>
+                                    </tr>
+                                    {/foreach}
+                                    {/if}
+                                    </tbody>
+                                </table>
+                                {if $pages['show']}
+                                <div class="pages">{$pages['show'] nofilter}</div>{/if}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    if ($("#hongbao_box").length > 0) {
+        $('#hongbao_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}

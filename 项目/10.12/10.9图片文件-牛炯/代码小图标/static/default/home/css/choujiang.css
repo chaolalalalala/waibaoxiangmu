@@ -1,0 +1,149 @@
+*{
+	margin:0;
+	padding:0;
+}
+/*body{*/
+	/*font-family:"Microsoft Yahei";*/
+	/*background-color:#EF3C31;*/
+/*}*/
+/*h1{*/
+	/*width:900px;*/
+	/*margin:40px auto;*/
+	/*font:32px "Microsoft Yahei";*/
+	/*text-align:center;*/
+	/*color:#FFF;*/
+/*}*/
+
+.dowebok{
+	width:894px;
+	height:563px;
+	margin:0 auto;
+	background-image:url(/static/default/home/img/choujiang/s3_bg.png);
+	margin:10px auto;
+}
+
+.rotary{
+	position:relative;
+	float:left;
+	width:504px;
+	height:504px;
+	margin:22px 0 0 22px;
+	background-image:url(/static/default/home/img/choujiang/g.png);
+}
+
+.hand{
+	position:absolute;
+	left:144px;
+	top:144px;
+	width:216px;
+	height:216px;
+	cursor:pointer;
+}
+
+.list{
+	float:right;
+	width:300px;
+	padding-top:44px;
+}
+
+.list strong{
+	position:relative;
+	left:-45px;
+	display:block;
+	height:10px;
+	line-height:30px;
+	font-size:32px;
+	color:#FFE63C;
+}
+
+.list h4{
+	height:45px;
+	margin:30px 0 10px;
+	line-height:45px;
+	font-size:24px;
+	color:#FFF;
+}
+
+.list ul{
+	line-height:36px;
+	list-style-type:none;
+	font-size:12px;
+	color:#FFF;
+}
+
+.list span{
+	display:inline-block;
+	/*width:94px;*/
+}
+
+/*åº•éƒ¨*/
+.footers{
+
+	background:url(/static/default/home/img/choujiang/footer-line.png) top repeat-x #ff0000;
+	text-align:center;
+	border-bottom:solid 1px #EF3C31;
+}
+
+.footers span{
+	font-size:35px;
+}
+
+.item1,
+.item2,
+.item3,
+.item4,
+.item5,
+.item6,
+.item7,
+.item8,
+.item9,
+.item10,
+.item11,
+.item12
+{
+    /*background-color: lightcoral;*/
+    position: absolute;
+    top: 120px;
+    left: 400px;
+    transform-origin: 30px 155px;
+    z-index: 999;
+    text-align: center;
+    color: #eef3c6;
+}
+
+.item1 {
+    transform: rotate(15deg);
+}
+.item2 {
+    transform: rotate(45deg);
+}
+.item3 {
+    transform: rotate(75deg);
+}
+.item4 {
+    transform: rotate(105deg);
+}
+.item5 {
+    transform: rotate(135deg);
+}
+.item6 {
+    transform: rotate(165deg);
+}
+.item7 {
+    transform: rotate(195deg);
+}
+.item8 {
+    transform: rotate(225deg);
+}
+.item9 {
+    transform: rotate(255deg);
+}
+.item10 {
+    transform: rotate(285deg);
+}
+.item11 {
+    transform: rotate(315deg);
+}
+.item12 {
+    transform: rotate(345deg);
+}

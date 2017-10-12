@@ -1,0 +1,123 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;
+		<a href="{#url('hold/index')}" class="orange">{#lang('持有认购')}</a> &gt; {#lang('认购记录')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('持有认购')}
+					</span>
+	                <span>
+                        <a href="{#url('hold/index')}" id="step1" class="step fz_12 ml50 pd6 ">{#lang('认购列表')}</a>
+                        <a href="{#url('hold/log')}" id="step2" class="step fz_12 ml20 pd6 active">{#lang('认购记录')}</a>
+		                  <a href="{#url('hold/invit')}" id="step3" class="step fz_12 ml20 pd6">{#lang('认购赠送')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="cnyin_record">
+				<div class="f_body">
+					<div class="f_body_main">
+						<div class="f_tab_body">
+							<div>
+								<table class="f_table" id="investLog_content">
+									<thead>
+									<tr>
+										<th>{#lang('认购名称')}</th>
+										<th>{#lang('认购类型')}</th>
+										<th>{#lang('认购价格')}</th>
+										<th id="sublist-grid_c3">{#lang('认购数量')}</th>
+										<th id="sublist-grid_c4">{#lang('认购总价')}</th>
+										<th id="sublist-grid_c0">{#lang('认购时间')}</th>
+										<th id="sublist-grid_c1">{#lang('上次解冻')}</th>
+										<th id="sublist-grid_c8">{#lang('解冻次数')}</th>
+										<th id="sublist-grid_c5">{#lang('剩余冻结')}</th>
+										<th id="sublist-grid_c9">{#lang('状态')}</th>
+										<th id="sublist-grid_c6">{#lang('操作')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{if $pages['list']}
+									{foreach $pages['list'] as $k => $v}
+									<tr>
+										<td>
+											<img src="__UP__/{$v['img']}" class="mr5" style="margin-bottom: -5px; width: 22px;"/>{$v['name']}
+										</td>
+										<td>{if ($v['type']==1)}先到先得{else}超募认购{/if}</td>
+										<td>{$v['price']}</td>
+										<td>{$v['num']}</td>
+										<td>{$v['mum']}</td>
+										<td>{#addtime($v['addtime'])}</td>
+										<td>{if ($v['status'] == 2) }----{else}{#addtime($v['endtime'])}{/if}</td>
+										<td>{$v['jd']}/{$v['ci']}</td>
+										<td>{$v['shen']}</td>
+										<td>
+											{if $v['status'] == 0}
+											<font class="move">{#lang('解冻中')}</font>
+											{else if $v['status'] == 1}
+											<font class="buy">{#lang('已完成')}</font>
+											{else if $v['status'] == 2}
+											<font class="sell">{#lang('认购中')}</font>
+											{else}
+											<font class="sell">{#lang('异常')}</font>
+											{/if}
+										</td>
+										<td>
+											{if $v['status'] == 0}
+											<a class="move unlock" id="{$v['id']}" href="javascript:void(0)">{#lang('解冻')}</a> {/if}
+										</td>
+									</tr>
+									{/foreach}{/if}
+									</tbody>
+								</table>
+								{if $pages['show']}
+								<div class="pages">{$pages['show'] nofilter}</div>{/if}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$('.unlock').click(function () {
+		$.post("{#url('hold/jiedong')}", {id: $(this).attr('id')}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout('location.reload()',1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	});
+</script>
+<script>
+	if ($("#hold_box").length > 0) {
+		$('#hold_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

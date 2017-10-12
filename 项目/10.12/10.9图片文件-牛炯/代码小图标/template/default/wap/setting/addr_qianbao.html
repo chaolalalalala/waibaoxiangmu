@@ -1,0 +1,197 @@
+{include file="public:header"}
+<title>钱包地址</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+	.my_body{
+		margin: 10px 10px 60px 10px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background-color: #FFF;
+	}
+	.bank_title{
+		margin: 0 0 0 1rem;
+		height: 3rem;
+		line-height: 3rem;
+		color:#a59494;
+	}
+	.bank_title img{
+		height: 1.6rem;
+		margin: 0.7rem 1rem 0 0;
+		vertical-align: middle;
+		float: right;
+	}
+	.bank_body{
+		margin: 0 0 0 1rem;
+	}
+	.bank_body span{
+		display: block;
+	}
+	.bank_body .g{
+		color: gray;
+	}
+	select{
+		color: #a59494;
+		display: block;
+		outline: none;
+		/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+		/*很关键：将默认的select选择框样式清除*/
+		appearance:none;
+		-moz-appearance:none;
+		-webkit-appearance: listbox;
+		/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+		padding-left: 14px;
+		background-color: #FFF;
+		height:2rem;
+		line-height: 2rem;
+		text-align: left;
+		border: 0;
+		margin-bottom:1rem;
+	}
+</style>
+<body>
+<section class="aui-refresh-content">
+<div class="wrap">
+	<div class="my_body ">
+	<select name="coin" id="coin_type" tapmod="" onchange="get_data(callback)">
+		<option value="">--全部币种--</option>
+	</select>
+    <div id="bank-list"></div>
+</div>
+	</div>
+	</section>
+	<script id="bank-list-template" type="text/x-dot-template">
+		{{? it.length>0}}
+		{{ for(var i in it) { }}
+		<div class="aui-border">
+			<ul>
+				<li class="bank_title aui-border-b">
+					{{=it[i].title}}
+					<img tapmod="" onclick="del_addr('{{=it[i].id}}')" src="__WAP__/image/001/delete.png">
+				</li>
+				<li class="bank_body">
+					<span class="g">钱包标识:<em>{{=it[i].name}} </em></span>
+					<span class="g">钱包地址:<em style="font-size: 12px;">{{=it[i].addr}} </em></span>
+					<span class="g">添加时间:<em>{{=it[i].addtime}} </em></span>
+				</li>
+			</ul>
+		</div>
+		{{ } }}
+		{{??}}
+		<div style="padding: 10px 0"><ul style="text-align: center;color: #535C6F">暂无内容 </ul></div>
+		{{? }}
+	</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/aui/aui-dialog.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript">
+	var paypassword='';
+    function get_type(){
+	    var coin_type=memObj('coinTypeList');
+	    if ( typeof coin_type == 'undefined' || typeof coin_type == 'null') {
+		    alog("币种信息缓存不存在");
+		    return;
+	    }
+	    for ( var i in coin_type){
+		    var	opt="<option value="+coin_type[i].name+">"+coin_type[i].title+"</option>"
+		    $("#coin_type").append(opt)
+	    }
+    }
+    function del_addr(id){
+	    var dialog = new auiDialog();
+	    dialog.alert({
+		    title: "删除钱包地址",
+		    msg:"删除不可恢复，确认继续？",
+		    buttons: ['确定', '取消'],
+	    }, function(ret, err){
+           if(ret.buttonIndex == 1) {
+	           dialog.alert({
+		           title: "请输入交易密码",
+		           buttons: ['确定', '取消'],
+		           input: true,
+		           textType:"password",
+	           }, function (ret) {
+		           if (ret.buttonIndex == 1) {
+			           paypassword = ret.text;
+			           loading("操作中……")
+			           UserAjax('finan/qianbao_del', 'post', {
+				           'id': id,
+				           'paypassword': paypassword
+			           }, function (ret) {
+				            toast.hide()
+				           if (ret.status == 1) {
+					          art(ret.info)
+					          get_data()
+				           } else {
+					           art(ret.info)
+				           }
+			           }, "json");
+		           }
+	           })
+           }
+        });
+    }
+
+    function get_data(callback){
+	    loading("加载中……")
+        UserAjax('finan/qianbao/coinname/'+$('#coin_type option').not(function(){ return !this.selected }).val(),'get',{
+        },function(ret){
+	        toast.hide()
+            if (ret.status==1){
+	            if(!(typeof ret.info =="undefined")) {
+		            var tempFn = doT.template($('#bank-list-template').text());
+		            $('#bank-list').html(tempFn(ret.info));
+		            if(typeof callback == "function"){
+			            setTimeout(function () {
+				            callback("刷新完成");
+			            }, 1000)
+		            }
+		            parseTapmode();
+	            }
+            }else{
+	            art(ret.info);
+	            emptyData($('#bank-list'));
+            }
+        },"json");
+    }
+
+    apiready = function(){
+        onerror = error_handel;
+	    get_type()
+		    get_data(callback);
+
+    }
+	//下拉刷新
+	var callback;
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			if(getScrollTop()<10) {
+				get_data(function (msg) {
+					art(msg);
+					pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+				})
+			}
+			else {
+				pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+			}
+		}
+	})
+</script>
+</html>

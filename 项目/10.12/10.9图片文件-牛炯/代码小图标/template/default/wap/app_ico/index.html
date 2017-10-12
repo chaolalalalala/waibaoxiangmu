@@ -1,0 +1,232 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+<style>
+	.coin-header{
+		background-color:#FFF !important;
+		border-bottom:1px solid whitesmoke;
+		height:2rem;
+	}
+
+	.coin-header-title{
+		height:1.5rem;
+		line-height:1.5rem;
+		margin-left:0.5rem;
+	}
+
+	.my_body{
+		margin:10px 10px 60px 10px;
+		border-radius:8px;
+		padding:0 10px;
+		line-height:30px;
+	}
+
+	.my_body ul{
+		position:relative;
+		padding-left:0;
+		margin-top:0;
+		margin-bottom:10px;
+		list-style:none;
+		-moz-border-radius:3px;
+		-webkit-border-radius:3px;
+		border-radius:3px;
+		background-color:#FFF;
+	}
+
+	.bank_title{
+		margin:0 0 0 1rem;
+		height:3rem;
+		line-height:3rem;
+		/*border-bottom: 1px solid #55585D;*/
+	}
+
+	.bank_body{
+		margin:0 0 0 1rem;
+	}
+
+	.bank_body span{
+		display:block;
+	}
+
+	.bank_body .g{
+		color:gray;
+	}
+
+	.r{
+		float:right;
+		margin-right:1rem;
+	}
+
+	.red{
+		color:#E55600;
+	}
+
+	.green{
+		color:green;
+	}
+
+	.pad-right{
+		text-align:right;
+	}
+
+	.tab-title{
+		display:block;
+	}
+
+	.aui-bar-btn-item{
+		background:#FFF;
+		border:none !important;
+	}
+
+
+	.center{
+		text-align:center;
+	}
+	.coin{
+		color:green;
+		font-size:20px;
+	}
+	select{
+		color: #666;
+		display: block;
+		outline: none;
+		padding-left:0.5rem;
+		/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+		/*很关键：将默认的select选择框样式清除*/
+		appearance:none;
+		-moz-appearance:none;
+		-webkit-appearance: listbox;
+		/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+		padding-right: 14px;
+		background-color: #FFF;
+		height:2.2rem;
+		line-height: 2.2rem;
+		margin:1rem 0;
+		text-align: left;
+		border: 0;
+	}
+</style>
+</head>
+<body>
+<section class="aui-refresh-content" style="margin-top:-0.6rem">
+	<div class="my_body">
+		<select id="type-select"  onchange="type_change()">
+			<option value="0">----全部----</option>
+			<option value="1">----即将开始----</option>
+			<option value="2">----进行中----</option>
+			<option value="3">----已完成----</option></select>
+		<div id="ico">
+			</div>
+	</div>
+</section>
+<script id="ico-template" type="text/x-dot-template">
+	{{?it.length>0}}
+	{{for(var i in it){ }}
+	<div class="aui-card-list" onclick="openWinWithParams('detail_h','app_ico',{'id':'{{=it[i].id}}'})">
+		<div class="aui-card-list-header aui-card-list-user aui-border-b">
+			<div class="aui-card-list-user-name">
+				<div>{{=it[i].title}}</div>
+			</div>
+		</div>
+		<div class="aui-card-list-content-padded">
+			<img src="{{=it[i].img}}" />
+			<div class="aui-progress aui-progress-xs" style="margin:10px 0">
+				<div class="aui-progress-bar" style="width:{{=it[i].bili}}%;"></div>
+			</div>
+			<span class="coin">{{=it[i].gete}}{{=it[i].coin}}</span><span class="r">{{=it[i].bili}}%</span>
+		</div>
+
+		<div class="aui-card-list-footer aui-border-t">
+			<div class="aui-col-xs-4 center"><div>{{=it[i].mum}}{{=it[i].coin}}</div><div>目标金额</div></div>
+			<div class="aui-col-xs-4 center"><div>{{=it[i].day}}</div><div>剩余天数</div></div>
+			<div class="aui-col-xs-4 center"><div>{{=it[i].num}}</div><div>支持者</div></div>
+		</div>
+	</div>
+	{{}}}
+	{{??}}
+	<div style="padding: 10px">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{?}}
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	var callback;
+	var pid = 1;
+	apiready = function () {
+		onerror = error_handel;
+		flash(callback);
+	}
+
+	window.onscroll = function () {
+		if (getScrollTop() + getWindowHeight() == getScrollHeight()) {
+			++pid;
+			flash(callback)
+		}
+	}
+
+	function flash(callback) {
+		loading("加载中……")
+		Ajax('ico/index', 'get', {
+			'type' : $("#type-select option").filter(function(){ return this.selected }).val(),
+			'pid': pid
+		}, function (ret) {
+			if (ret.status == 1) {
+				toast.hide()
+					var info = ret.info
+					var temp = doT.template($("#ico-template").text());
+				if (info) {
+					if (pid == 1) {
+						art('第' + pid + '页')
+						$("#ico").html(temp(info.list))
+					}
+					else if (pid > Math.ceil(Number(info.count) / Number(info.pageSize))) {
+						art("没有更多数据了")
+					}
+					else {
+						art('第' + pid + '页')
+						$("#ico").html($("#ico").html() + temp(info.list));
+					}
+					if (typeof callback == "function") {
+						setTimeout(function () {
+							callback("刷新完成");
+						}, 1000)
+					}
+					parseTapmode();
+				}
+			} else {
+				toast.hide();
+				art(ret.info);
+				if (typeof callback == "function") {
+					setTimeout(function () {
+						callback("刷新失败");
+					}, 1000)
+				}
+			}
+		}, 'json');
+	}
+
+	//类型改变
+	function type_change(){
+          pid = 1;
+		flash(callback);
+	}
+
+	//下拉刷新
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			flash(function (msg) {
+				art(msg);
+				pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+			});
+		}
+	})
+</script>
+</html>

@@ -1,0 +1,194 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+<style>
+	.coin-header{
+		background-color:#FFF !important;
+		border-bottom:1px solid whitesmoke;
+		height:2rem;
+	}
+
+	.coin-header-title{
+		height:1.5rem;
+		line-height:1.5rem;
+		margin-left:0.5rem;
+	}
+
+	.my_body{
+		margin:10px 10px 60px 10px;
+		border-radius:8px;
+		padding:0 10px;
+		line-height:30px;
+	}
+
+	.my_body ul{
+		position:relative;
+		padding-left:0;
+		margin-top:0;
+		margin-bottom:10px;
+		list-style:none;
+		-moz-border-radius:3px;
+		-webkit-border-radius:3px;
+		border-radius:3px;
+		background-color:#FFF;
+	}
+
+	.bank_title{
+		margin:0 0 0 1rem;
+		height:3rem;
+		line-height:3rem;
+		/*border-bottom: 1px solid #55585D;*/
+	}
+
+	.bank_body{
+		margin:0 0 0 1rem;
+		padding-bottom:1rem;
+	}
+
+	.bank_body span{
+		display:block;
+	}
+
+	.bank_body .g{
+		color:gray;
+	}
+
+	.r{
+		float:right;
+		margin-right:1rem;
+	}
+
+	.red{
+		color:#E55600;
+	}
+
+	.green{
+		color:green;
+	}
+
+	.pad-right{
+		text-align:right;
+	}
+
+	.tab-title{
+		display:block;
+	}
+
+	.aui-bar-btn-item{
+		background:#FFF;
+		border:none !important;
+	}
+</style>
+</head>
+<body>
+<section class="aui-refresh-content">
+	<div class="my_body">
+		<div id="log">
+		</div>
+	</div>
+</section>
+<script id="log-template" type="text/x-dot-template">
+	{{? it}}
+	{{ for(var i in it) { }}
+	<div class="aui-content aui-margin-b-5">
+		<ul class="aui-list aui-media-list">
+			<ul>
+				<li class="bank_title aui-border-b">
+					<span class="red"><em>{{=it[i].productName}}</em></span>
+				</li>
+				<li class="bank_body">
+					<span class="g">序号: <em>{{=it[i].id}}</em></span>
+					<span class="g">数量(份): <em>{{=it[i].num}}</em></span>
+					<span class="g">收益时间: <em>{{=it[i].addtime}}</em></span>
+				</li>
+			</ul>
+			</li>
+		</ul>
+	</div>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{? }}
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	var callback;
+	var pid = 1;
+	apiready = function () {
+		onerror = error_handel;
+		flash(callback);
+	}
+
+	window.onscroll = function () {
+		if (getScrollTop() + getWindowHeight() == getScrollHeight()) {
+			++pid;
+			flash(callback)
+		}
+	}
+
+	function flash(callback) {
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			emptyData($("#log"))
+			return false;
+		}
+		loading("加载中……")
+		UserAjax('factory/gainLog', 'get', {
+			'pid': pid,
+		}, function (ret) {
+			if (ret.status == 1) {
+				toast.hide()
+				var info = ret.info;
+				var temp = doT.template($("#log-template").text());
+				if (info) {
+					if (pid == 1) {
+						art('第' + pid + '页')
+						$("#log").html(temp(info.list))
+					}
+					else if (pid > Math.ceil(Number(info.count) / Number(info.pageSize))) {
+						art("没有更多数据了")
+					}
+					else {
+						art('第' + pid + '页')
+						$("#log").html($("#log").html() + temp(info.list));
+					}
+					if (typeof callback == "function") {
+						setTimeout(function () {
+							callback("刷新完成");
+						}, 1000)
+					}
+					parseTapmode();
+				}
+			} else {
+				toast.hide();
+				art(ret.info);
+				if (typeof callback == "function") {
+					setTimeout(function () {
+						callback("刷新失败");
+					}, 1000)
+				}
+			}
+		}, 'json');
+	}
+
+
+	//下拉刷新
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			flash(function (msg) {
+				art(msg);
+				pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+			});
+		}
+	})
+</script>
+</html>

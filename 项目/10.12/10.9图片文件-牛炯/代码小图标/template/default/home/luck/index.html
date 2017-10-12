@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>幸运抽大奖比比谁幸运</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="author" content="bihuo168.com">
+	<meta name="coprright" content="bihuo168.com">
+	<link rel="shortcut icon" href="/favicon.ico"/>
+	<link rel="stylesheet" href="__EXT__/Font-Awesome-4.4.0/css/font-awesome.min.css">
+	<link href="__CSS__/style.css" rel="stylesheet" />
+	<link href="__CSS__/common.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="__HOME__/luck/css/three.css">
+	<script type="text/javascript" src="__EXT__/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+	<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+</head>
+<body>
+<div class="container wfull">
+	<div class="head">
+		<div class="top_bar wfull">
+			<div class="top_Bd w_1200 clear">
+				<div class="logo left">
+					{if !$config['web_logo']}
+					<a href="/" target="_blank"><img src="__UP__/{$config['web_logo']}"></a>
+					{else}
+					<a href="/" class="xiaozhu-logo" style="position:static;"> <i class="move-self move-logo2 move" style="position:static;font-size:36px"></i> </a>
+					{/if}
+				</div>
+				<!--登录框开始-->
+				<div class="login right">
+					<div class="login_in">
+						{if $user}
+						<span><a href="/finan/">{$user['username']}</a></span>|
+						<a href="{#url('login/loginout')}" >退出</a>
+						{else}
+						<span><a href="javascript:loginpop();" >{#lang('登录')}</a></span>|
+						<a href="{#url('login/loginout')}" >{#lang('注册')}</a>
+						{/if}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--登录框结束-->
+		<div class="lucky_time">
+			<h2>{$luck_config['title']}</h2>
+			<span>{#date('m-d H:m',$luck_config['addtime'])} -- {#date('m-d H:m',$luck_config['endtime'])}</span>
+		</div>
+	</div>
+	<div class="three2 center"></div>
+	<div class="three2_2 center"></div>
+	<div class="three3">
+		<div class="lucky_title center">
+			<img src="__HOME__/luck/img/title_1.png" width="1200">
+		</div>
+		<div class="breakEgg">
+			<div class="egg">
+				<ul class="egg_list">
+					<p class="hammer" id="hammer">锤子</p>
+					<!--砸蛋列表开始-->
+					<li class="egg-yellow">
+					</li>
+					<li class="egg-red">
+					</li>
+					<li class="egg-blue">
+					</li>
+					<!--砸蛋列表结束-->
+					<div class="clear"></div>
+				</ul>
+				<div class="egg_circle">
+					<span class="egg_1"></span>
+					<span class="egg_2"></span>
+					<span class="egg_3"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="three5">
+		<div class="lucky_title center">
+			<img src="__HOME__/luck/img/title_2.png" width="1200">
+		</div>
+		<ul class="margin_c clear">
+			{foreach $luck_award as $k=>$v}
+			<li class="three_prize" style="width:{$length}px;">
+                <span style="width:{$length}px;">
+                    <img src="__UP__/{$v['img']}" width="80">
+                </span>
+				<p>{$v['title']}</p>
+				<em>{$v['zuixiao']}-{$v['zuida']} {#strtoupper($v['name'])}</em>
+			</li>
+			{/foreach}
+
+		</ul>
+	</div>
+	<div class="three4">
+		<div class="lucky_title center">
+			<img src="__HOME__/luck/img/title_3.png" width="1200">
+		</div>
+		<div class="lucky_rule">
+			<div class="lucky_rule_t clear">
+				<span><img src="__HOME__/luck/img/title_4.png" height="24"></span>
+				<span><img src="__HOME__/luck/img/title_5.png" height="24"></span>
+			</div>
+			<div class="lucky_rule_con clear">
+				<div class="lucky_rule_conl">
+					<div class="FontScroll">
+						<!--获奖列表开始-->
+						<ul id="FontScroll">
+
+						</ul>
+						<!--获奖列表结束-->
+					</div>
+				</div>
+				<div class="lucky_rule_conl lucky_rule_conr">
+				{$luck_config['content'] nofilter}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--砸蛋弹出框开始-->
+<!--中奖-->
+<div class="dialog_content lucky_popup" id="dialog_egg_luck" style="display:none; width: 500px;">
+	<a id="closeBtn" href="javascript:hideDialog('dialog_egg_luck');window.location.reload(); " class="dialog_closed"
+	   title="关闭">×</a>
+	<div class="lucky_popup_top"><img src="__HOME__/luck/img/three_tan_top.png" width="250"></div>
+	<div class="lucky_popup_con">
+		<h2 class="three_green">恭喜您获得</h2>
+		<div class="lucky_popup_main margin_c">
+			<img id="coin_img" src="" width="145">
+			<div class="popup_num"><span id="coin_num"> - </span></div>
+			<a href="javascript:;" onclick="$('.layui-layer-close').click()" target="_blank">确定</a>
+		</div>
+	</div>
+</div>
+<!--未中奖-->
+<div class="dialog_content lucky_popup" id="dialog_egg_hard"
+     style="display:none; width: 500px;">
+	<div class="lucky_popup_top"><img src="__HOME__/luck/img/three_tan_top.png" width="250"></div>
+	<div class="lucky_popup_con">
+		<h2 class="three_green">再接再厉</h2>
+		<div class="lucky_popup_main margin_c">
+			<img src="__HOME__/luck/img/prize_sorry.png" width="223">
+			<a href="javascript:;" onclick="$('.layui-layer-close').click()">确定</a>
+		</div>
+	</div>
+</div>
+
+<!--其他情况,弹窗-->
+<div class="dialog_content lucky_popup" id="no_start" style="display:none; width: 500px; ">
+	<a id="closeBtn" href="javascript:hideDialog('no_start');window.location.reload(); " class="dialog_closed" title="关闭">×</a>
+	<div class="lucky_popup_con">
+		<div class="lucky_popup_main margin_c">
+			<h2 class="three_green" id="no_start_text"> - </h2>
+			<div class="lucky_popup_main margin_c">
+				<img src="__HOME__/luck/img/prize_sorry.png" width="223">
+				<p style="font-size: 16px; color: #222; font-weight: 400; margin-top: 20px;">活动时间: 2017-7-6 10:00:00 - 2017-7-8 24:00:00</p>
+				<a onclick="" style="margin-top: 38px;">知道了</a>
+			</div>
+		</div>
+	</div>
+</div>
+<!--砸蛋弹出框结束-->
+
+<script type="text/javascript">
+	//砸蛋效果
+	var user="{$user['id']}";
+	$(".egg_list li").click(function() {
+		if(user){
+			var a=$('.egg_list').find('li').hasClass('current');
+
+			if(a){
+				layer.msg('您已参与过活动',{icon:5});
+				return false;
+			}else{
+				eggClick($(this));
+			}
+
+		}else{
+			loginpop();
+		}
+
+	});
+
+	//砸蛋具体调用函数
+	function eggClick(obj)  {
+
+		$(".hammer").css({"top": obj.position().top - 15, "left": obj.position().left + 160});
+		$(".hammer").animate({
+			"top": obj.position().top - 25,
+			"left": obj.position().left + 80
+		}, 30, function() {
+			//砸蛋
+			luck(obj);
+			//调用抽奖函数
+			$(".hammer").hide();
+		});
+	}
+
+
+	//抽奖函数
+	function luck(obj)
+	{
+
+		$.post('/luck/chou',function(data){
+			if(data.status == 1){
+				var content=$('#dialog_egg_luck');
+				content.find('#coin_img').attr('src','__UP__/'+data.url[0]);
+				content.find('#coin_num').html(data.url[1]+'枚');
+				obj.addClass('current');
+			}else{
+				var content=$('#dialog_egg_hard');
+
+			}
+			content.find('.three_green').html(data.info);
+
+			layer.open({
+				type:1,
+				title:0,
+				area:['500px','530px'],
+				content:content
+			})
+		},'json')
+
+
+
+
+	}
+
+	function getlog()
+	{
+		$.post('/luck/log','',function(d){
+			if(d.status == 1){
+				var chtml = '';
+
+				for (var i= 0; i<d.info.length ;i++){
+					chtml +='<li class="clear"><span>恭喜</span><span>'+ d.info[i]['username']+'</span><span>获得 '+d.info[i]['coin'].toUpperCase()+'&nbsp;'+d.info[i]['num']+'枚</span></li>';
+				}
+					$('#FontScroll').html(chtml);
+
+				//数据滚动
+				var awardsList = $('#FontScroll');
+				if(awardsList.find('li').size()>5){
+					onescroll(awardsList);
+				}
+
+			}else {
+				var emptyHtml =  '<li class="clear"><span>     </span></li>';
+				$('#FontScroll').html(emptyHtml);
+			}
+		},'json');
+
+
+	}
+	getlog();
+
+
+	//锤子的位置
+	$(".egg_list li.egg-red").hover(function() {
+		var position_left = $(this).position().left +320;
+		var position_top =156;
+		$("#hammer").show().css('left', position_left);
+		$("#hammer").css('top', position_top);
+	});
+	$(".egg_list li.egg-yellow").hover(function() {
+		var position_left = $(this).position().left + $(this).width()-43;
+		var position_top =60;
+		$("#hammer").show().css('left', 297);
+		$("#hammer").css('top', position_top);
+	})
+	$(".egg_list li.egg-blue").hover(function() {
+		var position_left = $(this).position().left + $(this).width()-180;
+		var position_top =110;
+		$("#hammer").show().css('left', position_left);
+		$("#hammer").css('top', position_top);
+	})
+	function onescroll(id){
+		var oul=id;
+		function c(){
+			oul.animate({marginTop:'-46px'},800,function(){
+				$(this).css({marginTop:'0px'}).find('li:first').appendTo(this);
+			});
+		}
+		var timeID = setInterval(c,2000);
+		id.hover(function(){
+			clearInterval(timeID)
+		},function(){
+			timeID = setInterval(c,2000);
+		});
+	}
+
+</script>
+{include file="public:footer"}

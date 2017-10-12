@@ -1,0 +1,106 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/fontawesome/font-awesome.min.css">
+
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+	<style>
+		.header,#footer{
+			z-index:99999;
+			position: fixed;
+		}
+		footer .iconfont{
+			font-size:1.2rem;
+			font-weight:inherit;
+			color:#888;
+		}
+		.icon-home{
+			font-size:1.3rem !important;
+		}
+		.aui-bar-tab-label{
+			font-size: 0.6rem !important;
+			margin-top: -0.2rem;
+		}
+		.aui-active .iconfont{
+			color:#03a9f4!important;
+		}
+	</style>
+</head>
+<body>
+<header  id="title1"  class="header aui-bar aui-bar-nav" ><div class="aui-title">首页</div>
+	<a class="aui-pull-right aui-btn" onclick="ms_moble_set()"  tapmod>
+		电脑版
+	</a></header>
+<header  id="title2"  class="header aui-bar aui-bar-nav aui-hide">交易</header>
+<header  id="title3"  class="header aui-bar aui-bar-nav aui-hide">应用</header>
+<header  id="title4" class="header aui-bar aui-bar-nav  aui-hide">
+	<div class="aui-title">账户中心</div>
+	<a class="aui-pull-right aui-btn" onclick="show_set()"  tapmod>
+		<span class="iconfont icon-cog"></span>
+	</a>
+</header>
+<div id="main"></div>
+<footer class="aui-bar aui-bar-tab" id="footer">
+	<div id="tabbar1" class="aui-bar-tab-item aui-active"  tapmode onclick="randomSwitchBtn(this,1)">
+		<i class="iconfont  icon-home"></i>
+		<div class="aui-bar-tab-label">首页 </div>
+	</div>
+	<div id="tabbar2" class="aui-bar-tab-item"  tapmode onclick="randomSwitchBtn(this,2)">
+		<i class="iconfont icon-refresh"></i>
+		<div class="aui-bar-tab-label">交易</div>
+	</div>
+	<div id="tabbar3" class="aui-bar-tab-item"  tapmode onclick="randomSwitchBtn(this,3)">
+<!--		<div class="aui-badge">5</div>-->
+		<i class="iconfont icon-reorder"></i>
+		<div class="aui-bar-tab-label">应用</div>
+	</div>
+	<div id="tabbar4" class="aui-bar-tab-item"  tapmode onclick="randomSwitchBtn(this,4,1)">
+<!--		<div class="aui-dot"></div>-->
+		<i class="iconfont  icon-user"></i>
+		<div class="aui-bar-tab-label">我的</div>
+	</div>
+</footer>
+
+<div></div>
+</body>
+
+<script type="text/javascript" src="__WAP__/js/index.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-popup.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-dialog.js"></script>
+
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+
+
+<script type="text/javascript" src="__WAP__/js/index.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/echo.js"></script>
+
+<script type="text/javascript" src="/static/extend/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/static/extend/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript">
+	//初始化执行块
+	apiready = function () {
+		onerror = error_handel;
+        //$('#title1').html("首页 WAP");
+
+		movesay_init();
+
+		var tabid = mem("TABID");
+		if (!isNull(tabid)){
+
+			randomSwitchBtn(null,tabid,0);
+		}
+	};
+
+	function ms_moble_set(){
+		$.cookies.set("ms_moble_set", 2);
+		window.location.href='/';
+	}
+
+</script>
+
+</html>
+
+

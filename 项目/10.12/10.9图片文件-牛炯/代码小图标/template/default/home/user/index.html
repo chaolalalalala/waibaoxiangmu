@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>账户预览 - 安全中心 - 币火网 -  www.bihuo168.com </title>
+<meta name="Keywords" content="{$seos['keywords']}">
+<meta name="Description" content=" {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+
+<link rel="stylesheet" type="text/css" href="/static/style/safeadd.css" />
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')} </a> &gt;<a href="/u/safe.jsp" class="">{#lang('安全中心')} </a> &gt;{#lang('账户预览')}
+	</div>
+	<div class="main-content">
+		{include file="user:left"}
+		<div class="tag-list-content assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('账户预览')}
+					</span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if (hints == 1) {
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<ul class="sc_statu">
+				<li>
+					<em class="sc_statu_type_1"></em>
+					<dl>
+						<dt>{#lang('实名认证')}</dt>
+						{if !$user['idcard_rz']}
+						<dd class="nopass">
+							{#lang('未认证')}<a href="/u/safe/auth.jsp">{#lang('去认证')}</a>
+						</dd>
+						{else}
+						<dd class="alpass">
+							{#lang('已认证')}<a href="/u/safe/auth.jsp">{#lang('查看')}</a>
+						</dd>
+						{/if}
+					</dl>
+				</li>
+				<li>
+					<em class="sc_statu_type_2"></em>
+					<dl>
+						<dt>{#lang('双重验证')}</dt>
+						{if $user['google']}
+						<dd class="alpass">
+							{#lang('已认证')}<a href="/u/safe/google.jsp">{#lang('查看')}</a>
+						</dd>
+						{else}
+						<dd class="nopass">
+							{#lang('未绑定')}<a href="/u/safe/google.jsp">{#lang('立即绑定')}</a>
+						</dd>
+						{/if}
+					</dl>
+				</li>
+				<li>
+					<em class="sc_statu_type_3"></em>
+					<dl>
+						<dt>{#lang('手机绑定')}</dt>
+						{if $user['moble']}
+						<dd class="alpass">
+							{#lang('已认证')} <a href="/u/safe/mobile.jsp">{#lang('查看')}</a>
+						</dd>
+						{else}
+						<dd class="nopass">
+							{#lang('未绑定')} <a href="/u/safe/mobile.jsp">{#lang('立即绑定')}</a>
+						</dd>
+						{/if}
+					</dl>
+				</li>
+				<li style="border-right: none;">
+					<em class="sc_statu_type_4"></em>
+					<dl>
+						<dt>{#lang('邮箱绑定')}</dt>
+						<dd class="alpass">
+							{#lang('已认证')}
+						</dd>
+					</dl>
+				</li>
+			</ul>
+			<div class="sc_info_list" id="sc_info_list">
+				<dl>
+					<dt>{#lang('用户ID')}</dt>
+					<dd>
+						<p>{#lang('对接api需要用到')}</p>
+					</dd>
+					<dd>
+						<div class="changepw">
+							<a>ID:{if $user['id'] > 553} {$user['id']*9} {else} {$user['id']} {/if}</a>
+						</div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>{#lang('登录密码')}</dt>
+					<dd>
+						<p>{#lang('登录账户时需要输入的密码')}</p>
+					</dd>
+					<dd>
+						<div class="changepw">
+							<a href="/u/safe/password.jsp">{#lang('修改密码')}</a>
+						</div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>{#lang('交易密码')}</dt>
+					<dd>
+						<p>{#lang('在进行交易时需要输入的密码')}</p>
+					</dd>
+					<dd>
+						<div class="changepw">
+							<a href="/u/safe/safeword.jsp">{#lang('修改密码')}</a>
+						</div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>{#lang('实名认证')}</dt>
+					<dd>
+						<p>{#lang('受国家要求及为了您的资金安全需进行实名认证')}</p>
+					</dd>
+					<dd>
+						<div class="changepw">
+							<a href="/u/safe/auth.jsp">{#lang('申请修改')}</a>
+						</div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>{#lang('双重验证')}</dt>
+					<dd>
+						<p>{#lang('Google (双重验证)，可以更安全的保护您的账户')}</p>
+					</dd>
+					<dd>
+						<div class="changepw">
+							{if $user['google']}
+							<div><a href="/u/safe/google.jsp">{#lang('更换绑定')}</a></div>
+							{else}
+							<div>{#lang('未绑定')} ｜ <a href="/u/safe/google.jsp">{#lang('立即绑定')}</a></div>
+							{/if}
+						</div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>{#lang('手机绑定')}</dt>
+					<dd>
+						<p>{#lang('在提现的时候需要使用')}</p> <!-- {#num($user['id']*1,6)} -->
+					</dd>
+					<dd>
+						<div class="changepw">
+							{if $user['moble']}
+							<div><a href="/u/safe/mobile.jsp">{#lang('更换绑定')}</a></div>
+							{else}
+							<div>{#lang('未绑定')} ｜ <a href="/u/safe/mobile.jsp">{#lang('立即绑定')}</a></div>
+							{/if}
+						</div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>{#lang('异地登录')}</dt>
+					<dd>
+						<p>{#lang('登录的时候会判断')}
+							<input type="radio" name="user_yidi" value="1" style="vertical-align: -2px;"> {#lang('开启验证')}
+							<input type="radio" name="user_yidi" value="0" style="vertical-align: -2px;"> {#lang('关闭验证')}
+							<a class="btns" style="    font-size: 12px;padding: 3px;" onclick="yidi_set()">{#lang('保存修改')}</a>
+						</p>
+					</dd>
+					<dd>
+						<div class="changepw">
+						</div>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(':radio[name="user_yidi"]').eq(("{$user['yidi']}" - 1)).attr("checked", true);
+
+	function yidi_set() {
+		var user_yidi = $("input[name='user_yidi']:checked").val();
+		if (user_yidi == "" || user_yidi == null) {
+			layer.tips("{#lang('请选择一个')}", '#user_yidi', {tips: 3});
+			return false;
+		}
+
+
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '{#lang("输入交易密码，并确认")}',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('user/yidi_up')}", {user_yidi: user_yidi, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							setTimeout('location.reload()',1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+
+
+	}
+</script>
+<script>
+	$('.finan_index').addClass('active');
+</script>
+{include file="aaapublic:footer"}

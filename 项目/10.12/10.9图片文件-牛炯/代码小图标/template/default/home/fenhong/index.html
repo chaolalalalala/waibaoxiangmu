@@ -1,0 +1,69 @@
+{include file="bitcoin:header"}
+
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('分红中心')}
+	</div>
+
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('分红中心')}
+					</span>
+	                <span>
+                        <a href="/fenhong.jsp" id="step1" class="step fz_12 ml50 pd6 active">{#lang('分红列表')}</a>
+                        <a href="/fenhong_log.jsp" id="step2" class="step fz_12 ml20 pd6">{#lang('分红记录')}</a>
+                    </span>
+
+				</h1>
+			</div>
+
+		</div>
+	</div>
+
+	{foreach $pages['list'] as $k => $v}
+	<div class="crowd_con crowd_con_list clear " data="{$v['id']}" onclick="goumai(this);" style="cursor:pointer;">
+		<div class="crowd_con_l ">
+			<ul class="crowd_subscribe clear">
+				<li style="    width: 300px;">
+					<p>{#lang('分红名称')}</p><span class="">{$v['name']}</span>
+				</li>
+				<li>
+					<p>{#lang('分红币种')}</p><span class="red">{$v['coinname']}</span>
+				</li>
+				<li>
+					<p>{#lang('奖励币种')}</p><span class="red">{$v['coinjian']}</span>
+				</li>
+				<li style="    width: 300px;">
+					<p>{#lang('分红总量')}</p><span class="red">{$v['num']} {$v['coinjian']}</span>
+				</li>
+
+				<li>
+					<p>{#lang('发放时间')}</p><span class="red">{#addtime($v['addtime'],'Y/m/d')}</span>
+				</li>
+
+				<li style="margin-top: 5px;">
+					<a href="/fenhong_id_.$v['id'].jsp" class="btns" style="padding: 10px 30px;">{#lang('查看详情')}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	{/foreach}
+	<div class="pages">{$pages['show'] nofilter}</div>
+</div>
+<script>
+	function goumai(_this) {
+		window.location = "/fenhong_id_"+$(_this).attr('data')+".jsp";
+	}
+</script>
+<script>
+	if ($("#fenhong_box").length > 0) {
+		$('#fenhong_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="aaapublic:footer"}

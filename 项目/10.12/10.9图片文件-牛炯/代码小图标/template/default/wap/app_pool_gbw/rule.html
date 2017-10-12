@@ -1,0 +1,79 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<style>
+	.h-mid ul li{ width:20%; float:left; height:45px; text-align:center; }
+	.orderItem li{
+		font-size: 0.65rem;
+		margin: 0.3125rem 0.625rem;
+	}
+	.orderItem ul{
+		clear: both;
+	}
+	.orderOptionBtns span {
+		margin: 0.325rem 0.325rem;
+		border: #999 1px solid;
+		padding: 0.125rem 0.325rem;
+		border-radius: 0.125rem;
+	}
+	#name{
+		color:#FF6C33;
+	}
+	#feecoin2{
+		width:50%;
+	}
+	.no-padding{
+		padding:0 !important;
+	}
+	input{
+		text-align:right;
+	}
+</style>
+</head>
+<body>
+<div class="aui-content aui-margin-b-15">
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">操作步骤：</li>
+		<li class="aui-list-item">
+			<div  id="step" >
+			</div>
+		</li>
+	</ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">挖矿说明：</li>
+		<li class="aui-list-item">
+			<div  id="rule" >
+			</div>
+		</li>
+	</ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">举例说明：</li>
+		<li class="aui-list-item">
+			<div  id="example" >
+			</div>
+		</li>
+	</ul>
+</div>
+</body>
+<script type="text/javascript">
+	apiready = function () {
+		onerror = error_handel;
+		flash()
+	};
+
+	function flash() {
+		Ajax('poolgbw/rules', 'get', '', function (ret) {
+			if (ret.status == 1) {
+				if(ret.info){
+					var data = ret.info;
+					$("#step").html(data.step);
+					$("#rule").html(data.rule);
+					$("#example").html(data.example);
+				}
+			}else {
+				art(ret.info);
+			}
+		});
+	}
+</script>
+</html>

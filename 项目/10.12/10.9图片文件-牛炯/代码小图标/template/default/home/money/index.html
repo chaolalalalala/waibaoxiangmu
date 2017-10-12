@@ -1,0 +1,102 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/money.css"/>
+<style>
+</style>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('理财中心')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('理财中心')}
+					</span>
+	                <span>
+                        <a href="{#url('money/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('理财列表')}</a>
+                        <a href="{#url('money/log')}" id="step2" class="step fz_12 ml20 pd6">{#lang('理财记录')}</a>
+                        <a href="{#url('money/fee')}" id="step3" class="step fz_12 ml20 pd6">{#lang('收益明细')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			{#slider("money")}
+		</div>
+	</div>
+	<div style="width:100%;">
+		<div class="w1190 project">
+			{foreach $pages['list'] as $k => $v}
+            <a href="{#url('money/buy/id/'.$v['id'])}">
+			<div class="project_list">
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tbody>
+					<tr>
+						<td rowspan="3" class="list_tu">
+							<a href="{#url('money/buy/id/'.$v['id'])}"><img src="__UP__/{$v['img']}"></a>
+						</td>
+						<td class="list_td11" style="width:650px;">
+							<span><font>{#lang('编号')}：</font>10000{$v['id']}</span> <span><img src="__IMG__/money/ayind.png">{#lang('理财币种')}：{#strtoupper($v['coinname'])}</span>
+                                           <span class="tip" style="color: rgb(68, 68, 68);">
+                                              <img src="__IMG__/money/listicon_07.png">
+
+	                                          {#lang('按日付收益，到期还本')}
+
+
+                                           </span>
+						</td>
+						<td class="list_td12 "><font class="fl_r move mr10">{$v['min']}{#strtoupper($v['coinname'])}</font>  {#lang('起投数量')}</td>
+					</tr>
+					<tr>
+						<td class="list_td21">
+							<i class="mark3" style="margin-right:10px;">{#lang('保')}</i> <a href="{#url('money/buy/id/'.$v['id'])}">{$v['name']}</a> <span>
+							<img src="__IMG__/money/listicon_03.png"> {#lang('满')}<b class="blue"> {#lang('24小时')} </b>{#lang('自动结息')}</span>
+						</td>
+						<td class="list_td22">
+							<progress value="{$v['bili']}" max="100" class="move"></progress>
+							<font>{$v['bili']}%</font>
+						</td>
+					</tr>
+					<tr>
+						<td class="list_td31">
+                                          <span><img src="__IMG__/money/listicon_05.png" style="margin-left:0;"> {#lang('日化利率')}：
+                                              <font class="red">{$v['fee']}</font> %
+                                          </span>
+                                          <span><img src="__IMG__/money/listicon_06.png">
+
+                                                 {#lang('项目期限')}： <b class="blue">{$v['tian']}</b>   {#lang('个自然日')}   </span> <span><img src="__IMG__/money/listicon_04.png">{#lang('项目总量')}：<b class="blue">{$v['num']}</b> </span>
+						</td>
+						<td class="list_td32">
+							<a href="{#url('money/buy/id/'.$v['id'])}" class="btns2" style="padding: 15px 85px;">{#lang('立即参与')}</a>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</a>
+            {/foreach}
+		</div>
+		<div class="pages">{$pages['show'] nofilter}</div>
+	</div>
+</div>
+<script>
+	if ($("#money_box").length > 0) {
+		$('#money_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

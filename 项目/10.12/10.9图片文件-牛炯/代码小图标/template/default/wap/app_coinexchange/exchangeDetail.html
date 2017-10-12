@@ -1,0 +1,218 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/goods.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/fontawesome/font-awesome.min.css">
+	<style>
+        .h-mid ul li{ width:20%; float:left; height:45px; text-align:center; }
+        .orderItem li{
+            font-size: 0.65rem;
+            margin: 0.3125rem 0.625rem;
+        }
+        .orderItem ul{
+            clear: both;
+        }
+        .orderOptionBtns span {
+            margin: 0.325rem 0.325rem;
+            border: #999 1px solid;
+            padding: 0.125rem 0.325rem;
+            border-radius: 0.125rem;
+        }
+        .hideDiv {
+            display: none !important;
+        }
+
+        .longLab {
+            width: 11.5rem;
+        }
+	</style>
+</head>
+<body>
+<div class="aui-content aui-margin-b-15">
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">主要内容</li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">兑换期号:</div>
+                <div class="aui-list-item-text" id="LC_name">
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">兑换总量:</div>
+                <div class="aui-list-item-text" id = "LC_lilv"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">今日已兑换量:</div>
+                <div class="aui-list-item-text" id = "LC_total"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">兑换规则:</div>
+                <div class="aui-list-item-text" id = "LC_limitNum"></div>
+            </div>
+        </li>
+    </ul>
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">其他内容</li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">开始时间:</div>
+                <div class="aui-list-item-text" id = "LC_startTime"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">结束时间:</div>
+                <div class="aui-list-item-text" id="LC_endTime"></div>
+            </div>
+        </li>
+    </ul>
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">我要兑换</li>
+        <li class="aui-list-item  hideDiv" id="canUse3">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label longLab" id="LC_canUseTitle1" >您目前可用：</div>
+                <div class="aui-list-item-text" id="LC_canUseValue1"></div>
+            </div>
+        </li>
+        <li class="aui-list-item  hideDiv" id="canUse4">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label longLab" id="LC_canUseTitle2">您目前可用：</div>
+                <div class="aui-list-item-text" id="LC_canUseValue2"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    兑换数量:
+                </div>
+                <div class="aui-list-item-input">
+                    <input id="LC_buyNum" type="text" placeholder="请输入兑换套数">
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    交易密码:
+                </div>
+                <div class="aui-list-item-input">
+                    <input id="paypassword" type="password" placeholder="请输入交易密码">
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="aui-content-padded">
+    <p><div class="aui-btn aui-btn-info" onclick="buyNow()" style="width: 100%;line-height: 1.5rem">立即兑换</div></p>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/echo.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-slide.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	apiready = function () {
+		alog("come");
+		onerror = error_handel;
+		flash(function () {
+		});
+	};
+
+	var shop_info;
+	function addCard(){
+		var shop_card = memObj("shop_card");
+		if(shop_card){
+			shop_card = merge(shop_card,[shop_info['id']]);
+		}else{
+			shop_card = [shop_info['id']];
+		}
+		memObj("shop_card",shop_card);
+		memObj("shop_id_"+shop_info['id'],shop_info);
+		art("成功加入购物车");
+	}
+
+	function flash(callback) {
+        var params = { 'id':iv('itemId') };
+        Ajax('duihuan/details', 'get', params, function (ret) {
+            alog(ret);
+            var data = ret.info.data;
+            if (ret.status == 1) {
+                $('#LC_name').html(data.duihuan.numid);
+                $('#LC_lilv').html(data.duihuan.limit);
+                $('#LC_total').html(data.mum);
+                var rule = '';
+                var arrLeft = new Array();
+                var arrRight = new Array();
+                if ( data.duihuan.num1 != 0) arrLeft.push(data.duihuan.num1+data.duihuan.coin1);
+                if ( data.duihuan.num2 != 0) arrLeft.push(data.duihuan.num2+data.duihuan.coin2);
+                if ( data.duihuan.num3 != 0) arrRight.push(data.duihuan.num3+data.duihuan.coin3);
+                if ( data.duihuan.num4 != 0) arrRight.push(data.duihuan.num4+data.duihuan.coin4);
+                for(var index in arrLeft){
+                    if(index != 0) rule += '+ ';
+                    rule += arrLeft[index];
+                }
+                rule += ' = ';
+                for(var index in arrRight){
+                    if(index != 0) rule += ' + ';
+                    rule += arrRight[index];
+                }
+                $('#LC_limitNum').html(rule);
+                $('#LC_startTime').html(data.strtime);
+                $('#LC_endTime').html(data.endtime);
+                if( data.duihuan.num3 != 0) {
+                    $("#canUse3").removeClass('hideDiv');
+                    $('#LC_canUseTitle1').html('您当前可用'+data.duihuan.coin3+':');
+                    $('#LC_canUseValue1').html(data.mycoin3);
+                }
+                if( data.duihuan.num4 != 0) {
+                    $("#canUse4").removeClass('hideDiv');
+                    $('#LC_canUseTitle2').html('您当前可用'+data.duihuan.coin4+':');
+                    $('#LC_canUseValue2').html(data.mycoin4);
+                }
+            }else {
+                art(ret.info);
+            }
+        });
+	}
+
+    function buyNow() {
+        var params = {};
+        params.id = iv('itemId');
+        params.num = $('#LC_buyNum').val();
+        params.paypassword = $('#paypassword').val();
+        if (  isNull( params.id ) )
+        {
+            art('id错误');
+            return;
+        }
+        if ( isNull( params.num ) || !isInteger(params.num) ){
+            art('请输入合法的数量');
+            return;
+        }
+        if( isNull( params.paypassword ) ){
+            art('请输入支付密码');
+            return;
+        }
+        loading('提交中...')
+        UserAjax('duihuan/buy', 'post', params, function (ret) {
+            toast.hide();
+            if ( ret.status == 1 ){
+                art(ret.info);
+                setTimeout(function(){
+	               open_win('exchange_log_h','app_coinexchange')
+                },500);
+            }
+            else {
+                art(ret.info);
+            }
+        });
+    }
+</script>
+</html>

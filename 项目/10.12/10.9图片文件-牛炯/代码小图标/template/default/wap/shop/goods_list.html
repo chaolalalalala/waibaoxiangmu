@@ -1,0 +1,128 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/category_list.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+	<style>
+		.touchweb-com_searchListBox.openList .item .price_box{
+			height:25px;;
+		}
+		.filtrate_term li{
+			color: #777f86;
+			font-size: 14px;
+			cursor:pointer;
+		}
+	</style>
+</head>
+<body>
+<section class="_pre">
+	<section class="filtrate_term" id="product_sort" style="width: 100%; background: rgb(255, 255, 255); position: fixed; top: 0px; display: block;">
+		<ul>
+			<li class="on" id="menu_new" tapmod="" onclick="flash('new')">最新</li>
+			<li class=""  id="menu_xiaoliang" tapmod="" onclick="flash('xiaoliang')">销量</li>
+			<li class=""  id="menu_price" tapmod="" onclick="flash('price')">价格</li>
+		</ul>
+	</section>
+	<section>
+		<div class="touchweb-com_searchListBox openList" id="goods_list" style="margin-top: 40px;">
+		</div>
+	</section>
+</section>
+<script id="list-template" type="text/x-dot-template">
+	{{? it.length>0}}
+	{{ for(var i in it) { }}
+		<li onclick="open_view({{=it[i]['id']}})" tapmod="">
+			<a href="#" class="item">
+				<div class="pic_box">
+					<div class="active_box">
+						<span style=" background-position:0px -36px"></span>
+					</div>
+					<img src="{{=it[i].img}}">
+				</div>
+				<div class="title_box">{{=it[i].title}}</div>
+				<div class="price_box">
+					<span class="new_price"><i>￥{{=it[i].price}}元</i></span>
+					<span class="deal" style="float:right"><i style="font-size: 12px;">已售{{=it[i].deal}}</i></span>
+
+				</div>
+			</a>
+		</li>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{? }}
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/echo.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-slide.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript">
+	apiready = function () {
+		alog("come");
+		onerror = error_handel;
+		flash("new");
+	};
+
+	var last_menu = "";
+	function flash(sort_type,callback) {
+		if(last_menu != sort_type){
+			$("#menu_"+last_menu).removeClass("on");
+			last_menu = sort_type;
+			$("#menu_"+sort_type).addClass("on");
+
+		}
+        else {
+            return;
+        }
+
+        var sort = 3;
+        if(sort_type == 'price'){
+            sort = 2;
+        }else if (sort_type == 'xiaoliang'){
+            sort = 1;
+        }
+
+        var params1 = {
+            "sort":sort,
+        };
+		var params2=memObj('shop');
+		var params= $.extend(params1,params2);
+        alog("商品列表参数");
+        alog(params);
+
+        loading("加载中")
+		Ajax('shop/lists', 'get', params, function (ret) {
+            toast.hide();
+			if (ret.status == 1) {
+                alog(ret);
+				ret         = ret.info;
+				var tempFn1 = doT.template($api.byId('list-template').text);
+				$api.html($api.byId('goods_list'), tempFn1(ret.data));
+
+				parseTapmode();
+			} else {
+				art(ret.info);
+			}
+		});
+	}
+
+	//打开商品
+	function open_view(id){
+		openWin({
+			name: 'goods_info_h',
+			url: aurl('html/shop/goods_info_h'),
+			slidBackEnabled:false,
+			delay: 100,
+			pageParam: {
+				id: id
+			}
+		});
+	}
+</script>
+</html>

@@ -1,0 +1,33 @@
+.assets_content h1>span:last-child{
+	background-image: url(../style/img/icon21.png);
+}
+.qb_tishi{
+	position: absolute!important;
+    right: 0!important;
+    top: -50px!important;
+    font-size: 14px!important;
+}
+.qb_dizhi{
+	margin-top: 30px!important;
+}
+#coinnam-select{
+	width: 150px!important;
+}
+.bizhong_select{
+	width: 500px!important;
+}
+.yuyin input[type="button"]{
+	width: 150px!important;
+}
+.bz_btn,
+.coin-balance,
+.pwtrade dd{
+	font-size: 14px!important;
+	color: #c8c8c8;
+}
+.bz_btn{width: 700px!important;color: #c8c8c8; }
+.pages{
+    padding: 60px 0!important;
+    font-size: 16px!important;
+    color: #666!important;
+}

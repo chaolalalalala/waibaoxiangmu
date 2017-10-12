@@ -1,0 +1,179 @@
+{include file="public:header"}
+
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/goods.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/fontawesome/font-awesome.min.css">
+
+	<style>
+        .h-mid ul li{ width:20%; float:left; height:45px; text-align:center; }
+        .orderItem li{
+            font-size: 0.65rem;
+            margin: 0.3125rem 0.625rem;
+        }
+        .orderItem ul{
+            clear: both;
+        }
+        .orderTotalMsg span {
+            margin: 0.325rem 0.325rem;
+        }
+        .orderOptionBtns span {
+            margin: 0.325rem 0.325rem;
+            border: #999 1px solid;
+            padding: 0.125rem 0.325rem;
+            border-radius: 0.125rem;
+        }
+	</style>
+</head>
+<body>
+<div class="aui-content aui-margin-b-15">
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">打赏红包</li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner aui-list-item-arrow">
+                <div class="aui-list-item-label">红包金币类型:</div>
+                <div class="aui-list-item-text">
+                    <select id="selectAddress">
+                        <option index="-1" value="-1">请选择红包金币类型</option>
+                    </select>
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    标语:
+                </div>
+                <div class="aui-list-item-input">
+                    <input id="hongbaoTitle" type="text" placeholder="请输入红包标语">
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    金额:
+                </div>
+                <div class="aui-list-item-input">
+                    <input id="hongbaoMoney" type="text" placeholder="请输入红包金额">
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    份数:
+                </div>
+                <div class="aui-list-item-input">
+                    <input id="hongbaoNum" type="text" placeholder="请输入红包份数">
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    交易密码:
+                </div>
+                <div class="aui-list-item-input">
+                    <input id="paypassword" type="password" placeholder="请输入交易密码">
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="aui-content-padded">
+    <p><div class="aui-btn aui-btn-info" onclick="sendHongbao()" style="width: 100%;line-height: 1.5rem">立刻打赏</div></p>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/echo.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-slide.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	apiready = function () {
+		alog("come");
+		onerror = error_handel;
+        getCoinType();
+	};
+
+	function getCoinType(callback) {
+		Ajax('hongbao/send', 'get', '', function (ret) {
+            alog(ret);
+			if (ret.status == 1) {
+                //设置币种
+                if(ret.info && ret.info.length > 0 ) {
+                    var opt = '';
+                        for( var index = 0; index < ret.info.length; index++ ) {
+                            opt += "<option index=\'"+index+"\' value=\'"+
+                                    ret.info[index].id+"\'>" +
+                                    ret.info[index].title +"</option>";
+                        }
+                    $('#selectAddress').html(opt);
+                }
+				parseTapmode();
+			} else {
+				art(ret.info);
+			}
+		});
+	}
+
+    function sendHongbao() {
+	    if (!chkLogin()) {
+		    art("您目前未登录,请先登录");
+		    return false;
+	    }
+        var selectedOption =  $('#selectAddress option').filter(function (index){return this.selected});
+        var coinName = selectedOption.val();
+        var hongbaoTitle = $('#hongbaoTitle').val();
+        var hongbaoMoney = $('#hongbaoMoney').val();
+        var hongbaoNum = $('#hongbaoNum').val();
+        var password = $('#paypassword').val();
+        if (  isNull( coinName )  )
+        {
+            art('币种错误');
+            alog(coinName);
+            return;
+        }
+        if ( isNull( hongbaoTitle ) ){
+            art('请设置红包标语');
+            return;
+        }
+        if( isNull( hongbaoMoney )){
+            art('请输入红包金额');
+            return;
+        }
+        if( isNull( hongbaoNum ) || !isInteger(hongbaoNum) ){
+            art('请输入合法的红包数量');
+            return;
+        }
+        if( isNull( password ) ){
+            art('请输入交易密码');
+            return;
+        }
+        var params = {
+            'money':hongbaoMoney,
+            'money_type':coinName,
+            'num':hongbaoNum,
+            'paypassword':password,
+            'title':hongbaoTitle,
+        };
+        alog(params);
+        loading('提交中...');
+        UserAjax('hongbao/send_up', 'post', params, function (ret) {
+            toast.hide();
+            if ( ret.status == 1 ){
+                art("红包发送成功");
+	             $('#hongbaoTitle').val(null);
+	            $('#hongbaoMoney').val(null);
+	             $('#hongbaoNum').val(null);
+	             $('#paypassword').val(null);
+                setTimeout("back()",2000);
+            }
+            else {
+                art("红包发送失败");
+            }
+        });
+    }
+</script>
+</html>

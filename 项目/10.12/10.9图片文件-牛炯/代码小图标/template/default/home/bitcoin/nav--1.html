@@ -1,0 +1,40 @@
+<div class="posa nav-btn-show line35 yincang" style="width:675px;">
+	<ul class="flle c6a" style="width:85px;">
+		<li class="nbs-title">行情交易</li>
+		{foreach $menu as $k=>$v}
+			{if $menu}  {$list = $menu[$k]['data']}
+				{foreach $list as $kk=>$vv}
+					<a href="/trade/chart/market/{$kk}"><li class="c6a">{$vv['title']}</li></a>
+				{/foreach}
+			{/if}
+		{/foreach}
+	</ul>
+	<ul class="flle c6a" style="width:85px;">
+		<li class="nbs-title">交易账户</li>
+		<a href="/user"><li class="c6a">主账户</li></a>
+		<a href="/finan"><li class="c6a">创新区交易账户</li></a>
+	</ul>
+	<ul class="flle c6a wx" style="width:85px;">
+		<li class="nbs-title">充值提现</li>
+		{foreach $menu as $k=>$v}
+			{if $menu}  {$list = $menu[$k]['data']}
+				{foreach $list as $kk=>$vv}
+					<a href="/finan/coinin.html"><li class="c6a">{$vv['title']}</li></a>
+				{/foreach}
+			{/if}
+		{/foreach}
+	</ul>
+	<ul class="flle c6a textc " style="width:85px;">
+		<li class="nbs-title">用户中心</li>
+		<a href="/user/moble.html"><li class="c6a">安全设置</li></a>
+		<a href="/user/log.html"><li class="c6a">安全记录</li></a>
+		<a href="/user/truename.html"><li class="c6a">实名认证</li></a>
+		<a href="/user/news.html"><li class="c6a">我的消息</li></a>
+	</ul>
+	<ul class="flle c6a textc" style="width:85px;">
+		<li class="nbs-title">更多</li>
+		<a href="/article/detail/id/18"><li class="c6a">咨询</li></a>
+		<a href="/article/index/typeid/6"><li class="c6a">下载</li></a>
+		<a href="/article/index/typeid/5"><li class="c6a">帮助</li></a>
+	</ul>
+</div>

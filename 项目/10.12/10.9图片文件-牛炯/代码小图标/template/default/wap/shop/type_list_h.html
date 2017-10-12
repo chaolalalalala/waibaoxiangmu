@@ -1,0 +1,64 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<body>
+<header  id="header"  class="aui-bar aui-bar-nav aui-bar-dark">
+	<a class="aui-pull-left" onclick="back();">
+		<span class="aui-iconfont aui-icon-left"></span>返回
+	</a>
+	<div id="title" class="aui-title">全部分类</div>
+	<a class="aui-pull-right aui-btn " onclick="search_goods()">
+		<span class="aui-iconfont aui-icon-search" style="width: 1.5rem;height: 1.5rem; vertical-align: middle"></span>
+	</a>
+</header>
+</body>
+<script src="__WAP__/js/aui/aui-dialog.js"></script>
+<script>
+	apiready = function(){
+		onerror       = error_handel;
+		var header    = $api.byId('header');
+		var width     = getWinWidth();
+		var headerPos = $api.offset(header);
+		var height    = getWinHight() - headerPos.h;
+		openFrame({
+			name: 'type_list_t',
+			url: aurl('html/shop/type_list'),
+			allowEdit : true,
+			bounces: false,
+			opaque: true,
+			reload: true,
+			vScrollBarEnabled: true,
+			hScrollBarEnabled:false,
+			rect: {
+				x: 0,
+				y: headerPos.h,
+				w: width,
+				h: height
+			}
+		});
+	}
+
+	//打开分类商品
+	function search_goods(){
+		var dialog = new auiDialog();
+		dialog.alert({
+			title: "请输入搜索关键词",
+			buttons: ['搜索', '取消'],
+			input: true,
+		}, function (ret) {
+			if (ret.buttonIndex == 1) {
+				keyword = ret.text;
+				memObj('shop',{
+					'keyword': keyword,
+				})
+				openWin({
+					name: 'goods_list_h',
+					url: aurl('html/shop/goods_list_h'),
+					slidBackEnabled: false,
+					delay: 100,
+				});
+			}
+		});
+	}
+</script>
+</html>

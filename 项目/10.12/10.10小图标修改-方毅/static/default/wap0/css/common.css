@@ -1,0 +1,145 @@
+/*
+    ===============
+    下面是验证码需要用到的css
+    ===============
+*/
+
+
+.verify_mask {
+    position: fixed;
+    top:0;
+    left:0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(102,102,102,0.5);
+    /*display: table;*/
+}
+.hide{
+    display: none;
+}
+.verify_img_container{
+    /*display: table-cell;*/
+    /*vertical-align: middle;*/
+    width: 300px;
+    height: 170px;
+    background-color: ivory;
+    position: absolute;
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%,-50%);*/
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.verify_img_container ul li{
+    list-style: none;
+    /*background-color: lightcoral;*/
+    line-height: 2rem;
+    height: 2rem;
+    /*border: #999 solid 1px;*/
+    margin: 0.5rem 0.5rem;
+}
+
+.verify_img_container .title {
+    color: #333;
+    /*border-bottom: #666 solid 1px;*/
+    height: 2rem;
+    line-height: 2rem;
+    padding: 0.5rem;
+
+}
+
+.verify_img_container span {
+    background-color: green;
+    width: 48%;
+    display: inline-block;
+    text-align: center;
+}
+
+
+.verify_img_container ul li input {
+    width: 45%;
+    height: 2rem;
+    display: inline-block;
+    padding: 0.5rem;
+    color: #666;
+}
+.verify_img_container ul li img {
+    display: inline-block;
+    float: right;
+    margin-left: 0.5rem;
+    width: 45%;
+    height: 1.95rem;
+}
+
+.btn-white-color {
+    color: #f0f0f0;
+}
+
+
+/*api.css 边框样式*/
+/*边框样式*/
+.aui-border-t,
+.aui-border-b,
+.aui-border-l,
+.aui-border-r,
+.aui-border-tb,
+.trblBor {
+    position: relative;
+}
+.aui-border-t:after,
+.aui-border-b:after,
+.aui-border-l:after,
+.aui-border-r:after,
+.aui-border-tb:after,
+.trblBor:after {
+    display: block;
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-transform-origin: 0 0;
+    -webkit-transform: scale(1);
+    pointer-events: none;
+}
+.aui-border-l:after {
+    border-left: 1px solid #d7dbe2;
+}
+.aui-border-r:after {
+    border-right: 1px solid #d7dbe2;
+}
+.aui-border-t:after {
+    border-top: 1px solid #d7dbe2;
+}
+.aui-border-b:after {
+    border-bottom: 1px solid #d7dbe2;
+}
+.aui-border-tb:after {
+    border-top: 1px solid #d7dbe2;
+    border-bottom: 1px solid #d7dbe2;
+}
+.trblBor:after {
+    border:1px solid #d7dbe2;
+}
+.trblBor.aui-border-radius:after {
+    border-radius: 6px;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:1.5) {
+    .aui-border-t:after,
+    .aui-border-b:after,
+    .aui-border-l:after,
+    .aui-border-r:after,
+    .aui-border-tb:after,
+    .trblBor:after {
+        right: -100%;
+        bottom: -100%;
+        -webkit-transform: scale(0.5);
+    }
+}

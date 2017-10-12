@@ -1,0 +1,39 @@
+{include file="public:header"}
+<title>买入列表</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<body>
+<header  id="header"  class="aui-bar aui-bar-nav aui-bar-dark">
+	<a class="aui-pull-left" tapmod="" onclick="back();">
+		<span class="aui-iconfont aui-icon-left"></span>返回
+	</a>
+	<div id="title" class="aui-title">买入列表</div>
+</header>
+</body>
+<script>
+	apiready = function(){
+		onerror       = error_handel;
+		var header    = $api.byId('header');
+		var width     = getWinWidth();
+		var headerPos = $api.offset(header);
+		var height    = getWinHight() - headerPos.h;
+		openFrame({
+			name: 'pushIn',
+			url: aurl('wap/app_push/pushIn'),
+			allowEdit : true,
+			bounces: false,
+			opaque: true,
+			reload: true,
+			vScrollBarEnabled: true,
+			hScrollBarEnabled:false,
+			rect: {
+				x: 0,
+				y: headerPos.h,
+				w: width,
+				h: height
+			}
+		});
+	}
+</script>
+</html>

@@ -1,0 +1,13 @@
+.ydt-bank .yb-list .yb-item .yb-links .yb-split{
+	margin: 4px 27px 10px 34px!important;
+}
+.yb-item .yb-info .name, .yb-info .yb-link a span{
+	font-size: 12px!important;
+    line-height: 12px!important;
+}
+.yb-item .yb-info .yb-num{
+	padding: 25px 0 14px!important;
+}
+.yb-links{
+	padding-top: 10px!important;
+}

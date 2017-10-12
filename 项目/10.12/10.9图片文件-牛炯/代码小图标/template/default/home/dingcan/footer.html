@@ -1,0 +1,372 @@
+<div class="dzapp_footer">
+	<div id="ft" class="wp cl">
+		<div id="flk" class="y">
+			<p>
+				<span class="pipe">|</span><a href="plugin.php?id=dzapp_check">商家验证</a>
+				<span class="pipe">|</span><a href="/dingcan/game">小游戏</a><span class="pipe">|</span>
+				<a href="/">站点地图</a><span class="pipe">|</span><strong>
+				<a href="http://www.movesay.com/" target="_blank">了解动说</a></strong> (
+				<a href="http://www.movesay.com/" target="_blank"> 鄂ICP备16009216号-1</a> )&nbsp;
+				<a href="http://www.movesay.com/" target="_blank" title="防水墙保卫网站远离侵害"></a>
+			</p>
+			<p class="xs0">
+				GMT+8, 2017-6-19 10:36<span id="debuginfo">
+, Processed in 0.068669 second(s), 17 queries
+.
+</span>
+			</p>
+		</div>
+		<div id="frt">
+			<p>Powered by <strong><a href="http://www.movesay.com/" target="_blank">Discuz!</a></strong> <em>X3.2</em></p>
+			<p class="xs0">&copy; 2001-2013 <a href="http://www.movesay.com/" target="_blank">Comsenz Inc.</a></p>
+		</div>
+	</div>
+
+	<div id="scrolltop">
+		<span hidefocus="true"><a title="返回顶部" onclick="window.scrollTo('0','0')" class="scrolltopa"><b>返回顶部</b></a></span>
+	</div>
+
+</div>
+<div id="all_mask" class="all_mask" style="height: 0px; display: none;"></div>
+<div id="all_mask_loginbox" class="all_mask_loginbox" style="display: none;">
+	<div class="login_title pl20">
+		{#lang('登录')}
+		{if $game_app == 1}
+		<span onclick="saoma()" style="text-align: center;margin-left: 150px;color: #1a81d6;cursor:pointer;">{#lang('扫码登录')}</span>
+		{/if}
+	</div>
+	<form id="form-login" class="mask_wrap login-fb">
+		<div class="login_text zin90">
+			<div class="mask_wrap_title">{#lang('账户')}：</div>
+			<input type="text" id="login_mobles" class="texts" style="display: none;">
+			<input type="text" id="login_moble" class="texts hg40 w250" placeholder="{#lang('请输入手机/邮箱/用户名')}"
+			       style="padding-left: 42px;" value="{#cookie('moble')}"/>
+			<link rel="stylesheet" href="__EXT__/intlTelInput/css/intlTelInput.css">
+			<script src="__EXT__/intlTelInput/js/intlTelInput.js"></script>
+			<script>
+				$("#login_mobles").intlTelInput({
+					autoHideDialCode: false,
+					defaultCountry: "cn",
+					nationalMode: false,
+					preferredCountries: ['cn', 'us', 'hk', 'tw', 'mo'],
+				});
+
+				function saoma() {
+					layer.open({
+						type: 2,
+						title: '{#lang("打开手机APP,扫码登录")}',
+						shadeClose: true,
+						shade: 0.8,
+						area: ['300px', "300px"],
+						content: '/app/login/saoma' //iframe的url
+					});
+				}
+			</script>
+		</div>
+		<!--<div class="login_text zin80" style="    margin-bottom: 5px;
+	margin-top: -10px;">
+			<div class="mask_wrap_title"></div>
+			<a style="font-size: 12px;margin-top:10px;margin-left: 10px;" href="/login/username" class="movesay">通过用户名登录</a>
+
+		</div>-->
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('密码')}：</div>
+			<input id="login_password" class="texts hg40 w250" type="password" placeholder="{#lang('请输入登录密码')}">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('验证码')}：</div>
+			<input type="text" id="login_verify" value="" class="texts w145 hg40" placeholder="{#lang('请输入验证码')}"/>
+			<span style="vertical-align: -17px;line-height: 20px;">
+				<img id="login_verify_up" class="codeImg reloadverify hg40" src="{#url('ajax/verify')}"
+				     title="{#lang('换一张')}" onclick="login_verify_ups();" width="100" height="34">
+			</span>
+		</div>
+		<div class="login_button">
+			<input type="button" value="{#lang('登录')}" onclick="footer_login();" class="btns2  hg40 w250">
+		</div>
+		<div class="login-footer wwxwwx" style="border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;">
+			<span style="color: #CCC; float: right; margin-right: 25px;">
+			<a style="font-size: 14px;" href="/reg">{#lang('免费注册')}</a>｜<a href="/findpwd" style="font-size: 14px;">{#lang('忘记密码')}</a>
+
+
+			</span>
+		</div>
+	</form>
+	<div class="mask_wrap_close" onclick="wrapClose()"><i class="fa fa-times fz_20 move" aria-hidden="true"></i></div>
+</div>
+<div id="all_mask_goolebox" class="all_mask_loginbox" style="display: none;">
+	<div class="login_title pl20">{#lang('谷歌验证')}</div>
+	<form id="form-goole" class="mask_wrap login-fb">
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('谷歌密码')}：</div>
+			<input id="goole_password" class="texts hg40 w250" type="password" placeholder="{#lang('请输入谷歌密码')}">
+		</div>
+		<div class="login_button">
+			<input type="button" value="{#lang('验证')}" onclick="footer_goole();" class="btns2  hg40 w250">
+		</div>
+	</form>
+	<div class="mask_wrap_close" onclick="wrapClose()"><i class="fa fa-times fz_20 move" aria-hidden="true"></i></div>
+</div>
+<div id="all_mask_yidibox" class="all_mask_loginbox" style="display: none;">
+	<div class="login_title pl20">{#lang('异地登录验证')}</div>
+	<form id="form-yidi" class="mask_wrap login-fb">
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('获取验证码')}：</div>
+			<span id="yidi1">
+				<input type="button" value="{#lang('发送短信验证码')}" class="btns" onclick="moble_yidi('sms')"
+				       style="width: 100px;font-size: 12px;"/> <input type="button" value="{#lang('发送语音验证码')}"
+				                                                      class="btns" onclick="moble_yidi('tel')"
+				                                                      style="width: 100px;font-size: 12px;"/>
+			</span>
+			<span id="yidi2" style="display:none;">
+				 <span id="yidi3" class="movesay"
+				       style="left: 210px;font-size:14px;padding-top: 5px;    height: 34px;line-height: 34px;"></span>
+			</span>
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('短信验证码')}：</div>
+			<input id="yidi_password" class="texts hg40 w250" type="password" placeholder="{#lang('请输入短信验证码')}">
+		</div>
+		<div class="login_button">
+			<input type="button" value="{#lang('验证')}" onclick="footer_yidi();" class="btns2  hg40 w250">
+		</div>
+	</form>
+	<div class="mask_wrap_close" onclick="wrapClose()"><i class="fa fa-times fz_20 move" aria-hidden="true"></i></div>
+</div>
+<script>
+	// 弹窗警告
+	$(function () {
+		var waring = $.cookies.get('move_waring');
+		if (!waring) {
+			var web_tc_close = "{$config['web_tc_close']}";
+			if (web_tc_close == 1) {
+				layer.open({
+					type: 2,
+					btn: ['我已了解以上风险'],
+					skin: 'layui-layer-rim', // 边框
+					area: ['60%', '80%'], // 宽高
+					title: '{#lang("风险警告")}', // 标题
+					content: "{#url('index/waring')}",
+					yes: function (index, layero) {
+						$.cookies.set('move_waring', 1);
+						layer.close(index);
+					},
+					cancel: function (index, layero) {
+						$.cookies.set('move_waring', 1);
+						layer.close(index);
+					}
+				});
+			}
+		}
+	});
+</script>
+<script>
+	$(function () {
+		var userid = "{$userid}";
+		if (window.location.hash == '#login') {
+			if (!userid) {
+				loginpop();
+			}
+		}
+
+		if (window.location.hash == '#goole') {
+			goolepop();
+		}
+
+		if (window.location.hash == '#yidi') {
+			yidipop();
+		}
+
+
+		var move_moble = $.cookies.get('move_moble');
+		if (move_moble != '' && move_moble != null) {
+			$("#login_moble").val(move_moble);
+		}
+	});
+	function check_zzc() {
+		$.getJSON("/ajax/check_zzc/t=" + Math.random(), function () {
+
+			setTimeout('check_zzc()', 5000);
+		});
+	}
+
+	function login_verify_ups() {
+		$('#login_verify_up').attr('src', "{#url('verify/code')}?t=" + Math.random());
+	}
+
+	function loginpop() {
+		var height = $(document).height();
+		if (height < 1000) {
+			height = 1000;
+		}
+		$('.all_mask').css({'height': height});
+		$('.all_mask').show();
+		$('#all_mask_loginbox').show();
+	}
+
+	function goolepop() {
+		var height = $(document).height();
+		if (height < 1000) {
+			height = 1000;
+		}
+		$('.all_mask').css({'height': height});
+		$('.all_mask').show();
+		$('#all_mask_goolebox').show();
+	}
+
+
+	function yidipop() {
+		var height = $(document).height();
+		if (height < 1000) {
+			height = 1000;
+		}
+		$('.all_mask').css({'height': height});
+		$('.all_mask').show();
+		$('#all_mask_yidibox').show();
+	}
+
+
+	function moble_yidi(type) {
+		$.post("{#url('verify/yidi')}", {
+			type: type,
+		}, function (data) {
+			if (data.status == 1) {
+
+				layer.msg(data.info, {icon: 1});
+				$('#yidi1').hide();
+				$('#yidi2').show();
+
+
+				var obj = $('#yidi3');
+				var wait = 30;
+				var interval = setInterval(function () {
+					obj.html("<a class='movesay'>" + wait + "{#lang('秒可再次发送')}" + "</a>");
+					wait--;
+					if (wait < 0) {
+						clearInterval(interval);
+						$("#verify").val('');
+						$('#yidi2').hide();
+						$('#yidi1').show();
+
+						//obj.html('<a class="move" onclick="new_send()">{#lang("点击重新发送")}</a>');
+					}
+					;
+				}, 1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+
+	function wrapClose() {
+		$('.all_mask').hide();
+		$('.all_mask_loginbox').hide();
+	}
+
+	function footer_login() {
+		var moble = $("#login_moble").val();
+		var mobles = $("#login_mobles").val();
+		var password = $("#login_password").val();
+		var verify = $("#login_verify").val();
+		if (moble == "" || moble == null) {
+			layer.tips('{#lang("请输入手机号")}', '#login_moble', {tips: 2});
+			return false;
+		}
+		if (password == "" || password == null) {
+			layer.tips('{#lang("请输入登录密码")}', '#login_password', {tips: 2});
+			return false;
+		}
+		if (verify == "" || verify == null) {
+			layer.tips('{#lang("请输入验证码")}', '#login_verify', {tips: 2});
+			return false;
+		}
+
+		$.post("{#url('login/up_login')}", {
+			moble: moble,
+			mobles: mobles,
+			password: password,
+			verify: verify,
+			login_token: "{$login_token}",
+		}, function (data) {
+			if (data.status == 1) {
+				$.cookies.set('move_moble', moble);
+				layer.msg(data.info, {icon: 1});
+				if (data.url) {
+					window.location = data.url;
+				} else {
+					window.location.reload();
+				}
+			} else {
+				$("#login_verify_up").click();
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+
+	function footer_goole() {
+		var password = $("#goole_password").val();
+
+
+		if (password == "" || password == null) {
+			layer.tips('{#lang("请输入谷歌密码")}', '#goole_password', {tips: 2});
+			return false;
+		}
+
+		$.post("{#url('login/goole')}", {
+			password: password,
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				if (data.url) {
+					window.location = data.url;
+				} else {
+					window.location = '/';
+				}
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+
+	function footer_yidi() {
+		var password = $("#yidi_password").val();
+
+
+		if (password == "" || password == null) {
+			layer.tips('{#lang("请输入短信验证码")}', '#yidi_password', {tips: 2});
+			return false;
+		}
+
+		$.post("{#url('login/yidi')}", {
+			password: password,
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				if (data.url) {
+					window.location = data.url;
+				} else {
+					window.location = '/';
+				}
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+</script>
+</body>
+</html>

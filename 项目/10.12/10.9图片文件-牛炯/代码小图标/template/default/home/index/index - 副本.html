@@ -1,0 +1,476 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__HOME__/css/index.css"/>
+<div class="banner-box">
+    <!-- 用户信息 start -->
+    <div class="banner-tag-box">
+        <!-- 已登录 start -->
+        <div class="banner-tag login-banner-tag ajax_top_user_login" style="display: none;">
+            <div class="user-base">
+                    <span class="user-base-sp">
+                        Hi,<a href="#" target="_blank" class="ajax_username"></a>
+                    </span>
+                <div class="user-info-block">
+                    <table>
+                        <tr>
+                            <td>{#lang('可用')} CNY</td>
+                            <td>{#lang('冻结')}</td>
+                            <td>{#lang('总资产')}</td>
+                        </tr>
+                        <tr>
+                            <td class="ajax_user_coin_cny"></td>
+                            <td class="ajax_user_coin_cnyd"></td>
+                            <td class="ajax_user_coin_zzc"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <ul class="clearfix">
+                <div class="user-info-fina">
+                    <a href="/finan/pay.html">{#lang('CNY充值')}</a> <a href="/finan/out.html">{#lang('CNY提现')}</a>
+                    <a href="/finan/order.html" class="w82">{#lang('我的交易')}</a>
+                </div>
+            </ul>
+            <a href="/finan.html" target="_blank" class="green-link-btn">{#lang('去财务中心')}</a>
+            <a href="/finan/invit.html" target="_blank" class="transparent-link-btn">
+                <i class="icon-hot-tag"></i> {#lang('推荐好友拿奖励')} </a>
+        </div>
+        <!-- 已登录 end -->
+        <!-- 未登录 start -->
+        <div class="banner-tag visitor-banner-tag ajax_top_user_login_null" style="display: none;">
+            <ul class="clearfix">
+                <li class="float-r">
+                    <!--     <a href="/index/guide.html" target="_blank" rel="nofollow" class="guide-new">{#lang('新手引导')}</a>-->
+                </li>
+            </ul>
+            <div class="topest-profit">
+                <strong> {$zong_num_login nofilter}</strong><br><br> {#lang('全站累计交易量')}
+            </div>
+            <a href="/reg" class="red-link-btn" target="_blank">
+                <i class="fa fa-cny index-reg-ico"></i> {#lang('注册领取新人大礼包')} </a>
+            <a href="javascript:loginpop();" class="login-now"> {#lang('立即登录')} </a>
+        </div>
+    </div>
+    {#slider("index")}
+</div>
+<a id="gao" href="/article/detail/id/{$article_arr[1]['list'][0]['id']}" target="_blank" >
+	<div id="gao_bg">
+		<div id="gao_title">
+			【官方公告】{$article_arr[1]['list'][0]['title']}
+		</div>
+	</div>
+</a>
+{if $trade_qu}
+<div class="tradeBox hg40" style=" width: 1200px;margin: 0 auto;   background: #FFF;">
+    <div class="slideHd hg40" style="width: 1200px;margin: 0 auto;background: #FFF;">
+        <!-- 下面是前/后按钮代码，如果不需要删除即可 -->
+        <ul class="active hg40  trade_qu_list" style="height: 40px;line-height: 40px;">
+            {foreach $trade_qu as $k => $v}
+            <li id="trade_qu_{$v['id']}" class="trade_moshi trade_qu_pai   {if $k == 0}current {/if}" data="{$v['id']}" onclick="trade_qu(this)">
+                <a> {$v['title']} </a></li>
+            {/foreach}
+        </ul>
+    </div>
+</div>
+{/if}
+<div class="price_today">
+    <div class="autobox">
+        <ul class="price_today_ull">
+            <li data-sort="0" style="cursor: default;">{#lang('交易市场')}</li>
+            <li class="click-sort" data-sort="1" data-flaglist="0" data-toggle="0">{#lang('最新成交价')} <i
+                    class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+            </li>
+            <li class="click-sort" data-sort="2" data-flaglist="0" data-toggle="0">{#lang('买一价')} <i
+                    class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+            </li>
+            <li class="click-sort" data-sort="3" data-flaglist="0" data-toggle="0">{#lang('卖一价')} <i
+                    class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+            </li>
+            <li class="click-sort" data-sort="6" data-flaglist="0" data-toggle="0">{#lang('24H成交量')} <i
+                    class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+            </li>
+            <li class="click-sort" data-sort="4" data-flaglist="0" data-toggle="0">{#lang('24H成交额')}
+                <i class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+            </li>
+            <li class="click-sort" data-sort="7" data-flaglist="0" data-toggle="0">{#lang('24H涨跌')} <i
+                    class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+            </li>
+            <li data-sort="0">{#lang('价格趋势')}(3{#lang('日')})</li>
+            <li data-sort="0" style="width: 150px; text-align: center; text-indent: 0.5em;">{#lang('操作')}</li>
+        </ul>
+    </div>
+</div>
+<ul class="price_today_ul" id="price_today_ul" style="margin: 0px auto;width: 1200px;background: #FFF;box-shadow: 2px 2px 4px #D7DAE0;"></ul>
+<script src="__EXT__/jquery/jquery.flot.js"></script>
+<script>
+    $('.price_today_ull > .click-sort').each(function () {
+        $(this).click(function () {
+            click_sortList(this);
+        })
+    })
+
+    function allcoin_callback(priceTmp) {
+        for (var i in priceTmp) {
+            var c = priceTmp[i][8];
+
+            if (typeof (trends[c]['data']) && typeof (trends[c]['data']) != 'null') {
+                if (typeof (trends[c]) != 'undefined' && typeof (trends[c]['data']) != 'undefined') {
+                    $.plot($("#" + c + "_plot"), [{shadowSize: 0, data: trends[c]['data']}], {
+                        grid: {borderWidth: 0},
+                        xaxis: {mode: "time", ticks: false},
+                        yaxis: {tickDecimals: 0, ticks: false},
+                        colors: ['#f99f83']
+                    });
+                }
+            }
+
+
+        }
+    }
+
+    function click_sortList(sortdata) {
+        var a = $(sortdata).attr('data-toggle');
+        var b = $(sortdata).attr('data-sort');
+        $(".price_today_ull > li").find('.cagret-up').css('border-bottom-color', '#848484');
+        $(".price_today_ull > li").find('.cagret-down').css('border-top-color', '#848484');
+        $(".price_today_ull > li").attr('data-flaglist', 0).attr('data-toggle', 0);
+        $(".price_today_ull > li").css('color', '');
+        $(sortdata).css('color', '#1a81d6');
+
+        if (a == 0) {
+            priceTmp = priceTmp.sort(sortcoinList('dec', b));
+            $(sortdata).find('.cagret-down').css('border-top-color', '#1a81d6');
+            $(sortdata).find('.cagret-up').css('border-bottom-color', '#848484');
+            $(sortdata).attr('data-flaglist', 1).attr('data-toggle', 1)
+        }
+        else if (a == 1) {
+            $(sortdata).attr('data-toggle', 0).attr('data-flaglist', 2);
+            ;
+            $(sortdata).find('.cagret-up').css('border-bottom-color', '#1a81d6');
+            $(sortdata).find('.cagret-down').css('border-top-color', '#848484');
+            priceTmp = priceTmp.sort(sortcoinList('asc', b));
+        }
+        renderPage(priceTmp);
+        change_line_bg('price_today_ul', 'li');
+        allcoin_callback(priceTmp);
+    }
+
+
+    function trends() {
+        $.getJSON('/ajax/index_b_trends?t=' + rd(), function (d) {
+            trends = d;
+            allcoin();
+
+        });
+    }
+
+    function allcoin(cb) {
+        var trade_qu_id = $('.trade_qu_list .current').attr('data');
+
+
+        $.get('/ajax/allcoin_a/id/' + trade_qu_id + '?t=' + rd(), cb ? cb : function (data) {
+            var d;
+            if (data.status == 1) {
+                d = data.url;
+            }
+            ALLCOIN = d;
+            var t = 0;
+            var img = '';
+            priceTmp = [];
+            //把json转换为二维数组 进行渲染
+            for (var x in d) {
+                if (typeof(trends[x]) != 'undefined' && parseFloat(trends[x]['yprice']) > 0) {
+                    rise1 = (((parseFloat(d[x][4]) + parseFloat(d[x][5])) / 2 - parseFloat(trends[x]['yprice'])) * 100) / parseFloat(trends[x]['yprice']);
+                    rise1 = rise1.toFixed(2);
+                } else {
+                    rise1 = 0;
+                }
+                img = d[x].pop();
+                d[x].push(rise1);
+                d[x].push(x);
+                d[x].push(img);
+                priceTmp.push(d[x]);
+            }
+            //二次排序
+            $('.price_today_ull > .click-sort').each(function () {
+                var listId = $(this).attr('data-sort');
+                if ($(this).attr('data-flaglist') == 1 && $(this).attr('data-sort') !== 0) {
+                    priceTmp = priceTmp.sort(sortcoinList('dec', listId))
+                } else if ($(this).attr('data-flaglist') == 2 && $(this).attr('data-sort') !== 0) {
+                    priceTmp = priceTmp.sort(sortcoinList('asc', listId))
+                }
+            });
+            renderPage(priceTmp);
+            allcoin_callback(priceTmp);
+            change_line_bg('price_today_ul', 'li');
+            t = setTimeout('allcoin()', 5000);
+
+        }, 'json');
+    }
+
+    function rd() {
+        return Math.random()
+    }
+    //渲染函数
+    function renderPage(ary) {
+        var html = '';
+        for (var i in ary) {
+            var coinfinance = 0;
+            if (typeof FINANCE == 'object') coinfinance = parseFloat(FINANCE.data[ary[i][8] + '_balance']);
+            html += '<li onclick="top.location=\'/trade/index/market/' + ary[i][8] + '/\'" ><dl class="autobox clear"><dt style="width: 160px;"><a href="/trade/index/market/' + ary[i][8] + '/">' +
+                    '<img src="/upload/' + ary[i][9] + '" style="vertical-align: middle;margin-right: 5px;width: 19px;margin-left: 12px;">' + ary[i][0] + '</a></dt><dd class="orange" style="text-indent: 1.6em;">' + ary[i][1] + '</dd><dd style="text-indent: 1.6rem;">' + ary[i][2] + '</dd><dd style="text-indent: 1.6rem;">' + ary[i][3] + '</dd><dd class="w142" style="    text-indent: 1.6rem;">' + formatCount(ary[i][6]) + '</dd><dd class="w142" style="    text-indent: 2.5rem;">' + formatCount(ary[i][4]) + '</dd><dd class="w142 ' + (ary[i][7] >= 0 ? 'buy' : 'sell') + '" style="    text-indent: 2.0rem;">' + (parseFloat(ary[i][7]) < 0 ? '' : '+') + ((parseFloat(ary[i][7]) < 0.01 && parseFloat(ary[i][7]) > -0.01) ? "0.00" : (parseFloat(ary[i][7])).toFixed(2)) + '%</dd><dd id="' + ary[i][8] + '_plot"  style="width:150px;height:35px;"></dd><dd class="w102" style="width:150px;text-align: center;text-indent: 0.5em;"><input type="button" value={#lang("去交易")} class="btns2" onclick="top.location=\'/trade/index/market/' + ary[i][8] + '/\'" /></dd></dl></li>'
+        }
+        $('#price_today_ul').html(html);
+    }
+    //保留2位
+    function formatCount(count) {
+        var countokuu = (count / 100000000).toFixed(3)
+        var countwan = (count / 10000).toFixed(3)
+        if (count > 100000000)
+            return countokuu.substring(0, countokuu.lastIndexOf('.') + 3) + '亿'
+        if (count > 10000)
+            return countwan.substring(0, countwan.lastIndexOf('.') + 3) + '万'
+        else
+            return count
+    }
+    //移入行变色
+    function change_line_bg(id, tag, nobg) {
+        var oCoin_list = $('#' + id);
+        var oC_li = oCoin_list.find(tag);
+        var oInp = oCoin_list.find('input');
+        var oldCol = null;
+        var newCol = null;
+        if (!nobg) {
+            for (var i = 0; i < oC_li.length; i++) {
+                oC_li.eq(i).css('background-color', i % 2 ? '#f8f8f8' : '#fff');
+            }
+        }
+        oCoin_list.find(tag).hover(function () {
+            oldCol = $(this).css('backgroundColor');
+            $(this).css('background-color', '#eaedf4');
+        }, function () {
+            $(this).css('background-color', oldCol);
+        })
+    }
+    //排序函数
+    function sortcoinList(order, sortBy) {
+        var ordAlpah = (order == 'asc') ? '>' : '<';
+        var sortFun = new Function('a', 'b', 'return parseFloat(a[' + sortBy + '])' + ordAlpah + 'parseFloat(b[' + sortBy + '])? 1:-1');
+        return sortFun;
+    }
+
+    function trade_qu(o) {
+        $('.trade_qu_pai').removeClass('current');
+        $(o).addClass('current');
+        allcoin();
+    }
+    trends();
+</script>
+{if $config["web_waring"]}
+<div class="index_news mt20 index_news1" style="    padding-bottom: 0px;">
+    <div style="padding: 20px 20px;border-color: #FFD0B7;">
+        {$config["web_waring"] nofilter}
+    </div>
+</div>
+{/if}
+<!--保障提示-->
+<div class="tag-box">
+    <div class="hotest-tag-list tag-list-transfer">
+        <div class="safety_tips">
+            <h3 style="font-weight:bold">专业的安全保障</h3>
+            <div class="autobox">
+                <ul class="safety_tips_ul clear">
+                    <li>
+                        <img src="__IMG__/index/safe_1.jpg" alt="" width="70" height="70"/>
+                        <h4>系统可靠</h4>
+                        <p>银行级用户数据加密、动态身份验证，多级风险识别控制，保障交易安全</p>
+                    </li>
+                    <li>
+                        <img src="__IMG__/index/safe_2.jpg" alt="" width="70" height="70"/>
+                        <h4>资金安全</h4>
+                        <p>钱包多层加密，离线存储于银行保险柜，资金第三方托管，确保安全</p>
+                    </li>
+                    <li>
+                        <img src="__IMG__/index/safe_3.jpg" alt="" width="70" height="70"/>
+                        <h4>快捷方便</h4>
+                        <p>充值即时、提现迅速，每秒万单的高性能交易引擎，保证一切快捷方便</p>
+                    </li>
+                    <li>
+                        <img src="__IMG__/index/safe_4.jpg" alt="" width="70" height="70"/>
+                        <h4>服务专业</h4>
+                        <p>专业的客服团队，400电话和24小时在线QQ，VIP一对一专业服务</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{if $config["template_default_index_issue"]}
+<div class="tag-box">
+    <div class="hotest-tag-list tag-list-transfer" style=";height:260px">
+        <div class="invest-tag invest-tag-left" style="    width: 599px;">
+            <p style="margin-top: 12px;">
+                <i class="fa fa-bookmark" style="color: #17D0B1;"></i>
+                <a href="/issue/index" target="_blank" title="{$app_issue['name']}" style="color: #17D0B1;"> {$app_issue['name']} </a>
+                <em class="tag-flag tag-flag-green" style="color: #17D0B1;border-color: #17D0B1;margin-top: -5px;"> {#lang('提前认购 超值回报')} </em>
+            </p>
+            <ul class="clearfix">
+                <li class="tag-profit" style="margin: 15px 0;">
+                    <strong>{$app_issue['show_deal']} </strong>{#lang('已认购')}
+                </li>
+            </ul>
+            <div class="block_hot">
+                <table>
+                    <tr>
+                        <td>{#lang('总量')}</td>
+                        <td>{#lang('单价')}</td>
+                        <td>{#lang('限量')}</td>
+                        <td>{#lang('开启时间')}</td>
+                    </tr>
+                    <tr>
+                        <td>{#round($app_issue.num)}</td>
+                        <td>{$app_issue['price']}</td>
+                        <td>{#round($app_issue['limit'])}</td>
+                        <td><em class="block_hot_notice">{#addtime($app_issue['strtime'],"Y-m-d")}</em></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="invest-tag-bottom">
+                <div class="tag-progress" style="margin-left: 5px;">
+                    <div class="tag-progress-bar" progress="100%">
+                        <em class="tag-progress-finished" style="overflow: hidden;background: #17D0B1; width: {$app_issue.fen}%;"></em>
+                    </div>
+                    <span>{$app_issue.fen}%</span>
+                </div>
+                <a href="/issue/buy/id/{$app_issue.id}" target="_blank" class="index_btn_issue">{#lang('认购中')}</a>
+            </div>
+        </div>
+        <div class="invest-tag" style="width: 599px">
+            <p style="margin-top: 12px;">
+                <i class="fa fa-bookmark" style="color: #825C85;"></i>
+                <a href="/money/index" target="_blank" title="{$app_issue['name']}" style="color: #825C85;"> {$app_money['name']} </a>
+                <em class="tag-flag tag-flag-green" style="color: #825C85;border-color: #825C85;margin-top: -5px;"> {#lang('短期灵活 稳定收益')} </em>
+            </p>
+            <ul class="clearfix">
+                <li class="tag-profit" style="margin: 15px 0;">
+                    <strong>{$app_money['fee']}<sub>%</sub> </strong>{#lang('日化利率')}
+                </li>
+                <li class="tag-date-limit" style="margin: 15px 5px 15px 0;">
+                    {#lang('期限')}
+                    <span class="red">
+                        {$app_money['tian']}<em>{#lang('天')}</em>
+                    </span>
+                </li>
+            </ul>
+            <div class="block_hot">
+                <table>
+                    <tr>
+                        <td>{#lang('总量')}</td>
+                        <td>{#lang('起投')}</td>
+                        <td>{#lang('累计')}</td>
+                        <td>{#lang('开启时间')}</td>
+                    </tr>
+                    <tr>
+                        <td>{#round($app_money.num)}</td>
+                        <td>{#num($app_money['min'])}</td>
+                        <td>{#round($app_money['deal'])}</td>
+                        <td><em class="block_hot_notice">{#addtime($app_money['addtime'],"Y-m-d")}</em></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="invest-tag-bottom">
+                <div class="tag-progress" style="margin-left: 5px;">
+                    <div class="tag-progress-bar" progress="100%">
+                        <em class="tag-progress-finished" style="overflow: hidden;background: #825C85; width: {$app_money.fen}%;"></em>
+                    </div>
+                    <span>{$app_money.fen}%</span>
+                </div>
+                <a href="/money/buy/id/{$app_money.id}" target="_blank" class="index_btn_licai">{#lang('收益中')}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
+<!-- 标列表 end -->
+<!--新闻-->
+<div class="index_news mt20">
+    <!--媒体报道行业新闻-->
+    <div class="index_media ml35 mt20">
+        <ul class="index_media_ul index_media_me">
+            <li class="index_media_li active">{$article_arr[0]['title']}</li>
+            <li class="index_media_li1">
+                <a href="/article/index/typeid/{$article_arr[0]['id']}" target="_blank">{#lang('更多')}+</a></li>
+        </ul>
+        <div class="index_media_con">
+            <div class="index_media_tab">
+                <ul class="index_media_ul1">
+                    {foreach $article_arr[0]['list'] as $k=>$v} {if $k<5} {if $v['img'] && $k<2}
+	                    <span class="index_media_span mt20">
+	                        <a href="/article/detail/id/{$v.id}" target="_blank"> <img src="{$v.img}"></a>
+	                        <em> <a href="/article/detail/id/{$v.id}" target="_blank">{$v.title}</a> </em>
+	                    </span> {else}
+                    <li class="index_media_li7"><i class="index_media_gt">&gt;</i>
+                        <a href="/article/detail/id/{$v.id}" target="_blank" class="index_media_a"> {$v.title} </a>
+                        <label>{#addtime($v.addtime,"Y-m-d")}</label>
+                    </li>
+                    {/if} {/if} {/foreach}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--媒体报道行业新闻结束-->
+    <!--最新公告公司动态-->
+    <div class="index_media index_media1 ml35 mt20">
+        <ul class="index_media_ul index_media_ul2">
+            <li class="index_media_li active">{$article_arr[1]['title']}</li>
+            <li class="index_media_li1 index_media_li3">
+                <a href="/article/index/typeid/{$article_arr[1]['id']}" target="_blank">{#lang('更多')}+</a>
+            </li>
+        </ul>
+        <div class="index_media_con1">
+            <div class="index_media_tab index_media_tab1 " style="width: 420px;">
+                {foreach $article_arr[1]['list'] as $k=>$v} {if $k<7}
+                <ul class="index_media_ul1 index_media_ul3">
+                    <li class="index_media_li4"><i class="index_media_gt">&gt;</i>
+                        <a href="/article/detail/id/{$v.id}" target="_blank" class="index_media_a index_media_a1"> {$v.title} </a>
+                    </li>
+                    <li class="index_media_li5"><label>{#addtime($v.addtime,"Y-m-d")}</label></li>
+                </ul>
+                {/if} {/foreach}
+            </div>
+        </div>
+    </div>
+    <!--最新公告公司动态结束-->
+</div>
+<!--新闻结束-->
+{if $links}
+<!--合作伙伴-->
+<div class="index_news mt20 index_news1 " style="    margin-bottom: -20px;">
+    <ul class="index_media_ul index_media_ul4 ml35">
+        <li class="index_media_li active">{#lang('合作伙伴')}</li>
+    </ul>
+    <ul class="index_pernter_logo ml25 mt20">
+        {foreach $links as $vo} {if $vo["img"]}
+        <li>
+            <a href="{$vo['value']}" class="partner1" alt="{$vo['title']}" target="_blank" rel="nofollow">
+                <img src="__UP__{$vo['img']}" title="{$vo['title']}"> </a>
+        </li>
+        {else}
+        <li>
+            <a href="{$vo['value']}" class="partner1" alt="{$vo['title']}" target="_blank" rel="nofollow"> {$vo['title']} </a>
+        </li>
+        {/if} {/foreach}
+    </ul>
+</div>
+{/if}
+{if $luck}
+<div id="egg_boom" style="position: fixed;top:80%;right: 0;z-index:1">
+	<a  href="{#url('/luck')}" target="_blank" >
+		<img src="__HOME__/luck/img/activity_bg.png" alt="" width="180">
+	</a>
+	<i style="position: absolute;right: 12px;top: 0;font-size: 15px;display: block;width: 22px;text-align: center; border: 1px solid #c4c4c4;border-radius: 50%;" onclick="$('#egg_boom').hide()">✖</i>
+</div>
+{/if}
+<script>
+    $('#index_box').addClass('active');
+</script>
+{include file="public:footer"}

@@ -1,0 +1,194 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<style>
+	span{
+		color:#a59494;
+	}
+	.my_body{
+		margin: 20px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul,.my_title ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+	.my_body li{
+		border-radius: 2px;
+		margin: 1rem 0 0;
+		display: -webkit-box;
+		height: 2rem;
+		padding:0 ;
+		background-color: white;
+	}
+	.my_body li input{
+		display: block;
+		margin-left:0.5rem;
+		-webkit-box-flex: 1;
+		background-color: rgba(255, 255, 255, 0);
+		outline: none;
+		color: #666;
+		height: 2rem;
+		line-height:2rem;
+	}
+	.btn{
+		display: block;
+		color: #FFFFFF;
+		margin: 0 30px 10px;
+		text-align: center;
+		border-radius: 8px;
+		height: 2rem;
+		line-height: 2rem;
+		background-color: #e55600;
+	}
+	.notice span{
+		height: 2rem;
+		line-height: 2rem;
+		color: #DADADA;
+	}
+	#city{
+		display:block;
+	}
+	#city select{
+		/*很关键：将默认的select选择框样式清除*/
+		appearance:none;
+		-moz-appearance:none;
+		-webkit-appearance: listbox;
+		text-align: left;
+		float:left;
+		width:30%;
+		height:1rem;
+		line-height:1rem;
+		padding:0;
+		margin:0 1.5%;
+	}
+</style>
+<body>
+<div class="wrap">
+    <div class="my_body">
+        <ul>
+            <li>
+                <input tapmod="" onclick="_focus(this)" name="name" id="name" type="text"
+                       placeholder="输入地址备注名称">
+            </li>
+	        <li>
+		        <input tapmod="" onclick="_focus(this)" name="bank_bankaddr" id="true_name" type="text" placeholder="请输入联系姓名">
+	        </li>
+	        <li>
+		        <input tapmod="" onclick="_focus(this)" name="bank_bankaddr" id="moble" type="text" placeholder="请输入联系电话">
+	        </li>
+            <li id="city">
+		            <select class="prov"></select>
+		            <select class="city" disabled="disabled"></select>
+		            <select class="dist" disabled="disabled"></select>
+            </li>
+            <li>
+                <input tapmod="" onclick="_focus(this)" name="bank_num" id="addr" type="text" placeholder="请输入收货地址">
+            </li>
+	        <li>
+		        <input tapmod="" onclick="_focus(this)" name="bank_num2" id="paypassword" type="password" placeholder="请输入交易密码">
+	        </li>
+        </ul>
+    </div>
+    <div class="btn" tapmode="" onclick="add_goodsAddr()">确认添加</div>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/jquery.cityselect.js?v0.0.2"></script>
+<script type="text/javascript">
+	function clean_view(){
+		$("#name").val(null);
+		$("#true_name").val(null);
+		$("#moble").val(null);
+		$("#city .prov option").first().prop("selected","selected")
+		$("#city .city option").first().prop("selected","selected")
+		$("#city .dist option").first().prop("selected","selected")
+		$("#addr").val(null);
+		$("#paypassword").val(null);
+	}
+    function add_goodsAddr(){
+        var name = $('#name').val();
+	    var truename=$('#true_name').val();
+	    var moble=$("#moble").val();
+        var prov = $('#city .prov option:selected').text();
+        var city = $('#city .city option:selected').text();
+        var dist = $('#city .dist option:selected').text();
+        var addr = $('#addr').val();
+	    var paypassword=$('#paypassword').val();
+	    if(!name){
+		    art('输入一个备注名称');
+		    return;
+	    }
+	    if(!truename){
+		    art('输入联系姓名');
+		    return;
+	    }
+	    if(!moble){
+		    art('选择联系电话');
+		    return;
+	    }
+        if(!prov){
+            art('选择省份名称');
+            return;
+        }
+        if(!addr){
+            art('输入收货地址');
+            return;
+        }
+	    if(!paypassword){
+		    art('请输入交易密码');
+		    return;
+	    }
+	    if(!city){
+		    art('请选择城市');
+	    }
+	    alog(prov);
+	    alog(city);
+       loading("提交中……")
+			    UserAjax('user/goods_up', 'post',
+				    {
+					    'name': name,
+					    'truename':truename,
+					    'moble':moble,
+					    'prov': prov,
+					    'city': city+dist,
+					    'addr': addr,
+					    'paypassword': paypassword,
+				    },
+				    function (ret) {
+					    toast.hide();
+					    if (ret.status==1) {
+							    art(ret.info)
+						    clean_view()
+						    return;
+						    api.execScript({
+							    name: 'goods_addr_h',
+							    frameName: 'goods_addr_body',
+							    script: "get_data(callback)"
+						    });
+						    setTimeout("api.closeWin();", 2000);
+					    } else {
+						   art(ret.info);
+					    }
+				    });
+		    }
+
+    apiready = function(){
+        onerror = error_handel;
+	    $("#city").citySelect({
+		    nodata:"none",
+		    required:false,
+		    prov:'北京',
+		    city:'东城区',
+	    });
+    }
+</script>
+</html>

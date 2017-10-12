@@ -1,0 +1,34 @@
+{include file="header"}
+
+<div id="wrapper">
+    <h1>{#qklang('Connected Peers')}</h1>
+    <br />
+
+    <table class="table table-striped table-condensed">
+        <tr>
+            <th>{#qklang('IP Address')}</th>
+            <th>{#qklang('Port')}</th>
+            <!--<th>{#qklang('Services')}</th>-->
+            <th>{#qklang('Version')}</th>
+            <th>{#qklang('conntime')}</th>
+        </tr>
+
+        {if $peers}
+            {foreach $peers as  $key => $value}
+                <?php $ip_port = explode(':', $value["addr"]);?>
+                <tr>
+                    <td>{$ip_port[0]}</td>
+                    <td>{$ip_port[1]}</td>
+                    <!--<td>{$value["services"]}</td>-->
+                    <td>{$value["version"]}</td>
+                    <td>{#addtime($value["conntime"])}</td>
+                </tr>
+            {/foreach}
+
+        {else}
+            <tr><td colspan='5'>There are currently 0 connected peers.</td></tr>
+        {/if}
+    </table>
+</div>
+
+{include file="footer"}

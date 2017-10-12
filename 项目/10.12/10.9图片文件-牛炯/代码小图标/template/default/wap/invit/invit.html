@@ -1,0 +1,147 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/api.css">
+</head>
+<style>
+    .my_body{
+        margin: 10px;
+        position: relative;
+        border-radius: 6px;
+        text-align: center;
+    }
+    .my_body ul,.my_title ul{
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 10px;
+        list-style: none;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+    }
+    .my_body .qrcode{
+        /*background-color: #313840;*/
+        /*border: 1px solid #545353;*/
+        display: inline-block;
+        padding: 1rem;
+    }
+    .invit_title{
+        height: 3rem;
+        line-height: 3rem;
+        text-align: left;
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 2rem 2rem 1rem 0;
+	    color: #313840;
+    }
+    .invit_title span{
+        color: #e55600;
+        margin: 0 1rem;
+    }
+    .qr_word{
+        color: gray;
+        margin-top: 1rem;
+    }
+    .my_body .other{
+        margin: 2rem;
+    }
+    .my_body .other button{
+        height: 3rem;
+        width:  100%;
+        line-height: 3rem;
+        margin: 1rem 0;
+        outline: none;
+        color: white;
+    }
+    .my_body .other .tj{
+        background-color: #e55600;
+    }
+    .my_body .other .jp{
+        background-color: #55c931;
+    }
+</style>
+<body>
+<div class="wrap">
+    <div class="my_body">
+        <ul>
+            <li class="invit_title">
+                专属邀请码:<span id="invitCode"></span>
+            </li>
+	        <div id="wallet_qrcode" class="qrcode" style="margin: 10px auto">
+	        </div>
+            <li>
+                <span class="qr_word">扫描一下,立享推荐奖励</span>
+            </li>
+            <li class="other">
+                <button tapmod="" onclick="my_tj()" class="tj" type="button">我的推荐</button>
+                <button tapmod="" onclick="my_jp()"  class="jp" type="button">我的奖品</button>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/qrcode.js"></script>
+<script type="text/javascript">
+    function my_tj(){
+	    openWin({
+		    name: 'reward_h',
+		    url: aurl('html/invit/recommended_h'),
+		    slidBackEnabled:false,
+		    delay:100
+	    });
+    }
+
+    function my_jp(){
+		    openWin({
+			    name: 'reward_h',
+			    url: aurl('html/invit/reward_h'),
+			    slidBackEnabled:false,
+			    delay:100
+		    });
+
+    }
+
+    apiready = function(){
+        onerror = error_handel;
+	    var userInfo = memObj('userinfo');
+	    buildCode(userInfo);
+	    getUserInfo();
+
+    }
+
+    function getUserInfo() {
+
+	    UserAjax('user/userinfo', 'get', '', function (ret) {
+//            alert(JSON.stringify(ret));
+		    if (ret.status == 1) {
+
+			    //存储mem
+			    memObj('userinfo', ret.info);
+
+			    alog('==============');
+			    alog(ret);
+			    buildCode(ret.info);
+
+		    }
+	    });
+    }
+
+    var bulidCount = 0;
+    function buildCode(userInfo){
+	    alog("buildCount == "+ (++bulidCount));
+	    try {
+		    var invitHttpCode = typeof userInfo.baseinfo.invit == 'undefined' ? '' : userInfo.baseinfo.invit;
+		    var invitCode = invitHttpCode.split('=')[1];
+		    $('#invitCode').html(invitCode);
+		    $('#wallet_qrcode').html('');
+		    new QRCode(document.getElementById('wallet_qrcode'),invitHttpCode);
+
+	    }catch (e){
+
+	    }
+
+    }
+
+
+
+</script>
+</html>

@@ -1,0 +1,277 @@
+{include file="public:header"}
+<title>转入虚拟币</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<style>
+	.main-block{
+		margin: 10px 10px 20px 10px;
+	}
+	.main-block ul{
+		border-radius: 3px;
+		width: 100%;
+		display: -webkit-box;
+		box-sizing: border-box;
+		font-size: 16px;
+		height: 45px;
+		margin: 10px 0;
+	}
+	.main-block li{
+		overflow: hidden;
+		background-color: #2F3440;
+		height: 45px;
+		line-height: 45px;
+		-webkit-box-flex: 1;
+		box-sizing: border-box;
+		text-align: left;
+		width: 100%;
+		padding-left: 20px;
+		padding-right: 10px;
+	}
+	span{
+		color:#a59494;
+	}
+	.my_body{
+		margin: 20px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul,.my_title ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+	.my_body li{
+		border-radius: 2px;
+		margin: 1rem 0;
+		display: -webkit-box;
+		background-color: #FFF;
+		height: 4rem;
+		padding: 0.5rem;
+	}
+	.my_body li input{
+		display: block;
+		-webkit-box-flex: 1;
+		background-color: rgba(255, 255, 255, 0);
+		outline: none;
+		color: #a59494;
+		height: 4rem;
+	}
+	select{
+		color: darkgrey;
+		display: block;
+		/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+		/*很关键：将默认的select选择框样式清除*/
+		appearance:none;
+		-moz-appearance:none;
+		-webkit-appearance: listbox;
+		/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+		padding-right: 14px;
+		background-color: #FFF;
+		/*height:4rem;*/
+		/*line-height: 4rem;*/
+		text-align: left;
+		border: 0;
+	}
+	.plus img{
+		height: 2rem;
+		margin-top: 1rem;
+	}
+	.bankname{
+		width: 100%;
+		display:block;
+	}
+	.notice span{
+		height: 2rem;
+		line-height: 2rem;
+		color: #a59494;
+	}
+	.my_charge ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		border: 1px solid #55585D;
+		background-color: #2F3440;
+	}
+	.my_charge li{
+		border-radius: 2px;
+		height: 3rem;
+		margin: 0 1rem;
+	}
+	.blue{
+		color: #0096e0;
+		font-weight: bold;
+		min-height:1rem;
+		height:1.2rem;
+	}
+	#bank_type {
+		display: inline-block;
+		line-height:1.5rem;
+		height:1.5rem;
+		min-height:1.5rem;
+		float:right;
+		width: 87%;
+		padding:0 0 0 14px;
+	}
+	.coin-logo {
+		width: 10%;
+		float:left;
+		position: relative;
+		display:inline-block;
+	}
+   .bankname{
+	   overflow:hidden;
+   }
+    .qrcode{
+        padding: 1rem;
+        margin: 1rem;
+    }
+	.qrcode img{
+		margin:0 auto;
+	}
+</style>
+<body>
+<div class="wrap">
+	<div id="show1">
+		<div class="my_body" style="position: relative">
+			<span>可用:</span>
+			<span id="canuse" style="margin-bottom: 1rem">0.00</span>
+			<div>
+            <span id="typelist" class="bankname">
+                <img id="coin_icon" class="coin-logo" src="">
+                <select name="bank" id="bank_type" tapmod="" onchange="selectCoinType()">
+	                <option value="0">...</option>
+                </select>
+            </span>
+			</div>
+			<span style="font-size: 14px">这是您的钱包地址，请将您的<strong class="coin_name">...</strong>转入此地址</span>
+			<div style="border: #FCDBC8 solid 1px; padding-left:10px;">
+				<textarea id="wallet_address" class="blue" style="font-size: 14px" readonly></textarea>
+			</div>
+			<div style="color:#a59494;margin-top: 10px"><span class="coin_name">...</span>钱包地址<input type="button" class="aui-label  aui-label-info" style="margin-left:2rem;font-size:0.6rem" onclick="copy()"    data-clipboard-text="..."
+			                                                                                         data-clipboard-action="copy"  id="copy_button"  value="复制到剪贴板"/></div>
+			<div id="wallet_qrcode" class="qrcode" style="margin: 10px auto">
+            </div>
+		</div>
+	</div>
+</div>
+<script id="coin-list-temp" type="text/x-dot-template">
+	{{ for (var key in it) { }}
+	<option coinTypeID="{{=it[key].id}}" value="{{=it[key].name}}">{{=it[key].title}}</option>
+	{{ } }}
+</script>
+<div id="coin-list" class="main-block"></div>
+<div style="height: 2px;"></div>
+</body>
+
+<script src="__WAP__/js/ext/doT.min.js"></script>
+<script src="__WAP__/js/ext/qrcode.min.js"></script>
+<script src="__WAP__/js/ext/clipboard.js"></script>
+<script type="text/javascript">
+	var initData;
+	apiready = function () {
+		onerror = error_handel;
+		getInitData();
+	}
+	//获取基本数据
+	function getInitData() {
+        loading();
+		UserAjax('finan/coinin_show', 'get', '', function (ret) {
+			alog(ret);
+            toast.hide();
+			if (ret.status == 1)
+			{
+				initData = ret.info;
+				createView(ret.info);
+			}
+			else {
+				art(ret.info);
+			}
+		});
+	}
+
+	function createView () {
+		alog("创建界面");
+		var data = arguments[0];
+		if (typeof data == 'null') {
+			art("createView参数错误.view:chose");
+			return;
+		}
+		alog(data);
+		var coinInType = doT.template($("#coin-list-temp").html());
+		$('#bank_type').html(coinInType(data.list));
+		if(iv('ename')){
+			updateViewValue(data,iv('ename'));
+		}
+		else {
+			updateViewValue(data);
+		}
+	}
+
+	function updateViewValue(){
+		var data = arguments[0];
+        var key = arguments[1];
+		if ( typeof data == 'undefined')
+		{
+			art("updateViewValue参数错误，view：chose");
+			return;
+		}
+        //设置默认值
+			if (typeof key == 'undefined' ||  key == 'null') {
+				key = data.default.name;
+			}
+        $('#bank_type option').filter(function(){ return this.value == key }).prop("selected","selected");
+        alog("选择key="+key);
+        alog(data);
+		//可用
+		$("#canuse").html(data.list[key].keyong);
+		$(".coin_name").html(data.list[key].title);
+		$("#coin_icon").attr("src",data.list[key].img);
+        //设置
+		$("#wallet_qrcode").html('');
+        UserAjax('finan/coinin_qianbao','get',{'coin':key},function(ret){
+	        if(ret.status==1) {
+		        $("#wallet_address").val(!isNull(ret.info.status) ? ret.info.qianbao : "当前币种禁止转入");
+		        if (!isNull(ret.info.qianbao) && !checkChinese(ret.info.qianbao)) {
+			        new QRCode(document.getElementById('wallet_qrcode'), ret.info.qianbao);
+		        }
+	        }
+        })
+	}
+
+	function selectCoinType(){
+		var selectedKey = $('#bank_type option').filter(function(){ return this.selected }).attr('value');
+		updateViewValue(initData,selectedKey);
+		alog("选择key:"+selectedKey);
+	}
+
+
+	//复制地址
+	function copy() {
+		var addr = $("#wallet_address").text();
+		if (!addr || addr == "当前币种禁止转入" || addr == '生成钱包地址出错') {
+			art('钱包地址不存在')
+			return
+		}
+
+		$("#copy_button").attr("data-clipboard-text",addr);
+		var clipboard = new Clipboard("#copy_button");
+		clipboard.on("success",function (element) {//复制成功的回调
+			art("复制成功");
+		});
+		clipboard.on("error",function (element) {//复制成功的回调
+			art("浏览器暂不支持，请手动复制");
+		});
+	}
+</script>
+</html>

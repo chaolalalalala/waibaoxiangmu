@@ -1,0 +1,606 @@
+<div id="all_mask_goolebox" class="all_mask_loginbox" style="display: none;">
+    <div class="login_title pl20">{#lang('谷歌验证')}</div>
+    <form id="form-goole" class="mask_wrap login-fb">
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('谷歌密码')}：</div>
+            <input id="goole_password" class="texts hg40 w250" type="password" placeholder="{#lang('请输入谷歌密码')}">
+        </div>
+        <div class="login_button">
+            <input type="button" value="{#lang('验证')}" onclick="footer_goole();" class="btns2  hg40 w250">
+        </div>
+    </form>
+    <div class="mask_wrap_close" onclick="wrapClose()"><i class="fa fa-times fz_20 move" aria-hidden="true"></i></div>
+</div>
+<div id="all_mask_yidibox" class="all_mask_loginbox" style="display: none;">
+    <div class="login_title pl20">{#lang('异地登录验证')}</div>
+    <form id="form-yidi" class="mask_wrap login-fb">
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('获取验证码')}：</div>
+			<span id="yidi1">
+				<input type="button" value="{#lang('发送短信验证码')}" class="btns" onclick="moble_yidi('sms')"
+                        style="width: 100px;font-size: 12px;"/> <input type="button" value="{#lang('发送语音验证码')}"
+                    class="btns" onclick="moble_yidi('tel')"
+                    style="width: 100px;font-size: 12px;"/>
+			</span>
+			<span id="yidi2" style="display:none;">
+				 <span id="yidi3" class="movesay"
+                         style="left: 210px;font-size:14px;padding-top: 5px;    height: 34px;line-height: 34px;"></span>
+			</span>
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('短信验证码')}：</div>
+            <input id="yidi_password" class="texts hg40 w250" type="password" placeholder="{#lang('请输入短信验证码')}">
+        </div>
+        <div class="login_button">
+            <input type="button" value="{#lang('验证')}" onclick="footer_yidi();" class="btns2  hg40 w250">
+        </div>
+    </form>
+    <div class="mask_wrap_close" onclick="wrapClose()"><i class="fa fa-times fz_20 move" aria-hidden="true"></i></div>
+</div>
+<div class="clear">
+</div>
+<div class="bottom mart20 " style="width:100%;position: absolute;left: 0;bottom: :0;min-width: 1200px;">
+	<div class="bot-cent f-clear borb1">
+		<div class="flle posr">
+			<img src="/static/style/img/bottom-logo.png" alt="" class="mart20">
+
+			<ul class="f-clear ul2 textc mart20 bmouse1">
+				<li>
+					<div class="hide wbwxem bacw wb">
+						客服电话：<br> {$config['contact_moble'][0]}
+						<div class="sanjiao2"></div>
+					</div>
+					<img src="/static/style/img/b-weibo.png" alt="">
+				</li>
+				<li>
+					<div class="hide  bacw bwx">
+						<div class="sanjiao2"></div>
+					</div>
+					<img src="/static/style/img/b-weixin.png" alt=""></li>
+				<li>
+					<div class="hide wbwxem bacw bqq">
+						客服QQ：{$config['contact_qq'][0]}
+						<div class="sanjiao2"></div>
+					</div>
+					<img src="/static/style/img/b-qq.png" alt=""></li>
+				<li>
+					<div class="hide wbwxem bacw bem">
+						企业邮箱：admin@bihuo168.com
+						<div class="sanjiao2"></div>
+					</div>
+					<img src="/static/style/img/b-email.png" alt=""></li>
+			</ul>
+
+		</div>
+
+		<ul class="flri  ul2  w750 ">
+			{foreach $footer_article as $k => $v}
+				<li>
+					<div class="cw">{$v['title']}</div>
+					{foreach $v['list'] as $kk => $vv}
+						<a href="/i/blog_c_{$vv['id']}.jsp"><div class="c96 mart10">{$vv['title']}</div></a>
+					{/foreach}
+					<!--a href="/i/blog_t_{$v['id']}.jsp"><div class="c96 mart10">{#lang('更多')}</div></a-->
+				</li>
+			{/foreach}
+
+			<li>
+				<div class="cw ">联系我们</div>
+				<a href="/i/contact.jsp">
+					<div class="c96 b-lianxi mart10 line25"><img src="/static/style/img/b-phone.png" alt="">客服：{$config['contact_moble'][0]}</div>
+				</a>
+				<a href="/i/contact.jsp">
+					<div class="c96 b-lianxi  line25"><img src="/static/style/img/b-phone.png" alt="">海外：+0086 {$config['contact_moble'][0]}</div>
+				</a>
+				<a href="/i/contact.jsp">
+					<div class="c96 b-lianxi  line25"><img src="/static/style/img/b-em2.png" alt="">邮箱：admin@bihuo168.com</div>
+				</a>
+				<a href="/i/contact.jsp">
+					<div class="c96 b-lianxi  line25"><img src="/static/style/img/b-qq2.png" alt="">客服QQ：{$config['contact_qq'][0]}</div>
+				</a>
+				<a href="/i/contact.jsp">
+					<div class="c96 b-lianxi  line25"><img src="/static/style/img/b-qq2.png" alt="">QQ交流群：638702245</div>
+				</a>
+				<a href="/i/contact.jsp">
+					<div class="c96 b-lianxi  line25"><img src="/static/style/img/b-weixin2.png" alt="">客服微信：bihuo168com</div>
+				</a>
+				<a href="/i/contact.jsp">
+					<div class="c96 b-lianxi  line25"><img src="/static/style/img/b-weixin2.png" alt="">行情微信平台：bihuo2008</div>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div class="bot-cent mart20 f-clear textc">
+		<div class="c96 textc  bjuzhong1">为了您能更好的浏览和体验本站内容，浏览器建议使用Google Chrome，分辨率建议使用1366x768以上</div>
+		<div class="c96 textc  bjuzhong1"> CopyRight 2013-2016 币火网交易平台 All Rights Reserved | ICP备案:{$config['web_icp']} |
+			公安备案:11010702001519号
+		</div>
+		<div class="c96 textc  bjuzhong1">为保证用户密码和资金安全,币火网已启用https加密,SSL证书加密传输确保数据在传送中不被劫持和改变，率先通过WebTrust和BSI的国际权威认证
+			信息安全已进入国际标准水平。
+
+		</div>
+		<div class="bjuzhong2">
+			<ul>
+				<li class="flle"><img src="/static/style/img/b01-1.png" alt="" class=" marz10"></li>
+				<li class="flle"><img src="/static/style/img/b02-1.png" alt="" class=" marz10"></li>
+				<li class="flle"><img src="/static/style/img/b03-1.png" alt="" class=" marz10"></li>
+				<li class="flle"><img src="/static/style/img/b04-2.png" alt="" class=" marz10"></li>
+				<li class="flle"><img src="/static/style/img/b05-1.png" alt="" class=" marz10"></li>
+				<li class="flle"><img src="/static/style/img/b06-1.png" alt="" class=" marz10"></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+<div class="tanchu yincang">
+	<div class="f-clear ">
+		<img src="/static/style/img/close.png" alt="" class="flri close">
+	</div>
+	<img src="/static/style/img/gongan.png" alt="" class="img1 mart10">
+</div>
+<div class="tanchu yincang gxb">
+	<div class="f-clear ">
+		<img src="/static/style/img/close.png" alt="" class="flri close">
+	</div>
+	上传中1
+</div>
+<div class="tanchu yincang jyxk">
+	<div class="f-clear ">
+		<img src="/static/style/img/close.png" alt="" class="flri close">
+	</div>
+	上传中2
+</div>
+<div class="tanchu yincang cxwz">
+	<div class="f-clear ">
+		<img src="/static/style/img/close.png" alt="" class="flri close">
+	</div>
+	上传中3
+</div>
+<div class="tanchu yincang aqjm">
+	<div class="f-clear ">
+		<img src="/static/style/img/close.png" alt="" class="flri close">
+	</div>
+	上传中4
+</div>
+<div class="tanchu yincang 360">
+	<div class="f-clear ">
+		<img src="/static/style/img/close.png" alt="" class="flri close">
+	</div>
+	上传中5
+</div>
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b2b2e593e143b7c5db55ffb79f775882";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!--{include file="kefu:index"}-->
+<script type="text/javascript">
+	// 弹窗警告
+	$(function () {
+		var waring = $.cookies.get('move_waring');
+		if (!waring) {
+			var web_tc_close = "{$config['web_tc_close']}";
+			if (web_tc_close == 1) {
+				layer.open({
+					type: 2,
+					btn: ['我已了解以上风险'],
+					skin: 'layui-layer-rim', // 边框
+					area: ['60%', '80%'], // 宽高
+					title: '{#lang("风险警告")}', // 标题
+					content: "{#url('index/waring')}",
+					yes: function (index, layero) {
+						$.cookies.set('move_waring', 1);
+						layer.close(index);
+					},
+					cancel: function (index, layero) {
+						$.cookies.set('move_waring', 1);
+						layer.close(index);
+					}
+				});
+			}
+		}
+	});
+</script>
+<script type="text/javascript">
+	box();
+	function box(){
+		var boxs=$('.all_mask_loginbox');
+			for(var i=0;i<boxs.length;i++){// 弹窗位置居中设置
+				var width=$(boxs[i]).outerWidth();
+				var height=$(boxs[i]).outerHeight();
+				$(boxs[i]).css({
+					'top':'50%',
+					'left':'50%',
+					'margin-left':'-'+(width/2)+'px',
+					'margin-top':'-'+(height/2)+'px'
+				})
+			}
+	}
+
+
+	$(function () {
+		var userid = "{$userid}";
+		if (window.location.hash == '#login') {
+			if (!userid) {
+				loginpop();
+			}
+		}
+
+		check_zzc();
+
+		if (window.location.hash == '#goole') {
+			goolepop();
+		}
+
+		if (window.location.hash == '#yidi') {
+			yidipop();
+		}
+
+
+		var move_moble = $.cookies.get('move_moble');
+		if (move_moble != '' && move_moble != null) {
+			$("#login_moble").val(move_moble);
+		}
+	});
+	function check_zzc() {
+		$.getJSON("/ajax/check_zzc/t=" + Math.random(), function () {
+
+			setTimeout('check_zzc()', 5000);
+		});
+	}
+	price();
+	function price() {
+		$.getJSON("/ext/bihuo168price.jsp?t=" + Math.random(), function (data) {
+			show_price('btc', data.btc);
+			show_price('ltc', data.ltc);
+			show_price('eth', data.eth);
+			show_price('etc', data.etc);
+			show_price('qtum', data.qtum);
+			show_price('eos', data.eos);
+			show_price('bts', data.bts);
+			show_price('pay', data.pay);
+			show_price('ans', data.ans);
+		});
+		setTimeout('price()', 5000);
+	}
+
+	function show_price(name, price) {
+		var  dom = '.' + name + '_price_header';
+		if($(dom).hasClass('c36a')) {
+			$(dom).removeClass('c36a').addClass('cff7').text('￥' + price.buy + ' ↑ ');
+		} else {
+			$(dom).removeClass('cff7').addClass('c36a').text('￥' + price.sell + ' ↓');
+		}
+		dom = '.' + name + '_price';
+
+		if($(dom).hasClass('cff7')) {
+			$(dom).removeClass('cff7').addClass('cw').html('￥' + price.buy + '<span class="icon-arrowdown"><img src="/static/style/img/down.png" alt="" class="w35"></span>');
+		} else {
+			$(dom).removeClass('cw').addClass('cff7').html('￥' + price.sell + '<span class="icon-arrowup"><img src="/static/style/img/up.png" alt="" class="w35"></span>');
+		}
+	}
+
+	function login_verify_ups() {
+		$('#login_verify_up').attr('src', "{#url('verify/code')}?t=" + Math.random());
+	}
+
+	function loginpop() {
+		var userid = "{$userid}";
+		if(userid) {
+			return;
+		}
+		var height = $(document).height();
+		var width  = $(document).width();
+		if (height < 1000) {
+			height = 1000;
+		}
+
+		$('.all_mask').css({'height': height,'width':width});
+		$('.all_mask').show();
+		$('#all_mask_loginbox').show();
+	}
+
+	function goolepop() {
+		var height = $(document).height();
+		var width  = $(document).width();
+
+		if (height < 1000) {
+			height = 1000;
+		}
+		$('.all_mask').css({'height': height,'width':width});
+		$('.all_mask').show();
+		$('#all_mask_goolebox').show();
+	}
+
+
+	function yidipop() {
+		var height = $(document).height();
+		var width  = $(document).width();
+		if (height < 1000) {
+			height = 1000;
+		}
+		$('.all_mask').css({'height': height,'width':width});
+		$('.all_mask').show();
+		$('#all_mask_yidibox').show();
+	}
+
+
+	function moble_yidi(type) {
+		$.post("{#url('verify/yidi')}", {
+			type: type,
+		}, function (data) {
+			if (data.status == 1) {
+
+				layer.msg(data.info, {icon: 1});
+				$('#yidi1').hide();
+				$('#yidi2').show();
+
+
+				var obj = $('#yidi3');
+				var wait = 30;
+				var interval = setInterval(function () {
+					obj.html("<a class='movesay'>" + wait + "{#lang('秒可再次发送')}" + "</a>");
+					wait--;
+					if (wait < 0) {
+						clearInterval(interval);
+						$("#verify").val('');
+						$('#yidi2').hide();
+						$('#yidi1').show();
+
+						//obj.html('<a class="move" onclick="new_send()">{#lang("点击重新发送")}</a>');
+					}
+					;
+				}, 1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+
+	function wrapClose() {
+		$('.all_mask').hide();
+		$('.all_mask_loginbox').hide();
+	}
+
+	function footer_login() {
+		var moble = $("#login_moble").val();
+		var mobles = $("#login_mobles").val();
+		var password = $("#login_password").val();
+		var verify = $("#login_verify").val();
+
+		if (moble == "" || moble == null) {
+			layer.tips('{#lang("请输入手机号")}', '#login_moble', {tips: 2});
+			return false;
+		}
+		if (password == "" || password == null) {
+			layer.tips('{#lang("请输入登录密码")}', '#login_password', {tips: 2});
+			return false;
+		}
+		if (verify == "" || verify == null) {
+			layer.tips('{#lang("请输入验证码")}', '#login_verify', {tips: 2});
+			return false;
+		}
+
+		$.post("{#url('login/up_login')}", {
+			moble: moble,
+			mobles: mobles,
+			password: password,
+			verify: verify,
+			login_token: "{$login_token}",
+		}, function (data) {
+			if (data.status == 1) {
+				$.cookies.set('move_moble', moble);
+				layer.msg(data.info, {icon: 1});
+				if (data.url) {
+					window.location = data.url;
+				} else {
+					window.location.reload();
+				}
+			} else {
+				$("#login_verify_up").click();
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+
+	function footer_goole() {
+		var password = $("#goole_password").val();
+
+
+		if (password == "" || password == null) {
+			layer.tips('{#lang("请输入谷歌密码")}', '#goole_password', {tips: 2});
+			return false;
+		}
+
+		$.post("{#url('login/goole')}", {
+			password: password,
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				if (data.url) {
+					window.location = data.url;
+				} else {
+					window.location = '/';
+				}
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+
+	function footer_yidi() {
+		var password = $("#yidi_password").val();
+
+
+		if (password == "" || password == null) {
+			layer.tips('{#lang("请输入短信验证码")}', '#yidi_password', {tips: 2});
+			return false;
+		}
+
+		$.post("{#url('login/yidi')}", {
+			password: password,
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				if (data.url) {
+					window.location = data.url;
+				} else {
+					window.location = '/';
+				}
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+</script>
+</body>
+<script type="text/javascript">
+	//执行class="mv-hide" 内代码
+	$(document).ready(function () {
+		$.each($(".mv-hide"), function () {
+			eval($(this).html());
+		});
+	});
+</script>
+<!--图片异步加载插件js-->
+<script src="__EXT__/lazyload/jquery.lazyload.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$("img.lazy").lazyload({
+		effect: "fadeIn",
+		threshold: 200
+	});
+</script>
+
+<script>
+	$(".nav_hover").hover(function () {
+
+		$(this).find(".nav_xiala").show()
+	}, function () {
+
+		$(this).find(".nav_xiala").hide()
+	});
+	$(".xiugai1 .col-xs-3").hover(function () {
+		var src = $(this).find("img")[0].src;
+		$(this).css("background-color", "#ff6000");
+		$(this).css("color", "white");
+		src = src.split("-1.png");
+		src = src[0] + ".png";
+
+		$(this).find("img").attr("src", src);
+	}, function () {
+		var src1 = $(this).find("img")[0].src;
+		$(this).css("background-color", "white");
+		$(this).css("color", "black");
+		src1 = src1.split(".png");
+		src1 = src1[0];
+
+		$(this).find("img").attr("src", src1 + "-1.png")
+	});
+	$(".xiugai2 .col-xs-3").hover(function () {
+		var src = $(this).find("img")[0].src;
+		$(this).css("background-color", "#ff6000");
+		$(this).css("color", "white");
+		src = src.split("-1.png");
+		src = src[0] + ".png";
+
+		$(this).find("img").attr("src", src);
+	}, function () {
+		var src1 = $(this).find("img")[0].src;
+		$(this).css("background-color", "white");
+		$(this).css("color", "black");
+		src1 = src1.split(".png");
+		src1 = src1[0];
+		$(this).find("img").attr("src", src1 + "-1.png")
+	});
+
+
+	var item = 0;
+	$(".nav-btn").click(function () {
+		if (item == 0) {
+			$(".nav-btn-show").show();
+			$(".sanjiao").show();
+			item = 1;
+		} else {
+			$(".nav-btn-show").hide();
+			$(".sanjiao").hide();
+			item = 0;
+		}
+	});
+	$(".nav-btn-show").mouseleave(function () {
+		$(".sanjiao").hide();
+		$(".nav-btn-show").hide();
+		item = 0;
+	});
+
+	/*bottomshijian*/
+	$(".bmouse1 li").hover(function () {
+		var index = $(this).index();
+		var src = $(this).find("img")[0].src;
+		src = src.split(".png");
+		src = src[0];
+		console.log(index);
+		$(this).find("img").attr("src", src + "-1.png");
+		$(this).find(".hide").show();
+//        $(".hide").eq(index).show();
+	}, function () {
+		var index = $(this).index();
+		var src = $(this).find("img")[0].src;
+		src = src.split("-1.png");
+		src = src[0] + ".png";
+		$(this).find("img").attr("src", src);
+		$(this).find(".hide").hide();
+//        $(".hide").eq(index).hide();
+	});
+
+
+	$(".china").hover(function () {
+		$(".eng").show()
+	}, function () {
+		$(".eng").hide()
+	});
+
+
+	$(".bjuzhong2 li").click(function () {
+		$(".tanchu").hide()
+		var index2 = $(this).index();
+		$(".tanchu").eq(index2).show();
+
+
+	});
+	$(".close").click(function () {
+		$(".tanchu").hide();
+
+	})
+
+	function chose_lang(lang) {
+		$.cookies.set("lang", lang);
+		window.location.reload();
+	}
+</script>

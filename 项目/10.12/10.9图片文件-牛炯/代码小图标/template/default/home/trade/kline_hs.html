@@ -1,0 +1,5516 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="shortcut icon" type="image/x-icon"  href="https://www.btc123.com/statics/img/favicon/btc123icon.ico" />
+    <meta name="baidu-sit指标参数设置e-verification" content="DwmS6mQC0u" />
+    <meta content="BTC123 - 比特币信息行情第一站，市场实时K线多指标技术分析，包括MACD、EMA均线、RSI等指标，实时更新来自多个交易所如BTC-e、Bitstamp、比特币中国、火币网、OKCoin、796、Coinbase、中国比特币等交易所的比特币行情信息。" name="description">
+    <meta content="Bitcoin,比特币价格,比特币动态K线,K线分析,比特币行情,比特币汇率,比特币价格,比特币行情走势,比特币价格技术指标,比特币期货行情" name="keywords">
+    <link href="https://www.btc123.com/statics/js/kline/css/kline.css" rel="stylesheet" type="text/css">
+    <script src="//cdn.bootcss.com/jquery/1.8.3/jquery.js"></script>
+    <script type="text/javascript" src="https://www.btc123.com/statics/js/common/jquery.history.js"></script>
+    <script src="https://www.btc123.com/statics/js/kline/jquery.mousewheel.js"></script>
+    <style type="text/css">
+        a.kxiana { text-decoration: none;  }
+        a.kxiana:hover {text-decoration:underline!important;}
+        #chart_canvasGroup:after{
+            display: block;
+            width: 100%;
+            height: 100%;
+            content: "";
+            background: url("/statics/img/common/bg_klie.png") 50% 25% no-repeat;
+            background-size: auto 22%;
+            position: absolute;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body style="height:100%;background-color: #000"  >
+<div style="display:none;position:absolute;background-color: #000;border: none;" id="countView">
+    <iframe width="100%" height="100%"></iframe>
+</div>
+<div id="markettop" >
+    <div class="container">
+        <ul class="nav">
+
+            <li class="huobibtccny">
+                <a href="javascript:" title="火币网" name="huobibtccny"><b>火币:</b></a><span></span>
+            </li>
+
+            <li class="okcoincnbtccny">
+                <a href="javascript:" title="OKCoin币行" name="okcoincnbtccny"><b>OKCoin:</b></a><span></span>
+            </li>
+
+            <li class="chbtcbtccny">
+                <a href="javascript:" title="中国比特币" name="chbtcbtccny"><b>中国比特币:</b></a><span></span>
+            </li>
+
+            <li class="huobiltccny">
+                <a href="javascript:" title="火币网" name="huobiltccny"><b>火币-L:</b></a><span></span>
+            </li>
+
+            <li class="okcoincnltccny">
+                <a href="javascript:" title="OKCoin币行" name="okcoincnltccny"><b>OK-L:</b></a><span></span>
+            </li>
+
+            <li class="btceltcusd">
+                <a href="javascript:" title="BTC-E" name="btceltcusd"><b>BTCe-L:</b></a><span></span>
+            </li>
+
+            <li class="bichuangxqgcny">
+                <a href="javascript:" title="币创网" name="bichuangxqgcny"><b>币创-小企股:</b></a><span></span>
+            </li>
+
+            <li class="order_info">
+                <a target="_blank" style="color: orange;"><b>查看挂单</b></a>
+            </li>
+            <li class="depth_info">
+                <a target="_blank" style="color: orange;"><b>查看深度</b></a>
+            </li>
+            <li>
+                <a target="_blank" style="color: orange;" href="https://www.btc123.com/about?type=5&faqId=21"><b>K线说明</b></a>
+            </li>
+            <li>
+                <a target="_blank" style="color: orange;" href="http://kk.btc123.com/"><b>老版K线</b></a>
+            </li>
+            <!-- <div style="padding-left: 15px;margin-top: 8px"><a href="/about?type=5&faqId=21" target="_blank" style="color:#e5e5e5;" class="kxiana">K线说明</a></div> -->
+        </ul>
+    </div>
+</div>
+
+<div id="trade_container">
+    <div class="m_righttop"><a href="https://www.btc123.com" target="_blank"><em></em></a></div>
+    <div class="m_cent">
+        <div class="m_guadan">
+            <div id="market">
+                <a href="https://www.btc123.com" target="_blank" title="BTC123" class="dark"></a>
+
+            </div>
+            <div id="orderbook">
+                <div id="asks">
+                    <div class="table">
+                    </div>
+                </div>
+                <div id="gasks">
+                    <div class="table">
+                    </div>
+                </div>
+                <div id="price" class="red"></div>
+                <div id="bids">
+                    <div class="table">
+                    </div>
+                </div>
+                <div id="gbids">
+                    <div class="table">
+                    </div>
+                </div>
+            </div>
+            <div id="trades" class="trades">
+                <div class="trades_list">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="m_rightbot"></div>
+</div>
+<!-- Chart Container -->
+<div id="chart_container" class="dark" style="width: 2560px; height: 979px; visibility: visible;">
+
+    <!-- Dom Element Cache -->
+    <div id="chart_dom_elem_cache"></div>
+
+    <!-- ToolBar -->
+    <div id="chart_toolbar" style="left: 0px; top: 0px; width: 2560px; height: 29px;">
+        <div class="chart_toolbar_minisep"> </div>
+
+        <!-- Periods -->
+        <div class="chart_dropdown" id="chart_toolbar_periods_vert">
+            <div class="chart_dropdown_t"><a class="chart_str_period">TIME</a></div>
+            <div class="chart_dropdown_data" style="margin-left: -58px;">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li id="chart_period_1w_v" name="1w">  <a class="chart_str_period_1w">1w</a></li>
+                                <li id="chart_period_3d_v" name="3d">  <a class="chart_str_period_3d">3d</a></li>
+                                <li id="chart_period_1d_v" name="1d">  <a class="chart_str_period_1d">1d</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li id="chart_period_12h_v" name="12h"> <a class="chart_str_period_12h">12h</a></li>
+                                <li id="chart_period_6h_v" name="6h">  <a class="chart_str_period_6h">6h</a></li>
+                                <li id="chart_period_4h_v" name="4h">  <a class="chart_str_period_4h">4h</a></li>
+                                <li id="chart_period_2h_v" name="2h">  <a class="chart_str_period_2h">2h</a></li>
+                                <li id="chart_period_1h_v" name="1h">  <a class="chart_str_period_1h">1h</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li id="chart_period_30m_v" name="30m"> <a class="chart_str_period_30m">30m</a></li>
+                                <li id="chart_period_15m_v" name="15m"> <a class="chart_str_period_15m">15m</a></li>
+                                <li id="chart_period_5m_v" name="5m">  <a class="chart_str_period_5m">5m</a></li>
+                                <li id="chart_period_3m_v" name="3m">  <a class="chart_str_period_3m">3m</a></li>
+                                <li id="chart_period_1m_v" name="1m">  <a class="chart_str_period_1m">1m</a></li>
+                                <li id="chart_period_line_v" name="line"><a class="chart_str_period_line">Line</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="chart_toolbar_periods_horz">
+            <ul class="chart_toolbar_tabgroup" style="padding-left:5px; padding-right:11px;">
+                <li id="chart_period_1w_h" name="1w" style="display: inline-block;">  <a class="chart_str_period_1w">1w</a></li>
+                <li id="chart_period_3d_h" name="3d" style="display: inline-block;">  <a class="chart_str_period_3d">3d</a></li>
+                <li id="chart_period_1d_h" name="1d" style="display: inline-block;">  <a class="chart_str_period_1d">1d</a></li>
+                <li id="chart_period_12h_h" name="12h" style="display: none;"> <a class="chart_str_period_12h">12h</a></li>
+                <li id="chart_period_6h_h" name="6h" style="display: none;">  <a class="chart_str_period_6h">6h</a></li>
+                <li id="chart_period_4h_h" name="4h" style="display: none;">  <a class="chart_str_period_4h">4h</a></li>
+                <li id="chart_period_2h_h" name="2h" style="display: none;">  <a class="chart_str_period_2h">2h</a></li>
+                <li id="chart_period_1h_h" name="1h" style="display: inline-block;">  <a class="chart_str_period_1h selected">1h</a></li>
+                <li id="chart_period_30m_h" name="30m" style="display: inline-block;"> <a class="chart_str_period_30m">30m</a></li>
+                <li id="chart_period_15m_h" name="15m" style="display: inline-block;"> <a class="chart_str_period_15m">15m</a></li>
+                <li id="chart_period_5m_h" name="5m" style="display: inline-block;">  <a class="chart_str_period_5m">5m</a></li>
+                <li id="chart_period_3m_h" name="3m" style="display: none;">  <a class="chart_str_period_3m">3m</a></li>
+                <li id="chart_period_1m_h" name="1m" style="display: inline-block;">  <a class="chart_str_period_1m">1m</a></li>
+                <li id="chart_period_line_h" name="line" style="display: inline-block;"><a class="chart_str_period_line">Line</a></li>
+            </ul>
+        </div>
+
+        <!-- Periods -->
+
+
+        <!-- Open TabBar -->
+
+
+        <!-- Open ToolPanel -->
+
+
+        <!-- Theme -->
+
+
+        <!-- Settings -->
+        <div id="chart_show_indicator" class="chart_toolbar_button chart_str_indicator_cap selected">INDICATOR</div>
+        <div id="chart_show_tools" class="chart_toolbar_button chart_str_tools_cap selected">TOOLS</div>
+        <div id="chart_toolbar_theme">
+            <div class="chart_toolbar_label chart_str_theme_cap">THEME</div>
+            <a name="dark" class="chart_icon chart_icon_theme_dark selected"></a>
+            <a name="light" class="chart_icon chart_icon_theme_light"></a>
+        </div>
+        <div class="chart_dropdown" id="chart_dropdown_settings">
+            <div class="chart_dropdown_t"><a class="chart_str_settings">MORE</a></div>
+            <div class="chart_dropdown_data" style="margin-left: -142px;">
+                <table>
+                    <tbody>
+                    <tr id="chart_select_main_indicator">
+                        <td class="chart_str_main_indicator">Main Indicator</td>
+                        <td>
+                            <ul>
+                                <li><a name="MA" class="">MA</a></li>
+                                <li><a name="EMA" class="">EMA</a></li>
+                                <li><a name="BOLL" class="">BOLL</a></li>
+                                <li><a name="SAR" class="">SAR</a></li>
+                                <li><a name="NONE" class="">None</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr id="chart_select_chart_style">
+                        <td class="chart_str_chart_style">Chart Style</td>
+                        <td>
+                            <ul>
+                                <li><a class="">CandleStick</a></li>
+                                <li><a>CandleStickHLC</a></li>
+                                <li><a class="">OHLC</a></li>
+                            </ul>
+                        </td>
+                    </tr><tr id="chart_select_theme" style="display: none;">
+                        <td class="chart_str_theme">Theme</td>
+                        <td>
+                            <ul>
+                                <li><a name="dark" class="chart_icon chart_icon_theme_dark selected"></a></li>
+                                <li><a name="light" class="chart_icon chart_icon_theme_light"></a></li>
+                            </ul>
+                        </td>
+                    </tr><tr id="chart_enable_tools" style="display: none;">
+                        <td class="chart_str_tools">Tools</td>
+                        <td>
+                            <ul>
+                                <li><a name="on" class="chart_str_on selected">On</a></li>
+                                <li><a name="off" class="chart_str_off">Off</a></li>
+                            </ul>
+                        </td>
+                    </tr><tr id="chart_enable_indicator">
+                        <td class="chart_str_indicator">Indicator</td>
+                        <td>
+                            <ul>
+                                <li><a name="on" class="chart_str_on selected">On</a></li>
+                                <li><a name="off" class="chart_str_off">Off</a></li>
+                            </ul>
+                        </td>
+                    </tr><tr>
+                        <td></td>
+                        <td>
+                            <ul><li><a id="chart_btn_parameter_settings" class="chart_str_indicator_parameters">Indicator Parameters</a></li></ul>
+                        </td>
+                    </tr></tbody></table>
+            </div>
+        </div>
+
+        <div class="chart_dropdown market_chooser" id="chart_exchanges_setting_div" style="padding-left: 5px;">
+            <div class="chart_dropdown_t">
+                <a class="chart_exchanges_setting">MORE MARKETS</a>
+            </div>
+            <div class="chart_dropdown_data">
+                <table>
+                    <tbody>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.btc123.com/about?type=5&faqId=14" target="_blank">BTC123指数</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="btc123btccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc123btcusd" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc123btccnymix" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNYMIX
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc123ltccny" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc123ltcusd" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc123ltccnymix" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/CNYMIX
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc123ethcny" title="以太币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETH/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc123ethusd" title="以太币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETH/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc123ethcnymix" title="以太币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETH/CNYMIX
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc123etccny" title="ETC">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc123etcusd" title="ETC">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc123etccnymix" title="ETC">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETC/CNYMIX
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.btcchina.com/" target="_blank">比特币中国</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="btcchinabtccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btcchinaltccny" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/CNY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.huobi.com/" target="_blank">火币网</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="huobibtccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="huobiltccny" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/CNY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.okcoin.cn/" target="_blank">OKCoin币行</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="okcoincnbtccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="okcoincnltccny" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/CNY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.chbtc.com/" target="_blank">中国比特币</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="chbtcbtccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="chbtcltccny" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="chbtcethcny" title="以太币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETH/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="chbtcetccny" title="ETC">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETC/CNY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.okcoin.com/" target="_blank">OKCoin合约</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="okcoinbtcusdfuture" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="okcoinbtcusdfuturequarter" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="okcoinbtcusdfuturenextweek" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="okcoinltcusdfuturequarter" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="okcoinltcusdfuture" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="okcoinltcusdfuturenextweek" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/USD
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.bitvc.com/" target="_blank">BitVC(期货)</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="bitvcbtccnyfuture" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.okcoin.com/" target="_blank">OKCoin(国际)</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="okcoinbtcusd" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="okcoinltcusd" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/USD
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.bitfinex.com/" target="_blank">Bitfinex</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="bitfinexbtcusd" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bitfinexltcusd" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bitfinexethusd" title="以太币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETH/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bitfinexetcusd" title="ETC">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETC/USD
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://exchange.coinbase.com/" target="_blank">Coinbase</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="coinbasebtcusd" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="coinbaseltcusd" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="coinbaseethusd" title="以太币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETH/USD
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.bitstamp.net/" target="_blank">BitStamp</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="bitstampbtcusd" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/USD
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://btc-e.com/" target="_blank">BTC-E</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="btcebtcusd" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btceltcusd" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btceltcbtc" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/BTC
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btceethusd" title="以太币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETH/USD
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="http://www.btctrade.com/" target="_blank">比特币交易网</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="btctradebtccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btctradeltccny" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/CNY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="http://btc38.com/" target="_blank">比特时代</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="btc38btccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38ltccny" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38btscny" title="比特股">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTS/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38dashcny" title="达世币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        DASH/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38dogecny" title="狗狗币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        DOGE/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38nxtcny" title="未来币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        NXT/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38ppccny" title="点点币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        PPC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38xrpcny" title="瑞波币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        XRP/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38xlmcny" title="恒星币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        XLM/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38tagcny" title="悬赏币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        TAG/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38meccny" title="美卡币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        MEC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38xpmcny" title="质数币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        XPM/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38btcwdc" title="世界币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        WDC/BTC
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38zcccny" title="招财币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ZCC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38xemcny" title="新经币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        XEM/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38dgccny" title="数码币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        DGC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38srccny" title="安全币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        SRC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38blkcny" title="黑币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BLK/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38eaccny" title="地球币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        EAC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38bostcny" title="增长币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BOST/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38ybccny" title="元宝币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        YBC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38beccny" title="比奥币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BEC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38btcanc" title="阿侬币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ANC/BTC
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38riccny" title="黎曼币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        RIC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38vashcny" title="微币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        VASH/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38emccny" title="崛起币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        EMC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38qrkbtc" title="夸克币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        QRK/BTC
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38btcqrk" title="夸克币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        QRK/BTC
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38xzccny" title="零币XZC">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        XZC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38ncscny" title="资产股">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        NCS/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38hlbcny" title="活力币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        HLB/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38mgccny" title="众合币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        MGC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38btctmc" title="时代币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        TMC/BTC
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38btcardr" title="阿朵">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ARDR/BTC
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38btcxcn" title="氪石币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        XCN/BTC
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38btcsys" title="系统币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        SYS/BTC
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btc38btcmed" title="地中海币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        MED/BTC
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="http://www.jubi.com/" target="_blank">聚币网</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="jubibtccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="jubiltccny" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="jubidogecny" title="狗狗币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        DOGE/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="jubixrpcny" title="瑞波币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        XRP/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="jubixpmcny" title="质数币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        XPM/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="jubiblkcny" title="黑币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BLK/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="jubivtccny" title="绿币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        VTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="jubiplccny" title="保罗币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        PLC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="jubimtccny" title="猴宝币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        MTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="jubilkccny" title="幸运币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LKC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="jubidnccny" title="暗网币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        DNC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="jubigooccny" title="谷壳币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        GOOC/CNY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://yunbi.com/" target="_blank">云币</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="yunbibtccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yunbiethcny" title="以太币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETH/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yunbietccny" title="ETC">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yunbizeccny" title="零币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ZEC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yunbidgdcny" title="Digix">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        DGD/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yunbi1stcny" title="FirstBlood">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        1ST/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yunbisccny" title="云储币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        SC/CNY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="http://bter.com/" target="_blank">比特儿</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="bterbtccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bterltccny" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bterbtscny" title="比特股">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTS/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bterdashcny" title="达世币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        DASH/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bterdogecny" title="狗狗币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        DOGE/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bterxmrcny" title="门罗币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        XMR/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bternmccny" title="域名币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        NMC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bterifccny" title="无限币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        IFC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bterethcny" title="以太币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETH/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bterethbtc" title="以太币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETH/BTC
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="btermgbtc" title="智慧基因">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        MG/BTC
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bterzeccny" title="零币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ZEC/CNY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://poloniex.com/" target="_blank">Poloniex(P网)</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="poloniexethbtc" title="以太币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETH/BTC
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="poloniexetcbtc" title="ETC">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETC/BTC
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="poloniexetcusd" title="ETC">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="poloniexetceth" title="ETC">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETC/ETH
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="poloniexzecusd" title="零币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ZEC/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="poloniexzecbtc" title="零币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ZEC/BTC
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.kraken.com" target="_blank">Kraken(K网)</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="krakenethusd" title="以太币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETH/USD
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="krakenetcusd" title="ETC">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETC/USD
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.bitmex.com/" target="_blank">BitMEX（期货）</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="bitmexbtcusd" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/USD
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.yuanbao.com" target="_blank">元宝网</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="yuanbaobtccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaobtc2cny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaoltc2cny" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaodoge2cny" title="狗狗币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        DOGE/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaoybc2cny" title="元宝币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        YBC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaozec2cny" title="零币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ZEC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaoans2cny" title="小蚁股">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ANS/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaogame2cny" title="游戏点">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        GAME/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaowtc2cny" title="瓦特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        WTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaomcc2cny" title="行云币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        MCC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaoaxf2cny" title="美基金">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        AXF/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaomc2cny" title="猴币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        MC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaocic2cny" title="众创币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        CIC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaoabc2cny" title="太一股">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ABC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaolmc2cny" title="邻萌宝">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LMC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaoshc2cny" title="分享币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        SHC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="yanbaogp2cny" title="金沛兑换币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        GP/CNY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.allcoin.com/" target="_blank">AllCoin</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="allcoinbtcusd" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/USD
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.bichuang.com/" target="_blank">币创网</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="bichuangbtccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bichuangltccny" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bichuangetccny" title="ETC">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bichuangxqgcny" title="小企股">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        XQG/CNY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.btcbox.co.jp/" target="_blank">BTCBOX</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="btcboxbtcjpy" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/JPY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://corp.zaif.jp/" target="_blank">ZAIF</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="zaifbtcjpy" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/JPY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://coincheck.com/" target="_blank">coinCheck</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="coincheckbtcjpy" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/JPY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://bitflyer.jp/" target="_blank">BitFlyer</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="bitflyerbtcjpy" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/JPY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.quoine.com/" target="_blank">Quoine</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="quoinebtcjpy" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/JPY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.bitekuang.com/" target="_blank">比特矿</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="bitekuangbtccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bitekuangltccny" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="bitekuangethcny" title="以太币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETH/CNY
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.bithumb.com" target="_blank">Bithumb</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="bithumbbtccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/KRW
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.korbit.co.kr/" target="_blank">Korbit</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="korbitbtckrw" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/KRW
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://coinone.co.kr/" target="_blank">Coinone</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="coinonebtckrw" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/KRW
+                                    </a>
+                                </li>
+
+
+
+
+                    <tr>
+                        <td class="marketName_"><a href="https://www.51szzc.com/" target="_blank">51数字资产</a></td>
+                        <td>
+                            <ul>
+
+                                <li>
+                                    <a name="51szzcbtccny" title="比特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        BTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="51szzcltccny" title="莱特币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        LTC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="51szzcethcny" title="以太币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETH/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="51szzcetccny" title="ETC">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ETC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="51szzzcashccny" title="零币">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ZEC/CNY
+                                    </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a name="51szzcanscny" title="小蚁股">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        ANS/CNY
+                                    </a>
+                                </li>
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="chart_dropdown" id="chart_language_setting_div" style="padding-left: 5px;">
+            <div class="chart_dropdown_t">
+                <a class="chart_language_setting">LANGUAGE</a>
+            </div>
+            <div class="chart_dropdown_data" style="padding-top: 15px;">
+                <ul>
+                    <li style="height: 25px;"><a name="zh-cn">简体中文(zh-CN)</a></li>
+                    <li style="height: 25px;"><a name="en-us">English(en-US)</a></li>
+                    <li style="height: 25px;"><a name="zh-tw">繁體中文(zh-HK)</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div id="chart_updated_time">
+            <span class="chart_str_updated">Updated</span>
+            <span id="chart_updated_time_text">0s</span>
+            <span class="chart_str_ago">ago</span>
+        </div>
+    </div>
+    <!-- ToolPanel -->
+    <div id="chart_toolpanel" style="display: inline; left: 0px; top: 30px; width: 32px; height: 949px;">
+        <div class="chart_toolpanel_separator"></div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_Cursor" name="Cursor"></div>
+            <div class="chart_toolpanel_tip chart_str_cursor">Cursor</div>
+        </div>
+        <div class="chart_toolpanel_button selected">
+            <div class="chart_toolpanel_icon" id="chart_CrossCursor" name="CrossCursor"></div>
+            <div class="chart_toolpanel_tip chart_str_cross_cursor">Cross Cursor</div>
+        </div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_SegLine" name="SegLine"></div>
+            <div class="chart_toolpanel_tip chart_str_seg_line">Trend Line</div>
+        </div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_StraightLine" name="StraightLine"></div>
+            <div class="chart_toolpanel_tip chart_str_straight_line">Extended</div>
+        </div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_RayLine" name="RayLine"></div>
+            <div class="chart_toolpanel_tip chart_str_ray_line">Ray</div>
+        </div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_ArrowLine" name="ArrowLine"></div>
+            <div class="chart_toolpanel_tip chart_str_arrow_line">Arrow</div>
+        </div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_HoriSegLine" name="HoriSegLine"></div>
+            <div class="chart_toolpanel_tip chart_str_horz_seg_line">Horizontal Line</div>
+        </div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_HoriStraightLine" name="HoriStraightLine"></div>
+            <div class="chart_toolpanel_tip chart_str_horz_straight_line">Horizontal Extended</div>
+        </div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_HoriRayLine" name="HoriRayLine"></div>
+            <div class="chart_toolpanel_tip chart_str_horz_ray_line">Horizontal Ray</div>
+        </div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_VertiStraightLine" name="VertiStraightLine"></div>
+            <div class="chart_toolpanel_tip chart_str_vert_straight_line">Vertical Extended</div>
+        </div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_PriceLine" name="PriceLine"></div>
+            <div class="chart_toolpanel_tip chart_str_price_line">Price Line</div>
+        </div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_TriParallelLine" name="TriParallelLine"></div>
+            <div class="chart_toolpanel_tip chart_str_tri_parallel_line">Parallel Channel</div>
+        </div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_BiParallelLine" name="BiParallelLine"></div>
+            <div class="chart_toolpanel_tip chart_str_bi_parallel_line">Parallel Lines</div>
+        </div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_BiParallelRayLine" name="BiParallelRayLine"></div>
+            <div class="chart_toolpanel_tip chart_str_bi_parallel_ray">Parallel Rays</div>
+        </div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_DrawFibRetrace" name="DrawFibRetrace"></div>
+            <div class="chart_toolpanel_tip chart_str_fib_retrace">Fibonacci Retracements</div>
+        </div>
+        <div class="chart_toolpanel_button">
+            <div class="chart_toolpanel_icon" id="chart_DrawFibFans" name="DrawFibFans"></div>
+            <div class="chart_toolpanel_tip chart_str_fib_fans">Fibonacci Fans</div>
+        </div>
+        <div style="padding-left: 3px;padding-top: 10px;">
+            <button style="color: red;" id="clearCanvas" title="Clear All" >X</button>
+        </div>
+    </div>
+
+
+    <!-- Canvas Group -->
+    <div id="chart_canvasGroup" style="left: 33px; top: 30px; width: 2500px; height: 926px;" class="temp">
+        <canvas class="chart_canvas" id="chart_mainCanvas" width="2527" height="926" style="cursor: none;"></canvas>
+        <canvas class="chart_canvas" id="chart_overlayCanvas" width="2527" height="926" style="cursor: none;"></canvas>
+    </div>
+    <!-- TabBar -->
+    <div id="chart_tabbar" style="display: block; position:relative; left: 33px; top: 956px; width: 2527px; height: 22px;">
+
+        <ul>
+            <li><a name="MACD" class="">MACD</a></li>
+            <li><a name="KDJ" class="">KDJ</a></li>
+            <li><a name="StochRSI" class="">StochRSI</a></li>
+            <li><a name="RSI" class="">RSI</a></li>
+            <li><a name="DMI" class="">DMI</a></li>
+            <li><a name="OBV" class="">OBV</a></li>
+            <li><a name="BOLL" class="">BOLL</a></li>
+            <li><a name="SAR" class="">SAR</a></li>
+            <li><a name="DMA" class="">DMA</a></li>
+            <li><a name="TRIX" class="">TRIX</a></li>
+            <li><a name="BRAR" class="">BRAR</a></li>
+            <li><a name="VR" class="">VR</a></li>
+            <li><a name="EMV" class="">EMV</a></li>
+            <li><a name="WR" class="">WR</a></li>
+            <li><a name="ROC" class="">ROC</a></li>
+            <li><a name="MTM" class="">MTM</a></li>
+            <li><a name="PSY">PSY</a></li>
+        </ul>
+
+    </div>
+
+    <!-- Parameter Settings -->
+    <div id="chart_parameter_settings" style="left: 960px; top: 281px;">
+        <h2 class="chart_str_indicator_parameters">Indicator Parameters</h2>
+        <table>
+            <tbody><tr>
+                <th>MA</th>
+                <td><input name="MA"><input name="MA"><input name="MA"><input name="MA"><br><input name="MA"><input name="MA"></td>
+                <td><button class="chart_str_default">default</button></td>
+
+                <th>DMA</th>
+                <td><input name="DMA"><input name="DMA"><input name="DMA"></td>
+                <td><button class="chart_str_default">default</button></td>
+            </tr>
+
+            <tr>
+                <th>EMA</th>
+                <td><input name="EMA"><input name="EMA"><input name="EMA"><input name="EMA"><br><input name="EMA"><input name="EMA"></td>
+                <td><button class="chart_str_default">default</button></td>
+
+                <th>TRIX</th>
+                <td><input name="TRIX"><input name="TRIX"></td>
+                <td><button class="chart_str_default">default</button></td>
+            </tr>
+
+            <tr>
+                <th>VOLUME</th>
+                <td><input name="VOLUME"><input name="VOLUME"></td>
+                <td><button class="chart_str_default">default</button></td>
+
+                <th>BRAR</th>
+                <td><input name="BRAR"></td>
+                <td><button class="chart_str_default">default</button></td>
+            </tr>
+
+            <tr>
+                <th>MACD</th>
+                <td><input name="MACD"><input name="MACD"><input name="MACD"></td>
+                <td><button class="chart_str_default">default</button></td>
+
+                <th>VR</th>
+                <td><input name="VR"><input name="VR"></td>
+                <td><button class="chart_str_default">default</button></td>
+            </tr>
+
+            <tr>
+                <th>KDJ</th>
+                <td><input name="KDJ"><input name="KDJ"><input name="KDJ"></td>
+                <td><button class="chart_str_default">default</button></td>
+
+                <th>EMV</th>
+                <td><input name="EMV"><input name="EMV"></td>
+                <td><button class="chart_str_default">default</button></td>
+            </tr>
+
+            <tr>
+                <th>StochRSI</th>
+                <td><input name="StochRSI"><input name="StochRSI"><input name="StochRSI"><input name="StochRSI"></td>
+                <td><button class="chart_str_default">default</button></td>
+
+                <th>WR</th>
+                <td><input name="WR"><input name="WR"></td>
+                <td><button class="chart_str_default">default</button></td>
+            </tr>
+
+            <tr>
+                <th>RSI</th>
+                <td><input name="RSI"><input name="RSI"><input name="RSI"></td>
+                <td><button class="chart_str_default">default</button></td>
+
+                <th>ROC</th>
+                <td><input name="ROC"><input name="ROC"></td>
+                <td><button class="chart_str_default">default</button></td>
+            </tr>
+
+            <tr>
+                <th>DMI</th>
+                <td><input name="DMI"><input name="DMI"></td>
+                <td><button class="chart_str_default">default</button></td>
+
+                <th>MTM</th>
+                <td><input name="MTM"><input name="MTM"></td>
+                <td><button class="chart_str_default">default</button></td>
+            </tr>
+
+            <tr>
+                <th>OBV</th>
+                <td><input name="OBV"></td>
+                <td><button class="chart_str_default">default</button></td>
+
+                <th>PSY</th>
+                <td><input name="PSY"><input name="PSY"></td>
+                <td><button class="chart_str_default">default</button></td>
+            </tr>
+
+            <tr>
+                <th>BOLL</th>
+                <td><input name="BOLL"></td>
+                <td><button class="chart_str_default">default</button></td>
+            </tr>
+            </tbody></table>
+        <div id="close_settings"><a class="chart_str_close">CLOSE</a></div>
+    </div>
+
+    <!-- Loading -->
+    <div id="chart_loading" class="chart_str_loading" style="left: 1180px; top: 232px;">Loading...</div>
+
+</div> <!-- End Of ChartContainer -->
+
+<div style="display: block">
+    <form style="display: inline" id="chart_input_interface">
+        <input style="display: inline" type="text" id="chart_input_interface_text">
+        <input style="display: inline" type="submit" id="chart_input_interface_submit">
+    </form>
+    <form style="display: inline" id="chart_output_interface">
+        <input style="display: inline" type="text" id="chart_output_interface_text">
+        <input style="display: inline" type="submit" id="chart_output_interface_submit">
+    </form>
+</div>
+<div style="display: none" id="chart_language_switch_tmp">
+
+    <span name="chart_str_period" zh_tw="週期" zh_cn="周期" en_us="TIME">
+    <span name="chart_str_period_line" zh_tw="分時" zh_cn="分时" en_us="Line">
+    <span name="chart_str_period_1m" zh_tw="1分钟" zh_cn="1分钟" en_us="1m">
+    <span name="chart_str_period_3m" zh_tw="3分钟" zh_cn="3分钟" en_us="3m">
+    <span name="chart_str_period_5m" zh_tw="5分钟" zh_cn="5分钟" en_us="5m">
+    <span name="chart_str_period_15m" zh_tw="15分钟" zh_cn="15分钟" en_us="15m">
+    <span name="chart_str_period_30m" zh_tw="30分钟" zh_cn="30分钟" en_us="30m">
+    <span name="chart_str_period_1h" zh_tw="1小時" zh_cn="1小时" en_us="1h">
+    <span name="chart_str_period_2h" zh_tw="2小時" zh_cn="2小时" en_us="2h">
+    <span name="chart_str_period_4h" zh_tw="4小時" zh_cn="4小时" en_us="4h">
+    <span name="chart_str_period_6h" zh_tw="6小時" zh_cn="6小时" en_us="6h">
+    <span name="chart_str_period_12h" zh_tw="12小時" zh_cn="12小时" en_us="12h">
+    <span name="chart_str_period_1d" zh_tw="日線" zh_cn="日线" en_us="1d">
+    <span name="chart_str_period_3d" zh_tw="3日" zh_cn="3日" en_us="3d">
+    <span name="chart_str_period_1w" zh_tw="周線" zh_cn="周线" en_us="1w">
+
+    <span name="chart_str_settings" zh_tw="更多" zh_cn="更多" en_us="MORE">
+    <span name="chart_setting_main_indicator" zh_tw="均線設置" zh_cn="均线设置" en_us="Main Indicator">
+    <span name="chart_setting_main_indicator_none" zh_tw="關閉均線" zh_cn="关闭均线" en_us="None">
+    <span name="chart_setting_indicator_parameters" zh_tw="指標參數設置" zh_cn="指标参数设置" en_us="Indicator Parameters">
+
+    <span name="chart_str_chart_style" zh_tw="主圖樣式" zh_cn="主图样式" en_us="Chart Style">
+    <span name="chart_str_main_indicator" zh_tw="主指標" zh_cn="主指标" en_us="Main Indicator">
+    <span name="chart_str_indicator" zh_tw="技術指標" zh_cn="技术指标" en_us="Indicator">
+    <span name="chart_str_indicator_cap" zh_tw="技術指標" zh_cn="技术指标" en_us="INDICATOR">
+    <span name="chart_str_tools" zh_tw="畫線工具" zh_cn="画线工具" en_us="Tools">
+    <span name="chart_str_tools_cap" zh_tw="畫線工具" zh_cn="画线工具" en_us="TOOLS">
+    <span name="chart_str_theme" zh_tw="主題選擇" zh_cn="主题选择" en_us="Theme">
+    <span name="chart_str_theme_cap" zh_tw="主題選擇" zh_cn="主题选择" en_us="THEME">
+
+    <span name="chart_language_setting" zh_tw="語言(LANG)" zh_cn="语言(LANG)" en_us="LANGUAGE">
+    <span name="chart_exchanges_setting" zh_tw="更多市場" zh_cn="更多市场" en_us="MORE MARKETS">
+    <span name="chart_othercoin_setting" zh_tw="其它市場" zh_cn="其它市场" en_us="OTHER MARKETS">
+
+
+    <span name="chart_str_none" zh_tw="關閉" zh_cn="关闭" en_us="None">
+
+    <span name="chart_str_theme_dark" zh_tw="深色主題" zh_cn="深色主题" en_us="Dark">
+    <span name="chart_str_theme_light" zh_tw="淺色主題" zh_cn="浅色主题" en_us="Light">
+
+    <span name="chart_str_on" zh_tw="開啟" zh_cn="开启" en_us="On">
+    <span name="chart_str_off" zh_tw="關閉" zh_cn="关闭" en_us="Off">
+
+    <span name="chart_str_close" zh_tw="關閉" zh_cn="关闭" en_us="CLOSE">
+    <span name="chart_str_default" zh_tw="默認值" zh_cn="默认值" en_us="default">
+
+    <span name="chart_str_loading" zh_tw="正在讀取數據..." zh_cn="正在读取数据..." en_us="Loading...">
+
+    <span name="chart_str_indicator_parameters" zh_tw="指標參數設置" zh_cn="指标参数设置" en_us="Indicator Parameters">
+
+    <span name="chart_str_cursor" zh_tw="光標" zh_cn="光标" en_us="Cursor">
+    <span name="chart_str_cross_cursor" zh_tw="十字光標" zh_cn="十字光标" en_us="Cross Cursor">
+    <span name="chart_str_seg_line" zh_tw="線段" zh_cn="线段" en_us="Trend Line">
+    <span name="chart_str_straight_line" zh_tw="直線" zh_cn="直线" en_us="Extended">
+    <span name="chart_str_ray_line" zh_tw="射線" zh_cn="射线" en_us="Ray">
+    <span name="chart_str_arrow_line" zh_tw="箭頭" zh_cn="箭头" en_us="Arrow">
+    <span name="chart_str_horz_seg_line" zh_tw="水平線段" zh_cn="水平线段" en_us="Horizontal Line">
+    <span name="chart_str_horz_straight_line" zh_tw="水平直線" zh_cn="水平直线" en_us="Horizontal Extended">
+    <span name="chart_str_horz_ray_line" zh_tw="水平射線" zh_cn="水平射线" en_us="Horizontal Ray">
+    <span name="chart_str_vert_straight_line" zh_tw="垂直直線" zh_cn="垂直直线" en_us="Vertical Extended">
+    <span name="chart_str_price_line" zh_tw="價格線" zh_cn="价格线" en_us="Price Line">
+    <span name="chart_str_tri_parallel_line" zh_tw="價格通道線" zh_cn="价格通道线" en_us="Parallel Channel">
+    <span name="chart_str_bi_parallel_line" zh_tw="平行直線" zh_cn="平行直线" en_us="Parallel Lines">
+    <span name="chart_str_bi_parallel_ray" zh_tw="平行射線" zh_cn="平行射线" en_us="Parallel Rays">
+    <span name="chart_str_fib_retrace" zh_tw="斐波納契回調" zh_cn="斐波纳契回调" en_us="Fibonacci Retracements">
+    <span name="chart_str_fib_fans" zh_tw="斐波納契扇形" zh_cn="斐波纳契扇形" en_us="Fibonacci Fans">
+
+    <span name="chart_str_updated" zh_tw="更新於" zh_cn="更新于" en_us="Updated">
+    <span name="chart_str_ago" zh_tw="前" zh_cn="前" en_us="ago">
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></div>
+<script src="https://www.btc123.com/statics/js/kline/kline.assistant.js?666"></script>
+<script type="text/javascript">
+    var mate_keywords="Bitcoin,%market%,比特币价格,比特币动态K线,K线分析,比特币行情,比特币汇率,比特币价格,比特币行情走势,比特币价格技术指标,比特币期货行情";
+    var mate_description="BTC123 - 比特币信息行情第一站，%market% S市场实时K线多指标技术分析，包括MACD、EMA均线、RSI等指标，实时更新来自多个交易所如BTC-e、Bitstamp、比特币中国、火币网、OKCoin、796、Coinbase、中国比特币等交易所的比特币行情信息。";
+    function setMate(str){
+        $("meta[name=keywords]").attr("content",mate_keywords.replace("%market%",str));
+        $("meta[name=description]").attr("content",mate_description.replace("%market%",str));
+    }
+    $(document).ready(function(e) {
+        $("#trades").css("height",$(window).height()-531);
+        window.onresize = function(){
+            $("#trades").css("height",$(window).height()-531);
+        };
+        $("#markettop li a").click(function(){
+            var name=$(this).attr("name");
+            if(name!=undefined && name!=""){
+                switch_market($(this).attr("name"));
+            }
+        });
+    });
+    var kline = new Kline();
+    kline.symbol="huobibtccny";
+    kline.basePath="https://www.btc123.com";
+    kline.tradesLimit=100;
+    kline.dateInit(1495430822513);
+    /* var websocketInterval = setInterval("keepalive(kline.klineWebsocket)",10000);
+
+     function keepalive(ws){
+     var time = new Date().getTime();
+     if (ws.bufferedAmount == 0) {
+     ws.send("{time:"+time+"}");
+     }
+     } */
+</script>
+<script src="https://www.btc123.com/statics/js/kline/kline.draw.js?555"></script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?f759d9e48f973ce43c2fc69528f93e41";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+</body>
+</html>
+
+

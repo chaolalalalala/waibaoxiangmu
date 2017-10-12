@@ -1,0 +1,40 @@
+{include file="header"}
+
+<div id="wrapper">
+    <h1>{#qklang('Search Blockchain')}</h1><br/>
+
+    <form name="search_form" class="form-horizontal" method="get" action="/qukuai/getBlock">
+        <h3>{#qklang('Find Height')}
+            <small>{#qklang('input a valid height')}</small>
+        </h3>
+        <input type="text" class="long_input" name="b" value="" maxlength="34"/>
+        <input type="submit" class="btn" value="{#qklang('Search')}"/>
+    </form>
+
+    <!--<form name="search_form" class="form-horizontal" method="get" action="/qukuai/getAddress">-->
+        <!--<h3>{#qklang('Find Address')}-->
+            <!--<small>{#qklang('input a valid address')}</small>-->
+        <!--</h3>-->
+        <!--<input type="text" class="long_input" name="address" value="" maxlength="34"/>-->
+        <!--<input type="submit" class="btn" value="{#qklang('Search')}"/>-->
+    <!--</form>-->
+
+    <form name="search_form" class="form-horizontal" method="get" action="/qukuai/getTx">
+        <h3>{#qklang('Find Transaction')}
+            <small>{#qklang('input a valid txid')}</small>
+        </h3>
+        <input type="text" class="long_input" name="tx" value="" maxlength="64"/>
+        <input type="submit" class="btn" value="{#qklang('Search')}"/>
+    </form>
+
+    <form name="search_form" class="form-horizontal" method="get" action="/qukuai/getBlock">
+        <h3>{#qklang('Find Block')}
+            <small>{#qklang('input valid block hash')}</small>
+        </h3>
+        <input type="text" class="long_input" name="block" value="" maxlength="64"/>
+        <input type="submit" class="btn" value="{#qklang('Search')}"/>
+    </form>
+
+</div>
+
+{include file="footer"}

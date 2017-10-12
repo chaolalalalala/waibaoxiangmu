@@ -1,0 +1,338 @@
+{include file="smoney:header"}
+<link rel="stylesheet" href="__CSS__/smoney/details.css">
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<style>
+	.crowd_subscribe{margin: 0;margin-left: 54px;}
+	.crowd_subscribe li{width: 116px;}
+</style>
+<div class="ui-container plan-new plan-period-3">
+    <div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;
+        <a href="{#url('smoney/index')}" class="orange">{#lang('理财中心')}</a> &gt; {#lang('理财详情')}
+    </div>
+	<div class="detail-intro fn-clear">
+		<i class="icon-detail detail-newbie-left detail-newer" id="detail-newer" data-newer="1" title="{#lang('该项目为新人专享项目，只有未进行投资的新用户才可以购买')}"></i>
+		<div class="intro-left fn-clear">
+			<div class="ui-box-lhead">
+					<img src="__UP__/{$smoney['img']}" style="width: 30px;margin:15px 15px;" class="left">
+						<h5 class="left"><a href="#" style="" class="left">{$smoney['name']}</a></h5>
+				<a class="left ml20 ">({#lang('编号')}:1000{$smoney['id']})</a>
+			</div>
+			<div class="intro-box-wrap fn-clear" >
+				<ul class="crowd_subscribe clear">
+					<li>
+						<p>{#lang('日化利率')}</p>
+							<span class="red">
+								 {$smoney['fee']} %
+							</span>
+					</li>
+					<li>
+						<p>{#lang('理财总量')}</p>
+							<span class="red">
+                                {$smoney['num']}
+							</span>
+					</li>
+					<li>
+						<p>{#lang('理财周期')}</p>
+							<span class="red">
+                                {$smoney['tian']}天
+							</span>
+					</li>
+					<li>
+						<p>{#lang('起投数量')}</p>
+							<span class="red">
+								{$smoney['min']}
+							</span>
+					</li>
+					<li>
+						<p>{#lang('收益次数/周期')}</p>
+							<span class="red">
+								{$smoney['ci']}次   {$smoney['jian']}小时/次
+							</span>
+					</li>
+					<li>
+						<p>{#lang('累计已理财')}</p>
+							<span class="green">
+								{$smoney['deal']}
+							</span>
+					</li>
+				</ul>
+			</div>
+			<div class="crowd_time" style="width:648px;margin:10px auto">
+				<div class="dowebok_move">
+					{if $smoney['jieshu']==1}
+					<p class="crowd_con_lp" id="cdstatus">{#lang('距离理财结束还有')}：</p>
+					<div class="crowd_time_all dowebok">
+						<div id="t_d" class="days "></div>
+						<em>{#lang('天')}</em>
+						<div id="t_h" class="hours "></div>
+						<em>{#lang('时')}</em>
+						<div id="t_m" class="minutes"></div>
+						<em>{#lang('分')}</em>
+						<div id="t_s" class="seconds "></div>
+						<em>{#lang('秒')}</em>
+					</div>
+					<script src="__EXT__/jquery/jquery.flipTimer.js"></script>
+					<script>
+						$(function () {
+							$('.dowebok').flipTimer({
+								direction: 'down',
+								date: "{#addtime($smoney['sndtime'])}",
+								callback: function () {
+									window.location.reload();
+								}
+							});
+						});
+					</script>
+					{else if $smoney['jieshu']==2}
+					<p class="crowd_con_lp " style="text-align: center;font-size: 22px;letter-spacing: 1px;line-height: 70px;">{#lang('当前理财还未开始')}</p>
+					{else}
+					<p class="crowd_con_lp " style="text-align: center;font-size: 22px;letter-spacing: 1px;line-height: 70px;">{#lang('当前理财已经结束')}</p>
+					{/if}
+				</div>
+			</div>
+			<div class="crowd_pro" style="width:648px;margin:10px auto">
+				<progress style="width: 600px" value="{$smoney['bilv']}" max="100"></progress>
+				<span>{$smoney['bilv']}%</span></div>
+			<div class="crowd_xq" style="width:648px;margin:10px auto">
+				<span class=" mr10 fz_14">{#lang('开启时间')}：<b class="red">{#addtime($smoney['strtime'], 'Y/m/d')}</b></span> <span class=" mr10 fz_14">{#lang('结束时间')}：<b class="red">{#addtime($smoney['sndtime'], 'Y/m/d')}</b></span>
+			</div>
+            <span class=" mr10 fz_14" style="margin-left: 88px;font-weight: bold" >{#lang('赠送币种')}：<b class="red">{#strtoupper($smoney['coinname'])}</b></span>
+
+             <span class=" mr10 fz_14" style="font-weight: bold" >{#lang('赠送比例')}:</span>
+             {if $smoney["bili"]>0}
+             <span style="color: #ff6235;font-weight: bold">
+             
+                {#round(1/$smoney["bili"],2)}{#strtoupper($smoney['coinname'])}/理财
+                </span>
+                {else}
+              
+               <span id="calc-hold-money" class="detail-color-red" style="color: #ff6235;font-weight: bold"></span>&nbsp;<span style="color: #ff6235;font-weight: bold">{#strtoupper($smoney['coinname'])}/{#lang('份')}</span>
+
+                {/if}
+               
+                <p></p>
+
+		</div>
+		<div class="status-box detail-calc-top fn-right">
+			<div class="loan-bidding">
+				<div class="amount-txt">{#lang('我要理财')}</div>
+				<div class="amount-txt2">{#lang('您目前可用人民币')}<span id="residualAmount"><span>{#num($user_coin['cny'])}</span></span></div>
+				<form action="" method="post" id="joinPlanplusForm">
+					<table>
+						<tbody>
+						<tr>
+							<td>
+								<div class="spiner-tips">
+									<div id="spiner-tips"></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="login_text  clear">
+									<span>{#lang('理财数量')}:</span> <input type="text" id="num" class="texts">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+							<div class="login_text  clear ">
+								<span>{#lang('交易密码')}:</span> <input type="password" id="paypassword" class="texts">
+							</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<div class="status-box">
+									<div class="detail-calc-bom detail-color-gray">
+										<div class="calc-box-plan red">
+											
+											
+											<span id="calc-hold-money1" class="detail-color-red"></span> 
+                                          
+											<p style="height: 10px;"></p>
+												
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<script>
+							var id="{$smoney['id']}";
+
+							$('#num').blur(function(){
+								var num=$('#num').val();
+
+								$.post('{#url("smoney/getinfo")}',{
+									id:id,
+									num:num
+								},function(data){
+									var bishu=data.url.toFixed(3);
+									$('.detail-color-red').html('预估赠送币数:'+bishu);
+									$('.fn-hide').show();
+								},'json');
+							});
+							
+							$.post('{#url("smoney/info")}',{
+								id:id
+							},function(data){
+								var num=data['url'].new_price;
+								num=Number(num);
+								$('#calc-hold-money').html(num)
+							},'json');
+
+							setInterval('price()',3000);
+
+						function price(){
+							$.post('{#url("smoney/info")}',{
+								id:id
+							},function(data){
+								var num=data['url'].new_price;
+								num=Number(num);
+								$('#calc-hold-money').html(num)
+							},'json');
+						}
+
+
+
+						</script>
+						<tr >
+							<td class="security-tip fn-hide" >
+								<div class="">{#lang('因行情波动,数据仅供参考')}</div>
+								<p style="height:10px;"></p>
+							</td>
+						</tr>
+						<tr>
+
+							<td><input type="checkbox" id="read" >
+								{if $smoney['acid']}
+								<a href="{#url('article/help/id/'.$smoney['acid'])}">{#lang('我已阅读并同意此条款')}</a>
+								{else }
+								{#lang('我已阅读并同意此条款')}
+							    {/if}
+							</td>
+
+						</tr>
+						<tr>
+							<td>
+								<div class="overtime-pay-desc"><span>{#lang('超时加息')}</span>{#lang('等待越长加息越多，最高可得')}1.0%</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="join-btn-wrap">
+								<a data-iqianjin="phptag_web_plan_detail_02" id="join-btn" class="buy-join-btn ui-button ui-button-mid ui-button-red" onclick="buy_up()">
+									<span>{#lang('立即投资')}</span> </a>
+							</td>
+						</tr>
+
+						</tbody>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="detail-bom">
+		<div id="plan-detail-tab" class="ui-tab detail-bom-left">
+			<ul class="ui-tab-items ui-tab-orange ui-tab-h70">
+				<li class="ui-tab-item ui-tab-item-current" data-iqianjin="phptag_web_plan_detail_03">
+					<a href="#info">{#lang('产品详情')}</a>
+				</li>
+				<li class="ui-tab-item" data-iqianjin="phptag_web_plan_detail_04">
+                    <a href="#join">{#lang('加入记录')}</a>
+				</li>
+			</ul>
+			<div class="ui-tab-content">
+				{$smoney['content'] nofilter}
+			</div>
+
+			<div class="ui-tab-content crowd_list clear" style="display:none;border:none;">
+
+				<div class="f_tab_body ">
+					<table class="f_table" id="investLog_content">
+						<thead>
+						<tr>
+							<th id="sublist-grid_c0">{#lang('用户')}</th>
+							<th id="sublist-grid_c1">{#lang('购买数量')}</th>
+							<th id="sublist-grid_c2">{#lang('购买时间')}</th>
+						</tr>
+						</thead>
+						<tbody>
+						{foreach $pages['list'] as $k => $v}
+						<tr>
+							<td>{$v['username']}</td>
+							<td>{$v['num']}</td>
+							<td>{#addtime($v['addtime'])}</td>
+						</tr>
+						{/foreach}
+						</tbody>
+					</table>
+					<div class="pages">{$pages['show'] nofilter}</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	//var cookie_page;
+
+
+	$('.common-nav-list li').eq(0).children().css({'color':'#0d66bf'});
+
+	$('.ui-tab-item').click(function(){
+		var idx=$(this).index();
+		if(idx==1){
+			localStorage.setItem("pages", 1);
+		}else{
+			localStorage.removeItem("pages");
+		}
+		$('.ui-tab-content').eq(idx).show().siblings('.ui-tab-content').hide();
+		$(this).addClass('ui-tab-item-current').siblings('.ui-tab-item').removeClass('ui-tab-item-current');
+	});
+
+
+	if(localStorage.getItem("pages")){
+		$('.ui-tab-item').eq(1).addClass('ui-tab-item-current').siblings('.ui-tab-item').removeClass('ui-tab-item-current');
+		$('.ui-tab-content').eq(1).show().siblings('.ui-tab-content').hide();
+	}
+
+	function buy_up() {
+		var id          = "{$smoney['id']}";
+		var num         = $('#num').val();
+		var paypassword = $('#paypassword').val();
+		if (num == "" || num == null) {
+			layer.tips('{#lang("请输入理财数量")}', '#num', {tips: 3});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips('{#lang("请输入交易密码")}', '#paypassword', {tips: 3});
+			return false;
+		}
+		if(!$("#read").prop("checked")){
+			layer.tips('{#lang("请同意条款")}', '#read', {tips: 3});
+			return false;
+		}
+		$.post("{#url('smoney/up')}", {id: id, num: num, paypassword: paypassword}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				 window.setTimeout("location.reload()", 1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+</script>
+<script>
+	if ($("#money_box").length > 0) {
+		$('#money_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+
+</script>
+{include file="public:footer"}

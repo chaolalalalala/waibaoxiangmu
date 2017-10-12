@@ -1,0 +1,253 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="{#url('question/index')}" class="orange">问答咨询</a> &gt; {#lang('问答详情')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('问答中心')}
+					</span>
+	                <span>
+                       <a href="{#url('question/index')}" id="step1" class="step fz_12 ml50 pd6 active ">{#lang('问答列表')}</a>
+                        <a href="{#url('question/log')}" id="step2" class="step fz_12 ml20 pd6 ">{#lang('问答记录')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="crowd_list clear">
+
+				<span class="crowd_rule_t fz_20">咨询内容</span>
+				<div class="crowd_list_state mt10"style="font-size:medium">
+					{$arr['title'] nofilter}
+				</div>
+				<div style="float:right">
+				</div>
+			</div>
+			<div class="crowd_con_r" style="margin-top:75px;margin-left:00px">
+				<div class="crowd_my" style="float: left">
+					<div class="login_text zin90 clear mt10"style="width:860px">
+						<textarea style="width:910px;min-height: 100px;border: 2px #cccccc solid;overflow:auto;word-break:break-all;float:right" id="answer" ></textarea>
+						<button type="submit" class="btns2"style="float:left;width:150px;font-size:medium" onclick="answer()" >发表回复</button>
+						<div class="user-profile clearfix" style="margin: 20px;">
+							<ul class="ace-thumbnails">
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="crowd_con clear"style="font-size:small;margin-top:-100px">
+
+				<div class="crowd_con_l " >
+					<ul class="crowd_subscribe clear"style="width:auto">
+						<li><p> 浏览次数：{$arr["view"]}</p></li>
+						<li><p>发布人：{$user["username"]}</p></li>
+
+						<li><p> 问答状态：{ if $arr["status"]==1}
+							    客服还未回复
+						        {else if $arr["status"]==2}
+							      {$arr["content"]}
+							{/if}
+						</p></li>
+						<li>
+							<p>回复获得积分:{$arr["jifen"]}</p>
+							<span class="green">
+								{$arr["price"]}{$arr["price_type"]}
+							</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="crowd_list clear">
+				<span class="crowd_rule_t fz_20">回复记录</span>
+				<div class="f_tab_body mt20">
+					<table class="f_table" id="investLog_content" >
+						<thead>
+						<tr>
+							<th id="sublist-grid_c0">用户</th>
+							<th id="sublist-grid_c1">回复内容</th>
+							<th id="sublist-grid_c2">回复时间</th>
+							<th id="sublist-grid_c3">状态</th>
+							<th id="sublist-grid_c4">操作</th>
+						</tr>
+						</thead>
+						<tbody>
+						{foreach $pages['list'] as $v}
+						<tr>
+							<td>{$v['userid']}</td>
+							<td>{$v['answer']}</td>
+							<td>{#addtime($v['addtime'])}</td>
+							{if $arr["userid"]==session("userid")}
+							<td>{if $v['status']==1}
+								<button type="submit" style="width:100px;height:30px;font-size:small;margin:0 auto" id="{$v['id']}" onclick="certain()" >选为最佳回复</button>
+							    {else if $v['status']==2}
+								   回复成功
+							    {else if $v['status']==0}
+							       审核未通过,请重新再发
+							    {else if $v['status']==3}
+							       <p style="color:limegreen;font-size:medium;font-weight:bold">最佳回复</p>
+							    {/if}
+							</td>
+							{else}
+							<td>
+								{if $v['status']==1}
+								回复成功
+								{else if $v['status']==0}
+								审核未通过,请重新再发
+								{else if $v['status']==3}
+								<p style="color:limegreen;font-size:medium;font-weight:bold">最佳回复</p>
+								{/if}
+							</td>
+							{/if}
+							<td>{ if $v['status']==1}
+								<button type="submit" style="width:60px;height:30px;font-size:small;margin:0 auto" id="reply{$v['id']}" onclick="reply()" >追问回复</button>
+								<button type="submit" style="width:58px;height:30px;font-size:small;margin:0 auto" id="add{$v['id']}" onclick="add()" >补充描述</button>
+							    {else if $v['status']==2}
+								<a data="{$v['id']}" data-align="2" data-toggle="{$v['price']}" data-id="{$tmp}" onclick="showAs(this)" href="javascript:void(0)" class=" w52 sell" style="    padding: 5px;">立即卖出</a>
+
+							    {else if $v['status']==3}
+							    {/if}
+							</td>
+
+
+
+
+
+						</tr>
+						{/foreach}
+						</tbody>
+					</table>
+					<div class="pages">{$pages['show'] nofilter}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function answer(){
+		var q_id="{$arr['id']}"
+		var id =  "{$v['id']}";
+		var answer = $("#answer").val();
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '输入密码，并确认',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('question/answer')}",
+							{
+								q_id   : id,
+								id     : id,
+								answer : answer,
+								paypassword: val
+							},
+							function (data) {
+								if (data.status == 1) {
+									layer.msg(data.info, {icon: 1});
+									window.setTimeout("location.reload()",1000);
+								} else {
+									layer.msg(data.info, {icon: 2});
+									if (data.url) {
+										window.location = data.url;
+									}
+								}
+							}, "json");
+				}
+				;
+			});
+		});
+
+	}
+	function reply(o) {
+		var id =  "{$v['id']}";
+		var content = $("#reply{$v['id']}").val();
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '输入回复内容',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('question/reply')}", {id: id, content: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							window.setTimeout("location.reload()", 1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+
+	}
+	function certain(o) {
+		var id =  "{$arr['id']}";
+
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '输入密码，并确认',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('question/certain')}", {id: id, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							window.setTimeout("location.reload()", 1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+
+	}
+</script>
+<script>
+	if ($("#weike_box").length > 0) {
+		$('#weike_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

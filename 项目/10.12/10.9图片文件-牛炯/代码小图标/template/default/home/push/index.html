@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>发起Push - 币火网 -  www.bihuo168.com </title>
+<meta name="Keywords" content="{$seos['keywords']}">
+<meta name="Description" content=" {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+<link rel="stylesheet" href="/static/style/voteadd.css">
+<link rel="stylesheet" href="/static/style/issueadd.css">
+<div class="autobox">
+	<style>
+.mask_wrap_title{margin-right:10px;		}
+.login_button{margin-left:10px;	}
+.long_width {width:566px; padding-top:10px;}
+.zyt td{border:1px solid #C5C5BC;}
+.mask_wrap_title {margin-left: -10px;}
+.texts {border: 1px solid #C5C5BC;
+    vertical-align: middle;
+    font-size: 16px;
+    width: 230px;
+    height: 44px;
+    line-height: 44px;
+    cursor: pointer; border-radius: 4px;
+    background-color: #FFF;  padding: 5px;}
+	</style>
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="movesay">{#lang('首页')}</a> &gt; {#lang('发起Push')}
+	</div>
+	<div class="main-content">
+		<div class="assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						<a href="/push.jsp" class="step fz_12 ml50 pd6 active"><img src="/static/style/img/weituotu.png" alt="">{#lang('发起Push')}</a>
+						<a href="/push_log_out.jsp" class="step fz_12 ml20 pd6 "><img src="/static/style/img/weituotu.png" alt="">{#lang('转出记录')}</a>
+						<a href="/push_log_in.jsp" class="step fz_12 ml20 pd6 "><img src="/static/style/img/weituotu.png" alt="">{#lang('转入记录')}</a>
+					</span>
+				</h1>
+			</div>
+<script>
+	$.getJSON("/ajax/is_top_user?t=" + Math.random(), function (data) {
+		if (data) {
+			if (data['login']) {
+				$("#dj_mobile").html(''+ data['moble']);
+			}
+		}
+	});
+	$(function() {
+		$('#num, #price').keyup(function() {
+			var num = parseFloat($('#num').val());
+			var price =parseFloat($('#price').val());
+			if(num == '' || price == '')
+				return;
+			var total_price = parseFloat(num * price);
+			if(total_price == 0 || isNaN(total_price))
+				return;
+			$('#total_price').html('总价:'+total_price+' (总价不能低于10)');
+		})
+	})
+</script>
+
+
+			<div class="cnyin_record">
+				<div class="f_body">
+					<div class="f_body_main">
+						<div class="f_tab_body">
+							<div class="step1  pwtrade  pw  mt30 mb20">
+
+
+
+
+
+
+<div class="mytable-body pwtrade" style="border:1px solid #ddd; margin-left:20px; width:95%;">
+
+
+<table class="zyt" style="">
+<tr>
+<td>
+	<div class="login_text zin80 long_width">
+		<div class="mask_wrap_title">{#lang('用户名')}: </div>
+		<div  style=" line-height: 40px;height:40px">  <span id="dj_mobile">******</span>
+		</div>
+	</div>
+</td>
+<td>
+	<div class="login_text zin80 long_width">
+		<div class="mask_wrap_title">{#lang('交易类别')}:  </div>
+		<div class="weituo_bizhong" style="padding-top: 1px;">
+			<div class="bizhong_select" style="    width: 200px;">
+				<div class="bz_btn">
+					<img src="" id="image1" alt="" style=" width: 22px;float: left;margin-top: 7px;margin-right: 5px;"/>
+					<span id="coin-default">
+				<select name="type" id="coin-select" style="margin-top: 6px;" onchange="coin_change()">
+		{foreach $pushCoin as $k => $v}
+		<option value="{$v['name']}" data="{$v['img']}" bili="{$v['shouxufeibili']}" coinname="{$v['title']}"  info="{$v[$v['name']]}"  {if $coin == $v['name']} selected="selected"{/if}>
+		{$v.title} ({#strtoupper($v['name'])})</option>
+		{/foreach}
+				</select></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+	<div class="login_text zin80 long_width">
+		<div class="mask_wrap_title">{#lang('CNY可用金额')}: </div>
+		<div  style=" line-height: 40px;height:40px">￥{#num($user_coin['cny'])}元</div>
+	</div>
+</td>
+<td>
+	<div class="login_text zin80 long_width">
+		<div class="mask_wrap_title">{#lang('手续费')}: </div>
+		<div style=" line-height: 40px;height:40px" id="bili">
+		</div>
+	</div>
+</td>
+</tr>
+
+
+<tr>
+<td>
+	<div class="login_text zin80 long_width">
+		<div class="mask_wrap_title">{#lang('我的积分')}: </div>
+		<div  style=" line-height: 40px;height:40px">{#num($user_coin['jifen']*1,2)}分</div>
+	</div>
+</td>
+<td>
+	<div class="login_text zin80 long_width">
+		<div class="mask_wrap_title">{#lang('对方账户')}:  </div>
+		<input id="uid" class="texts" type="text" placeholder="支持：用户名/邮箱/手机号"> <span style="color:#ea5514">（不支持数字ID）</span>
+	</div>
+</td>
+</tr>
+
+<tr>
+<td>
+	<div class="login_text zin80 long_width">
+		<div class="mask_wrap_title">{#lang('PUSH数量')}:  </div>
+		<input id="num" class="texts" type="text" value="100"><span style="color:#ea5514">（例如：60000）</span>
+	</div>
+</td>
+<td>
+	<div class="login_text zin80 step5 long_width">
+			<div class="mask_wrap_title">验证码：</div>
+			<input type="text" id="push_verify" value="" class="texts w145 hg40" placeholder="请输入验证码">
+			<span style="vertical-align: -17px;line-height: 20px;">
+				<img id="push_verify_up" class="codeImg reloadverify hg40" src="/ajax/verify.html" title="换一张" onclick="push_verify_ups()" width="100" height="34">
+			</span>
+		<div class="login_text zin80 step5 long_width">
+			<div class="mask_wrap_title"></div>
+		<div class="yuyin" style="line-height:40px; width:530px; ">
+			<div class="clear" >
+				{if $sys_sms['sms']==1}
+				<input type="button" value="{#lang('发送短信验证码')}" class="btns" onclick="send_moble_coinout('sms')" style="width: 100px;font-size: 12px;"/>
+				{/if}
+				{if $sys_sms['tel']==1}
+				<input type="button" value="{#lang('发送语音验证码')}" class="btns" onclick="send_moble_coinout('tel')" style="width: 100px;font-size: 12px;"/>
+				{/if}
+				{$user['moble']} ({#lang('接收验证码')})
+			</div>
+		</div>
+			</div>
+	</div>
+</td>
+</tr>
+
+
+<tr>
+<td>
+	<div class="login_text zin80 long_width">
+		<div class="mask_wrap_title">{#lang('PUSH单价')}:  </div>
+		<input id="price" class="texts" type="text" value=""><span id="total_price" style="color:#ea5514">（自定义 例0.46） </span>
+	</div>
+</td>
+<td>
+	<div class="login_text zin80 step6 long_width" style="display:none;width:auto">
+		<div class="mask_wrap_title">{#lang('短信验证码')}:  </div>
+		<div style=" line-height: 40px;height:40px;">
+			<input type="text" id="moble_verify" value="" class="texts" placeholder="{#lang('请输入短信验证码')}"/> <span id="reg_moble_new"></span>
+		</div>
+	</div>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+	<div class="login_text zin80 long_width">
+		<div class="mask_wrap_title">{#lang('交易密码')}:  </div>
+		<input id="paypassword" class="texts" type="password">
+	</div>
+</td>
+<td>
+	<div class="login_text zin80 long_width">
+	<div class="login_button" style="padding-top:10px;  padding-left:80px; ">
+		<input type="button" class="btns2" value="提交信息" onclick="push_up()" style="margin-bottom: 10px; height:51px;">
+	</div>
+	</div>
+</td>
+</tr>
+
+
+</table>
+
+
+
+
+
+
+
+
+
+</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	coin_change()
+
+	function  coin_change() {
+		$("#image1").attr('src',$("#coin-select option:selected").attr('data'));
+		$("#coinval").html($("#coin-select option:selected").attr('info'));
+		$("#coinname").html($("#coin-select option:selected").attr('coinname'));
+		$("#bili").html($("#coin-select option:selected").attr('bili')+'%');
+	}
+
+
+	function send_new() {
+		$(".step6").hide();
+		$(".step5").show();
+	}
+
+	function push_verify_ups() {
+		$('#push_verify_up').attr('src', "/verify/code.html?t=" + Math.random());
+	}
+
+
+	function send_moble_coinout(type) {
+		$.post("/moble_push.jsp", {
+			verify:$('#push_verify').val(),
+			type: type,
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				$(".step5").hide();
+				$(".step6").show();
+				$("#cnyout_moble_verify").focus();
+				$('#moble_new').attr("disabled", "disabled");
+				var obj      = $('#reg_moble_new');
+				var wait     = 60;
+				var interval = setInterval(function () {
+					obj.html(wait + "{#lang('秒可再次发送')}");
+					wait--;
+					if (wait < 0) {
+						clearInterval(interval);
+						$(".reloadverify_new").click();
+						$("#verify_new").val('');
+						obj.html('<a class="move" onclick="send_new()">{#lang("没有收到？重新发送")}</a>');
+					}
+					;
+				}, 1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+	var commiting = false;
+	function push_up() {
+		var uid           =$("#uid").val()
+		var num          = $("#num").val();
+		var paypassword  = $("#paypassword").val();
+		var moble_verify = $("#moble_verify").val();
+		var coin         = $('#coin-select option:selected').val();
+		var price        = $('#price').val()
+
+		if (uid == "" || uid == null) {
+			layer.tips('请输入对方UID', '#uid', {
+				tips: 2
+			});
+			return false;
+		}
+
+		if (coin == "" || coin == null) {
+			layer.tips('请选择币种', '#coin-select', {
+				tips: 2
+			});
+			return false;
+		}
+
+		if (num == "" || num == null) {
+			layer.tips('请输入交易数量', '#num', {
+				tips: 2
+			});
+			return false;
+		}
+
+		if (price == "" || price == null) {
+			layer.tips('请输入交易价格', '#price', {
+				tips: 2
+			});
+			return false;
+		}
+
+		if (moble_verify == "" || moble_verify == null) {
+			layer.msg('请输入短信验证码', {
+				icon: 2
+			});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips('请输入交易密码', '#paypassword', {
+				tips: 2
+			});
+			return false;
+		}
+
+			layer.config({
+				extend: 'extend/layer.ext.js'
+			});
+
+		//防止重复提交
+		if(commiting){
+			return;
+		}
+		$.post("/push_up.jsp", {
+			coin:coin,
+			uid:uid,
+			num: num,
+			paypassword: paypassword,
+			moble_verify: moble_verify,
+			price:price
+		}, function (data) {
+			commiting = false;
+			if (data.status == 1) {
+				layer.msg(data.info, {
+					icon: 1
+				});
+				setTimeout(function(){
+					window.location = "/push_log_out.jsp";
+				},1000)
+			} else {
+				layer.msg(data.info, {
+					icon: 2
+				});
+			}
+		}, "json");
+	}
+</script>
+{include file="aaapublic:footer"}

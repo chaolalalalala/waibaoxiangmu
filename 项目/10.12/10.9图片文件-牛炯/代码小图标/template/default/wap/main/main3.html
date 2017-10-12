@@ -1,0 +1,180 @@
+{include file="public:header"}
+<title>应用</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+
+<body style="padding-bottom:46px">
+	<section class="aui-grid">
+		<div class="aui-row" id="tmp-list">
+			<div class="aui-col-xs-4">
+				<i class="aui-iconfont aui-icon-home"></i>
+				<div class="aui-grid-label">首页</div>
+			</div>
+		</div>
+		</section>
+	</section>
+	<script id="list-template" type="text/x-dot-template">
+            {{? it.length>0}}
+            {{ for(var i in it) { }}
+            <div class="aui-col-xs-4" tapmod onclick="openAdsBlock('{{=it[i].name}}','{{=it[i].id}}')">
+	            <img src="/{{=it[i].img}}" style="width:40px;height:40px" class="aui-img-round aui-list-img-sm" onerror="nofind()">
+	            <div class="aui-grid-label">{{=it[i].title}}</div>
+            </div>
+            {{ } }}
+            {{??}}
+            <li class="aui-list-item aui-list-item-middle">
+	            <div class="aui-media-list-item-inner">
+		            <div class="aui-list-item-inner aui-list-item-arrow">
+			            <div class="aui-list-item-text">
+				            <div class="aui-list-item-title aui-font-size-14">暂无内容</div>
+			            </div>
+		            </div>
+	            </div>
+            </li>
+            {{? }}
+        </script>
+	</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/echo.js"></script>
+<script type="text/javascript" src="__WAP__/js/index.js"></script>
+<script type="text/javascript">
+        apiready = function() {
+            onerror = error_handel;
+            setDefaultValue();
+	        flash();
+        }
+
+        function setDefaultValue() {
+            var appList = memObj('AppList');
+            if ( appList ){
+                var tempFn = doT.template($api.byId('list-template').text);
+                $api.html($api.byId('tmp-list'), tempFn(appList));
+            }
+        }
+
+        function flash(){
+            loading("加载中...");
+
+	        Ajax('index/initinfo', 'get', '', function (ret) {
+                toast.hide();
+
+		        if (ret.status == 1) {
+			        ret = ret.info.app;
+                    alog(ret);
+			        if(ret) {
+				        memObj('AppList', ret);
+				        var tempFn = doT.template($api.byId('list-template').text);
+				        $api.html($api.byId('tmp-list'), tempFn(ret));
+			        }
+		        }else{
+                   art(ret.info)
+		        }
+	        });
+        }
+
+
+        function openAdsBlock(name,bid) {
+
+            if ( equalOneString(name,"交易","交易中心","trade") ){
+                randomSwitchBtn(null,2);
+            }
+            else if ( equalOneString(name,"集市","集市交易","bazaar") ) {
+	            open_win('market_h','app_market');
+            }
+            else if ( equalOneString(name,"理财","理财中心","money") ) {
+	            open_win('index_h','app_licai');
+            }
+            else if ( equalOneString(name,"认购","认购中心","issue")) {
+	            open_win('subscribe_h','app_subscribe');
+            }
+            else if (equalOneString(name,"投票","新币投票","vote") ) {
+	            open_win('coinVote_h','app_vote');
+            }
+            else if (equalOneString(name,"商城","云购商城","shop") ) {
+	            open_win('index_h','shop');
+            }
+            else if ( equalOneString(name,"红包","人人红包","hongbao") ) {
+	            open_win('index_h','app_hongbao');
+            }
+            else if ( equalOneString(name,"分红","分红中心","fenhong") ) {
+	            open_win('index_h','app_fenhong');
+            }
+            else if (equalOneString(name,"充值","充值缴费","huafei") ) {
+	            open_win('index_h','app_huafei');
+            }
+            else if ( equalOneString(name,"矿机","矿机工厂","pool") ) {
+	            open_win('index_h','app_pool');
+            }
+            else if (equalOneString(name,"签到","每日签到","qiandao") ) {
+	            open_win('rewardRule_h','app_qiandao');
+            }
+            else if (equalOneString(name,"众筹","众筹中心","crowd") ) {
+	            open_win('index_h','app_crowd');
+            }
+            else if (equalOneString(name,"抽奖","幸运抽奖","choujiang") ) {
+	            open_win('index_h','app_lottery');
+            }
+            else if (equalOneString(name,"兑换","币币兑换","duihuan")) {
+	            open_win('index_h','app_coinexchange');
+            }
+            else if (equalOneString(name,"夺宝","一元夺宝","duobao")) {
+	            open_win('index_h','app_duobao');
+            }
+            else if (equalOneString(name,"威客","威客任务","weike") ) {
+	            open_win('index_h','app_weike');
+            }
+            else if (equalOneString(name,"增值","增值计划","hongli") ) {
+	            open_win('index_h','app_addvalue');
+            }
+            else if (equalOneString(name,"拍卖","拍卖中心","sale") ) {
+	            open_win('index_h','app_auction');
+            }
+            else if (equalOneString(name,"卡密","卡密管理","charge") ) {
+	            open_win('index_h','app_charge');
+            }
+            else if (equalOneString(name,"有借","有借有还","lend") ) {
+	            art('开发中...');return;
+	            open_win('index_h','app_lend');
+            }
+            else if (equalOneString(name,"push","push资产","push") ) {
+	            open_win('index_h','app_push');
+            }
+            else if (equalOneString(name,"持有","持有认购","hold") ) {
+	            open_win('index_h','app_hold');
+            }
+            else if (equalOneString(name,"九八","九八分红","fenhong98") ) {
+	            open_win('index_h','app_holdfenhong');
+            }
+            else if (equalOneString(name,"养殖","养殖工厂","factory") ) {
+	            open_win('index_h','app_factory');
+            }
+            else if (equalOneString(name,"ico","ico众筹","ico") ) {
+	            open_win('index_h','app_ico');
+            }
+            else if (equalOneString(name,"分区","分区导航","cen_qu") ) {
+	            open_win('index_h','app_cen_qu');
+            }
+            else if (equalOneString(name,"分区","分区行情","cen_hangq ") ) {
+	            open_win('index_h','app_cen_hangq');
+            }
+            else if (equalOneString(name,"push","push集市","push_js") ) {
+	            open_win('index_h','app_push_js');
+            }
+            else if (equalOneString(name,"push","push集市","push_js") ) {
+	            open_win('index_h','app_push_js');
+            }
+            else if (equalOneString(name,"资产","资产排名","paiming") ) {
+	            open_win('index_h','app_paiming');
+            }
+            else if (equalOneString(name,"国币","国币矿机","poolgbw") ) {
+	            open_win('index_h','app_pool_gbw');
+            }
+            else if (equalOneString(name,"高级","高级威客","sweike") ) {
+	            open_win('index_h','app_sweike');
+            }
+            else {
+	            art("开发中...");
+            }
+        }
+    </script>
+</html>

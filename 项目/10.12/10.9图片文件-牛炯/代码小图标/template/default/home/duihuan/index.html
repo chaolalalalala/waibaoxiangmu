@@ -1,0 +1,123 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/money.css"/>
+<style>
+</style>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('币币兑换')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('币币兑换')}
+					</span>
+	                <span>
+                        <a href="{#url('duihuan/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('币币兑换')}</a>
+                        <a href="{#url('duihuan/log')}" id="step2" class="step fz_12 ml20 pd6">{#lang('充值记录')}</a>
+                        <!--<a href="{#url('duihuan/fee')}" id="step3" class="step fz_12 ml20 pd6">{#lang('收益明细')}</a>-->
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			{#slider("duihuan")}
+		</div>
+	</div>
+	<div style="width:100%;">
+		<div class="w1190 project">
+			{foreach $duihuan as $k => $v}
+            <a href="{#url('duihuan/details/id/'.$v['id'])}">
+			<div class="project_list">
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tbody>
+					<tr>
+						<td rowspan="3" class="list_tu">
+							<a href="{#url('duihuan/details/id/'.$v['id'])}"><img src="__IMG__/money/duihuan.jpg"></a>
+						</td>
+						<td class="list_td11" style="width:650px;">
+							<span><font>{#lang('期号')}：</font>{$v['numid']}</span> <span><img src="__IMG__/money/ayind.png">
+                               {if $v['num1'] && $v['num2']}
+                            {#lang('兑换币种')}：{#strtoupper($v['coin1'])} && {#strtoupper($v['coin2'])}
+                            {else if !$v['num1'] && $v['num2']}
+                             {#lang('兑换币种')}： {#strtoupper($v['coin2'])}
+                             {else if $v['num1'] && !$v['num2']}
+                               {#lang('兑换币种')}： {#strtoupper($v['coin1'])}
+                            {/if}
+                        </span>
+                                           <span class="tip" style="color: rgb(68, 68, 68);">
+                                              <img src="__IMG__/money/listicon_07.png">
+                                               {if $v['num3'] && $v['num4']}
+	                                           {#lang('支付币种')}:{#strtoupper($v['coin3'])} && {#strtoupper($v['coin4'])}
+                                               {else if $v['num3'] && !$v['num4']}
+                                                 {#lang('支付币种')}:{#strtoupper($v['coin3'])}
+                                                {else if !$v['num3'] && $v['num4']}
+                                                 {#lang('支付币种')}:{#strtoupper($v['coin4'])}
+                                               {/if}
+                                           </span>
+						</td>
+                    </tr>
+					<tr>
+						<td class="list_td21">
+							<img src="__IMG__/money/listicon_03.png"> {#lang('标题')}:
+                                                                      { $v['title']}
+						</td>
+                        <td class="list_td22">
+                            <a href="{#url('duihuan/details/id/'.$v['id'])}" class="btns2" style="padding: 15px 85px;width: 100px">{#lang('立即参与')}</a>
+                        </td>
+					</tr>
+					<tr>
+						<td class="list_td31">
+                              <span><img src="__IMG__/money/listicon_05.png" style="margin-left:0;"> {#lang('兑换规则')}：
+                                  {if $v["num1"]  && $v['coin1']}
+                                  <font class="green" style="font-size: 16px">{$v["num1"]} {#strtoupper($v['coin1'])}</font>
+                                  {/if}
+                                  {if $v["num1"]  && $v['coin1'] && $v["num2"] && $v['coin2']}
+                                  <font class="red">+</font>
+                                  {/if}
+                                  {if $v["num2"] && $v['coin2']}
+                                  <font class="green" style="font-size: 16px">{$v["num2"]} {#strtoupper($v['coin2'])}</font>
+                                  {/if}
+                                  <font class="red">=</font>
+                                  {if $v["num3"] && $v['coin3']}
+                                  <font class="green" style="font-size: 16px">{$v["num3"]} {#strtoupper($v['coin3'])}</font>
+                                  {/if}
+                                  {if $v["num3"]  && $v['coin3'] && $v["num4"] && $v['coin4']}
+                                  <font class="red">+</font>
+                                  {/if}
+                                  {if $v["num4"] && $v['coin4']}
+                                  <font class="green" style="font-size: 16px">{$v["num4"]} {#strtoupper($v['coin4'])}</font>
+                                  {/if}
+                                  {#lang('(获得币种=支付币种)')}
+                              </span>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</a>
+            {/foreach}
+		</div>
+	</div>
+</div>
+<script>
+	if ($("#duihuan_box").length > 0) {
+		$('#duihuan_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

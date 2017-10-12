@@ -1,0 +1,603 @@
+{include file="shop:header"}
+<link rel="stylesheet" href="__CSS__/shop/view.css">
+<!--<link rel="stylesheet" href="__CSS__/shop.css"/>-->
+<script type="text/javascript" src="__EXT__/jquery/jquery.jqzoom.js"></script>
+<script type="text/javascript" src="__JS__/shop.js"></script>
+<div class="layout">
+	<div class="breadcrumb-area">
+		<a href="/">{#lang('首页')}</a> &gt;&gt; <a href="{#url('/shop/lists')}">{#lang('商品列表')}</a> &gt;&gt; <span>{$shop['title']}</span>
+	</div>
+	<div class="layout pa-to-10">
+		<!--商品图片轮播-->
+		<div class="left-area">
+			<div class="left-area-tb">
+				<div class="pro-gallery-img" id="preview">
+					<div class="jqzoom">
+						<img id="zoomimg" class="jqzoom" src="__UP__/{$img['a']['img']}"   rel="__UP__/{$img['a']['img']}" width="480px" height="480px"  >
+					</div>
+
+				</div>
+				<!-- 修改的部分-start -->
+				<div class="pro-gallery-area">
+					<div class="pro-gallery-nav spec-scroll">
+						<a href="javascript:void(0);" class="pro-gallery-back next-left disabled prev" ></a>
+						<div class="pro-gallery-thumbs items">
+							<ul class="small-pic " id="pro-gallerys" style="left: 0px;">
+								{foreach $img as $v}
+								<li class="small-pic-li">
+									<a href="javascript:void(0);">
+										<img src="__UP__/{$v['img']}" mid="__UP__/{$v['img']}"  big="__UP__/{$v['img']}" onmousemove="preview(this);" />
+									</a>
+								</li>
+								{/foreach}
+							</ul>
+						</div>
+						<a href="javascript:void(0);" class="pro-gallery-forward next-right disabled next" ></a>
+					</div>
+				</div>
+				<!-- 修改的部分-end -->
+			</div>
+		</div>
+
+		<!--商品图片轮播 end-->
+		<div class="right-area-num">
+			<div class="right-area">
+				<div class="right-area-le30">
+					<h1>{$shop['title']}</h1>
+
+				</div>
+			</div>
+			<div class="right-area ma-to--1">
+				<!--商品促销 start-->
+				<!--商品促销 end-->
+				<div class="right-area-le30 pa-3-0-0-30">
+					<div class="pro-promotions-area">
+						<table class="promotions-tab" width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tbody>
+							<tr>
+								<td width="60px" align="right">{#lang('价')}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{#lang('格')}：</td>
+								<td>
+									<p class="co-red fo-si-24 ma-le-6">
+										<span class="co-red fo-si-24" id="goods_price">{$shop['price']} {$shop['price_coin']}</span>
+									</p>
+								</td>
+							</tr>
+							<tr class="none">
+								<td width="60px" align="right">{#lang('促销信息')}：</td>
+								<td>
+									<p class="co-red fo-si-24 ma-le-6">
+										<span class="co-red fo-si-24">6006+100{#lang('积分')}</span>
+									</p>
+								</td>
+							</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<form name="buy_goods_form" method="get" id="buy_goods_form">
+				<div class="right-area he315 ma-to--1" style="height:462px;">
+					<div class="right-area-le30 pa-3-0-0-30 ">
+						<div class="pro-promotions-area ">
+							<div class="det_vipprice det_vipprice2">
+
+								<input type="hidden" name="id" value="{$shop['id']}">
+								<label class="det_vip det_vip3">{#lang('支付方式')}</label>
+								<div class="num-picker float-l coinpay">
+									{if $coinpay}
+									{foreach $coinpay as $k => $v}
+									<input type="radio" name="coinpay" class="coinpay mr2" value="{$v}"style="vertical-align: -2px;"/>{$v}
+									{/foreach}
+									{/if}
+								</div>
+							</div>
+							<table class="promotions-tab he40-tr-td" width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tbody>
+								<tr>
+								<td width="60px" align="right">{#lang('购买数量')}：</td>
+								<td>
+									<ul class="choice-colol ma-le-6">
+										<li>
+											<a  class="choice-number fl jian" title="{#lang('减')}" style="width:24px">-</a>
+											<input class="wi64 fl " type="text" value="1" name="num" id="goods_num" >
+											<a  class="choice-number fl jia" title="{#lang('加')}" style="width:24px">+</a>
+										</li>
+									</ul>
+								</td>
+								</tr>
+								</tbody>
+
+							</table>
+							<label class="det_vip det_vip3 det_vip4">{#lang('库存')}
+								<em class="store-num mr10">{#num($shop['num'],0)}</em>{#lang('件')}</label>
+
+						</div>
+
+						<div class="join-a-shopping-cart fl" id="join_cart_now"><!-- location.href='/index.php/Home/Cart/cart.html-->
+							<a class="jrgwc-shopping-img jrgwc-shopping-img2" href="javascript:void(0)">
+								<span>{#lang('立即购买')}</span> </a>
+						</div>
+
+					</div>
+
+				</div>
+
+
+			</form>
+		</div>
+	</div>
+</div>
+<script>
+
+//	$('.small-pic-li').eq(0).addClass('current');
+//	$('.small-pic-li').mouseenter(function(){
+//		$(this).addClass('current').siblings().removeClass('current');
+//	})
+
+//	function next(a){
+//		var num=$('.small-pic-li').length;
+//		var idx=$('#pro-gallerys .current').index();
+//
+//
+//
+//		if(a=='-1' && idx > 0){
+//
+//			idx--;
+//			$('.small-pic-li').eq(idx).addClass('current').siblings().removeClass('current');
+//
+//		}else if(a==1 && idx < num-1){
+//
+//			idx++;
+//			$('.small-pic-li').eq(idx).addClass('current').siblings().removeClass('current');
+//		}
+//
+//		var src=$('#pro-gallerys .current').find('img').attr('src');
+//		var big=$('#pro-gallerys .current').find('img').attr('big');
+//
+//		$('#zoomimg').attr({'src':src,'rel':big})
+//	}
+//	function switch_num(a){
+//
+//		var num=$('#goods_num').val();
+//		//console.log(num)
+//		if(a=='-1'&&num>1){
+//			//num --;
+//
+//			$('#goods_num').attr({'value':num-1});
+//		}else if(a==1){
+//			num++;
+//			$('#goods_num').attr({'value':num});
+//
+//		}
+//	}
+
+$('.jian').click(function () {
+	var max = $('#goods_num').val();
+	if (parseInt(max) > 1) {
+		$('#goods_num').val(parseInt(max) - 1);
+	}
+
+});
+$('.jia').click(function () {
+	var max = $('#goods_num').val();
+	var mrz = parseInt("{#num($shop['num'],0)}");
+	console.log(mrz);
+	if (parseInt(max) < mrz) {
+		$('#goods_num').val(parseInt(max) + 1);
+	} else {
+		$('#goods_num').val(mrz);
+	}
+});
+
+	$(".coinpay input:first").attr({'checked':true});
+
+	$("#join_cart_now").click(function () {
+		var store_num = "{$shop['num']}";
+		var id        = "{$shop['id']}";
+		var num       = parseInt($('#goods_num').val());console.log(num)
+		var coinpay   = $("input[name='coinpay']:checked").val();
+
+		if (num == "" || num == null) {
+			layer.tips("{#lang('请输入数量')}", '#goods_num', {tips: 3});
+			return false;
+		}
+		if (num > store_num) {
+			layer.tips("{#lang('大于库存')}", '#goods_num', {tips: 3});
+
+			return false;
+		}
+
+		if (coinpay == "" || coinpay == null) {
+			layer.tips("{#lang('请选择支付方式')}", '#goods_num', {tips: 3});
+			return false;
+		}
+
+		$.post("{#url('shop/up')}", {
+			id: id,
+			num: num,
+			coinpay: coinpay,
+			token: "{$token}"
+		}, function (data) {
+			if (data.status == 1) {
+				if (data.url) {
+					window.location = data.url;
+				} else {
+					layer.msg(data.info, {icon: 1});
+					location.reload();
+				}
+			} else {
+				if (data.url) {
+					window.location = data.url;
+				} else {
+					layer.msg(data.info, {icon: 2});
+				}
+			}
+		}, 'json');
+	});
+</script>
+<div class="layout ma-to-20 ov-hi">
+	<div class="wi240 ov-hi fl">
+		<div class="product-history-area">
+			<div class="hi47 co-grey">
+				<h3 class="fl browse-his">{#lang('推荐商品')}</h3>
+				<!--<span class="fr pa-15-16-0-0"><a class="del-dust cu-po"></a></span>-->
+			</div>
+			<div class="history-bott">
+				<ul class="history-comm">
+					{foreach $shop_xg as $k=>$v}
+					<li>
+						<div>
+							<p class="p-img-comm fl">
+								<a href="{#url('shop/view/id/'.$v['id'])}"><img class="img-comm" src="__UP__/{$v['img']}" alt="{$v['title']}"></a>
+							</p>
+							<p class="p-name-comm">
+								<a href="{#url('shop/view/id/'.$v['id'])}">{$v['title']}</a>
+							</p>
+							<p class="p-price-comm">
+								<b>{$v['price']} {$v['price_coin']}</b>
+								<del>{$v['market_price']}</del>
+							</p>
+						</div>
+
+				</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+	<div class="wi940 ov-hi fr">
+		<div class="comm-param">
+			<div class="parame-title">
+				<div class="par-titles co-grey">
+					<ul class="commodity-xq tab_li">
+						<li class="cliks current" onclick="switch_tab(this,'tab1')">
+							<a>{#lang('商品详情')}</a>
+						</li>
+						<li class="cliks" onclick="switch_tab(this,'tab2')" style="display:none">
+							<a>{#lang('用户评价')}（3）</a>
+						</li>
+						<li class="cliks" onclick="switch_tab(this,'tab3')" style="display:none">
+							<a>{#lang('规格参数')}</a>
+						</li>
+						<li class="cliks" onclick="switch_tab(this,'tab4')" style="display:none">
+							<a>{#lang('售后服务')}</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-------------------商品详情------------------>
+			<div class="parame-bott cliks-bn" style="display: block;" id="tab1">
+				<div class="commodity-num pro-feature-area">
+					<div class="pro-disclaimer-area ma-to-20">
+						{$shop['content'] nofilter}
+					</div>
+				</div>
+			</div>
+			<!-------------------规格参数------------------>
+			<div class="parame-bott cliks-bn" style="display: none;" id="tab3">
+				<div class="commodity-num pro-feature-area wi850">
+					<table class="modity-zhut" width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tbody><tr>
+							<th colspan="2"><h3>{#lang('商品属性')}</h3></th>
+						</tr>
+						<tr>
+							<td class="wi143">{#lang('摄像头')}</td>
+							<td class="pa-5-0">{#lang('1200万像素')}</td>
+						</tr><tr>
+							<td class="wi143">{#lang('待机时间')}</td>
+							<td class="pa-5-0">{#lang('921小时')}</td>
+						</tr><tr>
+							<td class="wi143">{#lang('通话时间')}</td>
+							<td class="pa-5-0">{#lang('15小时')}</td>
+						</tr><tr>
+							<td class="wi143">{#lang('内存容量')}</td>
+							<td class="pa-5-0">{#lang('64G')}</td>
+						</tr><tr>
+							<td class="wi143">{#lang('主屏参数/内屏参数')}</td>
+							<td class="pa-5-0">1920 x 1080</td>
+						</tr><tr>
+							<td class="wi143">{#lang('尺寸体积')}</td>
+							<td class="pa-5-0">{#lang('5.5英寸')}</td>
+						</tr><tr>
+							<td class="wi143">{#lang('外观样式/手机类型')}</td>
+							<td class="pa-5-0">{#lang('翻盖')}</td>
+						</tr><tr>
+							<td class="wi143">{#lang('支持频率/网络频率')}</td>
+							<td class="pa-5-0">FDD-LTE (频段 1, 2, 3, 4, 5, 7, 8, 12, 13, 17, 18, 19, 20, 25, 26, 27, 28, 29)</td>
+						</tr><tr>
+							<td class="wi143">{#lang('网络制式')}</td>
+							<td class="pa-5-0">{#lang('移动4G')}(TD-LTE)/{#lang('联通4G')}(FDD-LTE)/{#lang('电信4G')}(FDD-LTE)</td>
+						</tr><tr>
+							<td class="wi143">{#lang('天线位置')}</td>
+							<td class="pa-5-0">{#lang('内置')}</td>
+						</tr><tr>
+							<td class="wi143">{#lang('彩信/彩e')}</td>
+							<td class="pa-5-0">{#lang('支持')}</td>
+						</tr><tr>
+							<td class="wi143">{#lang('价格等级')}</td>
+							<td class="pa-5-0">{#lang('高价机')}</td>
+						</tr>                    </tbody></table>
+				</div>
+			</div>
+			<!-------------------售后服务------------------>
+
+			<!-------------------用户评价------------------>
+			<div class="parame-bott ov-hi" style="display: none;" id="tab2">
+				<div class="evaluation-top fo-fa di-in-bl">
+					<div class="eval-le1 fl wi146 te-al">
+						<span><b>67</b>%</span>
+						<em>{#lang('好评度')}</em>
+					</div>
+					<div class="eval-le2 fl wi123 pa-to-7">
+						<dl>
+							<dt>{#lang('好评')}<em>(67%)</em></dt>
+							<dd><s style=" width:94%"></s></dd>
+						</dl>
+						<dl>
+							<dt>{#lang('中评')}<em>(34%)</em></dt>
+							<dd><s style=" width:2%"></s></dd>
+						</dl>
+						<dl>
+							<dt>{#lang('差评')}<em>(0%)</em></dt>
+							<dd><s style=" width:4%"></s></dd>
+						</dl>
+					</div>
+					<div class="eval-le3 fl wi516">
+						<dl>
+							<dt>买家评论事项：购买后有什么问题, 满意, 或者不不满, 都可以在这里评论出来, 这里评论全部源于真实的评论.</dt>
+						</dl>
+					</div>
+					<div class="eval-le4 fl wi150 pa-to-43 te-al">
+						<a href="/index.php/Home/User/comment.html">{#lang('发表评价')}</a>
+					</div>
+				</div>
+				<div class="evaluation-cen fo-fa">
+					<div class="eval-cen-le fl pa-le-12">
+						<ul>
+							<li class="curres cliks">
+								<a href="javascript:void(0);" data-t="1">
+                                                <span>
+                                                    {#lang('全部评价')}
+                                                    <em>(3)</em>
+                                                </span>
+								</a>
+							</li>
+							<li class="cliks">
+								<a href="javascript:void(0);" data-t="2">
+                                                <span>
+                                                    {#lang('好评')}
+                                                    <em>(2)</em>
+                                                </span>
+								</a>
+							</li>
+							<li class="cliks">
+								<a href="javascript:void(0);" data-t="3">
+                                                <span>
+                                                    {#lang('中评')}
+                                                    <em>(1)</em>
+                                                </span>
+								</a>
+							</li>
+							<li class="cliks">
+								<a href="javascript:void(0);" data-t="4">
+                                                <span>
+                                                    {#lang('差评')}
+                                                    <em>(0)</em>
+                                                </span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!--------用户评价-start--------------->
+				<!--<link rel="stylesheet" href="/Public/bootstrap/css/bootstrap.min.css" type="text/css">--->
+
+
+
+				<!--------用户评价-end---------------->
+			</div>
+		</div>
+		<!--暂时隐藏-->
+		<div class="comm-param none">
+			<div class="parame-title">
+				<div class="par-titles co-grey">
+					<ul class="commodity-xq ask_tab_li consult_ul">
+						<li class="cliks current">
+							<a data-t="0">{#lang('全部咨询')}</a>
+						</li>
+						<li class="cliks">
+							<a data-t="1">{#lang('商品咨询')}</a>
+						</li>
+						<li class="cliks">
+							<a data-t="2">{#lang('支付')}</a>
+						</li>
+						<li class="cliks">
+							<a data-t="3">{#lang('配送')}</a>
+						</li>
+						<li class="cliks">
+							<a data-t="4">{#lang('售后')}</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-------------------咨询列表----------------->
+			<div class="parame-bott cliks-bn" style="display:block" id="ask_tab1">
+				<div class="commodity-num" id="ajax_consult_return">    <div class="spxqer-top">
+					<span class="colo-ora">{#lang('温馨提示')}：</span>
+					{#lang('因产线可能更改商品包装、产地、附配件等未及时通知，且每位咨询者购买、提问时间等不同。为此，客服给到的回复仅对提问者3天内有效，其他网友仅供参考！给您带来的不便还请谅解，谢谢')}！
+				</div>
+					<div class="spxqer-cen">
+						<div class="qerst-wy">
+							<div class="wy1">
+								<span>{#lang('网友')}：</span><span> {#lang('玉郎')}</span>
+								<s><i></i></s>
+								<em>2015-11-02</em>
+							</div>
+							<div class="wy2">
+								<span>{#lang('咨询内容')}：</span><span>{#lang('抱着你家女票吧')}</span>
+							</div>
+
+						</div><div class="qerst-wy">
+						<div class="wy1">
+							<span>{#lang('网友')}：</span><span> {#lang('清风')}</span>
+							<s><i></i></s>
+							<em>2016-01-23</em>
+						</div>
+						<div class="wy2">
+							<span>{#lang('咨询内容')}：</span><span>{#lang('还38呢')}，</span>
+						</div>
+
+					</div><div class="qerst-wy">
+						<div class="wy1">
+							<span>{#lang('网友')}：</span><span> {#lang('配对指挥员（临时工王傻根)')}</span>
+							<s><i></i></s>
+							<em>2015-12-17</em>
+						</div>
+						<div class="wy2">
+							<span>{#lang('咨询内容')}：</span><span>{#lang('日')}</span>
+						</div>
+						<div class="wy3">
+							<span>{#lang('回复')}：</span><span>{#lang('老板还经常骂我')}</span>
+							<em>2016-01-18</em>
+						</div>
+					</div><div class="qerst-wy">
+						<div class="wy1">
+							<span>{#lang('网友')}：</span><span> {#lang('生锈的18cm')}</span>
+							<s><i></i></s>
+							<em>2016-02-08</em>
+						</div>
+						<div class="wy2">
+							<span>{#lang('咨询内容')}：</span><span>{#lang('@玉郎 被摸过胸吗')}</span>
+						</div>
+
+					</div><div class="qerst-wy">
+						<div class="wy1">
+							<span>{#lang('网友')}：</span><span> {#lang('配对指挥员（临时工王傻根）')}</span>
+							<s><i></i></s>
+							<em>2015-12-16</em>
+						</div>
+						<div class="wy2">
+							<span>{#lang('咨询内容')}：</span><span>{#lang('你说了算')}</span>
+						</div>
+
+					</div>
+					</div>
+					<div class="spxqer-bot">
+						<div class="spxqer-bo-le">{#lang('共')}<em>15</em>{#lang('条')}</div>
+						<div class="spxqer-bo-ri fr di-in-bl ov-hi">
+							<!--------分页开始-------------->
+							<div class="dataTables_paginate paging_simple_numbers"><ul class="pagination">  <li class="paginate_button active"><a tabindex="0" data-dt-idx="1" aria-controls="example1" data-p="1" href="javascript:void(0)">1</a></li><li class="paginate_button"><a class="num" data-p="2" href="javascript:void(0)">2</a></li><li class="paginate_button"><a class="num" data-p="3" href="javascript:void(0)">3</a></li> <li id="example1_next" class="paginate_button next"><a class="next" data-p="2" href="javascript:void(0)">{#lang('下一页')}</a></li> </ul></div>            <!--------分页结束-------------->
+						</div>
+					</div>
+					<script>
+						// 点击分页触发的事件
+						$("#ajax_consult_return .pagination  a").click(function(){
+							cur_page = $(this).data('p');
+							ajaxConsult(consult_type,cur_page);
+						});
+					</script></div>
+			</div>
+			<!-------------------咨询列表-end---------------->
+			<!-------------------发表咨询------------------>
+			<div class="parame-bott ma-to--21">
+				<div class="commodity-num">
+					<div class="spxqer-top-t">
+						<h3 class="spxqer-topt-h3">{#lang('发表咨询')}</h3>
+					</div>
+					<div class="spxqer-cen">
+						<div class="spxqer-top pa-17-0-14">
+							<span class="colo-ora">{#lang('温馨提示')}：</span>
+							{#lang('因产线可能更改商品包装、产地、附配件等未及时通知，且每位咨询者购买、提问时间等不同。为此，客服给到的回复仅对提问者3天内有效，其他网友仅供参考！给您带来的不便还请谅解，谢谢')}！
+						</div>
+						<div class="form-edit-area">
+							<form action="/index.php/Home/Goods/goodsConsult.html" method="post" id="form_consult" name="form_consult" onsubmit="return check_form_consult(this);">
+								<div class="form-table">
+									<p>
+										<b>{#lang('商品咨询')}：</b>
+										<input type="radio" name="consult_type" value="1" checked=""><label for="">{#lang('商品咨询')}</label>
+										<input type="radio" name="consult_type" value="2"><label for="">{#lang('支付')}</label>
+										<input type="radio" name="consult_type" value="3"><label for="">{#lang('配送')}</label>
+										<input type="radio" name="consult_type" value="4"><label for="">{#lang('售后')}</label>
+									</p>
+									<p>{#lang('网')}&nbsp;{#lang('名')}:<input type="text" name="username" id="username" placeholder="{#lang('请输入网名')}"></p>
+									<p>{#lang('内')}&nbsp;{#lang('容')}:<textarea name="content" id="content" class="textarea"></textarea></p>
+									<p>
+										{#lang('验证码')}:<input type="text" name="verify_code" placeholder="{#lang('不区分大小写')}">
+										<img id="verify_code" width="80" height="40" src="">
+										<a><img src="" onclick="verify(this)"></a>
+									</p>
+								</div>
+								<div class="form-butt">
+									<input type="hidden" name="goods_id" id="goods_id" value="1">
+									<input type="submit" class="bu-tj" value="{#lang('提交')}">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script>
+				// 商品咨询表单验证
+				function check_form_consult(f){
+					if($.trim($('input[name="username"]').val()).length == 0)
+					{
+						layer.msg('{#lang("请填写一个网名")}', {
+							icon: 1,   // 成功图标
+							time: 2000 //2秒关闭（如果不配置，默认是3秒）
+						});
+
+						return false;
+					}
+					if($.trim($('textarea[name="content"]').val()).length == 0)
+					{
+
+						layer.msg('{#lang("请填输入咨询内容")}', {
+							icon: 1,   // 成功图标
+							time: 2000 //2秒关闭（如果不配置，默认是3秒）
+						});
+						return false;
+					}
+					if($.trim($('input[name="verify_code"]').val()).length == 0)
+					{
+						layer.msg('{#lang("请填输入验证码")}', {
+							icon: 1,   // 成功图标
+							time: 2000 //2秒关闭（如果不配置，默认是3秒）
+						});
+						return false;
+					}
+					return true;
+				}
+			</script>
+			<!-------------------发表咨询 end----------------->
+		</div>
+		<!--暂时隐藏-->
+	</div>
+</div>
+{include file="shop:footer"}

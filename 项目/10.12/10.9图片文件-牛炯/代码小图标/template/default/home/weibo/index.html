@@ -1,0 +1,567 @@
+{include file="public:header"}
+<link rel="stylesheet" href="/static/default/home/css/sweike/sweiklist.css">
+<style>
+.box{
+	width:1200px;
+	margin:20px auto;
+	min-height:692px;
+}
+.leftbox{
+	width:906px;
+	float:left;
+	min-height:692px;
+}
+.rightbox{
+	border:1px solid #dadada;
+		width:275px;
+		float:right;
+	 min-height:400px;
+	}
+
+.top_box{
+	border:1px solid #DADADA;
+	width:906px;
+	height:155px;
+}
+	.send textarea{
+		width:805px;
+		height:70px;
+		box-sizing:border-box;
+	}
+	.top_btn{
+		overflow:hidden;
+		border-top:1px solid #dadada;
+	}
+    .top_btn li{
+	    float:left;
+	    width:226px;
+	    height:50px;
+	    line-height:50px;
+	    text-align:center;
+    }
+	.weibo-content{
+		min-height:600px;
+		border:1px solid #DADADA;
+		width:905px;
+		margin-top:20px;
+	}
+	.send,.send2{
+		width:905px;
+		/*border:1px solid #DADADA;*/
+		box-sizing:border-box;
+		overflow:hidden;
+	}
+	.send_btn{
+		width:98px;
+		height:102px;
+		border:1px solid #DADADA;
+		border-top:none;
+		border-bottom:none;
+		float:right;
+		text-align:center;
+		padding-top:25px;
+	}
+	.info{
+		padding-left:20px;
+		overflow:hidden;
+		float:left;
+	}
+	.info li{
+		color:#fff;
+		padding:5px 8px;
+		background:#4f94e7;
+		display:inline-block;
+		font-size:10px;
+		cursor:pointer;
+		border-radius:5px;
+		margin:10px;
+	}
+	.search{
+		float:right;
+		height:26px;
+		margin:10px;
+		border:1px solid #DADADA;
+		margin-right:30px;
+		width:200px;
+	}
+	.weibo-head{
+		height:46px;
+		border-bottom:1px solid #DADADA;
+	}
+	.dataitem{
+		padding-bottom:0;
+	}
+	.item_pinlun_list{
+		background:#f5f5f5;
+		padding:10px;
+
+	}
+	.item_pinlun_user{
+		float:left;
+		margin:5px;
+	}
+	.item_pinlun_txt{
+		float:left;
+		margin:5px;
+	}
+	.rank li{
+		margin:10px;
+		cursor:pointer;
+	}
+	.rank span{
+		color:#fff;
+		background:#ccc;
+		width:30px;
+		height:30px;
+		display:inline-block;
+		line-height:30px;
+		text-align:center;
+		margin:0 20px;
+	}
+	.rank .orange{
+		background:orange;
+	}
+	.rightbox h2{
+		padding-left:30px;
+		color:#CDA70D;
+		font-size:24px;
+		font-weight:bold;
+	}
+	.dataitem{
+		margin:5px;
+		padding-bottom:10px;
+	}
+	.weibo-txt{
+		padding-top:40px;
+		margin-bottom:30px;
+	}
+	.reply{
+		float:left;
+		margin:5px;
+		height:14px;
+		display:none;
+		color:#5CCAEC;
+	}
+	.pinlun_data:hover .reply{
+		display:block;
+	}
+	.pinlun_data{
+		width:100%;
+		height:24px;
+	}
+	.top_btn a{
+		display:block;
+		height:50px;
+		width:226px;
+		padding:0;
+		margin:0;
+		float:left;
+	}
+	.top_btn .active{
+		color:#fff;
+		background:#ccc;
+	}
+	.weibo_text{
+		font-size:16px;
+		color:#666;
+		margin-left:20px;
+	}
+	.pinlun_input{
+		border:1px solid #dadada;
+		width:775px !important;
+		border-top:none;
+		height:50px!important;
+		border-right:none;
+	}
+	a{
+		padding:0
+	}
+</style>
+
+
+
+<div class="clear"></div>
+         <div class="box">
+			<div class="leftbox">
+				<div class="top_box">
+					<div class="send">
+						<input  id="weibo_title" placeholder="请输入微博话题" style="border-bottom:1px solid #DADADA;width:807px;height:30px;line-height:30px;float:left"/>
+						<div class="send_btn" onclick="send_weibo()"><i class="fa fa-envelope-o fa-3x"></i>
+						<br/>
+						发表
+						</div>
+						<textarea id="text"></textarea>
+						</div>
+
+					<ul class="top_btn">
+						<a href="{#url('weibo/index')}"> <li  {if !$type} class="active"{/if}><i class="fa fa-comment-o fz_16"></i>全部微博</li></a>
+
+						<a href="{#url('weibo/index/type/guanzhu')}"><li  {if $type=='guanzhu'} class="active"{/if}><i class="fa fa-user-plus fz_16"></i>我的关注</li></a>
+							<a href="{#url('weibo/index/type/shouchang')}"> <li {if $type=='shouchang'} class="active"{/if}><i class="fa fa-heart fz_16"></i>我的收藏</li></a>
+								<a href="{#url('weibo/index/type/log')}"> <li {if $type=='log'} class="active"{/if}><i class="fa fa-user fz_16"></i>个人中心</li></a>
+                   </ul>
+				</div>
+				<div class="weibo-content">
+					<div class="weibo-head">
+						<ul class="info" id="info"><span style="color:#CDA70D;font-size:16px;font-weight:bold">推荐话题：</span><li>分析</li><li>比特币大卖</li><li>莱特币</li><li>区块链</li>
+						<li>涨</li>
+					</ul>
+						<!--<div class="search">-->
+                            <!--<input placeholder="输入关键字"/>-->
+							<!--<i class="fa fa-search right fz_16" style="margin-right:10px"></i>-->
+							<!--</div>-->
+					</div>
+					<div class="list-content">
+						{foreach $pages['list'] as $k => $v}
+						<div class="dataitem" data="{$v['id']}" style="margin:10px">
+							<div class="item_name">
+								<div class="fl">
+									<img src="{$v['img']}" style="width:30px;height:30px;vertical-align:middle"/>&nbsp;&nbsp;&nbsp;
+									<span class="itemcc itemcc_2">{$v['auther_name']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+									{if $v['auther_id'] != @$user['id']}
+									    {if $v['guanzhu'] == 0}
+									<span  onclick="guanzhu({$v['auther_id']})" id="guanzhu1" style="color:#ccc;"><i class="fa fa-user-plus fz_16"></i>关注</span>&nbsp;&nbsp;&nbsp;&nbsp;
+									     {/if}
+									      {if $v['guanzhu'] == 1}
+									<span  onclick="guanzhu({$v['auther_id']})" id="guanzhu2" style="color:#5CCAEC;"><i class="fa fa-user-times fz_16"></i>取消关注</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                           {/if}
+									{/if}
+									<span>&nbsp;&nbsp;&nbsp;&nbsp;{$v['addtime']}</span>&nbsp;
+								   {if $v['auther_id'] == @$user['id']}
+										<div style="float:right" onclick="delete_weibo(this)" data="{$v['id']}">
+											<span style="color:#7B7A7A"><i class="fa fa-trash-o right fz_16" style="margin:10px"></i></div>
+									 {/if}
+									<div class="clear"></div>
+								</div>
+								<div class="weibo-txt">
+									<a  class="itemtit" target="_blank" data="{$v['title']}" onclick="join(this)" title="参与这个话题"><span>#{$v['title']}</span><i class="fa fa-chain fz_16"> </i></a><span class="weibo_text">{$v['content']}</span>
+								</div>
+
+
+								<div class="fr itemenddate">
+									<span class="startinlist" style="width:18px;"></span>
+									{if $v['shouchang']== 1}
+									&nbsp;&nbsp;<font color="#ff6600" onclick="like('{$v.id}')"> <i class="fa fa-heart fz_16"></i> 已收藏  </font>
+									{/if}
+									{if $v['shouchang'] == 0}
+									&nbsp;&nbsp;<font  onclick="like('{$v.id}')"> <i class="fa fa-heart fz_16"></i> 收藏  </font>
+									{/if}
+									{if $v['zan']== 1}
+									&nbsp;|&nbsp;<span style="color:#4f94e7" onclick="zan('{$v.id}')"><i class="fa fa-thumbs-o-up fz_16"></i>{$v['zannum']}</span>
+									{/if}
+									{if $v['zan']== 0}
+									&nbsp;|&nbsp;<span onclick="zan('{$v.id}')"><i class="fa fa-thumbs-o-up fz_16"></i> {$v['zannum']}</span>
+									{/if}
+									&nbsp;|&nbsp;<span style="color:green" onclick="add_pinlun('{$v.id}')"><i class="fa fa-commenting-o fz_16"></i> 评论</span></div>
+								<div class="clear"></div>
+							</div>
+										<div class="clear"></div>
+							{if $v['pinlun']}
+							<div class="item_pinlun_list">
+								<h3 style="color:#ccc;font-weight:bold">评论</h3>
+								{foreach $v['pinlun']  as $k2 => $v2}
+								<div class="item_pinlun">
+									<div class="pinlun_data">
+								<div class="item_pinlun_user">{$v2['username']}:</div>
+								<div class="item_pinlun_txt">{$v2['content']} </div>
+										<span data="{$v2['id']}" onclick="reply(this)" class="reply"> 回复</span>{if $v2['user_id']==@$user['id']}<span data="{$v2['id']}" onclick="delete_pinlun(this)" class="reply"> 删除</span>{/if}
+										</div>
+									<div class="clear"></div>
+									{if $v2['reply']}
+									{foreach $v2['reply'] as $k3 => $k3}
+									<div class="pinlun_data">
+									<div class="item_pinlun_user" style="padding-left:20px">{$v2['reply'][$k3]['username']}&nbsp;&nbsp;&nbsp;回复&nbsp;&nbsp;&nbsp;{$v2['reply'][$k3]['replyname']}:</div>
+									<div class="item_pinlun_txt">{$v2['reply'][$k3]['content']}</div>
+										<span onclick="reply(this)" data="{$v2['reply'][$k3]['id']}" class="reply"> 回复</span>
+									</div>
+										<div class="clear"></div>
+									{/foreach}
+									{/if}
+									</div>
+								{/foreach}
+							</div>
+							{/if}
+							<div class="send" style="width:875px;height:50px;display:none;margin-top:10px;border:1px solid #dadada;margin-bottom:10px">
+								<div class="send_btn" style="height:50px;padding:0" onclick="submit_pinlun('{$v.id}')">提交<br/><i class="fa fa-paper-plane-o fa-2x" style="height:50px;line-height:20px;"></i>
+								</div>
+								<textarea class="pinlun_input"></textarea>
+							</div>
+							<div class="send2" style="width:875px;height:50px;display:none;margin-top:10px;border:1px solid #dadada;margin-bottom:10px">
+								<div class="send_btn" style="height:50px;padding:0" onclick="submit_reply(this)">回复<br/><i class="fa fa-paper-plane-o fa-2x" style="height:50px;line-height:20px;"></i>
+								</div>
+								<textarea class="pinlun_input"></textarea>
+							</div>
+						</div>
+						{/foreach}
+						{if $pages['list']==[]}
+						<img src="/upload/weibo/noContent.jpg" style="width:905px;height:600px"/>
+						{/if}
+					</div>
+				</div>
+
+
+				{if $pages['show']}
+				<div class="pages">{$pages['show'] nofilter}</div>
+				{/if}
+			</div>
+            <div class="rightbox">
+	           <h2>话题排行</h2>
+	            <ul class="rank">
+		            {if $remen}
+		            {foreach $remen as $k => $v}
+		            {if $k < 3}
+		           <li title="参与此话题" onclick="join(this)" data="{$v['title']}"><span class="orange">{$k+1}</span>{$v['title']} 	<em style="float:right;margin-right:10px;color:#ccc;line-height:30px">{$v['num']}次讨论</em> <div class="clear"></div></li>
+		            {else}
+		            <li title="参与此话题" onclick="join(this)" data="{$v['title']}"><span>{$k+1}</span>{$v['title']} 	<em style="float:right;margin-right:10px;color:#ccc;line-height:30px">{$v['num']}次讨论</em> <div class="clear"></div></li>
+		            {/if}
+		             {/foreach}
+		            {else}
+		            <li style="text-align:center;">暂无话题 <div class="clear"></div></li>
+		            {/if}
+		            <!--<li><span class="orange">2</span>比特币</li>-->
+		            <!--<li><span class="orange">3</span>比特币</li>-->
+		            <!--<li><span>4</span>比特币</li>-->
+		            <!--<li><span>5</span>比特币</li>-->
+		            <!--<li><span>6</span>比特币</li>-->
+		            <!--<li><span>7</span>比特币</li>-->
+		            <!--<li><span>8</span>比特币</li>-->
+		            <!--<li><span>9</span>比特币</li>-->
+		            <!--<li><span>10</span>比特币</li>-->
+	           </ul>
+            </div>
+
+
+
+         </div>
+<div class="clear"></div>
+<script>
+		$('#index_box').addClass('active');
+		$('#weibo_box').addClass('active');
+		$("#info li").each(function(){
+			$(this).attr('title','参与这个话题');
+			$(this).click(function(){
+				var text=$(this).text();
+				$("#weibo_title").val(text);
+			})
+		})
+var  reply_id;
+
+//	 function clear_txt(e,n){
+//		 var ele=$(e);
+//		 if(ele.val() == n){
+//			 ele.val('')
+//			}
+//		}
+//
+//		function show_txt(e,n){
+//			var ele=$(e);
+//			if(ele.val() == ''){
+//				ele.val(n)
+//			}
+//		}
+
+		function reply(n){
+			var ele=$(n).parents('.dataitem')
+			reply_id=$(n).attr('data');
+			console.log(reply_id);
+			  $('.dataitem .send').hide()
+			 $('.send2').hide();
+             ele.find('.send2').show()
+
+		}
+
+		function delete_pinlun(n) {
+			layer.confirm('确定删除该评论？', {
+				btn: ['删除', '取消']
+			}, function () {
+				var id = $(n).attr('data');
+				$.post("/weibo/delete_pinlun", {
+					id: id
+				}, function (data) {
+					if (data.status == 1) {
+						layer.msg(data.info, {
+							icon: 1
+						});
+						window.location = "{#url('weibo/index')}";
+					} else {
+						layer.msg(data.info, {
+							icon: 2
+						});
+					}
+				}, "json");
+			})
+		}
+
+		function delete_weibo(n) {
+			layer.confirm('确定删除该微博？', {
+				btn: ['删除', '取消']
+			}, function(){
+				//按钮【按钮一】的回调
+				var id=$(n).attr('data');
+				$.post("/weibo/delete_weibo", {
+					id:id
+				}, function (data) {
+					if (data.status == 1) {
+						layer.msg(data.info, {
+							icon: 1
+						});
+						window.location = "{#url('weibo/index')}";
+					} else {
+						layer.msg(data.info, {
+							icon: 2
+						});
+					}
+				}, "json");
+			});
+		}
+
+		function submit_reply(n){
+			var ele=$(n).parents('.dataitem')
+			var content=ele.find(".send2 textarea").val()
+			if (content == "" || content == null) {
+				layer.msg('请输入回复内容', {
+					icon: 2
+				});
+				return;
+			}
+			$.post("/weibo/reply", {
+				content:content,
+				reply_id:reply_id
+			}, function (data) {
+				if (data.status == 1) {
+					layer.msg(data.info, {
+						icon: 1
+					});
+					ele.find('.send2').hide()
+					window.location = "{#url('weibo/index')}";
+				} else {
+					layer.msg(data.info, {
+						icon: 2
+					});
+				}
+			}, "json");
+		}
+
+	   function add_pinlun(n){
+			var ele=$('.dataitem[data|="'+n+'"]')
+		    $('.dataitem .send').hide()
+		    $('.send2').hide();
+             ele.find('.send').show()
+	   }
+
+		function submit_pinlun(n){
+			var ele=$('.dataitem[data|="'+n+'"]')
+			var content=ele.find("textarea").val()
+			if (content == "" || content == null) {
+				layer.msg('请输入评论内容', {
+					icon: 2
+				});
+				return;
+			}
+			$.post("/weibo/add_pinlun", {
+				content:content,
+				art_id:n
+			}, function (data) {
+				if (data.status == 1) {
+					layer.msg(data.info, {
+						icon: 1
+					});
+					ele.find('.send').hide()
+					window.location = "{#url('weibo/index')}";
+				} else {
+					layer.msg(data.info, {
+						icon: 2
+					});
+				}
+			}, "json");
+		}
+
+	    function zan(id){
+				    $.post("/weibo/zan", {
+					   id:id
+				    }, function (data) {
+					    if (data.status == 1) {
+						    layer.msg(data.info, {
+							    icon: 1
+						    });
+						    window.location = "{#url('weibo/index')}";
+					    } else {
+						    layer.msg(data.info, {
+							    icon: 2
+						    });
+					    }
+				    }, "json");
+		    }
+
+		function guanzhu(id){
+			$.post("/weibo/guanzhu", {
+				id:id
+			}, function (data) {
+				if (data.status == 1) {
+					layer.msg(data.info, {
+						icon: 1
+					});
+					window.location = "{#url('weibo/index')}";
+				} else {
+					layer.msg(data.info, {
+						icon: 2
+					});
+				}
+			}, "json");
+		}
+
+		function like(id){
+			$.post("/weibo/like", {
+				id:id
+			}, function (data) {
+				if (data.status == 1) {
+					layer.msg(data.info, {
+						icon: 1
+					});
+					window.location = "{#url('weibo/index')}";
+				} else {
+					layer.msg(data.info, {
+						icon: 2
+					});
+				}
+			}, "json");
+		}
+
+	   function send_weibo(){
+		   var content=$("#text").val()
+		   var title=$("#weibo_title").val()
+		   if (title == "" || title == null) {
+			   layer.msg('请输入微博话题', {
+				   icon: 2
+			   });
+			   return;
+		   }
+		   if (content == "" || content == null) {
+			   layer.msg('请输入微博内容', {
+				   icon: 2
+			     });
+			   return;
+		   }
+		   $.post("/weibo/send_weibo", {
+			   title:title,
+			   content:content
+		   }, function (data) {
+			   if (data.status == 1) {
+				   layer.msg(data.info, {
+					   icon: 1
+				   });
+				   window.location = "{#url('weibo/index')}";
+			   } else {
+				   layer.msg(data.info, {
+					   icon: 2
+				   });
+			   }
+		   }, "json");
+	   }
+	function join(n){
+		var text=$(n).attr('data')
+		$("#weibo_title").val(text)
+	}
+</script>
+</div>
+{include file="public:footer"}

@@ -1,0 +1,242 @@
+/*<!--	banner	-->*/
+.banner ul{
+	height:1.8rem;
+	background: #fff;
+	position: fixed;
+	top:0;
+	left:0;
+	z-index: 99999;
+	padding-top: 0.8rem;
+}
+.banner>img{
+	display: block;
+}
+
+#c-form{
+
+}
+.banner>ul li:nth-child(1) a{
+	display: inline-block;
+	padding: 0 0.5rem;
+	margin-left: 0.5rem;
+}
+.banner>ul li:nth-child(1) img{
+	width: 0.528rem;
+}
+.banner>ul li:nth-child(2){
+	font-size: 0.768rem;
+	color: #84ab28;
+	text-align: center;
+	font-family: pingfangcenter;
+}
+
+
+
+
+/*<!--		表单填写-->*/
+form{
+	padding: 0.8rem 0;
+}
+form>div{
+	padding: 0.6rem 0.3rem 0.5rem 1rem;
+	font-size: 0;
+}
+form>div{
+	border-bottom:1px solid #DFDFDF;
+}
+form>div>span{
+	display: inline-block;
+	width: 1.2rem;
+	vertical-align: middle;
+}
+form>div>input{
+	display: inline-block;
+	width: 14rem;
+	vertical-align: middle;
+	font-size: 0.624rem;
+	padding: 0.4rem 0 0 0;
+	text-indent: 1em;
+	border: none;
+	outline: none;
+	color: #888888;
+	font-family: pingfangcenter;
+	letter-spacing: 0.05rem;
+	margin-left: 1rem;
+}
+form>div>input::-ms-input-placeholder{
+	color: #888888;
+	font-family: pingfangcenter;
+	font-size: 0.624rem;
+	letter-spacing: 0.05rem;
+}
+form>div>input::-moz-placeholder{
+	color: #888888;
+	font-family: pingfangcenter;
+	font-size: 0.624rem;
+	letter-spacing: 0.05rem;
+}
+form>div>input::-webkit-input-placeholder{
+	color: #888888;
+	font-family: pingfangcenter;
+	font-size: 0.624rem;
+	letter-spacing: 0.05rem;
+}
+form>div span:nth-child(n+2){
+	width: 1.4rem;
+	font-size: 0.624rem;
+	color: #4a4a4a;
+	margin-left: 1.5rem;
+	font-family: pingfangcenter;
+}
+form>div span:nth-child(4){
+	width: 1.4rem;
+	font-size: 0.624rem;
+	color: #4a4a4a;
+	margin-left: 1rem;
+	font-family: pingfangcenter;
+}
+form>div ul{
+	border: 1px solid #959595;
+	border-radius:3px;
+	width: 4.8rem;
+	font-size: 0;
+	text-align: center;
+	display: inline-block;
+}
+form>div ul li{
+	display: inline-block;
+	vertical-align: middle;
+	width: 32%;
+}
+form>div ul li img{
+	width: 0.552rem;
+}
+form>div ul li:nth-child(2){
+	font-size: 0.624rem;
+	padding: 0.2rem 0;
+	text-align: center;
+	font-family: pingfangcenter;
+	border-left:1px solid #959595;
+	border-right:1px solid #959595;
+}
+
+
+/*房间选项*/
+form .fangjian span:nth-child(4){
+	margin-left: 0.6rem;
+	width: 2.2rem;
+}
+form .fangjian span:nth-child(5){
+	margin-left: 0.3rem;
+	width: 2.2rem;
+}
+form .fangjian input{
+	opacity: 0;
+	display: none;
+}
+form .fangjian span:nth-child(n+4){
+	background: url(../image/xuanze.png) no-repeat 0 center;
+	background-size:0.8rem auto;
+	vertical-align: middle;
+	padding-left: 1rem;
+}
+
+form .fangjian span:nth-child(n+4).active{
+	background: url(../image/queren.png) no-repeat 0 center;
+	background-size:0.85rem auto;
+}
+/*车辆选项*/
+form .car{
+	padding-bottom: 0;
+}
+form .car div{
+	display: inline-block;
+	width: 13.776rem;
+	font-size: 0.624rem;
+	color: #4a4a4a;
+	font-family: pingfangcenter;
+	margin-left: 1.5rem;
+	vertical-align: middle;
+}
+form .car div input{
+	opacity: 0;
+	display: none;
+}
+form .car div span{
+	display: block;
+	float: left;
+	background: url(../image/xuanze.png) no-repeat 0 center;
+	background-size:0.8rem auto;
+	vertical-align: middle;
+	padding-left:1rem;
+	margin-right: 1rem;
+	margin-left: 0;
+	margin-bottom: 0.6rem;
+	width: auto;
+}
+form .car div span.active{
+	background: url(../image/queren.png) no-repeat 0 center;
+	background-size:0.85rem auto;
+}
+
+form .ysno span:nth-child(n+2){
+	display: inline-block;
+	background: url(../image/xuanze.png) no-repeat 0 center;
+	background-size:0.8rem auto;
+	vertical-align: middle;
+	padding-left:1rem;
+	width: auto;
+}
+form .ysno span:nth-child(n+2).active{
+	background: url(../image/queren.png) no-repeat 0 center;
+	background-size:0.85rem auto;
+}
+form .ysno span input{
+	display: none;
+	opacity: 0;
+}
+form .yanzhengma{
+	
+}
+form .yanzhengma input{
+	border: 1px solid #ACACAC;
+	width: 3rem;
+	margin-left: 1.5rem;
+	padding: 0.2rem 0 0.2rem 0;
+}
+form .yanzhengma span:nth-child(3){
+	 /*font-family: ;*/
+	 width: 2.3rem;
+	 padding: 0rem 0.5rem 0.1rem 0.5rem;
+	 color: white;
+	 letter-spacing: 0.1rem;
+	 font-size: 1.1rem;
+	 background: #7EA51C;
+	 margin-left: 1rem;
+	 font-family: "yanzhengma";
+}
+form .yanzhengma div{
+	font-size: 0.528rem;
+	display: inline-block;
+	vertical-align: middle;
+	padding: 0.1rem 0;
+	margin-left: 0.1rem;
+	color: #979797;
+	font-family: pingfangcenter;
+}
+form{
+	padding-bottom: 0;
+}
+form>button{
+	margin-top: 1rem;
+	display: block;
+	width: 100%;
+	border: none;
+	outline: none;
+	background: #7EA51C;
+	color: white;
+	font-size: 0.816rem;
+	font-family: "pingfangcenter";
+	padding: 0.5rem 0;
+	font-weight: bold;
+}

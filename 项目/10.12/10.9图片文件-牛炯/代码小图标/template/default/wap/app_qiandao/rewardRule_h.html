@@ -1,0 +1,48 @@
+{include file="public:header"}
+<title>签到</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<body>
+<header id="header" class="aui-bar aui-bar-nav">
+	<a class="aui-pull-left" tapmod="" onclick="back();">
+		<span class="aui-iconfont aui-icon-left"></span>返回
+	</a>
+	<div class="aui-title">签到</div>
+	<a class="aui-pull-right" onclick="open_log()">
+		记录
+	</a>
+</header>
+</body>
+<script>
+
+	apiready = function(){
+		onerror       = error_handel;
+		var header    = $api.byId('header');
+		var width     = getWinWidth();
+		var headerPos = $api.offset(header);
+		var height    = getWinHight() - headerPos.h;
+
+
+		openFrame({
+			name: 'rewardRule',
+			url: aurl('app_qiandao/rewardRule'),
+			allowEdit : true,
+			bounces: false,
+			opaque: true,
+			reload: true,
+			vScrollBarEnabled: true,
+			hScrollBarEnabled:false,
+			rect: {
+				x: 0,
+				y: headerPos.h,
+				w: width,
+				h: height
+			}
+		});
+	}
+	function open_log(){
+		open_win("qiandao_log_h","app_qiandao");
+	}
+
+</script>
+</html>

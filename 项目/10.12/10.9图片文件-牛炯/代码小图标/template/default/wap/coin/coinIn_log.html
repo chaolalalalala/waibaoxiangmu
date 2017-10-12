@@ -1,0 +1,233 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+    select{
+        color: darkgrey;
+        display: block;
+        outline: none;
+        /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+        /*很关键：将默认的select选择框样式清除*/
+        appearance:none;
+        -moz-appearance:none;
+        -webkit-appearance: listbox;
+        /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+        padding-right: 14px;
+        background-color: #FFF;
+        text-align: left;
+        border: 0;
+        padding-left:1rem;
+        display: inline-block;
+        width: 100%;
+    }
+    .my_body{
+        margin: 10px 10px 60px 10px;
+        border-radius: 8px;
+        padding: 0 10px;
+        line-height: 30px;
+    }
+    .my_body ul{
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 10px;
+        list-style: none;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        background-color: #FFF;
+    }
+    .bank_title{
+        margin: 0 0 0 1rem;
+        height: 3rem;
+        line-height: 3rem;
+        color:#a59494;
+    }
+    .bank_title img{
+        height: 1.6rem;
+        margin: 0.7rem 1rem 0 0;
+        vertical-align: middle;
+        float: right;
+    }
+    .bank_body{
+        margin: 0 0 0 1rem;
+    }
+    .bank_body span{
+        display: block;
+    }
+    .bank_body .g{
+        color: gray;
+    }
+    .r{
+        float: right;
+        margin-right: 1rem;
+    }
+    .red{
+        color: #e55600;
+    }
+    .green{
+        color:green;
+    }
+</style>
+<body>
+<div class="aui-refresh-content">
+<div class="my_body">
+    <span id="typelist" class="bankname">
+        <select name="bank" id="bank_type" tapmod="" onchange="selectCoinType()">
+            <option value="0">--全部币种--</option>
+        </select>
+    </span>
+    <div id="coinIn_log-list" style="margin-top: 0.5rem"></div>
+</div>
+</div>
+<script id="coinIn_log-coinType" type="text/x-dot-template">
+    {{ for (var key in it) { }}
+    <option key="{{=key}}" value="{{=it[key].name}}">{{=it[key].title}}</option>
+    {{ } }}
+</script>
+<script id="coinIn_log-list-temp" type="text/x-dot-template">
+    {{? it.length>0}}
+    {{ for(var i in it) { }}
+    <ul class="aui-border">
+        <li class="bank_title  aui-border-b">
+            <span>转入币种:</span><span>{{=it[i].coin_name}}</span>
+            {{? it[i].status == 1}}
+            <span class="r green">转入成功</span>
+            {{??}}
+            <span tapmod="" class="r red">等待处理</span>
+            {{?}}
+        </li>
+        <li class="bank_body">
+            <span class="g">转入时间:<em>{{=it[i].addtime}}</em></span>
+            <span class="g">转入数量:<em>{{=it[i].num}}</em></span>
+            <span class="g">转入赠送:<em>{{=it[i].fee}}</em></span>
+            <span class="g">到账数量:<em>{{=it[i].mum}}</em></span>
+            <span class="g">确认次数:<em>{{=it[i].queren}}</em></span>
+            <span class="g">类型:<em>{{=it[i].type}}</em></span>
+        </li>
+    </ul>
+    {{ } }}
+    {{??}}
+    <div style="padding: 10px 0">
+        <ul style="text-align: center;color: #535C6F">
+            暂无内容
+        </ul>
+    </div>
+    {{? }}
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	var target = '';
+	var initData;
+    var coinTypeData;
+    var pid = 1;
+    var currentCoin;
+	apiready = function () {
+		onerror = error_handel;
+        setCoinType();
+        var defaultCoin = $('#bank_type').children('*:nth-child(1n)').val();
+        alog("默认显示币种:"+defaultCoin);
+        currentCoin = defaultCoin;
+        requestData(currentCoin,pid);
+	}
+
+    function setCoinType () {
+        //获取缓存，设置币种的select标签内容
+        var coinTypeInfo = memObj('coinTypeList');
+        if (typeof coinTypeInfo == 'undefined')
+        {
+	        //todo 获取币种列表 然后缓存
+	      var coinTypeInfo = getCoinInfo();
+        }
+        alog(coinTypeInfo);
+        var coinSelect = doT.template($("#coinIn_log-coinType").html());
+        $("#bank_type").html(coinSelect(coinTypeInfo));
+    }
+
+	function createView () {
+		alog("更新界面");
+		var data = arguments[0];
+		if (typeof data == 'undefined') {
+			art("createView参数错误.view:chose");
+			return;
+		}
+		alog(data);
+        var coinIn_log_temp = doT.template($("#coinIn_log-list-temp").html());
+        if (pid == 1)
+        {
+            //第一页 -- 覆盖
+            $('#coinIn_log-list').html(coinIn_log_temp(data.list));
+        }
+        else if( data.list.length > 0){
+            //非第一页且有数据 -- 追加
+            $('#coinIn_log-list').html(  $('#coinIn_log-list').html() + coinIn_log_temp(data.list));
+        }
+
+        if( pid > Math.ceil( parseInt(data.count)/parseInt(data.pageSize) ) ){
+            art("没有更多数据了");
+        }else {
+            art('第'+pid+'页');
+            pid++;
+        }
+	}
+
+	function selectCoinType(){
+		var selectedCoin = $('#bank_type option').filter(function (){ return this.selected}).val();
+		alog("选择coin:"+selectedCoin);
+        pid = 1;
+        currentCoin = selectedCoin?selectedCoin:'';
+        requestData();
+	}
+
+    function requestData(callback) {
+        var params = {"coin":currentCoin,"pid":pid};
+        UserAjax('finan/coinin_log', 'get', params, function (ret) {
+            if( typeof callback == "function" ){
+                callback("加载页面完成");
+            }
+            alog(ret);
+            if (ret.status == 1)
+            {
+                alog("虚拟币转入结果");
+                alog(ret.info);
+                createView(ret.info);
+            }
+            else {
+                art(ret.info);
+	           emptyData( $('#coinIn_log-list') );
+            }
+        });
+    }
+
+    //上拉加载
+    window.onscroll = function () {
+        if (isScrollToBottom())
+        {
+            requestData();
+        }
+    };
+
+    //下拉刷新
+    var pullRefresh = new auiPullToRefresh({
+        container: document.querySelector('.aui-refresh-content'),
+        triggerDistance: 100
+    }, function (ret) {
+        if (ret.status == "success") {
+            if(getScrollTop() < 10)
+            {
+                pid = 1;
+                requestData(function (msg) {
+                    art(msg);
+                    pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+                });
+            }
+            else {
+                pullRefresh.cancelLoading();
+            }
+        }
+    });
+</script>
+</html>

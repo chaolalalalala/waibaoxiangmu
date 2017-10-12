@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>收货地址 - 安全中心 - 币火网 -  www.bihuo168.com </title>
+<meta name="Keywords" content="{$seos['keywords']}">
+<meta name="Description" content=" {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+<link rel="stylesheet" href="/static/style/safeadd.css">
+<link rel="stylesheet" href="/static/style/safeadd07.css">
+<script type="text/javascript" src="__EXT__/city/cityselect.js"></script>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="/u/safe.jsp" class="">{#lang('安全中心')}</a> &gt; 	{#lang('收货地址')}
+	</div>
+	<div class="main-content">
+		{include file="user:left"}
+		<div class="tag-list-content assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('收货地址')}
+					</span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="cnyin_record">
+				<div class="f_body">
+					<table class="f_table" style="width:98%;margin:0px auto;">
+						<thead>
+						<tr>
+							<th>{#lang('备注名称')}</th>
+							<th>{#lang('联系姓名')}</th>
+							<th>{#lang('联系电话')}</th>
+							<th>{#lang('城市')}</th>
+							<th>{#lang('详细地址')}</th>
+							<th>{#lang('添加时间')}</th>
+							<th>{#lang('操作')}</th>
+						</tr>
+						</thead>
+						<tbody>
+						{foreach $pages['list'] as $k => $v}
+						<tr>
+							<td>{$v.name}</td>
+							<td>{$v.truename}</td>
+							<td>{$v.moble}</td>
+							<td>{$v.prov} {$v.city}</td>
+							<td>{$v.addr}</td>
+							<td>{#addtime($v['addtime'])}</td>
+							<td>
+								<a class="cancel" href="javascript:void(0)" id="{$v['id']}" onclick="goods_del(this)">{#lang('删除')}</a>
+							</td>
+
+						</tr>
+						{/foreach}
+						</tbody>
+					</table>
+					<div class="pages">
+						<a href="javascript:void(0)" onclick="showA()" class="">{#lang('添加一个地址')}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="all_mask_loginbox" id="step1" style="display: none;">
+	<div class="login_title pl20">{#lang('添加一个联系地址')}</div>
+	<form id="form-login" class="mask_wrap login-fb">
+		<div class="login_text zin90">
+			<div class="mask_wrap_title">{#lang('地址备注')}：</div>
+			<input id="goods_name" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('联系姓名')}：</div>
+			<input id="goods_truename" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('联系电话')}：</div>
+			<input id="goods_moble" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('开户省市')}：</div>
+			<span class="controls" id="city_1">
+				<select class="prov texts" id="goods_prov" name="prov" style="width: 98px;"></select>
+				<select class="city texts" id="goods_city" name="city" style="width: 98px; display: none;"></select>
+            </span>
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('收货地址')}：</div>
+			<input id="goods_addr" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('交易密码')}：</div>
+			<input id="goods_paypassword" class="texts" type="password"><a href="/findpwd/paypassword" class="move ml5">{#lang('忘记')}?</a>
+		</div>
+		<div class="login_button">
+			<input type="button" class="btns2" value={#lang("立即添加")} onclick="goods_up();" >
+		</div>
+	</form>
+	<div class="mask_wrap_close " onclick="showB()"><i class="fa fa-times fz_20 move" aria-hidden="true"></i></div>
+</div>
+<div id="step2" class="all_mask" style="height: 0px;display: none;"></div>
+
+<script>
+
+
+	function showA() {
+		$("#step1").show();
+		$("#step2").show();
+	}
+
+	function showB() {
+		$("#step1").hide();
+		$("#step2").hide();
+	}
+	$(function () {
+		var height = $(document).height();
+		if (height < 1000) {
+			height = 1000;
+		}
+
+		$('#step2').height(height);
+
+		$("#city_1").citySelect({nodata: "none", required: false});
+	});
+
+
+	function goods_up() {
+		var name        = $('#goods_name').val();
+		var truename    = $('#goods_truename').val();
+		var prov        = $('#goods_prov option:selected').val();
+		var city        = $('#goods_city option:selected').val();
+		var moble       = $('#goods_moble').val();
+		var addr        = $('#goods_addr').val();
+		var paypassword = $('#goods_paypassword').val();
+
+		if (name == "" || name == null) {
+			layer.tips('{#lang("请输入备注名称")}', '#goods_name', {tips: 3});
+			return false;
+		}
+		if (truename == "" || truename == null) {
+			layer.tips('{#lang("请输入联系姓名")}', '#goods_truename', {tips: 3});
+			return false;
+		}
+		if (moble == "" || moble == null) {
+			layer.tips('{#lang("请输入联系电话")}', '#goods_moble', {tips: 3});
+			return false;
+		}
+		if (prov == "" || prov == null) {
+			layer.tips('{#lang("请选择省份")}', '#goods_prov', {tips: 3});
+			return false;
+		}
+		if (city == "" || city == null) {
+			layer.tips('{#lang("请选择城市")}', '#goods_city', {tips: 3});
+			return false;
+		}
+		if (addr == "" || addr == null) {
+			layer.tips('{#lang("请输入联系地址")}', '#goods_addr', {tips: 3});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips('{#lang("请输入交易密码")}', '#goods_paypassword', {tips: 3});
+			return false;
+		}
+
+		$.post("{#url('user/goods_up')}", {
+			name: name,
+			truename: truename,
+			moble: moble,
+			addr: addr,
+			prov: prov,
+			city: city,
+			paypassword: paypassword
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout('location.reload()',1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+
+	function goods_del(o) {
+		var id = $(o).attr('id');
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '{#lang("输入交易密码，并确认")}',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('user/goods_del')}", {id: id, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							setTimeout('location.reload()',1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+	}
+</script>
+<script>
+	$('.user_goods').addClass('active');
+</script>
+{include file="aaapublic:footer"}

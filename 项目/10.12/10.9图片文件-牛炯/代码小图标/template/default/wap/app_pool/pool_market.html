@@ -1,0 +1,219 @@
+{include file="public:header"}
+<title>记录</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+	.coin-header{
+		background-color: #fff !important;
+		border-bottom: 1px solid whitesmoke;
+		height: 2.5rem;
+	}
+	.coin-header-title{
+		height: 1.5rem;
+		line-height: 1.5rem;
+		margin:0.2rem 0.5rem 0;
+	}
+	.coin-header-btn{
+		border-radius:5px;
+		border:1px solid #1a81d6;
+		text-align:center;
+		margin:0.2rem 0.3rem;
+		color:#1a81d6;
+		height:1.5rem;
+		float:right;
+		line-height:1.5rem;
+	}
+	.my_body{
+		margin: 10px 10px 60px 10px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background-color: #FFF;
+	}
+	.bank_body{
+		margin: 0 0 0 1rem;
+	}
+	.bank_body span{
+		display: block;
+	}
+	.g{
+		color: gray;
+	}
+	.red{
+		color: #e55600;
+	}
+</style>
+<body>
+<section class="aui-refresh-content">
+<div class="wrap">
+	<div class="my_body">
+		<div id="pool-market">
+		</div>
+	</div>
+</div>
+	<section class="aui-refresh-content">
+		<script id="pool-market-template" type="text/x-dot-template">
+			{{? it.length>0}}
+			{{ for(var i in it) { }}
+			<ul class="aui-list aui-media-list">
+				<li class="aui-list-header coin-header"   tapmod>
+					<div class="aui-col-xs-4  coin-header-title aui-font-size-18 g">序号：<em class="red">{{=it[i].id}}</em></div>
+					<div class="aui-col-xs-3  coin-header-btn aui-font-size-14" onclick="order_pool('{{=it[i].id}}')">立即购买</div>
+				</li>
+				<li class="bank_body">
+					<span class="g">状态:
+					{{? it[i].status == 1}}
+					<em class="red">热卖中</em>
+					{{?? it[i].status == 1}}
+					<em class="g">已停售</em>
+					{{??}}
+					<em class="g">状态异常</em>
+					{{?}}
+					</span>
+					<span class="g">名称:<em>{{=it[i].title}}</em></span>
+					<span class="g">寿命:<em>{{=it[i].life}}次</em></span>
+					<span class="g">产能:<em>{{=it[i].pd}}{{=it[i].pd_type}}</em></span>
+					<span class="g">售价:<em>{{=it[i].price}}{{=it[i].price_type}}</em></span>
+					<span class="g">收益时间:<em>{{=it[i].limit1}}点--{{=it[i].limit2}}点</em></span>
+					<span class="g">其他时间收益减少比率%:<em>{{=it[i].qita}}%</em></span>
+					<span class="g">过期产收益减少比率%:<em>{{=it[i].guoqi}}%</em></span>
+					<span class="g">最小产能%:<em>{{=it[i].minguoqi}}%</em></span>
+					<span class="g">购买上限:<em>{{=it[i].limit}}</em></span>
+				</li>
+			</ul>
+			{{ } }}
+			{{??}}
+			<div style="padding: 10px 0"><ul style="text-align: center;color: #535C6F">暂无内容 </ul></div>
+			{{? }}
+		</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-dialog.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	var callback;
+	var pid=1;
+	apiready = function(){
+		onerror = error_handel;
+		flash_wtlog(callback)
+	}
+
+	//改变参数
+	function list_change(callback){
+		pid=1;
+		flash_wtlog(callback)
+	}
+	//获取数据
+	function flash_wtlog(callback){
+		loading("努力加载中……")
+		Ajax('pool/market','get', {
+			'pid':pid,
+		},
+			function (ret) {
+			toast.hide()
+			if (ret.status == 1)
+			{
+				var temp = doT.template($("#pool-market-template").text());
+				if(pid==1){
+					art('第'+pid+'页')
+					$("#pool-market").html(temp(ret.info.list))
+				}
+				else if(pid>Math.ceil(Number(ret.info.count)/Number(ret.info.pageSize))){
+					art("没有更多数据了")
+				}
+				else{
+					art('第'+pid+'页')
+					$("#pool-market").html($("#pool-market").html()+temp(ret.info.list))};
+				if(typeof callback == "function"){
+					setTimeout(function () {
+						callback("刷新完成");
+					}, 1000)
+				}
+				parseTapmode();
+			}else {
+				art(ret.info);
+				if (typeof callback == "function") {
+					setTimeout(function () {
+						callback("刷新失败");
+					}, 1000)
+				}
+			}
+		},'json');
+	}
+
+	 //下拉加载
+	window.onscroll = function() {
+		if (getScrollTop() + getWindowHeight() == getScrollHeight()) {
+			++pid;
+			flash_wtlog(callback);
+		}
+	}
+	//下拉刷新
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			if(getScrollTop()<10) {
+				pid=1
+				flash_wtlog(function (msg) {
+					art(msg);
+					pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+				})
+			}
+			else {
+				pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+			}
+		}
+	})
+
+	//购买矿机
+	function order_pool(id){
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			return false;
+		}
+		var dialog = new auiDialog();
+		dialog.alert({
+			title: "请输入交易密码",
+			buttons: ['确定', '取消'],
+			input: true,
+			textType:"password",
+		}, function (ret) {
+			if (ret.buttonIndex == 1) {
+				var	paypassword = ret.text;
+				loading("操作中……")
+				UserAjax('pool/buy','post',{
+					'id':id,
+					'paypassword':paypassword,
+				},function(ret){
+					toast.hide()
+					art(ret)
+					if(ret.status==1){
+						art(ret.info)
+						setTimeout(function(){
+							scrollTo(0,0)
+							pid=1;
+							flash_wtlog(callback);
+						},2000);
+					}else{
+						art(ret.info);
+					}
+				},"json");
+			}
+		})
+	}
+</script>
+</html>

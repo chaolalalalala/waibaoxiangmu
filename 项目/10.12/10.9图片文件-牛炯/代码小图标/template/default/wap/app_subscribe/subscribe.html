@@ -1,0 +1,179 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+	<style>
+		.coin-header{
+			background-color: #fff !important;
+			border-bottom: 1px solid whitesmoke;
+			height: 2rem;
+		}
+		.coin-header-img{
+			width: 1.5rem;
+			padding:0.25rem;
+			height: 1.5rem;
+			margin-left:0.5rem;
+		}
+		.coin-header-title{
+			height: 1.5rem;
+			line-height: 1.5rem;
+			margin-left: 0.5rem;
+		}
+		.my_body{
+			margin: 10px 10px 60px 10px;
+			border-radius: 8px;
+			padding: 0 10px;
+			line-height: 30px;
+		}
+		.my_body ul{
+			position: relative;
+			padding-left: 0;
+			margin-top: 0;
+			margin-bottom: 10px;
+			list-style: none;
+			-moz-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+			background-color: #FFF;
+		}
+		.bank_body{
+			margin: 0 0 0 1rem;
+		}
+		.bank_body span{
+			display: block;
+		}
+		.bank_body .g{
+			color: gray;
+		}
+		.red{
+			color: #e55600;
+		}
+		.green{
+			color:green;
+		}
+	</style>
+</head>
+<body>
+<section class="aui-refresh-content">
+	<div class="my_body">
+		<div id="issue">
+	</div>
+	</div>
+</section>
+<script id="issue-template" type="text/x-dot-template">
+	{{? it}}
+	{{ for(var i in it) { }}
+	<div class="aui-content aui-margin-b-5"  onclick="open_datail('{{=it[i].id}}','{{=it[i].buy_log_show}}')">
+		<ul class="aui-list aui-media-list">
+			<li class="aui-list-header coin-header"   tapmod>
+				<div class="aui-col-xs-2 coin-header-img">
+					<img src="{{=it[i].coin.img}}" class="aui-img-round aui-list-img-sm">
+				</div>
+				<div class="aui-col-xs-8  coin-header-title aui-font-size-14 red">{{=it[i].name}}</div>
+			</li>
+			<li>
+				<ul>
+					<li class="bank_body">
+						<span class="g">认购总量: <em>{{=it[i].num}} {{=it[i].coinname}}</em></span>
+						<span class="g">认购单价: <em>{{=it[i].price}} {{=it[i].buycoin}}</em></span>
+						<span class="g">认购限量: <em>{{=it[i].limit}} {{=it[i].coinname}}</em></span>
+						<span class="g">开启时间: <em>{{=it[i].strtime}}</em></span>
+						<span class="g">结束时间: <em>{{=it[i].sndtime}}</em></span>
+						<span class="g">累计已认购:  <em class="green">{{=it[i].deal}} {{=it[i].coinname}}</em></span>
+					</li>
+					<div class="aui-content-padded" style="padding-bottom:1rem">
+						<p><div class="aui-btn aui-btn-info" onclick="" style="width: 100%;line-height: 1.5rem">立即认购</div></p>
+					</div>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{? }}
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	var callback;
+	var pid=1;
+	apiready = function() {
+		onerror = error_handel;
+		flash(callback);
+	}
+
+	window.onscroll = function() {
+		if (getScrollTop() + getWindowHeight() == getScrollHeight()) {
+			++pid;
+			flash(callback)
+		}
+	}
+
+	function flash(callback){
+		loading("加载中……")
+		Ajax('issue/index', 'get', {
+			'pid':pid,
+		} , function (ret) {
+			if (ret.status == 1){
+				toast.hide()
+				var temp = doT.template($("#issue-template").text());
+				if(pid==1){
+					art('第' + pid + '页')
+					$("#issue").html(temp(ret.info.list))
+				}
+				else if(pid>Math.ceil(Number(ret.info.count)/Number(ret.info.pageSize))){
+					art("没有更多数据了")
+				}
+				else{
+					art('第' + pid + '页')
+					$("#issue").html($("#issue").html()+temp(ret.info.list));}
+				if(typeof callback == "function"){
+					setTimeout(function () {
+						callback("刷新完成");
+					}, 1000)
+				}
+				parseTapmode();
+			}else{
+				toast.hide();
+				art(ret.info);
+				if(typeof callback == "function"){
+					setTimeout(function () {
+						callback("刷新失败");
+					}, 1000)
+				}
+			}
+		},'json');
+	}
+
+	function open_datail(id,isShowLog){
+		openWin({
+			name: 'subscribe_detail_h',
+			url: aurl('app_subscribe/subscribe_detail_h'),
+			slidBackEnabled: false,
+			delay: 100,
+			pageParam: {
+				"id": id,
+				"isShowLog": isShowLog || 0
+			}
+		})
+	}
+
+	//下拉刷新
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			flash(function (msg) {
+				art(msg);
+				pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+			});
+		}
+	})
+</script>
+</html>

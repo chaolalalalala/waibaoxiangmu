@@ -1,0 +1,323 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/goods.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/fontawesome/font-awesome.min.css">
+	<style>
+		.h-mid ul li{ width:20%; float:left; height:45px; text-align:center; }
+		.orderItem li{
+			font-size: 0.65rem;
+			margin: 0.3125rem 0.625rem;
+		}
+		.orderItem ul{
+			clear: both;
+		}
+		.orderOptionBtns span {
+			margin: 0.325rem 0.325rem;
+			border: #999 1px solid;
+			padding: 0.125rem 0.325rem;
+			border-radius: 0.125rem;
+		}
+		input{
+			padding-left:0.7rem !important;
+		}
+		.center{
+			text-align:center;
+			line-height:2.2rem;
+		}
+		.red{
+			color:red !important;
+		}
+		.green{
+			color:green !important;
+		}
+		select{
+			color: #666;
+			display: block;
+			outline: none;
+			padding-left:0.5rem;
+			/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+			/*很关键：将默认的select选择框样式清除*/
+			appearance:none;
+			-moz-appearance:none;
+			-webkit-appearance: listbox;
+			/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+			padding-right: 14px;
+			background-color: #FFF;
+			height:2.2rem;
+			line-height: 2.2rem;
+			text-align: left;
+			border: 0;
+		}
+
+	</style>
+</head>
+<body>
+<div class="aui-content aui-margin-b-15">
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">主要内容</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">名称:</div>
+				<div class="aui-list-item-text red" id="title">
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">支持人数:</div>
+				<div class="aui-list-item-text" id="num"></div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">目标金额:</div>
+				<div class="aui-list-item-text green" id="mum"></div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">剩余天数:</div>
+				<div class="aui-list-item-text" id="day"></div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">结束时间:</div>
+				<div class="aui-list-item-text" id="endtime"></div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">项目进度:</div>
+				<div class="aui-progress aui-progress-xs">
+					<div class="aui-progress-bar" id="progress"></div>
+				</div>
+				<div class="aui-list-item-text green" style="margin-left:0.3rem" id="bili">
+
+				</div>
+			</div>
+		</li>
+	</ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">项目说明</li>
+		<div class="aui-card-list-content">
+			<img src="" id="img" />
+		<li class="aui-list-item">
+		<div class="aui-col-xs-3 center">
+			阶段
+		</div>
+		<div class="aui-col-xs-6 center">
+			时间
+		</div>
+		<div class="aui-col-xs-3 center">
+			回报<em id="coin_back" class="green"></em>
+		</div>
+		</li>
+	    <div id="huibao"></div>
+			</div>
+	</ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">项目介绍</li>
+		<li class="aui-list-item" style="height:300px">
+			<div id="content"
+			     style="
+                 position:relative;
+                 overflow-x:auto;
+                 overflow-y:auto;
+                 width:100%;
+                 /*overflow:scroll;*/
+                 height:auto;
+                 padding:0.75rem 0.75rem 0 0;
+                 " >
+			</div>
+		</li>
+	</ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">我要支持</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">选择币种:</div>
+				<div class="aui-list-item-input no-padding">
+					<select id="coin-select" onchange="hangqing()"></select>
+					</div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">可用<em id="keyong-coin"></em>:</div>
+				<div class="aui-list-item-input">
+					<input id="keyong" type="text" readonly>
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">
+					众筹数量:
+				</div>
+				<div class="aui-list-item-input">
+					<input id="rg_buyNum" type="number"  onchange="hangqing()" placeholder="请输入众筹数量">
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">需支付:</div>
+				<div class="aui-list-item-input">
+					<input id="fee" type="text" placeholder="输入数量后自动填充" readonly>
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">
+					交易密码:
+				</div>
+				<div class="aui-list-item-input">
+					<input id="paypassword" type="password" placeholder="请输入交易密码">
+				</div>
+			</div>
+		</li>
+	</ul>
+	<div class="aui-content-padded">
+		<p><div class="aui-btn aui-btn-info" onclick="buyNow()" style="width: 100%;line-height: 1.5rem">立即众筹</div></p>
+	</div>
+</div>
+<script id="coin-template" type="text/x-dot-template">
+	{{?it}}
+	{{for(var i in it){ }}
+	<option value="{{=i}}">{{=it[i]}}</option>
+	{{}}}
+	{{??}}
+
+	{{?}}
+</script>
+
+
+<script id="huibao-template" type="text/x-dot-template">
+	{{?it.length>0}}
+	{{for(var i in it){ }}
+	<li class="aui-list-item">
+			<div class="aui-col-xs-3 center">
+			第{{=Number(i)+1}}阶段
+			</div>
+			<div class="aui-col-xs-6 center">
+			{{=it[i].strtime}}--{{=it[i].endtime}}
+			</div>
+			<div class="aui-col-xs-3 center">
+				{{=it[i].bili}}个/<em class="coin"></em>
+			</div>
+			</li>
+	{{}}}
+	{{??}}
+	<li class="aui-list-item">
+	<div style="padding: 10px">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	</li>
+	{{?}}
+</script>
+
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	var coin;
+	apiready = function () {
+		onerror = error_handel;
+		flash()
+	};
+
+	function flash() {
+		var params = { 'id':iv('id') };
+		Ajax('ico/details', 'get', params, function (ret) {
+			alog(ret);
+			var data = ret.info
+			if (ret.status == 1) {
+				$("#title").html(data.title);
+				$("#num").html(data.num);
+				coin=data.coin;
+				$("#mum").html(data.mum+' '+data.coin);
+				$("#day").html(data.day);
+				$("#img").attr('src',data.img);
+				$("#coin_back").html(data.coin_back);
+				$("#endtime").html(data.endtime);
+				$("#bili").html(data.bili+"%");
+				$("#progress").css('width',data.bili+"%");
+				$("#content").html(data.content);
+				if(data.huibao){
+					var temp = doT.template($("#huibao-template").text());
+					$("#huibao").html(temp(data.huibao))
+				}
+				$(".coin").html(data.coin);
+				if(data.data){
+					var temp = doT.template($("#coin-template").text());
+					$("#coin-select").html(temp(data.data))
+					 hangqing()
+					$("#usercoin").html(ret.info.data.usercoin);
+				}
+			}else {
+				art(ret.info);
+			}
+		});
+	}
+
+	//请求行情
+	function hangqing(){
+		if(!chkLogin()){
+			var req = Ajax
+		}else {
+			var req = UserAjax;
+		}
+		var coinpay=$("#coin-select option").filter(function(){ return this.selected }).val();
+		$("#keyong-coin").html(coinpay);
+		req('ico/hangqing','POST',{
+			'coinpay':coinpay,
+			'coin':coin
+		},function(ret) {
+			$('#keyong').val(ret.info.coin)
+			bili    = ret.info.bili
+			var mum = Number($('#rg_buyNum').val()) *Number(bili);
+			if (mum) {
+				$('#fee').val(mum)
+			}
+		})
+	}
+
+	function buyNow(){
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			return false;
+		}
+		var num=$('#rg_buyNum').val();
+		var  paypassword=$('#paypassword').val();
+		if(!num){
+			art('请输入众筹数量');
+			return;
+		}
+		if(!paypassword){
+			art('请输入交易密码');
+			return;
+		}
+		UserAjax('ico/up','post',{
+			'id':iv('id'),
+			'num':num,
+			'coin':$("#coin-select option").filter(function(){ return this.selected }).val(),
+			'paypassword':paypassword,
+		},function(ret){
+			if(ret.status==1) {
+				art(ret.info)
+				$('#rg_buyNum').val(null);
+				$('#paypassword').val(null);
+			}else{
+				art(ret.info)
+			}
+		},'json');
+	}
+</script>
+</html>

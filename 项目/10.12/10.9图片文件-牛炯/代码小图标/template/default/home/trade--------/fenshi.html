@@ -1,0 +1,40 @@
+	<!DOCTYPE html>
+<html>
+<head>
+
+    <title>行情图</title>
+
+    <!-- Fix for iOS Safari zooming bug -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+    <style>
+        iframe, body, html, #tv_chart_container {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .loading-indicator {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            width: 128px;
+            height: 44px;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body style="margin:0px; overflow: hidden;height: 100%;" data-symbol="{$market['name']}">
+<input type="hidden" id="market_name" value="{$market['name']}">
+
+<img src="__HOME__/img/trade/loading.gif" class="loading-indicator"/>
+<div id="tv_chart_container"></div>
+
+
+<script type="text/javascript" src="__HOME__/js/trade/tradingView.js"></script>
+
+</body>
+</html>
+

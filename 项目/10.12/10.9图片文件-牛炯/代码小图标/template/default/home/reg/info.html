@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>注册成功 -  币火网 -  www.bihuo168.com </title>
+<meta name="Keywords" content="{$seos['keywords']}">
+<meta name="Description" content=" {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+
+<script>
+var uuu=window.location.href;
+if(uuu.indexOf("/u/") < 0 ) { 
+window.location.href="/u/register_ok.jsp"; 
+}
+</script>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')} </a>&gt; {#lang('注册账户')}
+	</div>
+	<div class="login_step">
+		<ul class="order clear" style="margin-left:300px">
+			<li><i class="fa fa-circle  fz_40 "><span>1</span></i> {#lang('用户注册')}
+				<div class="order_line"></div>
+			</li>
+			<li><i class="fa fa-circle  fz_40 "><span>2</span></i>{#lang('交易密码')}
+				<div class="order_line"></div>
+			</li>
+			<!--<li><i class="fa fa-circle  fz_40"><span>3</span></i>{#lang('实名认证')}-->
+			<!--<div class="order_line"></div>-->
+			<!--</li>-->
+			<li><i class="fa fa-circle  fz_40 move"><span>3</span></i>{#lang('成功')}</li>
+		</ul>
+	</div>
+	<div class="reg_box">
+		<div class="reg_su">
+			<div class="reg_su_title"><i class="fa fa-check mr5 fz_40"></i>{#lang('恭喜您，已经注册成功')}！</div>
+			<div class="reg_info">
+				<ul>
+					<li>&nbsp;&nbsp;&nbsp;{#lang('手机号')}：<span>{$user.moble}</span></li>
+					<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {#lang('邮箱')}：<span>{$user.email}</span></li>
+					<li>&nbsp;&nbsp;&nbsp;{#lang('用户名')}：<span>{$user.username}</span></li>
+					<!--<li>{#lang('证件类型')}：<span>{$user.idcardtype}</span></li>-->
+					<!--<li>{#lang('真实姓名')}：<span>{$user.truename}</span></li>-->
+					<!--<li>{#lang('证件号码')}：<span>{$user.idcard}</span></li>-->
+				</ul>
+				<div class="auto_btn mb35">
+					<a href="/btc.jsp" class="center btns2">{#lang('去交易')}</a>
+					<div class="right_side"></div>
+				</div>
+				<div class="reg_otherlink">
+					{#lang('您还可以')}： <a href="/u/safe/google.jsp" target="_blank">{#lang('开启双重验证')}</a>　 <a href="/u/safe/auth.jsp" target="_blank">{#lang('完善实名资料')}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$('#index_box').addClass('active');
+</script>
+
+
+
+{include file="aaapublic:footer"}

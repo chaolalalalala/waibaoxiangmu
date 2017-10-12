@@ -1,0 +1,249 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/goods.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/fontawesome/font-awesome.min.css">
+	<style>
+		.h-mid ul li{ width:20%; float:left; height:45px; text-align:center; }
+		.orderItem li{
+			font-size: 0.65rem;
+			margin: 0.3125rem 0.625rem;
+		}
+		.orderItem ul{
+			clear: both;
+		}
+		.orderOptionBtns span {
+			margin: 0.325rem 0.325rem;
+			border: #999 1px solid;
+			padding: 0.125rem 0.325rem;
+			border-radius: 0.125rem;
+		}
+		#name{
+			color:#FF6C33;
+		}
+		#feecoin2{
+			width:50%;
+		}
+		.no-padding{
+			padding:0 !important;
+		}
+		input{
+			text-align:right;
+		}
+	</style>
+</head>
+<body>
+<div class="aui-content aui-margin-b-15">
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">主要内容</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">名称:</div>
+				<div class="aui-list-item-text" id="name">
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">类型:</div>
+				<div class="aui-list-item-text" id="type">
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">开启时间:</div>
+				<div class="aui-list-item-text" id="addtime"></div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">结束时间:</div>
+				<div class="aui-list-item-text" id="endtime"></div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">付费币种:</div>
+				<div class="aui-list-item-text" id="buycoin"></div>
+			</div>
+		</li>
+	</ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">详细内容</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">认购总量：</div>
+				<div class="aui-list-item-text" id = "num"></div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">认购单价:</div>
+				<div class="aui-list-item-text" id = "price"></div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">每份数量:</div>
+				<div class="aui-list-item-text" id = "one_num"></div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">认购限量:</div>
+				<div class="aui-list-item-text" id="limit"></div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">累计已认购:</div>
+				<div class="aui-list-item-text" id="deal"></div>
+			</div>
+		</li>
+	</ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">认购介绍</li>
+		<li class="aui-list-item" style="height:300px">
+			<div id="content"
+			     style="
+                 position:relative;
+                 overflow-x:auto;
+                 overflow-y:auto;
+                 width:100%;
+                 /*overflow:scroll;*/
+                 height:auto;
+                 padding:0.75rem 0.75rem 0 0;
+                 " >
+			</div>
+		</li>
+	</ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">我要认购</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label" id="feecoin2">您目前可用:</div>
+				<div class="aui-list-item-text" id="usercoin"></div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label" id="buytype">
+					认购数量:
+				</div>
+				<div class="aui-list-item-input no-padding">
+					<input id="rg_buyNum" type="text" placeholder="请输入认购数量">
+				</div>
+			</div>
+		</li>
+		<li class="aui-list-item">
+			<div class="aui-list-item-inner">
+				<div class="aui-list-item-label">
+					交易密码:
+				</div>
+				<div class="aui-list-item-input no-padding">
+					<input id="paypassword" type="password" placeholder="请输入交易密码">
+				</div>
+			</div>
+		</li>
+	</ul>
+	<div class="aui-content-padded">
+		<p><div class="aui-btn aui-btn-info" onclick="buyNow()" style="width: 100%;line-height: 1.5rem">立即认购</div></p>
+	</div>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/ext/echo.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-slide.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	apiready = function () {
+		onerror = error_handel;
+		flash()
+	};
+   var  type='';
+	function flash() {
+		var params = { 'id':iv('id') };
+		if(!chkLogin()){
+			var req = Ajax
+		}else {
+			var req = UserAjax;
+		}
+		req('hold/buy', 'get', params, function (ret) {
+			alog(ret);
+			var data = ret.info.data.item
+			if (ret.status == 1) {
+				$("#name").html(data.name);
+				type=data.type;
+				if(type==1) {
+					$("#type").html('先到先得');
+					$("#type").css('color','red');
+				}
+				else{
+					$("#type").html('超募认购');
+					$("#type").css('color','green');
+				}
+
+				$("#num").html(data.num+" "+data.coinname);
+				$("#limit").html(data.limit+" "+data.coinname);
+				if(data.buytype == 1){
+					$("#price").html(data.price+" "+data.buycoin);
+				}else {
+					$("#price").html(data.price+" "+data.buycoin+"/份");
+					$("#one_num").html(data.one_num);
+					$("#buytype").html('认购份数:');
+				}
+				$("#deal").html(data.deal+" "+data.coinname);
+				$("#buycoin").html(data.buycoin);
+				$("#addtime").html(data.strtime);
+				$("#endtime").html(data.sndtime);
+				$("#content").append(data.content);
+				$("#feecoin2").html("您目前可用"+data.buycoin+":");
+				$("#usercoin").html(ret.info.data.usercoin);
+			}else {
+				art(ret.info);
+			}
+		});
+	}
+
+	function buyNow(){
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			return false;
+		}
+		var num=$('#rg_buyNum').val();
+		var  paypassword=$('#paypassword').val();
+		if(!num){
+			art('请输入认购数量');
+			return;
+		}
+		if(!paypassword){
+			art('请输入交易密码');
+			return;
+		}
+		if(type ==1 ){
+			var url='hold/up'
+		}
+		else{
+			var url='hold/chaomu_up'
+		}
+
+		UserAjax(url,'post',{
+			'id':iv('id'),
+			'num':num,
+			'type':type,
+			'paypassword':paypassword,
+		},function(ret){
+			if(ret.status==1) {
+				art(ret.info);
+				$('#rg_buyNum').val(null);
+				$('#paypassword').val(null);
+			}else{
+				art(ret.info)
+			}
+		},'json');
+	}
+</script>
+</html>

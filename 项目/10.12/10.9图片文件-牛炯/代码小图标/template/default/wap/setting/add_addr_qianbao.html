@@ -1,0 +1,191 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<style>
+	span{
+		color:#a59494;
+	}
+	.my_body{
+		margin: 20px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul,.my_title ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+	.my_body li{
+		border-radius: 2px;
+		margin: 1rem 0;
+		display: -webkit-box;
+		height: 2.2rem;
+		padding:0 0.5rem;
+		background-color: white;
+	}
+	.my_body li input{
+		display: block;
+		-webkit-box-flex: 1;
+		background-color: rgba(255, 255, 255, 0);
+		outline: none;
+		color: #666;;
+		height: 2.2rem;
+		line-height:2.2rem;
+	}
+	.btn{
+		display: block;
+		color: #FFFFFF;
+		margin: 0 30px;
+		text-align: center;
+		border-radius: 8px;
+		height: 2.5rem;
+		line-height: 2.5rem;
+		background-color: #e55600;
+	}
+	.notice span{
+		height: 2rem;
+		line-height: 2rem;
+		color: #DADADA;
+	}
+	select{
+		color: #666;
+		display: block;
+		outline: none;
+		/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+		/*很关键：将默认的select选择框样式清除*/
+		appearance:none;
+		-moz-appearance:none;
+		-webkit-appearance: listbox;
+		/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+		padding-left:0.5rem;
+		background-color: #FFF;
+		height:2rem;
+		line-height: 2rem;
+		text-align: left;
+		border: 0;
+		width:100%;
+	}
+</style>
+<body>
+<div class="wrap">
+    <div class="my_body">
+        <ul>
+	        <select name="coin" id="coin_type" tapmod="">
+		        <option value="all" style="color:#a59494">--全部币种--</option>
+	        </select>
+	        <li>
+                <input tapmod="" onclick="_focus(this)" name="name" id="name" type="text"
+                       placeholder="输入钱包标识">
+            </li>
+            <li>
+                <input tapmod="" onclick="_focus(this)" name="addr" id="addr" type="text"
+                       placeholder="输入钱包地址">
+              <!--  <span class="plus" tapmod="" onclick="saoyisao()">
+                    <img src="__WAP__/image/001/saoyisao.png" style="height: 2rem;margin: 0.1rem 0.5rem 0.1rem 0 ;">
+                </span>-->
+            </li>
+            <li>
+                <input tapmod="" onclick="_focus(this)" name="paypw" id="paypw" type="password"
+                       placeholder="输入交易密码">
+            </li>
+        </ul>
+    </div>
+    <div style="margin: 20px;border-radius: 8px;padding: 0 10px;line-height: 30px;">
+        <span style="height: 2rem;line-height: 2rem;color: #DADADA;">温馨提示:</span>
+        <span style="height: 2rem;line-height: 2rem;color: #AFB4BD;font-size: 12px;text-indent:2em">
+            为了避免手工输入错误,请尽量使用钱包地址扫描功能直接<span style="color:red;text-indent:2px" onclick="saoyisao()" tapmod="">扫描</span> 对方钱包地址.
+        </span>
+    </div>
+    <div class="btn" tapmode="" onclick="add_addr()">确认添加</div>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript">
+	function get_type(){
+		var coin_type=memObj('coinTypeList');
+		if ( typeof coin_type == 'undefined' || typeof coin_type == 'null') {
+			alog("币种信息缓存不存在");
+			return;
+		}
+		for ( var i in coin_type){
+			var	opt="<option value="+coin_type[i].name+">"+coin_type[i].title+"</option>"
+			$("#coin_type").append(opt)
+		}
+	}
+    function add_addr(){
+	    var type = $('#coin_type option').not(function(){ return !this.selected }).val();
+        var name = $('#name').val();
+        var addr = $('#addr').val();
+        var paypw = $('#paypw').val();
+        if(type=='all'){
+	        art('请选择币种');
+	        return;
+        }
+	    if(!name){
+            art('请输入钱包标识');
+            return;
+        }
+        if(!addr){
+            art('请输入钱包地址');
+            return;
+        }
+        if(!paypw){
+            art('请输入交易密码');
+            return;
+        }
+	    loading("提交中……")
+        UserAjax('finan/qianbao_up','post',
+                {
+                    'name':name,
+                    'coinname':type,
+                    'addr':addr,
+                    'paypassword':paypw,
+                },
+                function(ret){
+                   toast.hide();
+	                alog(ret);
+                    if(ret.status==1){
+                      art(ret.info);
+                        api.execScript({
+                            name: 'addr_qianbao_h',
+                            frameName: 'addr_qianbao_body',
+                            script: "get_data(callback)"
+                        });
+                        setTimeout("api.closeWin();",2000);
+                    }else{
+                      art(ret.info);
+                    }
+                });
+    }
+    apiready = function(){
+        onerror = error_handel;
+	    get_type()
+    }
+
+    function saoyisao(){
+	    art("app版可用")
+	    return;
+	    var FNScanner = api.require('FNScanner');
+	    FNScanner.openScanner({
+		    autorotation: true
+	    }, function(ret, err) {
+		    if (ret && ret.eventType == 'success') {
+                   art("扫码成功")
+			    alog(ret.content);
+			    $("#addr").val(ret.content);
+			    if(typeof ret == "undefined" || typeof ret.content == "undefined" || !ret.content){
+			    art("扫码失败,结果未获取");
+				    return;
+			    }
+
+		    }
+	    });
+    }
+</script>
+</html>

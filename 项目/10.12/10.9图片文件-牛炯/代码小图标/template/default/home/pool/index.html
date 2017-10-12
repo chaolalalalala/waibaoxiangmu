@@ -1,0 +1,139 @@
+{include file="public:header"}
+<style>
+	.mybtn{
+		width:auto;
+		height:25px;
+		line-height:25px;
+		padding:0 10px;
+		font-size:12px;
+	}
+</style>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;
+		<a href="/pool/" class=""> {#lang('矿机工厂')}</a>&gt; {#lang('矿机市场')}
+	</div>
+	<div class=" assets_content bg_w" style="min-height:30px;">
+		<div class="safe_center clear">
+			<h1>
+					<span>
+						{#lang('矿机工厂')}
+					</span>
+	                <span>
+                        <a href="{#url('pool/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('矿机市场')}</a>
+                        <a href="{#url('pool/market')}" id="step2" class="step fz_12 ml20 pd6 ">{#lang('我的矿场')}</a>
+                        <a href="{#url('pool/log')}" id="step4" class="step fz_12 ml20 pd6 ">{#lang('收益记录')}</a>
+                    </span>
+                    <span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+			</h1>
+		</div>
+		<div id="hints" class="mytips" style="display:none;">
+			<script>
+				var hints = "{$hints['show']}";
+				if(hints == 1){
+					$('#hints').show();
+				}
+			</script>
+			{$hints["value"] nofilter}
+		</div>
+		{#slider("pool")}
+		<div class="cnyin_record">
+			<div class="f_body">
+				<div class="f_body_main">
+					<div class="f_tab_body">
+						<div>
+							<table class="f_table" id="investLog_content">
+								<tr>
+									<th>序号</th>
+									<th>名称</th>
+									<th>寿命</th>
+									<th>产能</th>
+									<th>售价</th>
+									<th>收益时间</th>
+									<th>其它时间收益减少比率%</th>
+									<th>过期收益减少比率%</th>
+									<th>最小产能%</th>
+									<th>购买上限</th>
+									<th>状态</th>
+									<th>操作</th>
+								</tr>
+								{foreach $pages["list"] as $v}
+								<tr>
+									<td>{$v["id"]}</td>
+									<td>{$v["title"]}</td>
+									<td>{$v["life"]}次</td>
+									<td>{$v["pd"]}{$v["pd_type"]}</td>
+									<td>{$v["price"]}{$v["price_type"]}</td>
+									<td>{$v["limit1"]}点---{$v["limit2"]}点</td>
+									<td>{$v["qita"]}%</td>
+									<td>{$v["guoqi"]}%/天</td>
+									<td>{$v["minguoqi"]}%</td>
+									<td>{$v["limit"]}</td>
+									{if $v["status"]==0}
+									<td>停售</td>
+									<td></td>
+									{else if $v["status"]==1}
+									<td>热卖中</td>
+									<td>
+										<input type="button" class="btns2 mybtn" id="{$v['id']}" onclick="pool_buy(this)" value="购买">
+									</td>
+									{/if}
+								</tr>
+								{/foreach}
+							</table>
+							<div class="pages">{$pages['show'] nofilter}</div>
+						</div>
+					</div>
+					</section>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	//购买设备
+	function pool_buy(o) {
+		var id = $(o).attr('id');
+
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '输入交易密码，并确认',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('pool/buy')}", {id: id, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							window.setTimeout("location.reload()", 1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+
+	}
+</script>
+<script>
+	if ($("#pool1_box").length > 0) {
+		$('#pool1_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+</div>
+{include file="public:footer"}

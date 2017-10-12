@@ -1,0 +1,711 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/category_list.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+<style>
+
+	.my_body {
+		margin: 10px 0px 10px 0px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul {
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background-color: #FFF;
+	}
+	.bank_title {
+		margin: 0 0 0 1rem;
+		height: 3rem;
+		line-height: 3rem;
+	}
+	.bank_title img {
+		height: 1.6rem;
+		margin: 0.7rem 1rem 0 0;
+		vertical-align: middle;
+		float: right;
+	}
+	.bank_body {
+		margin: 0 0 0 1rem;
+	}
+	.bank_body span {
+		display: block;
+	}
+	.bank_body .g {
+		color: gray;
+	}
+	.red {
+		color: #e55600;
+	}
+	.gray {
+		color: gray;
+	}
+
+	.licaiItem {
+		padding-bottom: .625rem;
+	}
+	.touchweb-com_searchListBox.openList .item .price_box {
+		height: 25px;;
+	}
+
+	.filtrate_term li {
+		color: #777f86;
+		font-size: 14px;
+		cursor: pointer;
+	}
+
+	.filter {
+		position: relative;
+		border-top: 1px solid #ddd;
+		border-bottom: 1px solid #ddd;
+		height: 2.066667rem;
+		line-height: 2.04rem;
+		z-index: 100;
+	}
+
+	.filter li {
+		padding-left: 0.75rem;
+	}
+
+	.filter-header {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 100%;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		z-index: 3;
+		background-color: #fff;
+	}
+
+	.filter-nav {
+		-webkit-box-flex: 1;
+		-ms-flex: 1;
+		flex: 1;
+		display: block;
+		width: 0;
+		text-align: center;
+		color: #666;
+		position: relative;
+		font-size: .75rem;
+	}
+
+	.filter-nav:after {
+		content: "";
+		background: #ddd;
+		width: 1px;
+		height: .56rem;
+		position: absolute;
+		top: 50%;
+		right: 0;
+		-webkit-transform: translateY(-50%);
+		transform: translateY(-50%);
+	}
+
+	.filter-extend.open {
+		opacity: 1;
+		visibility: visible;
+		max-height: 1000%;
+	}
+
+	.filter-modal {
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		z-index: 1;
+		background: rgba(0, 0, 0, .2);
+		visibility: hidden;
+		opacity: 0;
+		-webkit-transition: all .3s ease-in-out;
+		transition: all .3s ease-in-out;
+	}
+
+	.filter-modal.open {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.filter-extend.open {
+		opacity: 1;
+		visibility: visible;
+		max-height: 1000%;
+	}
+
+	.aui-searchbar {
+		position: static;
+	}
+
+	.filter-extend {
+		left: 0;
+		right: 0;
+		top: 100%;
+		border-top: 1px solid #ddd;
+		position: absolute;
+		max-height: 0;
+		background-color: #fff;
+		-webkit-transition: all .2s ease-in-out;
+		transition: all .2s ease-in-out;
+		visibility: hidden;
+		overflow: auto;
+		opacity: 0;
+		z-index: 3;
+	}
+
+	.filter-category {
+		z-index: 200;
+		padding-bottom: 0;
+		color: #666;
+		height: 1000%;
+	}
+
+	.filter-category .filter-scroller,
+	.filter-category .loading {
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		height: 100%;
+	}
+
+	.filter-category ul:first-child {
+		background-color: #dddddd;
+	}
+
+	.filter-category ul {
+		-webkit-box-flex: 1;
+		-ms-flex: 1;
+		flex: 1;
+		display: block;
+		width: 0;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.filter-category ul:first-child li {
+		padding: 0 0 0 .266667rem;
+	}
+
+	.filter-category li {
+		position: relative;
+		line-height: 2.333333rem;
+	}
+
+	.filter-category ul:nth-of-type(2) {
+		/*margin-left: .4rem;*/
+		/*padding-right: .133333rem;*/
+		background-color: #F2F2F2;
+	}
+
+	.filter-category ul:nth-of-type(2) li {
+		/*border-bottom: 1px solid #ddd;*/
+	}
+
+	.filter-category ul:nth-of-type(3) li {
+		border-bottom: 1px solid #ddd;
+	}
+
+	.filter-category li.active {
+		background-color: #fff;
+	}
+
+	.filter-sort {
+		padding-bottom: 0;
+	}
+
+	.displayNone {
+		display: none;
+	}
+
+
+	.active {
+		color: #3190e8 !important;
+	}
+
+	.overHide {
+		overflow: hidden;
+	}
+
+	.price_box p {
+		font-size: 0.625rem;
+	}
+
+
+</style>
+</head>
+<body>
+
+<div style="left: 0px;
+         right: 0px;
+         top: 0px;
+         z-index: 1000;
+         position: fixed;">
+	<aside class="filter">
+		<div class="filter-header">
+			<a id="title_filter" class="filter-nav filter-nav-more" href="javascript:chose_tab(0)" >筛选</span></a>
+			<a id="title_sort" class="filter-nav" href="javascript:chose_tab(1)"> <span >排序</span></a>
+			<a id="title_step" class="filter-nav" href="javascript:chose_tab(2)"> <span >状态</span></a>
+			<a id="title_search" class="filter-nav"  href="javascript:chose_tab(3)" ><span>搜索</span></a>
+		</div>
+		<section id="condition_filter" class="filter-extend filter-category open displayNone">
+			<div id="category_con" class="filter-scroller">
+			</div>
+		</section>
+		<section id="condition_sort" class="filter-extend filter-sort open displayNone">
+			<ul>
+				<li class="aui-border-b" index="0" value="0" onclick="selectSort(0)">
+					<span>发布时间</span>
+				</li>
+				<li class="aui-border-b" index="1" value="1" onclick="selectSort(1)">
+					<span>火热程度</span>
+				</li>
+				<li class="aui-border-b" index="2" value="2" onclick="selectSort(2)">
+					<span>酬金</span>
+				</li>
+			</ul>
+		</section>
+		<section id="condition_step" class="filter-extend filter-sort open displayNone">
+			<ul>
+				<li class="aui-border-b" index="0" value="0" onclick="selectStep(0)">
+					<span>新发布</span>
+				</li>
+				<li class="aui-border-b" index="1" value="1" onclick="selectStep(1)">
+					<span>进行中</span>
+				</li>
+				<li class="aui-border-b" index="2" value="2" onclick="selectStep(2)">
+					<span>已结束</span>
+				</li>
+				<li class="aui-border-b" index="3" value="3" onclick="selectStep(3)">
+					<span>已关闭</span>
+				</li>
+			</ul>   
+		</section>
+		<section id="condition_search" class="filter-extend filter-sort open displayNone">
+			<div class="aui-searchbar" id="search">
+				<div class="aui-searchbar-input aui-border-radius" tapmode onclick="">
+					<i class="aui-iconfont aui-icon-search"></i>
+					<form action="javascript:search();">
+						<input type="search" placeholder="请输入搜索内容" id="search-input">
+					</form>
+				</div>
+				<div class="aui-searchbar-cancel" style="margin-right: 0" onclick="search()" tapmod>搜索</div>
+			</div>
+		</section>
+		<section id="condition_background" class="filter-modal open displayNone" onclick="hideConditionBG()"></section>
+	</aside>
+</div>
+<section class="aui-refresh-content" style="margin-top: 40px">
+	<div class="wrap">
+		<div class="my_body">
+			<div id="goods_list" style="margin-top: 2.5rem">
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--status 状态 1 2 3 即将开始 进行中 已结束-->
+<script id="list-template" type="text/x-dot-template">
+	{{? it.length > 0 }}
+	{{ for(var i in it) { }}
+	<ul class="aui-border licaiItem" onclick="openDetailView({{=it[i].id}})">
+		<li class="bank_title aui-border-b overHide" >
+			<span class="red overHide">{{=it[i].title}}</span>
+		</li>
+		<li class="bank_body">
+			<span class="gray">编号:{{=it[i].id}}</span>
+			{{? it[i].step == 1}}
+			<span class="g">任务状态	:<em>新发布</em></span>
+			{{?? it[i].step == 2}}
+			<span class="g">任务状态	:<em>进行中</em></span>
+			{{?? it[i].step == 3}}
+			<span class="g">任务状态	:<em>已结束</em></span>
+			{{?? it[i].step == 4}}
+			<span class="g">任务状态	:<em>已关闭</em></span>
+			{{?}}
+			<span class="g">任务内容	:<em>{{=it[i].content}}</em></span>
+			<span class="g">任务奖励:<em>{{=it[i].price}}{{=it[i].price_type}}</em></span>
+			<span class="g">任务热度:<em>{{=it[i].view}}人浏览/{{=it[i].num}}人投稿</em></span>
+			<span class="g">发布时间:<em>{{=it[i].addtime}}</em></span>
+		</li>
+		<li>
+			<div class="aui-content-padded">
+				<p><div class="aui-btn aui-btn-info" onclick="" style="width: 100%;line-height: 1.5rem">任务详情</div></p>
+			</div>
+		</li>
+	</ul>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{? }}
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+
+	var pid = 1;
+	var type = '';
+	var sort = '';
+	var step = '';
+	var keyword = '';
+	var type1='';
+	var type2='';
+	var lastViewIndex = -1;
+
+	var categoryData;
+	var clas1 = '';
+	var clas2 = '';
+	var clas3 = '';
+
+	var selectedId;
+
+	apiready = function () {
+		onerror = error_handel;
+
+		getCategory();
+		requestData();
+	};
+	function getCategory() {
+		Ajax('sweike/type', 'get', '', function (ret) {
+			alog(ret);
+			if (ret.status == 1) {
+				alog(ret.info);
+				categoryData = ret.info.type;
+				updateCategory();
+			}
+			else {
+				art(ret.info);
+			}
+		});
+	}
+	function updateCategory() {
+		if (typeof categoryData == 'undefined') {
+			art('分类数据不存在');
+			return;
+		}
+
+		//一级分类
+		var opt = '';
+		opt += '<ul id="type1">';
+        opt += '<li index="0" onclick="selCat1(0)" class="active"><span>全部</span></li>';
+		clas1 = clas1 == '' ? 0 : clas1;
+		for (var index1 = 0; index1 < categoryData.length; index1++) {
+
+            var indVal = index1 + 1 ;
+//			var indVal = index1;
+				opt += '<li index=\"' + indVal + '\" onclick="selCat1(' + indVal + ')"><span>' + categoryData[index1].type + '</span></li>'
+		}
+		opt += '</ul>';
+
+		//二级分类
+		if (categoryData[clas1].pid_list.length == 0) {
+			opt += '<ul>暂无内容</ul>';
+			return;
+		}
+
+		opt += '<ul id="type2" style="display:none">';
+        opt += '<li index="0" onclick="selCat2(0)" class="active"><span>全部'+categoryData[clas1].type+'</span></li>';
+		clas2 = clas2 == '' ? 0 : clas2;
+		var clas2List = categoryData[clas1].pid_list;
+		for (var index1 = 0; index1 < clas2List.length; index1++) {
+
+            var indVal = index1 + 1 ;
+//			var indVal = index1;
+				opt += '<li index=\"' + indVal + '\" onclick="selCat2(' + indVal + ')"><span>' + clas2List[index1].type + '</span></li>'
+		}
+		opt += '</ul>';
+
+		//三级分类
+		opt += '<ul id="type3" style="display:none">';
+        opt += '<li index="0" onclick="selCat3(0)" class="active"><span>全部'+clas2List[clas2].type+'</span></li>';
+		clas3 = clas3 == '' ? 0 : clas3;
+		clas2 = clas2 > clas2List.length - 1 ? 0 : clas2;
+		if (clas2 > clas2List.length - 1) {
+			clas2 = 0;
+		}
+		var clas3List = clas2List[clas2].pid_list;
+		alog(clas3List);
+		for (var index1 = 0; index1 < clas3List.length; index1++) {
+
+            var indVal = index1 + 1 ;
+//			var indVal = index1;
+				opt += '<li index=\"' + indVal + '\" onclick="selCat3(' + indVal + ')"><span>' + clas3List[index1].type + '</span></li>'
+		}
+		opt += '</ul>';
+		$('#category_con').html(opt);
+		alog(opt);
+	}
+
+	function createView() {
+
+		alog("更新界面");
+		var argu = arguments[0];
+		if (typeof argu == 'undefined') {
+			art("createView参数错误");
+			return;
+		}
+		alog(argu);
+
+		//主要数据
+		var tempData = argu;
+		var licaiList_temp = doT.template($("#list-template").html());
+
+		if (pid == 1) {
+			//第一页 -- 覆盖
+			$('#goods_list').html(licaiList_temp(tempData.list));
+		}
+		else if (tempData.list.length > 0) {
+			//非第一页且有数据 -- 追加
+			$('#goods_list').html($('#goods_list').html() + licaiList_temp(tempData.list));
+		}
+
+		if (pid > Math.ceil(parseInt(tempData.count) / parseInt(tempData.pageSize))) {
+			art("没有更多数据了");
+		} else {
+			art('第' + pid + '页');
+			pid++;
+		}
+	}
+
+	// index是分类的索引,值和数据源长度相等
+	function selCat1(index) {
+        clas1 = index - 1;
+//		clas1 = index;
+
+       if(index==0) {
+	       hideConditionBG();
+	       type1 = '';
+	       type2 = '';
+	       type = '';
+	       var title ='全部'
+	       requestData();
+       }else {
+	       type=categoryData[clas1].id;
+	       updateCategory();
+	       var title = categoryData[clas1].type;
+       }
+		$("#type1 li").removeClass('active')
+		$("#type1 li").eq(clas1+1).addClass('active')
+	       $('#title_filter').html(title);
+		   $("#type2").show();
+	}
+
+	function selCat2(index) {
+        clas2 = index - 1;
+//		clas2 = index;
+		if(index==0) {
+			hideConditionBG();
+			type1 = '';
+			type2= '';
+			var title = '全部'+categoryData[clas1].type
+			requestData();
+		}else {
+			type1 = categoryData[clas1].pid_list[clas2].id;
+			updateCategory();
+			var title = categoryData[clas1].pid_list[clas2].type;
+			$("#type1 li").removeClass('active')
+			$("#type1 li").eq(clas1+1).addClass('active')
+			$("#type2 li").removeClass('active')
+			$("#type2 li").eq(clas2+1).addClass('active')
+		}
+			$('#title_filter').html(title);
+		$("#type2").show();
+		$("#type3").show();
+	}
+
+	function selCat3(index) {
+		clas3 = index - 1;
+//		clas3 = index;
+
+		updateCategory();
+
+		if (index == 0) {
+			hideConditionBG();
+			type2      = '';
+			var title = '全部' + categoryData[clas1].pid_list[clas2].type
+			requestData();
+		} else {
+			type2 = categoryData[clas1].pid_list[clas2].pid_list[clas3].id;
+			hideConditionBG();
+			var title = categoryData[clas1].pid_list[clas2].pid_list[clas3].type;
+			$('#title_filter').html(title);
+			requestData();
+		}
+
+		$("#type3 li").removeClass('active')
+		$("#type3 li").eq(index).addClass('active')
+		$('#title_filter').html(title);
+	}
+
+	function requestData(callback) {
+		    clas1 = ''
+		    clas2 = ''
+		    clas3 = ''
+		    pid = 1
+		var params = {
+			"pid": pid,
+			"type": type,
+			"type1": type1,
+			"type2": type2,
+			"sort": sort,
+			"step":step,
+			"keyword": keyword
+		};
+		alog(params);
+		loading();
+		Ajax('sweike/lists', 'get', params, function (ret) {
+			toast.hide();
+			if (typeof callback == "function") {
+				callback("刷新完成");
+			}
+			alog(ret);
+			if (ret.status == 1) {
+				createView(ret.info);
+			}
+			else {
+				art('ajax错误！');
+			}
+		});
+	}
+
+	//打开商品
+	function open_view(id) {
+		openWinWithParams('auctionDetail_h','app_auction',{'id':id});
+	}
+
+	//上拉加载
+	window.onscroll = function () {
+		if (isScrollToBottom())
+		{
+			requestData();
+		}
+	};
+
+	//下拉刷新
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			if(getScrollTop() < 10)
+			{
+				pid = 1;
+				requestData(function (msg) {
+					art(msg);
+					pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+				});
+			}
+			else {
+				pullRefresh.cancelLoading();
+			}
+		}
+	});
+
+	function chose_tab(id) {
+
+		if (lastViewIndex == id) {
+			hideConditionBG();
+		}
+		else {
+			hideConditionBG();
+			$('.filter-nav').removeClass('active');
+			$('.filter-nav').filter(function (index) { return index == id }).addClass('active');
+			if (id == 0) {
+				//筛选
+				$('#condition_background').removeClass('displayNone');
+				$('#condition_filter').removeClass('displayNone');
+				updateCategory()
+			}
+			if (id == 1) {
+				//排序
+				$('#condition_background').removeClass('displayNone');
+				$('#condition_sort').removeClass('displayNone');
+			}
+			if (id == 2) {
+				//状态
+				$('#condition_background').removeClass('displayNone');
+				$('#condition_step').removeClass('displayNone');
+			}
+			if (id == 3) {
+				//搜索
+				$('#condition_background').removeClass('displayNone');
+				$('#condition_search').removeClass('displayNone');
+				$('#search-input').focus();
+			}
+			lastViewIndex = id;
+		}
+	}
+
+	function hideConditionBG() {
+		$('#condition_background').addClass('displayNone');
+		$('#condition_filter').addClass('displayNone');
+		$('#condition_search').addClass('displayNone');
+		$('#condition_step').addClass('displayNone');
+		$('#condition_sort').addClass('displayNone');
+		$('.filter-nav').removeClass('active');
+		$("#type2").hide();
+		$("#type3").hide();
+		lastViewIndex = -1;
+	}
+
+	function selectSort(val) {
+		art("selectSort() " + val);
+		$('#condition_sort li').removeClass('active');
+		var ele = $('#condition_sort li').filter(function (index) {
+			return this.getAttribute('value') == val
+		}).addClass('active');
+		var title = ele.children('span').html();
+		$('#title_sort').html(title);
+		sort = val+1;
+		conditionReady();
+	}
+	function selectStep(val) {
+		art("selectSort() " + val);
+		$('#condition_step li').removeClass('active');
+		var ele = $('#condition_step li').filter(function (index) {
+			return this.getAttribute('value') == val
+		}).addClass('active');
+		var title = ele.children('span').html();
+		$('#title_step').html(title);
+		step = val+1;
+		conditionReady();
+	}
+
+	function search() {
+		var key = $('#search-input').val();
+		art("search() " + key);
+		$('#title_search').html(key);
+		if (key.length == 0) $('#title_search').html('搜索');
+		keyword = key;
+		conditionReady();
+	}
+
+	function openDetailView(itemId) {
+		openWinWithParams('weikeDetail_h', 'app_sweike', {
+			'itemId': itemId
+		});
+	}
+
+	function conditionReady() {
+		pid = 1;
+		hideConditionBG();
+		requestData();
+	}
+</script>
+</html>

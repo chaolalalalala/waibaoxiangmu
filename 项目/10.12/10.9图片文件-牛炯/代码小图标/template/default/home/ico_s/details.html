@@ -1,0 +1,282 @@
+{include file="header"}
+<link rel="stylesheet" href="__EXT__/bootstrap/css/bootstrap.css">
+<div id="pitch_content" class="ico-content">
+    <section class="banner-body">
+        <div class="banner-bg">
+            <div class="banner-center">
+                <h2>{$ico["title"]}</h2>
+                <p class="pro-intro">{$ico["f_title"]}</p>
+            </div>
+        </div>
+    </section>
+    <div class="pitch-container ico-container">
+        <nav id="pitch_nav">
+            <div id="nav_bar">
+                <ul class="nav-item clearfix">
+                    <li class=active>
+                        <a >项目主页
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="project-info">
+            <div class="section clearfix">
+                <div class="block-left">
+
+                    <div class="raising beginning">
+                        <span class="status-tag">
+	                        {if $ico["kaishi"]==1}
+                             <img src="__HOME__/ico/img/ready.png" alt="" >
+	                         {else if $ico["kaishi"]==2}
+	                         <img src="__HOME__/ico/img/ing.png" alt="" >
+	                         {else if $ico["kaishi"]==3}
+	                         <img src="__HOME__/ico/img/done.png" alt="" >
+	                        {/if}
+                        </span>
+                    </div>
+
+                    <div class="pictures-slick">
+                        <img src="__UP__/{$ico['img']}" alt="">
+                    </div>
+                </div>
+                <div class="block-right">
+                    <div class="support-num">
+                        <h4 class="big-number" id="supporter_num">{$ico["num"]}</h4>
+                        <p class="normal-text">支持人数</p>
+                    </div>
+                    <div class="raise-money">
+                        <span class="btc-font btc-font-family">{#strtoupper($ico['coin'])}</span><span class="big-number" id="current_money">  {$ico['gete']}</span>
+                        <div class="money-detail">
+                            <svg width="11px" height="19px" class="svg-detail">
+                                <use xlink:href="#icon-detail"></use>
+                            </svg>
+                            <div class="detail-box">
+                                <div class="detail-content">
+                                    <p class="btc-font-family"><span class="detail-font-color detail-font-size">{#strtoupper($ico['coin'])}: </span><span class="detail-num-color detail-font-size">{$ico['mum']}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="normal-text">目标金额：
+                            <span class="btc-font-family">{#strtoupper($ico['coin'])} {$ico["mum"]}</span>
+                        </p>
+                    </div>
+                    <div class="raise-day">
+                        <span class="big-number" id="remain_day">{$ico['day']}</span>
+
+                        <input type="hidden" id="remain_time" value=""/>
+                        <p class="normal-text mt5">剩余天数</p>
+                    </div>
+                    <div class="raise-progress" style="visibility: visible">
+                        <span class="normal-text">现在进度 </span>
+                        <span class="progress-percent "><a id="progress-percent" class="">{$ico['gete']/$ico['mum']*100}</a>%</span>
+                        <div class="meter">
+                            <span class="current-percent  " data-number="0" style="width: {$ico['bili']}%"></span>
+                        </div>
+                    </div>
+
+                    {if $ico["kaishi"]==1}
+                    <p class="describe">本项目即将在<span style="color: red;font-weight: bold">{#addtime($ico["strtime"])}</span> 开始ICO，敬请留意！</p>
+                    <button class="investment-btn goto-invest" style="background: darkgrey" >
+                        我要支持
+                    </button>
+                    {else if $ico["kaishi"]==2}
+                    <p class="describe">本项目即将在<span style="color: red;font-weight: bold">{#addtime($ico["endtime"])}</span> 结束ICO，敬请留意！</p>
+                    <button class="investment-btn goto-invest"  onclick="open_sup()" >
+                        我要支持
+                    </button>
+                    {else if $ico["kaishi"]==3}
+                    <p class="describe">本项目已结束</p>
+                    <button class="investment-btn goto-invest" style="background: darkgrey;" >
+                        我要支持
+                    </button>
+                    {/if}
+                </div>
+            </div>
+        </div>
+	    <div class="" id="step1" style="display: none;">
+		    <div class="login_title pl20">{#lang('参加众筹项目')}</div>
+		    <form id="form-login" class="mask_wrap login-fb">
+			    <div class="login_text zin80">
+				    <div class="mask_wrap_title">选择币种：</div>
+				    <select name="bank" id="coinname" class="texts">
+					    <option value="" selected="selected">{#lang('--选择币种--')}</option>
+					    {foreach $bili_coin as $k => $v}
+					    <option value="{$v['coin']}" data-bili="{$v['bili']}" >{$v['coin']}</option>
+					    {/foreach} </select>
+			    </div>
+			    <div class="login_text zin90">
+				    <div class="mask_wrap_title">{#lang('众筹数量')}：</div>
+				    <input id="num" class="texts" type="number" value="">
+			    </div>
+
+			    <div class="login_text zin80">
+				    <div class="mask_wrap_title">{#lang('需支付')}：</div>
+				    <input id="need" class="texts" type="text" disabled>
+				    <span id="balance"></span>
+			    </div>
+
+			    <div class="login_text zin80">
+				    <div class="mask_wrap_title">{#lang('交易密码')}：</div>
+				    <input id="paypassword" class="texts" type="password"><a href="/findpwd/paypassword" class="move ml5">{#lang('忘记')}?</a>
+			    </div>
+				<div class="btns2" style="text-align:center" onclick="sure()">立即支付</div>
+		    </form>
+	    </div>
+	    <input type="hidden" id="hide_coin" value="{$ico['coin']}">
+	    <script>
+		    function open_sup(){
+			    layer.open({
+				    type:1,
+				    title:0,
+				    anim: 2,
+				    area:['498px','312px'],
+				    content:$('#step1')
+
+			    })
+		    }
+		  var  coin=$('#hide_coin').val();
+		  var coinpay;
+		  var num;
+		    $('#coinname').change(function(){
+			    coinpay=$('#coinname').val();
+			   // num=$('#num').val();
+//			    if(num !=''){
+//				    needpay(coin,coinpay,num);
+//			    }
+			    needpay(coin,coinpay,num);
+		    })
+			$('#num').focus(function(){
+				coinpay=$('#coinname').val();
+//				if(coinpay == '' || coinpay == null){
+//					layer.tips('请选择币种','#coinname',{tips:2});
+//					return false;
+//				}
+
+
+			})
+
+		    $('#num').blur(function(){
+			     num=$(this).val();
+//			    if(coinpay == '' || coinpay == null){
+//				    layer.tips('请选择币种','#coinname',{tips:2});
+//				    return false;
+//			    }
+			    needpay(coin,coinpay,num);
+
+
+		    })
+
+
+		    function needpay(coin,coinpay,num){//需支付金额请求
+			    if(coinpay == '' || coinpay == null){
+				  //  layer.tips('请选择币种','#coinname',{tips:2});
+				    return false;
+			    }
+			    if(num == '' || num == null){
+				   // layer.tips('请输入数量','#num',{tips:2});
+				    return false;
+			    }
+
+			    var bili = $('#coinname option:selected').attr('data-bili');
+			    var num  = $('#num').val();
+			    var need = num/bili;
+				$('#need').val(need);
+
+
+
+		    }
+
+		    function sure(){// 确认提交
+			    var id={$ico['id']};
+			    var coin=$('#hide_coin').val();
+			    var paypassword=$('#paypassword').val();
+			    var coinpay=$('#coinname').val();
+
+			    if(coinpay == '' || coinpay == null){
+				    layer.tips('请选择币种','#coinname',{tips:2});
+				    return false;
+			    }
+			    if(num == '' || num == null){
+				    layer.tips('请输入数量','#num',{tips:2});
+				    return false;
+			    }
+			    if(paypassword == '' || paypassword == null){
+				    layer.tips('请输入密码','#paypassword',{tips:2});
+				    return false;
+			    }
+			    $.post('/ico_s/up',
+					    {   id:id,
+						    coin:coinpay,
+						    num:num,
+						    paypassword:paypassword
+					    },function(data){
+						    if(data.status ==1){
+							 layer.msg(data.info, {icon:1});
+							    setTimeout('location.reload()',1000);
+						    }else{
+							    layer.msg(data.info, {icon:2})
+						    }
+
+					    },'json')
+
+		    }
+
+	    </script>
+        <!-- about us -->
+        <div class="about-project clearfix">
+            <div class="about-us">
+                <!--这里是详情-->
+                <div class="pro-introduction">
+                   {$ico["content"] nofilter}
+                </div>
+            </div>
+            <div class="about-right">
+	            {if $ico_bili}
+                <div id="project_file">
+                    <div class="project-paper">
+                        <h3 class="paper-title">项目说明</h3>
+
+	                    <table class="table table-bordered">
+		                    <thead>
+		                    <th style="text-align: center;">{#lang('参与币种')}</th>
+		                    <th style="text-align: center;">{#lang('时间')}</th>
+		                    <th style="text-align: center;">{#lang('回报')}{#strtoupper($ico["coin_back"])}</th>
+		                    </thead>
+		                    <tbody>
+		                    {foreach $bili_coin as $k=>$v}
+		                    <tr>
+			                    <td style="text-align: center;width: 80px;">{$v['coin']}</td>
+			                    <td style="text-align: center;">{#date('m/d h:i',$v["strtime"])}--{#date('m/d h:i',$v["endtime"])}</td>
+			                    <td style="text-align: center;">{#round($v['bili'],2)}个/{#strtoupper($ico["coin"])}</td>
+		                    </tr>
+		                    {/foreach}
+		                    </tbody>
+	                    </table>
+
+
+                    </div>
+                </div>
+	            {/if}
+               <!--这里是风险警告-->
+                <div class="pro-invest">
+                    <div class="invest-money">
+                        <span class="small-number"> 风险警告</span>
+                    </div>
+                    <div class="invest-introduce">
+                        <p>{$config["web_waring"] nofilter}<br/></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    if ($("#ico_box").length > 0) {
+        $('#ico_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}

@@ -1,0 +1,6 @@
+.assets_content h1>span:last-child{
+	background-image: url(../style/img/icon19.png);
+}
+#status-select{
+	width: 150px!important;
+}

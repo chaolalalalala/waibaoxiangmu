@@ -1,0 +1,200 @@
+{include file="public:header"}
+<title>提现记录</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+    .my_body{
+        margin: 10px;
+        border-radius: 8px;
+        padding: 0 10px;
+        line-height: 30px;
+    }
+    .my_body ul{
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 10px;
+        list-style: none;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        background-color: #ffffff;
+    }
+    .bank_title{
+        margin: 0 0 0 1rem;
+        height: 3rem;
+        line-height: 3rem;
+        border-bottom:1px solid #eaebec;
+	    color:#a59494;
+    }
+    .bank_title span{
+	    color:#a59494;
+    }
+    .bank_body em{
+	    color:#a59494;
+    }
+    .bank_title img{
+        height: 1.6rem;
+        margin: 0.7rem 1rem 0 0;
+        vertical-align: middle;
+        float: right;
+    }
+    .bank_body{
+        margin: 0 0 0 1rem;
+    }
+    .bank_body span{
+        display: block;
+    }
+    .bank_body .g{
+        color: gray;
+    }
+    .r{
+        float: right;
+        margin-right: 1rem;
+    }
+    .red{
+        color: #e55600;
+    }
+    .green{
+        color:green;
+    }
+    .yellow{
+        color:yellow;
+    }
+</style>
+<body>
+<div class="aui-refresh-content">
+    <div class="my_body" style="display: none">
+        <ul>
+            <li class="bank_title">
+                提现时间:<span>20150607</span>
+                <span class="r red">处理中</span>
+            </li>
+            <li class="bank_body">
+                <span class="g">提现金额（元）:<em>100</em></span>
+                <span class="g">手续费（元）:<em>5</em></span>
+                <span class="g">到账金额（元）:<em>95</em></span>
+                <span class="g">提现地址:<em>洪山区分行</em></span>
+            </li>
+        </ul>
+        <ul>
+            <li class="bank_title">
+                提现时间:<span>20150607</span>
+                <span class="r red">处理中</span>
+            </li>
+            <li class="bank_body">
+                <span class="g">提现金额（元）:<em>100</em></span>
+                <span class="g">手续费（元）:<em>5</em></span>
+                <span class="g">到账金额（元）:<em>95</em></span>
+                <span class="g">提现地址:<em>洪山区分行</em></span>
+            </li>
+        </ul>
+    </div>
+<!--    0 已申请 1 提现成功 2 已撤销 3 正在处理 其他: 异常-->
+    <script id="wtlog-list-template" type="text/x-dot-template">
+        {{? it.length>0}}
+        {{ for(var i in it) { }}
+            <ul>
+                <li class="bank_title">
+                    提现时间:<span>{{=it[i].addtime}}</span>
+                    {{? it[i].status == 0}}
+                        <span class="r green">已申请</span>
+                    {{?? it[i].status == 1}}
+                        <span class="r green">提现成功</span>
+                    {{?? it[i].status == 2}}
+                        <span class="r yellow">已撤销</span>
+                    {{?? it[i].status == 3}}
+                        <span class="r yellow">正在处理</span>
+                    {{??}}
+                        <span class="r red">其他</span>
+                    {{?}}
+                </li>
+                <li class="bank_body">
+                    <span class="g">提现金额（元）:<em>{{=it[i].num}}</em></span>
+                    <span class="g">手续费（元）:<em>{{=it[i].fee}}</em></span>
+                    <span class="g">到账金额（元）:<em>{{=it[i].mum}}</em></span>
+                    <span class="g">提现地址:<em>{{=it[i].name}}</em></span>
+                </li>
+            </ul>
+        {{ } }}
+        {{??}}
+            <div style="padding: 10px 0">
+                <ul style="text-align: center;color: #535C6F">
+                    暂无内容
+                </ul>
+            </div>
+        {{? }}
+    </script>
+    <div id="wtlog-list" class="my_body"></div>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript">
+    var pid = 1;
+    apiready = function(){
+        onerror = error_handel;
+        flash_wtlog();
+    }
+
+    //上拉加载
+    window.onscroll = function(){
+        if( isScrollToBottom() ){
+            flash_wtlog();
+            alog("正在请求需要加载的数据...");
+        }
+    };
+
+    //下拉刷新
+    var pullRefresh = new auiPullToRefresh({
+        container: document.querySelector('.aui-refresh-content'),
+        triggerDistance: 100
+    }, function (ret) {
+        if (ret.status == "success") {
+            if(getScrollTop() < 10)
+            {
+                //刷新
+                pid = 1;
+                flash_wtlog();
+            }
+            else {
+                pullRefresh.cancelLoading();
+            }
+        }
+    })
+
+    function flash_wtlog(){
+        loading("努力加载中...");
+        UserAjax('finan/outlog','get',
+                {
+                    'pid':pid
+                },
+           function(ret){
+               toast.hide();
+               pullRefresh.cancelLoading();
+               alog(ret);
+                if (ret.status == 1){
+                    var tempFn = doT.template($('#wtlog-list-template').html());
+                    if (pid == 1)
+                    {
+                        //第一页 -- 覆盖
+                        $('#wtlog-list').html( tempFn(ret.info.list) );
+                    }
+                    else if( ret.info.list.length > 0){
+                        //非第一页且有数据 -- 追加
+                        $api.html($api.byId('wtlog-list'), $('#wtlog-list').html() + tempFn(ret.info.list));
+                    }
+                    if( pid > Math.ceil( parseInt(ret.info.count)/parseInt(ret.info.pageSize) ) ){
+                        art("没有更多数据了");
+                    }else {
+                        art('第'+pid+'页');
+                        pid++;
+                    }
+                }else{
+                    art("返回结果错误");
+                }
+        });
+    }
+</script>
+</html>

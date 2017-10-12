@@ -1,0 +1,447 @@
+{include file="lend:header"}
+<link rel="stylesheet" href="__EXT__/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="__CSS__/lend/log.css">
+<div class="jie">
+<div class="layout">
+	<div class="row pt45 pb45">
+		<div class="col-xs-4 negml15">
+			<img src="__IMG__/lend/g_03.png" class="col-xs-4">
+			<div class="col-xs-8 p0">
+				<p class="f28 lh38"><a class="deepskyblue no-underline" href="/lend/index">{#lang(我要借款)}</a></p>
+				<p class="cadetblue">{#lang('放款速度快，投资越多贷款越多,不封顶')}</p>
+			</div>
+		</div>
+		<div class="col-xs-4">
+			<img src="__IMG__/lend/g_04.png" class="col-xs-4">
+			<div class="col-xs-8 p0">
+				<p class="f28 lh38"><a class="deepskyblue no-underline huan" href="javascript:void(0);" rel="nofollow">{#lang('我要还款')}</a></p>
+				<p class="cadetblue">{#lang('期限灵活，按期还款,多种还款模式')}</p>
+			</div>
+		</div>
+		<div class="col-xs-4">
+			<img src="__IMG__/lend/g_05.png" class="col-xs-4">
+			<div class="col-xs-8 p0">
+				<p class="f28 lh38"><a class="deepskyblue no-underline dan" href="javascript:void(0);">{#lang('担保保障')}</a></p>
+				<p class="cadetblue nowrap">{#lang('重量级投资者担保交易,安全有保障')}</p>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="detail-bom">
+	<div id="plan-detail-tab" class="ui-tab detail-bom-left">
+		<ul class="ui-tab-items ui-tab-orange ui-tab-h70">
+			<li class="ui-tab-item ui-tab-item-current" data-iqianjin="phptag_web_plan_detail_03"  >
+				<a href="#person" onclick="tabs($(this))">{#lang('个人中心')}</a>
+			</li>
+			<li class="ui-tab-item" data-iqianjin="phptag_web_plan_detail_04">
+				<a href="#log" onclick="tabs($(this))">{#lang('借贷记录')}</a>
+			</li>
+			<li class="ui-tab-item" data-iqianjin="phptag_web_plan_detail_04">
+				<a href="#huan" onclick="tabs($(this))">{#lang('我的还款')}</a>
+			</li>
+            <li class="ui-tab-item" data-iqianjin="phptag_web_plan_detail_04">
+                <a href="#danbao" onclick="tabs($(this))">{#lang('我的担保')}</a>
+            </li>
+		</ul>
+		<div class="ui-tab-content crowd_list clear">
+			<!--个人中心-->
+            <div class="f_tab_body" id="person-box" >
+				<div class="row pb10">
+					<div class="col-xs-3 pr0 borderrgrey">
+						<div class="row-xs-4 tc ">
+							<p class="f18 mt45 darklight">{#lang('欠款总量')}</p>
+							<p class="f24 darkgray mt0 mb25"><span class="f56 deepskyblue"  >{#round($shensum,2)}</span>RMB</p>
+							<p class="mb12"><a  class="btn btn-default f18 pt10 pb10 pl30 pr30"  href="#log" rel="nofollow"  onclick="tabs($(this))">{#lang('查看详情')}</a></p>
+						</div>
+					</div>
+                    <div class="col-xs-3 pr0 borderrgrey">
+                        <div class="row-xs-4 tc ">
+                            <p class="f18 mt45 darklight">{#lang('本期应还')}</p>
+                            <p class="f24 darkgray mt0 mb25"><span class="f56 deepskyblue"  >{#round($shouldpay,2)}</span>RMB</p>
+                            <p class="mb12"><a  class="btn btn-default f18 pt10 pb10 pl30 pr30"  href="#huan" rel="nofollow" onclick="tabs($(this))">{#lang('查看详情')}</a></p>
+                        </div>
+                    </div>
+					<div class="col-xs-3 pr0 borderrgrey">
+						<div class="row-xs-4 tc ">
+							<p class="f18 mt45 darklight">{#lang('担保收益')}</p>
+							<p class="f24 darkgray mt0 mb25"><span class="f56 deepskyblue">{#round($danbaogetsum,2)}</span>RMB</p>
+							<p class="mb12"><a  class="btn btn-default f18 pt10 pb10 pl30 pr30" href="#danbao"  rel="nofollow" onclick="tabs($(this))">{#lang('查看详情')}</a></p>
+						</div>
+					</div>
+                    <div class="col-xs-3">
+                            <div class="row-xs-6 tc mt30">
+                                <p class="f18 darklight oh"><span class="fl">{#lang('借款总量')}</span>
+                                <p class="cb darkgray mt10 mb25"> <span class="icon-info"></span> <span class="f24 deepskyblue" id="id24">{#round($lendsum,2)}</span>RMB<a id="id53"  target="_blank" rel="nofollow" class="btn btn-default pt2 pb2 pl5 pr5 mt5 mr25 fr" href="/lend/index">{#lang('立即加入')}</a></p>
+                            </div>
+                            <div class="row-xs-6 tc mt30 bt">
+                                <p class="f18 darklight oh"><span class="fl">{#lang('担保总量')}</span></p>
+                                <p class="cb darkgray mt10 mb25"> <span class="icon-info"></span> <span class="f24 deepskyblue" id="id26">{#round($danbaosum,2)}</span>RMB<a id="id54"  target="_blank" rel="nofollow" class="btn btn-default pt2 pb2 pl5 pr5 mt5 mr25 fr" href="javascript:void(0);" onclick="shenqing()">{#lang('申请担保人')}</a></p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <!--借贷记录-->
+			<div class="f_tab_body" id="log-box" style="display:none">
+				<table class="f_table">
+					<thead>
+					<tr>
+                        <th id="sublist-grid_c01">{#lang('借款账单')}</th>
+						<th id="sublist-grid_c02">{#lang('担保人')}</th>
+						<th id="sublist-grid_c03">{#lang('借款数')}</th>
+						<th id="sublist-grid_c04">{#lang('借款时间')}</th>
+                        <th id="sublist-grid_c05">{#lang('分期')}</th>
+                        <th id="sublist-grid_c06">{#lang('当前期')}</th>
+                        <th id="sublist-grid_c07">{#lang('月息')}</th>
+                        <th id="sublist-grid_c08">{#lang('还款方式')}</th>
+                        <th id="sublist-grid_c09">{#lang('剩余尾款')}</th>
+                        <th id="sublist-grid_c10">{#lang('状态')}</th>
+					</tr>
+					</thead>
+					<tbody>
+					{if $lend_log["list"]}
+					{foreach  $lend_log["list"] as $v}
+                    <tr>
+						<td>{$v["id"]+100000}</td>
+						<td>{$v["username"]}</td>
+                        <td>{#round($v["num"],2)}元</td>
+                        <td>{#addtime($v["addtime"])}</td>
+                        <td>{$v["qi"]}期</td>
+                        <td>第{$v["nowqi"]}期</td>
+                        <td>{#round($v["lixi"],2)}%</td>
+                        <td>{if $v["backtype"]==1}
+                            等额本金
+                            {else if $v["backtype"]==2 }
+                            等额本息
+                            {else if $v["backtype"]==3 }
+                            先息后本
+                            {else}
+                            异常
+                            {/if}
+                        </td>
+                        <td>{#round($v["shen"],2)}元</td>
+                        <td>{if $v["status"]==0}
+                            禁用
+                            {else if $v["status"]==1 }
+                            已完成
+                            {else if $v["status"]==2 }
+                            待担保人审核
+                            {else if $v["status"]==3}
+                            待系统审核
+                            {else if $v["status"]==4}
+                            审核通过,已获得资金
+                            {else}
+                            异常
+                            {/if}
+                        </td>
+					</tr>
+                    {/foreach}{/if}
+					</tbody>
+				</table>
+				{if $lend_log['show']}
+				<div class="pages">{$lend_log['show'] nofilter}</div>{/if}
+			</div>
+            <!--我的还款-->
+			<div class="f_tab_body" id="huan-box" style="display:none">
+				<table class="f_table" id="investLog_content">
+					<thead>
+					<tr>
+						<th id="sublist-grid_c0">{#lang('借款账单')}</th>
+                        <th id="sublist-grid_c3">{#lang('分期号')}</th>
+						<th id="sublist-grid_c1">{#lang('还款截止时间')}</th>
+						<th id="sublist-grid_c2">{#lang('本期应还')}</th>
+                        <th id="sublist-grid_c5">{#lang('状态')}</th>
+                        <th id="sublist-grid_c6">{#lang('还款时间')}</th>
+                        <th id="sublist-grid_c4">{#lang('操作')}</th>
+					</tr>
+					</thead>
+					<tbody>
+					{if $back_log["list"]}
+                    {foreach $back_log["list"] as $v}
+					<tr>
+                        <td>{$v["lendid"]+100000}</td>
+                        <td>第{$v["qi"]}期</td>
+						<td>{#addtime($v["backtime"])}</td>
+						<td>{#round($v["should"],2)}元</td>
+                        <td>{if $v["status"]==0}
+                            禁用
+                            {else if  $v["status"]==1}
+                            待支付
+                            {else if  $v["status"]==2}
+                            已支付
+                            {else}
+                            异常
+                            {/if}
+                        </td>
+                        <td>{if !$v["endtime"]}
+                            -----
+                            {else}
+                            {#addtime($v["endtime"])}
+                            {/if}
+                        </td>
+                        <td>
+                            {if  $v["status"]==1||$v["status"]==3}
+                            <input type="button" value="还款" id="{$v['id']}" class="btns2" >
+                            {else if  $v["status"]==2}
+                            已还
+                            {else }
+                            异常
+                            {/if}
+                        </td>
+					</tr>
+                    {/foreach}{/if}
+					</tbody>
+				</table>
+				{if $back_log['show']}
+				<div class="pages">{$back_log['show'] nofilter}</div>{/if}
+			</div>
+
+            <!--担保-->
+            <div class="f_tab_body" id="danbao-box" style="display:none">
+                <!--担保记录-->
+	            <div>
+                <span style="font-size: 17px">担保记录</span></div>
+                <table class="f_table" id="">
+                    <thead>
+                    <tr>
+                        <th>{#lang('借款账单')}</th>
+	                    <th>{#lang('用户名')}</th>
+	                    <th>{#lang('电话')}</th>
+	                    <th>{#lang('借款数量')}</th>
+	                    <th>{#lang('剩余款项')}</th>
+	                    <th>{#lang('还款期限')}</th>
+	                    <th>{#lang('还款类型')}</th>
+	                    <!--<th>{#lang('本期应还')}</th>-->
+	                    <th>{#lang('担保利息/月')}</th>
+	                    <th>{#lang('借款状态')}</th>
+                        <th>{#lang('操作')}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {if $danbao_log["list"]}
+                    {foreach  $danbao_log["list"] as $v}
+                    <tr>
+                        <td>{$v["id"]+100000}</td>
+                        <td>{$v["username"]}</td>
+                        <td>{$v["moble"]}</td>
+                        <td>{#round($v["num"],2)}元</td>
+                        <td>{#round($v["shen"],2)}元</td>
+                        <td>{$v["qi"]}期</td>
+                        <td>{if $v["backtype"]==1}
+                            等额本金
+                            {else if $v["backtype"]==2 }
+                            等额本息
+                            {else if $v["backtype"]==3 }
+                            先息后本
+                            {else}
+                            异常
+                            {/if}
+                        </td>
+                        <td>{#round($v["lixi"],2)}元</td>
+                        <td>{if $v["status"]==0}
+                            禁用
+                            {else if $v["status"]==1}
+                            已完成
+                            {else if $v["status"]==2}
+                            担保人审核
+                            {else if $v["status"]==3}
+                            待系统审核
+                            {else if $v["status"]==4}
+                            审核通过
+                            {else if $v["status"]==5}
+                            到期未还清
+                            {else}
+                            异常
+                            {/if}
+                        </td>
+                        <td>{if $v["status"]==2} <input type="text" value="确认担保" class="btns3" id="{$v['id']}" /> </a>
+                            {else}
+                            -----
+                            {/if}
+                        </td>
+                    </tr>
+                    {/foreach}{/if}
+                    </tbody>
+
+                </table>
+	            {if $danbao_log['show']}
+	            <div class="pages">{$danbao_log['show'] nofilter}</div>{/if}
+                <!--待还账单-->
+                 <span style="font-size: 17px">担保账单</span>
+	            <table class="f_table" >
+		            <thead>
+		            <tr>
+                        <th >{#lang('借款账单')}</th>
+                        <th >{#lang('分期号')}</th>
+                        <th >{#lang('还款截止时间')}</th>
+                        <th >{#lang('本期应还')}</th>
+                        <th >{#lang('状态')}</th>
+                        <th >{#lang('还款时间')}</th>
+                        <th >{#lang('担保收益')}</th>
+                        <th >{#lang('操作')}</th>
+		            </tr>
+		            </thead>
+		            <tbody>
+		            {if $lend_danbaopay["list"]}
+		            {foreach  $lend_danbaopay["list"] as $v}
+		            <tr>
+                        <td>{$v["lendid"]+100000}</td>
+                        <td>第{$v["qi"]}期</td>
+                        <td>{#addtime($v["backtime"])}</td>
+                        <td>{#round($v["should"],2)}元</td>
+                        <td>{if $v["status"]==0}
+                            禁用
+                            {else if  $v["status"]==1}
+                            待支付
+                            {else if  $v["status"]==2}
+                            已支付
+                            {else}
+                            异常
+                            {/if}
+                        </td>
+                        <td>{if !$v["endtime"]}
+                            -----
+                            {else}
+                            {#addtime($v["endtime"])}
+                            {/if}
+                        </td>
+                        <td>{#round($v["danbaofee"],2)}元</td>
+                        <td>
+                            {if  $v["status"]==3}
+                            <input type="button" value="代还款" id="{$v['id']}" class="btns2" >
+                            {else}
+                            ----
+                            {/if}
+                        </td>
+		            </tr>
+		            {/foreach}{/if}
+		            </tbody>
+		            {if $lend_danbaopay['show']}
+		            <div class="pages">{$lend_danbaopay['show'] nofilter}</div>{/if}
+	            </table>
+                <!--收益记录-->
+                 <span style="font-size: 17px">收益记录</span>
+                <table class="f_table" >
+                    <thead>
+                    <tr>
+                        <th >{#lang('借款账单')}</th>
+                        <th >{#lang('分期号')}</th>
+                        <th >{#lang('本期应还')}</th>
+                        <th >{#lang('还款时间')}</th>
+                        <th >{#lang('担保收益')}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {if $lend_fee["list"]}
+                    {foreach  $lend_fee["list"] as $v}
+                    <tr>
+                        <td>{$v["lendid"]+100000}</td>
+                        <td>第{$v["qi"]}期</td>
+                        <td>{#round($v["num"],2)}元</td>
+                        <td>{#addtime($v["addtime"])}</td>
+                        <td>{#round($v["fee"],3)}</td>
+                    </tr>
+                    {/foreach}{/if}
+                    </tbody>
+	                {if $lend_fee['show']}
+	               <div class="pages">{$lend_fee['show'] nofilter}</div>{/if}
+                </table>
+            </div>
+		</div>
+	</div>
+	<script>
+
+
+		function tabs(_this){// li四个标签切换显示对应内容
+			var href=_this.attr('href');
+			$('.ui-tab-item').removeClass('ui-tab-item-current');
+			$('.f_tab_body:visible').hide();// 隐藏显示的内容
+			$('.ui-tab-items a[href="'+href+'"]').parent().addClass('ui-tab-item-current');
+			$(href+'-box').show();
+
+		}
+		var hash=location.hash;//获取页面刷新后的标签值
+		if(hash){
+			$('.ui-tab-items').find('a[href="'+hash+'"]').click();//点击触发tabs();
+
+			var reg1=/#/;
+
+			$('.pages a').hover(function(){
+				hash=location.hash;//获取切换后页面的标签值
+				var href=$(this).attr('href');
+				if(!href.match(reg1)){//验证是否含有#,没有就添加一个hash
+					var url=href+hash;
+					$(this).attr('href',url);
+				}
+
+			})
+		}
+
+		$('.btns2').click(function(){
+				var id=$(this).attr('id');
+				layer.config({
+					extend: 'extend/layer.ext.js'
+				});
+				layer.ready(function () {
+					layer.prompt({
+						title: "请输入交易密码",
+						formType: 1
+					}, function (val) {
+						if (val) {
+
+							$.post("{#url('lend/payback')}", {
+								id:id,
+								paypassword:val
+							}, function (data) {
+								if (data.status == 1) {
+									layer.msg(data.info, {icon: 1});
+									window.setTimeout("location.reload()", 3000);
+
+								} else {
+									layer.msg(data.info, {icon: 2});
+
+								}
+							}, "json");
+						};
+					});
+				});
+		});
+
+		$('.btns3').click(function(){
+			var id=$(this).attr('id');
+			layer.config({
+				extend: 'extend/layer.ext.js'
+			});
+			layer.ready(function () {
+				layer.prompt({
+					title: "请输入交易密码",
+					formType: 1
+				}, function (val) {
+					if (val) {
+
+						$.post("{#url('lend/check')}", {
+							id:id,
+							paypassword:val
+						}, function (data) {
+
+							if (data.status == 1) {
+								layer.msg(data.info, {icon: 1});
+								//window.location ="{#url('shop_yx/index')}";
+								window.setTimeout("location.reload()", 3000);
+
+							} else {
+								layer.msg(data.info, {icon: 2});
+								if (data.url) {
+									//window.location = data.url;
+								}
+							}
+						}, "json");
+					}
+					;
+				});
+			});
+		});
+	</script>
+</div>
+{include file="public:footer"}

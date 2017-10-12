@@ -1,0 +1,87 @@
+{include file="public:header"}
+<script type="text/javascript" src="__EXT__/coinhq/jquery.js"></script>
+<script type="text/javascript" src="__EXT__/coinhq/zui.min.js"></script>
+<script type="text/javascript" src="__EXT__/coinhq/layer.js"></script>
+<link rel="stylesheet" href="__EXT__/cen_hangq/zui.min.css"/>
+<link rel="stylesheet" href="__EXT__/cen_hangq/zui-theme-green.css"/>
+<link rel="stylesheet" href="__EXT__/cen_hangq/home.css"/>
+<link rel="stylesheet" href="__EXT__/cen_hangq/issue.css"/>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('币种列表')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('币种列表')}
+					</span>
+	                <span>
+                        <a href="{#url('cen_hangq/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('币种列表')}</a>
+                    </span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div id="main">
+			<div class="cards  col-md-12">
+				<div class="table-responsive">
+					<table class="table table-builder table-hover table-bordered table-striped js-table-checkable">
+						<thead>
+						<tr>
+							<th class="text-center" width="180">币种</th>
+							<th class="text-center">价格￥</th>
+							<th class="text-center">算法</th>
+							<th class="text-center">流通总量</th>
+							<th class="text-center">全网算力</th>
+							<th class="text-center">区块奖励</th>
+							<th class="text-center">发布时间</th>
+							<th class="text-center" width="46">官网</th>
+							<th class="text-center" width="46">行情</th>
+						</tr>
+						</thead>
+						<tbody>
+						{foreach $pages['list'] as $k => $v}
+						<tr>
+							<td class="text-left" style="text-indent: 1em;white-space: nowrap;">
+								<a href="/cen_hangq/detail/name/{$v['name']}.html">
+									<img src="{$v['img']}" width="30" style="margin-right: 8px;">{#strtoupper($v['name'])}-{$v['title']}
+								</a></td>
+							<td class="text-center">{$v['price']}</td>
+							<td class="text-center">{$v['sf']}</td>
+							<td class="text-center">{$v['z']}</td>
+							<td class="text-center">{$v['sl']}</td>
+							<td class="text-center">{$v['gk'].$v['name']}</td>
+							<td class="text-center">{$v['publishtime']}</td>
+							<td class="text-center"><a href="{$v['gw']}"><i class="icon-edit"></i></a></td>
+							<td class="text-center"><a href="#"><i class="icon-trash"></i></a></td>
+						</tr>
+						{/foreach}
+						</tbody>
+					</table>
+					<div class="readmore">
+						<div class="pages">{$pages['show'] nofilter}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{include file="public:footer"}
+<link href="__EXT__/cen_hangq/theme.default.css" rel="stylesheet">
+<script src="__EXT__/cen_hangq/jquery.tablesorter.min.js"></script>
+<script type="text/javascript">
+	$(function () {
+		$(".table").tablesorter({
+			headers: {0: {sorter: false}, 7: {sorter: false}, 8: {sorter: false}}
+		});
+	});
+</script>
+<script>
+	// 菜单高亮
+	$('.menu_cen_hangq').addClass('active');
+</script>

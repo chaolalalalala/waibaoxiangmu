@@ -1,0 +1,114 @@
+{include file="public:header"}
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;<a href="{#url('bazaar/index')}" class="orange">{#lang('集市交易')}</a>  &gt;{#lang('我的奖励')}
+	</div>
+	<div class="main-content">
+		<div class="assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+	<span>
+						{#lang('我的奖励')}
+					</span>
+					<span>
+                        <a href="{#url('bazaar/index')}" id="step1" class="step fz_12 ml20 pd6 ">{#lang('逛集市')} </a>
+						<a href="{#url('bazaar/my')}" id="step2" class="step fz_12 ml20 pd6 ">{#lang('我的委托')} </a>
+						<a href="{#url('bazaar/log')}" id="step3" class="step fz_12 ml20 pd6 ">{#lang('我的成交')} </a>
+                        <a href="{#url('bazaar/invit')}" id="step4" class="step fz_12 ml20 pd6 active">{#lang('我的奖励')}</a>
+					</span>
+                    <span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+
+				{$hints["value"] nofilter}
+			</div>
+			<div class="cnyin_record">
+				<div class="f_body">
+					<div class="f_body_main">
+						<div class="f_tab_body">
+							<div>
+
+								<table class="f_table" id="investLog_content">
+									<thead>
+									<tr>
+										<th>{#lang('下家用户名')}</th>
+										<th>{#lang('奖励类型')}</th>
+										<th>{#lang('奖励说明')}</th>
+										<th>{#lang('操作时间')}</th>
+										<th>{#lang('操作数量')}</th>
+										<th>{#lang('奖励数量')}</th>
+										<th>{#lang('奖励币种')}</th>
+										<th>{#lang('奖励状态')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{if $pages['list']}
+									{foreach $pages['list'] as $k => $v}
+									<tr>
+										<td>{$v.invitname}</td>
+										<td>{$v.type}</td>
+										<td>{$v.name}</td>
+										<td>{#addtime($v['addtime'])}</td>
+										<td>{$v['num']}</td>
+										<td>{$v['fee']}</td>
+										<td>{$v['feecoin']}</td>
+										<td>
+											{if $v['status']==0} <font class="sell">{#lang('未到账')} </font>{/if} {if $v['status']==1} <font class="buy">{#lang('已到账')} </font>{/if}
+										</td>
+									</tr>
+									{/foreach}{/if}
+									</tbody>
+								</table>
+								{if $pages['show']}
+								<div class="pages">{$pages['show'] nofilter}</div>{/if}
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{include file="public:footer"}
+
+<script>
+	var hints = "{$hints['show']}";
+	if(hints == 1){
+		$('#hints').show();
+	}
+</script>
+<script>
+	function qiandao_up() {
+
+		$.post("{#url('bazaar/up')}", {}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout(function(){
+					window.location = "/bazaar/index";
+				},1000)
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+</script>
+
+<script>
+	if ($("#bazaar_box").length > 0) {
+		$('#bazaar_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>

@@ -1,0 +1,408 @@
+{include file="public:header"}
+<title>行情图</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+    <script >
+        var initRem = function () {
+            var n = $(window).width(), r = $(window).height(), t = n > 640 ? 640 : n, i = 100 / 640 * t;
+            console.log('width:' + $(document).width());
+            $("html").css({fontSize: i})
+        };
+    </script >
+    <style >
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Roboto-Regular, -apple-system, Sans-Serif;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .btn-group {
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .btn-group button {
+            outline: 0;
+            font-size: .24rem;
+            color: #9b9ea7;
+            background-color: #1f222b;
+            /*border: 1px solid #2a2d36;*/
+            width: 16.66666%;
+        }
+
+        .btn-group button.btn-success {
+            background-color: #292c35;
+            color: #fff;
+        }
+
+
+        .index-trade{
+            margin: 10px 10px 0 10px;
+            margin-bottom: 5px;
+            position: relative;
+            /*border: 1px solid #2F3440;*/
+            background-color: #1F2229;
+            height: 45px;
+        }
+        .index-trade span{
+            /* display: none; */
+            float: left;
+            width: 20%;
+            line-height: 45px;
+            text-align: center;
+            height: 45px;
+            color: white;
+        }
+        .index-trade-r{
+            /*border-right:1px solid #2F3440;*/
+        }
+        .index-trade-act{
+            background-color: #2F3440;
+        }
+    </style >
+</head >
+<body style = "background-color: #1f222b;" >
+
+<div class="index-trade aui-border">
+    <span id="ctime1" tapmod="" onclick="ctime('1m',1)" class="index-trade-r index-trade-act aui-border-r">1分钟</span>
+    <span id="ctime2" tapmod="" onclick="ctime('5m',2)" class="index-trade-r aui-border-r">5分钟</span>
+    <span id="ctime3"  tapmod="" onclick="ctime('30m',3)"  class="index-trade-r aui-border-r">30分钟</span>
+    <span id="ctime4"  tapmod="" onclick="ctime('1h',4)"  class="index-trade-r aui-border-r">1小时</span>
+    <span id="ctime5"  tapmod="" onclick="ctime('8h',5)"  class="index-trade-r aui-border-r">8小时</span>
+</div>
+
+<div style = "width: 6.4rem;" id = "graphbox" ></div >
+<h2 style = "font-size:.36rem;margin-bottom:.24rem;font-weight:300; text-align: center;color:#eee;" >市场深度</h2 >
+<div style = "width:95%;" id = "depth" ></div >
+<script >
+    var chart;
+</script >
+<script src="__WAP__/js/ext/highcharts-custom.js" type="text/javascript"></script>
+<script >
+    var kline_m = '1m';
+    var ranger_m = 6;
+    var last_index = 1;
+    var can_do = 0;
+    var market_id = 1;
+    function kline(m, x) {
+        //图表设置
+        Highcharts.setOptions({
+            colors: [
+                '#DD1111',
+                '#FF0000',
+                '#DDDF0D',
+                '#7798BF',
+                '#55BF3B',
+                '#DF5353',
+                '#aaeeee',
+                '#ff0066',
+                '#eeaaee',
+                '#55BF3B',
+                '#DF5353',
+                '#7798BF',
+                '#aaeeee'
+            ],
+            lang: {
+                loading: 'Loading...',
+                months: [
+                    '1 ',
+                    '2',
+                    '3',
+                    '4',
+                    '5',
+                    '6',
+                    '7',
+                    '8',
+                    '9',
+                    '10',
+                    '11',
+                    '12'
+                ],
+                shortMonths: [
+                    '1',
+                    '2',
+                    '3',
+                    '4',
+                    '5',
+                    '6',
+                    '7',
+                    '8',
+                    '9',
+                    '10',
+                    '11',
+                    '12'
+                ],
+                weekdays: [
+                    '周日',
+                    '周一',
+                    '周二',
+                    '周三',
+                    '周四',
+                    '周五',
+                    '周六'
+                ],
+                decimalPoint: '.',
+                numericSymbols: [
+                    'k',
+                    'M',
+                    'G',
+                    'T',
+                    'P',
+                    'E'
+                ],
+                resetZoom: 'Reset zoom',
+                resetZoomTitle: 'Reset zoom level 1:1',
+                thousandsSep: ','
+            },
+            credits: {enabled: false}
+        });
+        var datas = chart.time_line[m], rates = [], vols = [];
+        for (i = 0; i < datas.length; i++) {
+            rates.push([
+                datas[i][0],
+                parseFloat(datas[i][2]),
+                parseFloat(datas[i][3]),
+                        parseFloat(datas[i][4]),
+                                parseFloat(datas[i][5])
+            ]);
+            vols.push([
+                parseFloat(datas[i][0]),
+                        parseFloat(datas[i][1])
+            ]);
+        }
+
+        var groupingUnits = [
+            [
+                'week',
+                [1]
+            ],
+            [
+                'month',
+                [
+                    1,
+                    2,
+                    3,
+                    4,
+                    6
+                ]
+            ]
+        ];
+
+
+        $("#graphbox").highcharts("StockChart", {
+            chart: {backgroundColor: '#1f222b', marginBottom: 50, height: 350},
+            xAxis: {
+                lineWidth: 0,
+                tickWidth: 0,
+                labels: {style: {color: '#888', borderColor: '#343740'}},
+                gridLineWidth: 0,
+                gridLineColor: '#353841',
+                type: 'datetime',
+                dateTimeLabelFormats: {
+                    second: '%m-%d<br/>%H:%M:%S',
+                    minute: '%m-%d<br/>%H:%M',
+                    hour: '%m-%d<br/>%H:%M',
+                    day: '%Y<br/>%m-%d',
+                    week: '%Y<br/>%m-%d',
+                    month: '%Y-%m',
+                    year: '%Y'
+                }
+            },
+            plotOptions: {
+                candlestick: {
+                    lineColor: '#e55600',
+                    upLineColor: '#27ff28',
+                    lineWidth: 1,
+                    color: '#e55600',
+                    upColor: '#27ff28'
+                }, states: {hover: {enabled: false}}
+            },
+            tooltip: {xDateFormat: '%Y-%m-%d %H:%M %A', color: '#f0f', changeDecimals: 4, borderColor: '#058dc7'},
+            rangeSelector: {
+                enabled: false,
+                labelStyle: {
+                    color: "silver"
+                },
+                selected: 0,
+                buttonTheme: {
+                    r: 2, fill: '#292c35',
+                    style: {
+                        color: '#fff',
+                        fontWeight: 'bold'
+                    }, states: {
+                        select: {
+                            fill: 'rgb(39, 255, 40)',
+                            style: {
+                                color: 'white'
+                            }
+                        },
+                        disabled: {
+                            style: {
+                                color: '#555'
+                            }
+                        }
+                    }
+                },
+                inputEnabled: false,
+                buttons: [
+                    {type: 'minute', count: 60, text: '1h'},
+                    {type: 'minute', count: 120, text: '2h'},
+                    {type: 'minute', count: 360, text: '6h'},
+                    {type: 'minute', count: 720, text: '12h'},
+                    {type: 'day', count: 1, text: '1d'},
+                    {type: 'week', count: 1, text: '1w'},
+                    {type: 'all', text: '所有'}
+                ],
+                selected: x
+            },
+            navigator: {enabled: false},
+            scrollbar: {enabled: false},
+            exporting: {enabled: false, buttons: {exportButton: {enabled: false}, printButton: {enabled: true}}},
+            yAxis: [
+                {
+                    gridLineWidth: 1,
+                    gridLineColor: '#353841',
+                    labels: {
+                        format: '￥{value}',
+                        y: 2,
+                        style: {color: '#939498', fontSize: '.26rem', fontWeight: '500'}
+                    },
+                    top: '5%',
+                    offset: 30,
+                    height: '82%',
+                    lineWidth: 0,
+                    gridLineDashStyle: 'Dash',
+                    showLastLabel: true
+                },
+                {
+                    gridLineWidth: 1,
+                    gridLineColor: '#353841',
+                    labels: {enabled: false},
+                    offset: 0,
+                    top: '82%',
+                    height: '18%',
+                    lineWidth: 0,
+                    gridLineWidth: 0,
+                    showLastLabel: true
+                },
+
+            ],
+            series: [
+                {
+                    name: '成交量',
+                    animation: false,
+                    type: 'column',
+                    color: '#4572A7',
+                    dataGrouping: {units: groupingUnits, enabled: false},
+                    yAxis: 1,
+                    data: vols
+                },
+                {
+                    name: '价格',
+                    animation: false,
+                    type: 'candlestick',
+                    dataGrouping: {units: groupingUnits, enabled: false},
+                    data: rates
+                }
+            ]
+        })
+    }
+    var chart2 = new Highcharts.Chart({
+        colors: [
+            "#ee6259",
+            "#83c44e",
+            "#ED561B",
+            "#DDDF00",
+            "#24CBE5",
+            "#64E572",
+            "#FF9655",
+            "#FFF263",
+            "#6AF9C4"
+        ],
+        chart: {backgroundColor: '#1f222b', type: "area", renderTo: "depth", paddingBottom: 90,},
+        title: {text: ""},
+        legend: {itemStyle: {color: '#888'}},
+        credits: {enabled: false},
+        xAxis: {
+            gridLineDashStyle: 'Dash',
+            gridLineColor: '#353841',
+            title: {text: '价格'},
+            labels: {format: '￥{value}', y: 22, style: {color: '#939498', fontSize: '.26rem', fontWeight: '500'}}
+        },
+        yAxis: {
+            gridLineDashStyle: 'Dash',
+            offset: -5,
+            gridLineWidth: 1,
+            gridLineColor: '#353841',
+            opposite: true,
+            title: {enabled: false},
+            labels: {style: {color: '#888', borderColor: '#343740'}},
+            gridLineColor: '#353841'
+        },
+        tooltip: {pointFormat: "¥" + "{point.x} <br />{series.name}:{point.y}"},
+        plotOptions: {
+            area: {
+                pointStart: 0,
+                marker: {enabled: !1, symbol: "circle", radius: 2, states: {hover: {enabled: !0}}}
+            }
+        },
+        series: [
+            {name: '累积买单', data: [], labels: {style: {color: '#888'}}},
+            {name: '累积卖单', data: []}
+        ]
+    });
+
+    function flash_chart(){
+        AjaxDo('chart/getChart/marketid/' + market_id, 'get', '', function (ret) {
+            if(ret.status){
+                var data = ret.data;
+                chart =
+                {
+                    symbol: data.symbol,
+                    symbol_view: data.symbol_view,
+                    ask: 1.2,
+                    time_line: data.time_line
+                };
+                kline(kline_m, ranger_m);
+                can_do = 1;
+               window.setTimeout("flash_chart()", 5000);
+            }
+        });
+    }
+
+    function depth_ajax() {
+        AjaxDo('chart/depth/marketid/' + market_id, 'get', '', function (ret) {
+            if(ret.status){
+                var s = ret.data;
+                chart2.series[0].setData(s[0].sort(function (t, a) {
+                    return t[0] > a[0] ? 1 : t[0] < a[0] ? -1 : 0
+                }));
+                chart2.series[1].setData(s[1]);
+                window.setTimeout(depth_ajax, 6000);
+            }
+        });
+    }
+
+    apiready = function(){
+        onerror = error_handel;
+    }
+
+
+    function ctime(time,id){
+        if(!can_do) return;
+        $('#ctime'+last_index).removeClass('index-trade-act');
+        $('#ctime'+id).addClass('index-trade-act');
+        last_index = id;
+
+        kline_m = time;
+        kline(kline_m, 6);
+    }
+</script >
+</body >
+</html >

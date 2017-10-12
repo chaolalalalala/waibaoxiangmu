@@ -1,0 +1,104 @@
+/*3*/
+body{
+	background: url(../style/img/signbg.jpg) center -300px no-repeat;
+/*	background: url(img/bg.jpg) center -300px no-repeat;*/
+    background-size: cover;
+}
+.autobox{
+	width: 690px;
+	min-width: 690px!important;
+}
+.autobox .now{
+	margin-left: -248px;
+}
+.login_step .order{
+	margin-left: 0!important;
+}
+.autobox .texts{
+	width: 380px;
+	height: 50px;
+	font-size: 14px;
+	color: #333;
+	border-radius: 0;
+	padding-top: 9px;
+	padding-bottom: 9px;
+	line-height: 30px;
+	outline: none;
+	border: 1px solid #313131;
+}
+.texts:focus,
+.texts:hover{
+	box-shadow: 0 0 0 transparent!important;
+	border: 1px solid #313131!important;
+}
+#moble{
+	width: 380px!important;
+    margin-left: -4px;
+}
+#reg_index{
+	padding-left: 160px;
+}
+.autobox .login_step{
+	margin-top: 70px;
+	padding-left: 66px;
+	padding-top: 50px!important;
+	background: #222;
+}
+.autobox .reg_box{
+	margin-bottom: 70px;
+	min-height: auto!important;
+	background: #222;
+}
+.autobox .reg_radio_box{
+	margin-bottom: 0;
+}
+.autobox .formbody{
+	margin-bottom: 50px;
+}
+.autobox .formbody .btns2{
+	width: 380px;
+	height: 42px!important;
+	line-height: 42px!important;
+	color: #c8c8c8;
+}
+.mask_wrap_close,
+.layui-layer-setwin{
+	width: 40px!important;
+	height: 40px!important;
+	right: -14px!important;
+	top: -14px!important;
+	border: 5px solid #313131!important;
+	border-radius: 50%!important;
+	transition: transform 0.3s!important;
+	background: url(../style/img/icon_delate_.png) no-repeat center!important;
+	background-size: 32px 32px!important;
+    background-color: #313131!important;
+}
+.mask_wrap_close i{
+	display: none!important;
+}
+.mask_wrap_close:hover,
+.layui-layer-setwin:hover{
+	transform: rotate(180deg)!important;
+}
+.layui-layer-setwin a{
+	width: 40px;
+	height: 40px;
+	background: url()!important;
+}
+#reg_moble{
+	position: absolute!important;
+	left: 280px!important;
+    border-left: 1px solid #313131!important;
+    top: 0px!important;
+    bottom: 0px!important;
+    width: 98px!important;
+    line-height: 50px!important;
+    text-align: center!important;
+}
+#reg_moble .move{
+	color: #c8c8c8!important;
+}
+.layui-layer.layui-anim.layui-layer-tips .layui-layer-setwin{
+	display: none!important;
+} 

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>提现地址管理 - 财务中心 - 币火网 -  www.bihuo168.com </title>
+<meta name="Keywords" content="{$seos['keywords']}">
+<meta name="Description" content=" {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+
+
+<script type="text/javascript" src="__EXT__/city/cityselect.js"></script>
+
+<style>
+	.ydt-bank {position: relative;padding-top: 20px;color: #7b808c;
+		line-height: 1;font: 14px/1.5 Tahoma, Helvetica, Arial, "Microsoft YaHei", SimSun;}
+
+	.yb-list-window {position:relative;z-index:2;width: 960px;margin: 0 auto;overflow: hidden;}
+	.yb-list-wapper {float: left;}
+	.yb-add {width: 225px; height: 148px;background-position: -10px -355px;float: left;margin-left: 10px;padding-top: 50px;cursor: pointer;background-image: url('/static/default/home/img/bank/index_sprites_24.png');background-repeat: no-repeat;}
+	.yb-ico-add {width:16px;height:16px;margin:0 auto;background-position: -100px -10px;background-image: url('/static/default/home/img/bank/index_sprites_24.png');background-repeat: no-repeat;}
+	.yb-txt { text-align: center;margin-top: 10px;}
+	.yb-item {position:relative;float: left;height: 174px;line-height: 1;}
+	.yb-info {width: 225px; height: 147px;padding-top: 10px;margin-left:13px;background-position: -10px -200px;cursor: pointer;background-image: url('/static/default/home/img/bank/index_sprites_24.png');background-repeat: no-repeat;}
+	.yb-item .yb-name {padding-left: 4px;}
+	.bank-cmb{display: inline-block;text-indent: 1em; position: relative;  height: 33px;  width: 141px;  overflow: hidden;  line-height:37px;  font-weight: bold;vertical-align: top;}
+	.yb-type{display: inline-block;float: right;margin-top: 10px;white-space: nowrap;overflow: hidden;margin-right:13px;}
+	.yb-num{color: #3a3d42;  font-size: 20px;  width: 210px;  margin: 0 auto;  padding: 18px 0 14px;  white-space: nowrap;  overflow: hidden;}
+	.yb-links {display: block;width: 200px;margin: 0 auto;padding-top: 25px;}
+	.yb-link {float: left; line-height: 20px;  }
+	.yb-link a{color: #00b1ee;text-decoration: none;}
+	.yb-split {  width: 1px;  height: 13px;  float: left;  background-color: #d1d1d1;  margin: 4px 11px 0;overflow: hidden;}
+	.yb-link {float: left;line-height: 20px;}
+	.hide {display: none;}
+	.yb-ico{}
+
+</style>
+<link rel="stylesheet" href="/static/style/safeadd.css">
+<link rel="stylesheet" href="/static/style/moneyadd03-2.css">
+<link rel="stylesheet" href="/static/style/qianbaoadd.css">
+<link rel="stylesheet" href="/static/style/addressadd.css">
+
+
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="movesay">{#lang('首页')}</a> &gt; <a href="/u/asset.jsp" class="movesay">{#lang('财务中心')} </a> &gt; {#lang('提现地址管理')}
+	</div>
+	<div class="main-content">
+		{include file="finan:left"}
+		<div class="tag-list-content assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('提现地址管理')}
+					</span>
+					 <span>
+                        <a href="/u/asset/payout_cny.jsp"  class="step fz_12 ml50 pd6 ">{#lang('账户提现')}</a>
+						     <a href="/u/asset/payout_cny_log.jsp" class="step fz_12 ml20 pd6 ">{#lang('提现记录')}</a>
+                        <a href="/u/asset/payout_cny_account.jsp"  class="step fz_12 ml20 pd6 active">{#lang('提现地址管理')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<!--<div class="cnyin_record">-->
+				<!--<div class="f_body">-->
+					<!--<div class="f_body_main">-->
+						<!--<div class="f_tab_body">-->
+							<!--<div>-->
+								<!--<table class="f_table" id="investLog_content">-->
+									<!--<thead>-->
+									<!--<tr>-->
+										<!--<th>{#lang('备注名称')}</th>-->
+										<!--<th>{#lang('开户银行')}</th>-->
+										<!--<th>{#lang('开户省份')}</th>-->
+										<!--<th>{#lang('开户城市')}</th>-->
+										<!--<th>{#lang('开户支行')}</th>-->
+										<!--<th>{#lang('开户姓名')}</th>-->
+										<!--<th>{#lang('银行卡号')}</th>-->
+										<!--<th>{#lang('添加时间')}</th>-->
+										<!--<th>{#lang('操作')}</th>-->
+									<!--</tr>-->
+									<!--</thead>-->
+									<!--<tbody>-->
+
+									<!--{foreach $user_bank as $k => $v}-->
+									<!--<tr>-->
+										<!--<td>{$v.name}</td>-->
+										<!--<td>{$v.bank}</td>-->
+										<!--<td>{$v.bankprov}</td>-->
+										<!--<td>{$v.bankcity}</td>-->
+										<!--<td>{$v.bankaddr}</td>-->
+										<!--<td>{$v.truename}</td>-->
+										<!--<td>{$v.bankcard}</td>-->
+										<!--<td>{#addtime($v['addtime'])}</td>-->
+										<!--<td>-->
+											<!--<a class="cancel" href="javascript:void(0)" onclick="bank_del(this)" data="{$v['id']}">{#lang('删除')}</a>-->
+										<!--</td>-->
+									<!--</tr>-->
+									<!--{/foreach}-->
+									<!--</tbody>-->
+								<!--</table>-->
+								<!--<div class="pages">-->
+									<!--<input type="button" class="btns" value="{#lang('添加一个地址')}" onclick="showA()" style="width: 150px;height: 26px;line-height: 24px;margin-left: 60px;">-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</div>-->
+			<!--</div>-->
+
+
+
+<!--{#dump($user_bank)}-->
+			<div class="mytable-body ">
+				<div class="f_body  step2">
+					<table class="f_table" id="investLog_content">
+						<thead>
+						<tr>
+							<th style="width: 150px;text-align: left;padding-left: 10px;">
+								<select name="type" id="coinnam-select">
+
+									{foreach $coin_select as $k => $v}
+
+									<option value="{$k}" {if $coin == $k} selected="selected" {/if} >{$v.title} ({#strtoupper($v['name'])})</option>
+									{/foreach} </select>
+							</th>
+						</tr>
+						</thead>
+
+						<script>
+							$("#coinnam-select").val("{$coin}");
+
+							$("#coinnam-select").change(function () {
+								var coinname = $("#coinnam-select option:selected").val();
+								var url      = '/u/asset/payout_cny_account.jsp';
+								if (coinname) {
+									url += '/coin/' + coinname;
+								}
+								window.location = url;
+							});
+
+						</script>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="ydt-bank">
+				<div class="yb-list-window">
+					<div class="yb-list-wapper">
+						<div id="bank_wrap" data-marginleft="979" data-on-cls="current" data-page-num="4" class="yb-list">
+							<div class="yb-add" onclick="showA()" >
+								<div class="yb-ico-add" onclick="showA()"></div>
+								<div class="yb-txt" onclick="showA()">添加银行卡</div>
+							</div>
+
+							{foreach $user_bank as $k=>$v}
+							<div class="yb-item  js-bank-item js-bank-index-1 current" id="item_bank_50103793730636942915" data-serial="50103793730636942915">
+								<div class="yb-info">
+									<div class="yb-name clearfix">
+										<div title="" class="yb-ico bank-cmb">{$v['name']}</div>
+										<div class="yb-type">储蓄卡</div>
+									</div>
+									<div class="yb-num ">
+										{$v['bankcard']}
+									</div>
+									<div class="yb-links clearfix">
+										<div class="js-bank-opt">
+                <span id="cur_bank_opt">
+                <div class="yb-link"><a href="{#url('finan/pay')}" class="js-opt @BANKCARD.FUN_C@" data-fun="C"><span>充值</span></a></div>
+
+                <span class="yb-split"></span>
+
+                <div class="yb-link"><a href="{#url('finan/out')}" class="js-opt @BANKCARD.FUN_Pay@" data-fun="Pay"><span>提现</span></a></div>
+            </span>
+											<span class="yb-split"></span>
+											<div class="yb-link">
+												<span class="hide" id="cur_status" data-open="已开启" data-close="已关闭" data-active="未激活">已开启</span>
+												<a href="javascript:void(0)" class="selected cancel"  data="{$v['id']}" onclick="bank_del(this)"><span>解绑</span></a>
+												<a href="#none" class="hide cancel" id="cur_unlock" onclick="bank_del(this)" data="{$v['id']}"><span>解绑</span></a>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								<div class="yb-ico-up"></div>
+
+							</div>
+							{/foreach}
+						</div>
+
+
+						</div>
+					</div>
+				</div>
+
+				<div class="yb-arrows">
+					<div id="bank_pre_btn" class="yb-ico-left i-hide"></div>
+					<div id="bank_next_btn" class="yb-ico-right i-hide"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="all_mask_loginbox" id="step1" style="display: none;top:200px">
+	<div class="login_title pl20">{#lang('添加一个提现地址')}</div>
+	<form id="form-login" class="mask_wrap login-fb">
+		<div class="login_text zin90">
+			<div class="mask_wrap_title">{#lang('备注名称')}：</div>
+			<input id="bank_name" class="texts" type="text" placeholder="备注方便自己区分">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">币种名称：</div>
+			<select name="bank" id="bank_coinname" class="texts">
+				<option value="" selected="selected">{#lang('--选择币种--')}</option>
+				{foreach $coin_select as $k => $v}
+				<option value="{$k}">{$v['title']} ({#strtoupper($v['name'])})</option>
+				{/foreach} </select>
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('开户银行')}：</div>
+			<select name="bank" id="bank_bank" class="texts">
+				<option value="0">{#lang('--选择银行--')}</option>
+				{foreach $bank_list as $k => $v}
+				<option value="{$v}">{$v}</option>
+				{/foreach} </select>
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('开户省市')}：</div>
+			<span class="controls" id="city_1">
+				<select class="prov texts" id="bank_prov" name="prov" style="width: 98px;"></select>
+				<select class="city texts" id="bank_city" name="city" style="width: 98px; display: none;"></select>
+            </span>
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('开户支行')}：</div>
+			<input id="bank_bankaddr" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('开户姓名')}：</div>
+			<input id="bank_username" class="texts" type="text" value="{$user['truename']}" disabled="disabled">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('银行卡号')}：</div>
+			<input id="bank_bankcard" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('交易密码')}：</div>
+			<input id="bank_paypassword" class="texts" type="password"><a href="/findpwd/paypassword" class="move ml5">{#lang('忘记')}?</a>
+		</div>
+		<div class="login_button">
+			<input type="button" class="btns2" value={#lang("立即添加")} onclick="bank_up();">
+		</div>
+	</form>
+	<div class="mask_wrap_close " onclick="showB()"><i class="fa fa-close fa-2x move"></i></div>
+</div>
+<div id="step2" class="all_mask" style="height: 0px;display: none;"></div>
+<script>
+	$(function () {
+		var height = $(document).height();
+		if (height < 1000) {
+			height = 1000;
+		}
+
+		$('#step2').height(height);
+
+		$("#city_1").citySelect({nodata: "none", required: false});
+	});
+
+	function showA() {
+		$("#step1").show();
+		$("#step2").show();
+	}
+
+	function showB() {
+		$("#step1").hide();
+		$("#step2").hide();
+	}
+
+
+	function bank_up() {
+		var name        = $('#bank_name').val();
+		var bank        = $('#bank_bank option:selected').val();
+		var bankprov    = $('#bank_prov option:selected').val();
+		var bankcity    = $('#bank_city option:selected').val();
+		var bank_coinname    = $('#bank_coinname option:selected').val();
+		var bankaddr    = $('#bank_bankaddr').val();
+		var bankcard    = $('#bank_bankcard').val();
+		var paypassword = $('#bank_paypassword').val();
+		if (name == "" || name == null) {
+			layer.tips("{#lang('请输入备注名称')}", '#bank_name', {tips: 2});
+			return false;
+		}
+		if (bank_coinname == "" || bank_coinname == null) {
+			layer.tips("{#lang('请选择币种')}", '#bank_coinname', {tips: 2});
+			return false;
+		}
+		if (bankaddr == "" || bankaddr == null) {
+			layer.tips("{#lang('请输入开户支行')}", '#bank_bankaddr', {tips: 2});
+			return false;
+		}
+		if (bankcard == "" || bankcard == null) {
+			layer.tips("{#lang('请输入银行账号')}", '#bank_bankcard', {tips: 2});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips("{#lang('请输入交易密码')}", '#bank_paypassword', {tips: 2});
+			return false;
+		}
+
+		$.post("{#url('finan/bank_up')}", {
+			name: name,
+			bank: bank,
+			bankprov: bankprov,
+			bank_coinname: bank_coinname,
+			bankcity: bankcity,
+			bankaddr: bankaddr,
+			bankcard: bankcard,
+			paypassword: paypassword
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout('location.reload()',1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					setTimeout(function(){
+						window.location = data.url;
+					},1000)
+
+				}
+			}
+		}, "json");
+	}
+
+	// 银行卡管理_删除
+	function bank_del(_this) {
+		var id = $(_this).attr('data');
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: "{#lang('输入交易密码，并确认')}",
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('finan/bank_del')}", {id: id, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							setTimeout(function(){
+								location.reload();
+							},1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								setTimeout(function(){
+									window.location = data.url
+								},1000);
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+	}
+</script>
+<script>
+	$('.finan_out').addClass('active');
+</script>
+{include file="aaapublic:footer"}

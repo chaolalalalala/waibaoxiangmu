@@ -1,0 +1,50 @@
+{include file="public:header"}
+<title>人民币提现</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<body>
+<header  id="header"  class="aui-bar aui-bar-nav aui-bar-dark">
+    <a class="aui-pull-left" tapmod="" onclick="back();">
+        <span class="aui-iconfont aui-icon-left"></span>返回
+    </a>
+    <div class="aui-title">人民币提现</div>
+    <a class="aui-pull-right"  onclick="wtlog()" tapmod="">
+        记录
+    </a>
+</header>
+</body>
+<script>
+    function wtlog(){
+	    openWin({
+            name: 'wtlog_h',
+            url: aurl('finace/wtlog_h'),
+            slidBackEnabled:false,
+            delay:100
+        });
+    }
+
+    apiready = function(){
+	    onerror       = error_handel;
+	    var header    = $api.byId('header');
+	    var width     = getWinWidth();
+	    var headerPos = $api.offset(header);
+	    var height    = getWinHight() - headerPos.h;
+	    openFrame({
+		    name: 'bank_body',
+		    url: aurl('finace/withdraw'),
+		    allowEdit : true,
+		    bounces: false,
+		    opaque: true,
+		    reload: true,
+		    vScrollBarEnabled: true,
+		    hScrollBarEnabled:false,
+		    rect: {
+			    x: 0,
+			    y: headerPos.h,
+			    w: width,
+			    h: height
+		    }
+	    });
+    }
+</script>
+</html>

@@ -1,0 +1,104 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="{#url('fenhong_tsb/index')}" class="orange">分红中心</a> &gt; {#lang('立即分红')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('立即分红')}
+					</span>
+	                <span>
+                        <a href="{#url('fenhong_tsb/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('分红列表')}</a>
+                        <a href="{#url('fenhong_tsb/log')}" id="step2" class="step fz_12 ml20 pd6 ">{#lang('分红记录')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="crowd_con clear">
+				<div class="crowd_con_l ">
+					<div class="crowd_bi clear">
+						<h2><a href="#" style="" class="left">{$list['title']}</a></h2>
+					</div>
+					<ul class="crowd_subscribe clear">
+						<li style="margin-left: 10px;width:auto;margin-right: 80px">
+							<p>{#lang('参考币种')}</p>
+							<span class="red">
+								{#strtoupper($list['ckcoin'])}
+							</span>
+						</li>
+						<li style="width:auto;margin-right: 80px">
+							<p>{#lang('分红奖励币种')}</p>
+							<span class="red">
+								{#strtoupper($list['fhcoin'])}
+							</span>
+						</li>
+
+						<li style="width:auto;margin-right: 80px">
+							<p>{#lang('分红总量')}</p>
+							<span class="red">
+                                {if !$v['mum']}
+                                ----
+                                {else}
+                                {$list['mum']}
+                                {/if}
+							</span>
+						</li>
+						<li style="width:auto;margin-right: 80px">
+							<p>{#lang('每周发放时间')}</p>
+							<span class="red">
+								{$list['week']}
+							</span>
+						</li>
+
+						<li style="width:auto;margin-right: 80px">
+							<p>{#lang('分红周期')}</p>
+							<span class="red">
+								第{$list['jd']}次/共{$list['ci']}次
+							</span>
+						</li>
+                        <li style="width:auto;margin-right: 80px">
+                            <p>{#lang('上次分红时间')}</p>
+							<span class="red">
+								{#addtime($list['endtime'])}
+							</span>
+                        </li>
+					</ul>
+
+				</div>
+			</div>
+			{if $list['content']}
+			<div class="crowd_list clear">
+				<span class="crowd_rule_t fz_20">{#lang('分红介绍')}</span>
+				<div class="crowd_list_state mt10">
+					{$list['content'] nofilter}
+				</div>
+			</div>
+            {/if}
+		</div>
+	</div>
+</div>
+<script>
+	if ($("#fenhong_tsb_box").length > 0) {
+		$('#fenhong_tsb_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

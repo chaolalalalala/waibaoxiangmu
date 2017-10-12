@@ -1,0 +1,95 @@
+{include file="public:header"}
+<title>集市交易</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+    <style>
+        .aui-popup{
+            min-width: 3rem;
+        }
+    </style>
+</head>
+<body>
+<header  id="header"  class="aui-bar aui-bar-nav aui-bar-dark">
+	<a class="aui-pull-left" tapmod="" onclick="back();">
+		<span class="aui-iconfont aui-icon-left"></span>返回
+	</a>
+	<a class="aui-pull-right aui-btn " onclick="top_pop()">
+		<span class="aui-iconfont aui-icon-menu" style="width: 1.5rem;height: 1.5rem; vertical-align: middle"></span>
+	</a>
+		<div id="title" class="aui-title">集市交易</div>
+</header>
+<div class="aui-popup aui-popup-top-right" style="margin-top: 49px" id="top-right">
+    <div class="aui-popup-arrow"></div>
+    <div class="aui-popup-content">
+        <ul class="aui-list aui-list-noborder">
+            <li class="aui-list-item" onclick="clickMenuItem(0)">
+                <div class="aui-list-item-inner">
+                    我的委托
+                </div>
+            </li>
+            <li class="aui-list-item" onclick="clickMenuItem(1)">
+                <div class="aui-list-item-inner">
+                    我的成交
+                </div>
+            </li>
+            <li class="aui-list-item" onclick="clickMenuItem(2)">
+                <div class="aui-list-item-inner">
+                    我的奖励
+                </div>
+            </li>
+            <li class="aui-list-item" onclick="clickMenuItem(3)">
+                <div class="aui-list-item-inner">
+                    我要委托
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/aui/aui-popup.js"></script>
+<script>
+	apiready = function(){
+		onerror       = error_handel;
+		var header    = $api.byId('header');
+		var width     = getWinWidth();
+		var headerPos = $api.offset(header);
+		var height    = getWinHight() - headerPos.h;
+		openFrame({
+			name: 'market',
+			url: aurl('app_market/market'),
+			allowEdit : true,
+			bounces: false,
+			opaque: true,
+			reload: true,
+			vScrollBarEnabled: true,
+			hScrollBarEnabled:false,
+			rect: {
+				x: 0,
+				y: headerPos.h,
+				w: width,
+				h: height
+			}
+		});
+	}
+
+    function clickMenuItem(index){
+	    if(index == 0) {
+            open_win('weituo_h','app_market')
+        }
+        if(index == 1){
+            open_win('chengjiao_h','app_market')
+        }
+        if(index == 2){
+            open_win('my_reward_h','app_market')
+        }
+        if(index == 3){
+            open_win('jishi_trade_h','app_market')
+        }
+    }
+
+	function top_pop(){
+        alog("打开菜单");
+        var popup = new auiPopup();
+        popup.show(document.getElementById("top-right"));
+	}
+</script>
+</html>

@@ -1,0 +1,177 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/catalog.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/shop/public.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<style>
+	.noContent a {
+		display: block;
+		width: 90%;
+		height: 35px;
+		line-height: 35px;
+		border: 1px solid #e5e5e5;
+		margin-bottom: 5px;
+		text-align: center;
+		font-size: 14px;
+		color: #999;
+		background: #FFF
+	}
+
+	.divHide {
+		display: none;
+	}
+	.category1 li{
+		height:4rem;
+		line-height:4rem;
+	}
+	.category1 li.cur {
+		color: #03a9f4;
+		border-left: 2px solid #03a9f4;
+		background: #f4f4f4;
+	}
+	.category1{
+		position:fixed;
+		height:100%;
+		scroll:no;
+		overflow-y:auto;
+	}
+	.category2{
+		margin-left:25%;
+	}
+	.fen{
+		width:50%;
+	}
+</style>
+</head>
+<body>
+<div class="container">
+	<div class="category-box" id="mainContent" style="margin-top:0">
+		<div id="list_block_menu" class="category1" style="outline: none;" tabindex="5000">
+			<ul id="levelOneMenu" class="clearfix" style="padding-bottom:50px;">
+				<li class="cur" data-id="0"></li>
+				<li data-id="1" class=""></li>
+			</ul>
+		</div>
+		<div  id="list_block_body" class="category2" style="outline: none; overflow: hidden;" tabindex="5001">
+		</div>
+	</div>
+	<div id="noData" class="divHide">
+		<p>暂无数据</p>
+	</div>
+</div>
+
+<script id="menu-template" type="text/x-dot-template">
+	<ul class="clearfix" style="padding-bottom:50px;">
+
+		{{ for(var i in it) { }}
+		{{? i == 0}}
+		<li  class="cur" menuId="{{=i}}"  onclick="changeMeun('{{=i}}')">{{=it[i].title}}</li>
+		{{??}}
+		<li  menuId="{{=i}}" onclick="changeMeun('{{=i}}')">{{=it[i].title}}</li>
+		{{?}}
+
+		{{ } }}
+
+	</ul>
+</script>
+
+<script id="body-template" type="text/x-dot-template">
+
+	{{ for(var menu in it) { }}
+
+	{{? menu == 0 }}
+	<dl style=" padding-bottom: 50px; " menuId="{{=menu}}" data-id="0">
+		{{??}}
+		<dl style=" padding-bottom: 50px; display: none" menuId="{{=menu}}" data-id="0">
+			{{?}}
+
+			{{ for(var i in it[menu].tit) { }}
+			<dt>
+				<a href="#">{{=it[menu].tit[i].title}}</a>
+			</dt>
+			<dd>
+				<div class="fenimg">
+					{{? it[menu].tit[i].tit1.length>0}}
+					{{ for(var ii in it[menu].tit[i].tit1) { }}
+					<div class="fen" tapmod="" >
+						<a target="_blank" href="{{=it[menu].tit[i].tit1[ii].url}}">{{=it[menu].tit[i].tit1[ii].title}}</a>
+					</div>
+					{{ } }}
+					{{??}}
+					<div class="noContent"><a style="">暂无内容</a>
+					</div>
+					{{? }}
+				</div>
+			</dd>
+
+			{{ } }}
+
+		</dl>
+
+		{{ } }}
+
+</script>
+
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript">
+
+	var typeData;
+	apiready = function () {
+		alog("come");
+		onerror = error_handel;
+
+		flash();
+	};
+
+
+
+	function flash(callback){
+		//请求一级菜单
+		//ajax
+		Ajax('cen_qu/index', 'get', '', function (ret) {
+			alog(ret);
+
+			if (ret.status == 1) {
+
+				typeData = ret.info;
+
+				var tempFn = doT.template($('#menu-template').html());
+				$("#list_block_menu").html(tempFn(typeData));
+				setBodyContent();
+			}
+			else {
+				art("数据格式错误");
+				$("#noData").removeClass("divHide");
+				$("#mainContent").addClass("divHide");
+			}
+		});
+	}
+
+	function setBodyContent () {
+		var tempFn2 = doT.template($('#body-template').html());
+		$('#list_block_body').html( tempFn2(typeData) );
+	}
+
+
+	function changeMeun( bodyId ){
+
+		if(typeof bodyId == 'undefined')
+		{
+			return;
+		}
+
+		alog('bodyId='+bodyId);
+		$('#list_block_body dl').css('display','none');
+
+		$('#list_block_body dl').filter(function(i){return this.getAttribute('menuId') == bodyId}).css('display','block');
+
+		$('#list_block_menu li').removeClass('cur');
+		$('#list_block_menu li').filter(function () {
+			return this.getAttribute('menuId') == bodyId
+		}).addClass('cur');
+
+	}
+
+</script>
+</html>

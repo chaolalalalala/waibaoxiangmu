@@ -1,0 +1,38 @@
+
+<div id="slider_{$slider['set']['data_idname']}"
+     class="slider" style="height:{$slider['set']['data_slider_height']}px;">
+
+    <!-- Loading Screen -->
+    <div class="slider-loading" data-u="loading">
+        <div class="slider-loading-a"></div>
+        <div class="slider-loading-b"></div>
+    </div>
+    <div class="slider-body" data-u="slides">
+        {foreach $slider["data"] as $val}
+        <div {if $val.url} onclick="window.location.href='{$val.url}'{/if}">
+            <a src="" style=""><img data-u="image" title="{$val.title}" alt="{$val.alt}" src="{$val.img}"/>
+            </a>
+        </div>
+        {/foreach}
+    </div>
+    {if $slider['set']['data_slider_navigator'] != "999"}
+    <div id="slider-body-navigator_{$slider['set']['data_idname']}"
+         class="sbn-{$slider['set']['data_slider_navigator']}" data-u="navigator" style="position: absolute;
+        bottom: 16px;" data-autocenter="1">
+        <div data-u="prototype" style=""></div>
+    </div>
+    {/if}
+
+    {if $slider['set']['data_slider_arrset'] != "999"}
+    <span id="slider-body-arrow-l_{$slider['set']['data_idname']}" data-u="arrowleft"
+          class="slider-body-arrowleft-{$slider['set']['data_slider_arrset']}" data-autocenter="2"></span>
+    <span id="slider-body-arrow-r_{$slider['set']['data_idname']}" data-u="arrowright"
+          class="slider-body-arrowright-{$slider['set']['data_slider_arrset']}" data-autocenter="2"></span>
+    {/if}
+    <!--<div class="slick_set_block" onclick="window.location.href='{$pre_view_url}'">点击设置</div>-->
+</div>
+<textarea class="mv-hide" style="display: none;">
+    slider_run("slider_{$slider['set']['data_idname']}", {$slider['set']['data_slider_action_data'] nofilter});
+</textarea>
+
+<!--轮播图 end-->

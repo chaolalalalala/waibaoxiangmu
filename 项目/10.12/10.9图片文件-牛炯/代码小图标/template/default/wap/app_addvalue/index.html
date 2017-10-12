@@ -1,0 +1,611 @@
+{include file="public:header"}
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+    .my_body {
+        margin: 10px 0px 10px 0px;
+        border-radius: 8px;
+        padding: 0 10px;
+        line-height: 30px;
+    }
+
+    .my_body ul {
+        position: relative;
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 10px;
+        list-style: none;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        /*border: 1px solid #55585D;*/
+        background-color: #FFF;
+    }
+
+    .bank_title {
+        margin: 0 0 0 1rem;
+        height: 3rem;
+        line-height: 3rem;
+        /*border-bottom: 1px solid #55585D;*/
+    }
+
+    .bank_title img {
+        height: 1.6rem;
+        margin: 0.7rem 1rem 0 0;
+        vertical-align: middle;
+        float: right;
+    }
+
+    .bank_body {
+        margin: 0 0 0 1rem;
+    }
+
+    .bank_body span {
+        display: block;
+    }
+
+    .bank_body .g {
+        color: gray;
+    }
+
+    .r {
+        float: right;
+        margin-right: 1rem;
+    }
+
+    .red {
+        color: #e55600;
+    }
+
+    .green {
+        color: green;
+    }
+
+    .gray {
+        color: gray;
+    }
+
+    .licaiItem {
+        padding-bottom: .625rem;
+    }
+
+
+    .filter {
+        position: relative;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        height: 2.066667rem;
+        line-height: 2.04rem;
+        z-index: 100;
+    }
+
+    .filter li{
+        padding-left: 0.75rem;
+    }
+
+    .filter-header {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        z-index: 3;
+        background-color: #fff;
+    }
+
+    .filter-nav {
+        -webkit-box-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        display: block;
+        width: 0;
+        text-align: center;
+        color: #666;
+        position: relative;
+        font-size: .75rem;
+    }
+
+    .filter-nav:after {
+        content: "";
+        background: #ddd;
+        width: 1px;
+        height: .56rem;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+    .filter-extend.open {
+        opacity: 1;
+        visibility: visible;
+        max-height: 1000%;
+    }
+
+    .filter-modal {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+        background: rgba(0,0,0,.2);
+        visibility: hidden;
+        opacity: 0;
+        -webkit-transition: all .3s ease-in-out;
+        transition: all .3s ease-in-out;
+    }
+
+    .filter-modal.open {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .filter-extend.open {
+        opacity: 1;
+        visibility: visible;
+        max-height: 1000%;
+    }
+
+    .filter-extend {
+        left: 0;
+        right: 0;
+        top: 100%;
+        border-top: 1px solid #ddd;
+        position: absolute;
+        max-height: 0;
+        background-color: #fff;
+        -webkit-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+        visibility: hidden;
+        overflow: auto;
+        opacity: 0;
+        z-index: 3;
+    }
+
+    .filter-sort {
+        padding-bottom: 0;
+    }
+
+    .displayNone {
+        display: none;
+    }
+
+    .active {
+        color: #3190e8;
+    }
+
+    .overHide {
+        overflow: hidden;
+    }
+
+    .aui-searchbar {
+        position: static;
+    }
+
+    #shadow{
+        display:none;
+        width:100%;
+        margin-top:-0.625rem;
+        height:100%;
+        background-color:rgba(33,33,33,0.5);
+        position:fixed;
+        z-index:9999;
+        bottom:0;
+    }
+    #show_subscribe{
+        /*display:none;*/
+        z-index:99999;
+        position:absolute;
+        left:0;
+        right:0;
+        top:0;
+        background-color:#fff;
+        bottom:0;
+        width:80%;
+        height:11rem;
+        overflow:hidden;
+        margin:auto;
+        color:#a59494;
+    }
+    #show_subscribe input{
+        color:#666;
+    }
+    .aui-list-header{
+        height:1.5rem;
+        line-height:1.5rem;
+        text-align:center;
+    }
+    .white{
+        color:#fff;
+    }
+
+</style>
+<body>
+
+<div id="shadow" onclick="close_form()">
+    <ul class="aui-list aui-form-list" id="show_subscribe" onclick="cancelSendEvent(event) ">
+        <li class="aui-list-header aui-bg-info aui-font-size-16"><span class="white">购买增值计划</span></li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label" id="coinNameLab">
+                    剩余
+                </div>
+                <div class="aui-list-item-input">
+                    <input type="text"  id="zichan" readonly >
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    购买数量
+                </div>
+                <div class="aui-list-item-input">
+                    <input type="number" placeholder="请输入购买数量"  id="my_num">
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    交易密码
+                </div>
+                <div class="aui-list-item-input">
+                    <input type="password" placeholder="请输入交易密码"  id="paypassword">
+                </div>
+            </div>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner aui-list-item-center aui-list-item-btn">
+                <div class="aui-btn aui-btn-info aui-col-xs-6" id="btn" onclick="buyRequest()">购买</div>
+            </div>
+        </li>
+    </ul>
+
+</div>
+
+<div style="left: 0px;
+         right: 0px;
+         top: 0px;
+         z-index: 1000;
+         position: fixed;">
+<aside class="filter">
+    <div class="filter-header">
+        <a id="title_filter" class="filter-nav filter-nav-more" href="javascript:chose_tab(0)" >筛选</span></a>
+        <a id="title_sort" class="filter-nav" href="javascript:chose_tab(1)"> <span >排序</span></a>
+    </div>
+    <section id="condition_filter"  class="filter-extend filter-sort open displayNone">
+        <ul>
+            <li class="aui-border-b">
+                <span>全 部</span>
+            </li>
+            <li class="aui-border-b">
+                <span>邀请好友</span>
+            </li>
+            <li class="aui-border-b">
+                <span>微信推广</span>
+            </li>
+            <li class="aui-border-b">
+                <span>充值豪礼</span>
+            </li>
+            <li class="aui-border-b">
+                <span>交易回馈</span>
+            </li>
+            <li class="aui-border-b">
+                <span>其他</span>
+            </li>
+        </ul>
+    </section>
+    <section id="condition_sort" class="filter-extend filter-sort open displayNone">
+        <ul>
+            <li class="aui-border-b" index="0" value="0" onclick="selectSort(0)">
+                <span>综 合</span>
+            </li>
+            <li class="aui-border-b" index="1" value="3" onclick="selectSort(3)">
+                <span>发布时间</span>
+            </li>
+            <li class="aui-border-b" index="2" value="1" onclick="selectSort(1)">
+                <span>稿件数</span>
+            </li>
+            <li class="aui-border-b" index="3" value="2" onclick="selectSort(2)">
+                <span>奖励</span>
+            </li>
+        </ul>
+    </section>
+    <section id="condition_search" class="filter-extend filter-sort open displayNone">
+        <div class="aui-searchbar" id="search">
+            <div class="aui-searchbar-input aui-border-radius" tapmode onclick="">
+                <i class="aui-iconfont aui-icon-search"></i>
+                <form action="javascript:search();">
+                    <input type="search" placeholder="请输入搜索内容" id="search-input">
+                </form>
+            </div>
+            <div class="aui-searchbar-cancel" style="margin-right: 0" onclick="search()" tapmod>搜索</div>
+        </div>
+
+    </section>
+
+    <section id="condition_background" class="filter-modal open displayNone" onclick="hideConditionBG()" ></section>
+</aside>
+</div>
+<section class="aui-refresh-content" style="margin-top: 40px">
+    <div class="wrap">
+        <div class="my_body">
+            <div id="licai_list" style="margin-top: 0.5rem">
+            </div>
+        </div>
+    </div>
+</section>
+<script id="licai_list-temp" type="text/x-dot-template">
+    {{? it.length>0 }}
+    {{ for (var i in it){ }}
+    <ul class="aui-border licaiItem" onclick="">
+        <li class="bank_title aui-border-b overHide" >
+            <span class="red overHide">项目:{{=it[i].name}}第{{=it[i].qi}}期</span>
+        </li>
+        <li class="bank_body">
+            <span class="gray">融资金额:{{=it[i].num}} {{=it[i].coinname}}</span>
+            <span class="g">融资期限:<em>{{=it[i].tian}}天</em></span>
+            <span class="g">预计收益率:<em>{{=it[i].fee}}%</em></span>
+            <span class="g">收益币种:<em>{{=it[i].feecoin}}</em></span>
+            <span class="g">进度:<em>{{=it[i].jindu}}%</em></span>
+            <span class="g">项目介绍:<em>{{=it[i].content}}</em></span>
+        </li>
+        <li>
+            <div class="aui-content-padded">
+                <p><div class="aui-btn aui-btn-info" onclick="buyNow({{=it[i].id}})" style="width: 100%;line-height: 1.5rem">立即购买</div></p>
+            </div>
+        </li>
+
+    </ul>
+    {{ } }}
+    {{??}}
+    <div style="padding: 10px 0">
+        <ul style="text-align: center;color: #535C6F">
+            暂无内容
+        </ul>
+    </div>
+    {{?}}
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+    var pid = 1;
+    var type = '';
+    var sort = '';
+    var lastViewIndex = -1;
+    var selectedId;
+    apiready = function () {
+        onerror = error_handel;
+        requestData();
+    }
+
+    function createView() {
+        var data = arguments[0];
+        if (typeof data == 'undefined') {
+            art("createView参数错误");
+            return;
+        }
+        //筛选条件
+        var filterList = data.other.hongli_type;
+
+        if( filterList && filterList.length > 0) {
+            var opt = '<ul>';
+            for (var index in filterList){
+               opt += '<li class="aui-border-b" value=\"'+filterList[index].id+'\" onclick="selectFilter('+filterList[index].id+')"><span>'+filterList[index].type+'</span></li>';
+            }
+            opt += '</ul>';
+            $('#condition_filter').html(opt);
+        }
+
+        //主要数据
+        data = data.data;
+        //预处理数据
+        for ( var index in data.list ) {
+            var deal = parseFloat(data.list[index].deal);
+            var num = parseFloat(data.list[index].num);
+            data.list[index].jindu = deal/num*100;
+        }
+        var licaiList_temp = doT.template($("#licai_list-temp").html());
+
+        if (pid == 1) {
+            //第一页 -- 覆盖
+            $('#licai_list').html(licaiList_temp(data.list));
+        }
+        else if (data.list.length > 0) {
+            //非第一页且有数据 -- 追加
+            $('#licai_list').html($('#licai_list').html() + licaiList_temp(data.list));
+        }
+
+        if (pid > Math.ceil(parseInt(data.count) / parseInt(data.pageSize))) {
+            art("没有更多数据了");
+        } else {
+            art('第' + pid + '页');
+            pid++;
+        }
+    }
+
+    function requestData(callback) {
+
+        var params = {
+            "pid": pid,
+            "type":type,
+            "sort":sort,
+        };
+        Ajax('hongli/lists', 'get', params, function (ret) {
+
+            if (typeof callback == "function") {
+                callback("刷新完成");
+            }
+
+            if (ret.status == 1) {
+                createView(ret.info);
+            }
+            else {
+                art('ajax错误！');
+            }
+        });
+    }
+
+    //上拉加载
+    window.onscroll = function () {
+        if (isScrollToBottom()) {
+            requestData();
+        }
+    };
+    //下拉刷新
+    var pullRefresh = new auiPullToRefresh({
+        container: document.querySelector('.aui-refresh-content'),
+        triggerDistance: 100
+    }, function (ret) {
+        if (ret.status == "success") {
+            if (getScrollTop() < 10) {
+                pid = 1;
+                requestData(function (msg) {
+                    art(msg);
+                    pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+                });
+            }
+            else {
+                pullRefresh.cancelLoading();
+            }
+        }
+    });
+
+    function chose_tab(id) {
+
+        if( lastViewIndex == id ){
+            hideConditionBG();
+        }
+        else{
+            hideConditionBG();
+            $('.filter-nav').removeClass('active');
+            $('.filter-nav').filter(function (index){ return index == id }).addClass('active');
+            if (id == 0) {
+                //筛选
+                $('#condition_background').removeClass('displayNone');
+                $('#condition_filter').removeClass('displayNone');
+            }
+            if (id == 1) {
+                //排序
+                $('#condition_background').removeClass('displayNone');
+                $('#condition_sort').removeClass('displayNone');
+            }
+            lastViewIndex = id;
+        }
+    }
+
+    function hideConditionBG() {
+        $('#condition_background').addClass('displayNone');
+        $('#condition_filter').addClass('displayNone');
+        $('#condition_sort').addClass('displayNone');
+        $('.filter-nav').removeClass('active');
+        lastViewIndex = -1;
+    }
+
+    function selectFilter(val) {
+        art("selectFilter() "+val);
+        $('#condition_filter li').removeClass('active');
+       var ele = $('#condition_filter li').filter(function(index){return this.getAttribute('value') == val;}).addClass('active');
+        var title = ele.children('span').html();
+        $('#title_filter').html(title);
+        type = val;
+        conditionReady();
+    }
+
+    function selectSort(val) {
+        art("selectSort() "+val);
+        $('#condition_sort li').removeClass('active');
+        var ele = $('#condition_sort li').filter( function (index) {return this.getAttribute('value') == val}).addClass('active');
+        var title = ele.children('span').html();
+        $('#title_sort').html(title);
+        sort = val;
+        conditionReady();
+    }
+
+    function conditionReady() {
+        pid = 1;
+        hideConditionBG();
+        requestData();
+    }
+
+    function buyRequest(){
+        var params = {};
+        params.id = selectedId;
+        params.num = $('#my_num').val();
+        params.paypassword = $('#paypassword').val();
+
+        if ( typeof selectedId == 'undefined'){
+            art('id错误');
+            return;
+        }
+        if( params.num.length == 0 || !isInteger(params.num) ){
+            art("请输入合法的数字");
+            return;
+        }
+        if( params.paypassword.length == 0){
+            art('请输入密码');
+            return;
+        }
+
+        loading();
+        UserAjax('hongli/up', 'post', params, function (ret) {
+            toast.hide();
+            if (ret.status == 1) {
+                art(ret.info);
+                clean_form();
+                close_form();
+            }
+            else {
+                art(ret.info);
+            }
+        });
+    }
+
+    //显示弹框
+    function buyNow( id ){
+	    if (!chkLogin()) {
+		    art("您目前未登录,请先登录");
+		    return false;
+	    }
+        loading();
+        UserAjax('hongli/get_info', 'get', { 'id':id }, function (ret) {
+            toast.hide();
+            if (ret.status == 1) {
+
+                $("#shadow").css("display","block");
+                $("#coinNameLab").html("剩余"+ret.info.coin);
+                $("#zichan").val(ret.info.coinnum);
+                selectedId = id;
+
+            }
+            else {
+                art(ret.info);
+            }
+        });
+    }
+
+    //关闭弹框
+    function close_form(){
+        $("#shadow").css("display","none")
+//        $("#show_subscribe").css("display","none")
+    }
+
+    //清空弹框值
+    function clean_form(){
+
+        $("#my_num").val(null);
+        $("#paypassword").val(null);
+        $("#coinNameLab").html();
+        $("#zichan").val();
+    }
+
+
+</script>
+</html>

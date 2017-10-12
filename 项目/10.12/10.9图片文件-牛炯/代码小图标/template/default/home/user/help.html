@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>发起提问 工单中心 - 安全中心 - 币火网 -  www.bihuo168.com </title>
+<meta name="Keywords" content="{$seos['keywords']}">
+<meta name="Description" content=" {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+<script type="text/javascript" src="__EXT__/city/cityselect.js"></script>
+<link rel="stylesheet" href="/static/style/safeadd.css">
+<link rel="stylesheet" href="/static/style/safeadd08.css">
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="/u/safe.jsp" class="">{#lang('安全中心')}</a> &gt;{#lang('工单中心')} > 发起提问
+	</div>
+	<div class="main-content">
+		{include file="user:left"}
+		<div class="tag-list-content assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('工单中心 > 发起提问')}
+					</span>
+                      <span>
+                          <a href="/u/safe/feedback.jsp" id="step11" class="step fz_12 ml50 pd6 active">{#lang('发起提问')}</a>
+		                  <a href="/u/safe/helplist.jsp" id="step12" class="step fz_12 ml20 pd6 ">{#lang('我的提问')}</a>
+                          <a href="/u/safe/message.jsp" id="step13" class="step fz_12 ml20 pd6 ">{#lang('系统消息')}{if $news!=0}<span style="color: red;font-size: 15px;font-weight: bold;font-family: 微软雅黑">{$news}</span>{/if}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="cnyin_record">
+                <div class="mytable-body pwtrade  mb40">
+                    <dl>
+                        <dt>{#lang('问题类型')}：</dt>
+                        <dd>
+                           <span>
+								<select id="type" class="texts">
+                                    <option value="">--{#lang('请选择问题类型')}--</option>
+                                    {foreach $help_type as $k => $v}
+                                    <option value="{$v['id']}">{$v["type"]}</option>
+                                    {/foreach}
+                                </select>
+							</span>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>{#lang('提问用户')}：</dt>
+                        <dd>
+                            <input type="text" id="username" class="texts" tabindex="3" value="{$username['username']}" readonly >
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>{#lang('联系方式')}：</dt>
+                        <dd>
+                            <input type="text" id="contact" class="texts" tabindex="4"  placeholder={#lang('选填,便于客服与您联系')} >
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>{#lang('问题描述')}：</dt>
+                        <dd>
+                            <textarea type="text" id="content" class="texts" style="width: 350px;height: 100px" placeholder={#lang('请描述问题')}  ></textarea>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>{#lang('交易密码')}：</dt>
+                        <dd>
+                            <input type="password" id="paypassword" style="width: 350px" class="texts" tabindex="4" placeholder={#lang("请输入密码")} >
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt></dt>
+                        <dd>
+                            <input type="button" tabindex="4" class="btns2" style="width: 150px" value="{#lang('保存')}" onclick="sendtalk()">
+                        </dd>
+                    </dl>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function sendtalk() {
+		var username    = $('#username').val();
+        var contact     = $('#contact').val();
+		var type        = $('#type option:selected').val();
+		var content     = $('#content').val();
+		var paypassword = $('#paypassword').val();
+		if (username == "" || username == null) {
+			layer.tips('{#lang("请先登录")}', '#username', {tips: 3});
+			return false;
+		}
+		if (type == "" || type == null) {
+			layer.tips('{#lang("请选择问题类型")}', '#type', {tips: 3});
+			return false;
+		}
+		if (content == "" || content == null) {
+			layer.tips('{#lang("请输入你的问题")}', '#content', {tips: 3});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips('{#lang("请输入交易密码")}', '#paypassword', {tips: 3});
+			return false;
+		}
+		$.post("{#url('user/help_up')}", {
+			username: username,
+			type: type,
+            contact:contact,
+			content: content,
+			paypassword: paypassword
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout('location.reload()',1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+</script>
+<script>
+	$('.user_help').addClass('active');
+</script>
+{include file="aaapublic:footer"}

@@ -1,0 +1,268 @@
+{include file="bitcoin:header"}
+<div class="autobox">
+	<style>
+		.mask_wrap_title{
+			margin-right:10px;
+		}
+		.login_button{
+			margin-left:10px;
+		}
+	</style>
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="movesay">{#lang('首页')}</a> &gt; {#lang('Push资产')}
+	</div>
+	<div class="main-content">
+		<div class="assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('Push资产')}
+					</span>
+					 <span>
+                        <a href="/push.jsp" class="step fz_12 ml50 pd6 active">{#lang('发起push资产')}</a>
+                        <a href="/push_log_out.jsp" class="step fz_12 ml20 pd6 ">{#lang('卖出列表')}</a>
+                        <a href="/push_log_in.jsp" class="step fz_12 ml20 pd6 ">{#lang('买入列表')}</a>
+                    </span>
+
+
+				</h1>
+			</div>
+
+
+			<div class="cnyin_record">
+				<div class="f_body">
+					<div class="f_body_main">
+						<div class="f_tab_body">
+							<div class="step1  pwtrade  pw  mt30 mb20">
+								<div class="mytable-body pwtrade" style="margin-left: 500px">
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('您的用户ID')}: </div>
+										<div  style=" line-height: 40px;height:40px">
+											{$user_coin['userid']}
+										</div>
+								</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('可用人民币金额')}: </div>
+										<div  style=" line-height: 40px;height:40px">
+											{#num($user_coin['cny'])}
+										</div>
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">可用<span id="coinname"></span>数量:  </div>
+										<div style=" line-height: 40px; height:40px" id="coinval">
+										</div>
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('交易类别')}:  </div>
+										<div class="weituo_bizhong" style="padding-top: 1px;">
+											<div class="bizhong_select" style="    width: 200px;">
+												<div class="bz_btn">
+													<img src="" id="image1" alt="" style=" width: 22px;float: left;margin-top: 7px;margin-right: 5px;"/>
+								<span id="coin-default">
+									<select name="type" id="coin-select" style="margin-top: 6px;" onchange="coin_change()"> {foreach $pushCoin as $k => $v}
+										<option value="{$v['name']}" data="{$v['img']}" bili="{$v['shouxufeibili']}" coinname="{$v['title']}"  info="{$v[$v['name']]}"  {if $coin == $v['name']} selected="selected"{/if}>
+									                                                               {$v.title} ({#strtoupper($v['name'])})</option>
+									                                                               {/foreach}
+
+									</select>
+								</span></div>
+											</div>
+										</div>
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('对方账户')}:  </div>
+										<input id="uid" class="texts" type="text" placeholder="用户名/邮箱/手机号/ID">
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('交易数量')}:  </div>
+										<input id="num" class="texts" type="text">
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('交易价格')}:  </div>
+										<input id="price" class="texts" type="text">
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('交易手续费')}: </div>
+										<div style=" line-height: 40px;height:40px" id="bili">
+										</div>
+									</div>
+									<div class="login_text zin80 step5">
+											<div class="mask_wrap_title">验证码：</div>
+											<input type="text" id="push_verify" value="" class="texts w145 hg40" placeholder="请输入验证码">
+			<span style="vertical-align: -17px;line-height: 20px;">
+				<img id="push_verify_up" class="codeImg reloadverify hg40" src="/ajax/verify.html" title="换一张" onclick="push_verify_ups()" width="100" height="34">
+			</span>
+										<div class="login_text zin80 step5">
+											<div class="mask_wrap_title"></div>
+										<div class="yuyin" style=" line-height: 40px;">
+											<div class="clear" >
+												{if $sys_sms['sms']==1}
+												<input type="button" value="{#lang('发送短信验证码')}" class="btns" onclick="send_moble_coinout('sms')" style="width: 100px;font-size: 12px;"/>
+												{/if}
+												{if $sys_sms['tel']==1}
+												<input type="button" value="{#lang('发送语音验证码')}" class="btns" onclick="send_moble_coinout('tel')" style="width: 100px;font-size: 12px;"/>
+												{/if}
+												{$user['moble']} ({#lang('接收验证码')})
+											</div>
+										</div>
+											</div>
+									</div>
+
+									<div class="login_text zin80 step6" style="display:none;width:auto">
+										<div class="mask_wrap_title">{#lang('短信验证码')}:  </div>
+										<div style=" line-height: 40px;height:40px;">
+											<input type="text" id="moble_verify" value="" class="texts" placeholder="{#lang('请输入短信验证码')}"/> <span id="reg_moble_new"></span>
+										</div>
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('交易密码')}:  </div>
+										<input id="paypassword" class="texts" type="password">
+									</div>
+									<div class="login_button">
+										<input type="button" class="btns2" value="提交信息" onclick="push_up()">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	coin_change()
+
+	function  coin_change() {
+		$("#image1").attr('src',$("#coin-select option:selected").attr('data'));
+		$("#coinval").html($("#coin-select option:selected").attr('info'));
+		$("#coinname").html($("#coin-select option:selected").attr('coinname'));
+		$("#bili").html($("#coin-select option:selected").attr('bili')+'%');
+	}
+
+
+	function send_new() {
+		$(".step6").hide();
+		$(".step5").show();
+	}
+
+	function push_verify_ups() {
+		$('#push_verify_up').attr('src', "{#url('verify/code')}?t=" + Math.random());
+	}
+
+
+	function send_moble_coinout(type) {
+		$.post("{#url('verify/moble_push')}", {
+			verify:$('#push_verify').val(),
+			type: type,
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				$(".step5").hide();
+				$(".step6").show();
+				$("#cnyout_moble_verify").focus();
+				$('#moble_new').attr("disabled", "disabled");
+				var obj      = $('#reg_moble_new');
+				var wait     = 60;
+				var interval = setInterval(function () {
+					obj.html(wait + "{#lang('秒可再次发送')}");
+					wait--;
+					if (wait < 0) {
+						clearInterval(interval);
+						$(".reloadverify_new").click();
+						$("#verify_new").val('');
+						obj.html('<a class="move" onclick="send_new()">{#lang("没有收到？重新发送")}</a>');
+					}
+					;
+				}, 1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+	var commiting = false;
+	function push_up() {
+		var uid           =$("#uid").val()
+		var num          = $("#num").val();
+		var paypassword  = $("#paypassword").val();
+		var moble_verify = $("#moble_verify").val();
+		var coin         = $('#coin-select option:selected').val();
+		var price        = $('#price').val()
+
+		if (uid == "" || uid == null) {
+			layer.tips('请输入对方UID', '#uid', {
+				tips: 2
+			});
+			return false;
+		}
+
+		if (coin == "" || coin == null) {
+			layer.tips('请选择币种', '#coin-select', {
+				tips: 2
+			});
+			return false;
+		}
+
+		if (num == "" || num == null) {
+			layer.tips('请输入交易数量', '#num', {
+				tips: 2
+			});
+			return false;
+		}
+
+		if (price == "" || price == null) {
+			layer.tips('请输入交易价格', '#price', {
+				tips: 2
+			});
+			return false;
+		}
+
+		if (moble_verify == "" || moble_verify == null) {
+			layer.msg('请输入短信验证码', {
+				icon: 2
+			});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips('请输入交易密码', '#paypassword', {
+				tips: 2
+			});
+			return false;
+		}
+
+			layer.config({
+				extend: 'extend/layer.ext.js'
+			});
+
+		//防止重复提交
+		if(commiting){
+			return;
+		}
+		$.post("/push/pushUp", {
+			coin:coin,
+			uid:uid,
+			num: num,
+			paypassword: paypassword,
+			moble_verify: moble_verify,
+			price:price
+		}, function (data) {
+			commiting = false;
+			if (data.status == 1) {
+				layer.msg(data.info, {
+					icon: 1
+				});
+				setTimeout(function(){
+					window.location = "{#url('push/outLog')}";
+				},1000)
+			} else {
+				layer.msg(data.info, {
+					icon: 2
+				});
+			}
+		}, "json");
+	}
+</script>
+{include file="aaapublic:footer"}

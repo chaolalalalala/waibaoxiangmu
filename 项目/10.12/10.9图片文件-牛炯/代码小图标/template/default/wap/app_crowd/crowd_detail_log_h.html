@@ -1,0 +1,41 @@
+{include file="public:header"}
+<title>众筹记录</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+</head>
+<body>
+<header  id="header"  class="aui-bar aui-bar-nav aui-bar-dark">
+	<a class="aui-pull-left" tapmod="" onclick="back();">
+		<span class="aui-iconfont aui-icon-left"></span>返回
+	</a>
+	<div class="aui-title">众筹记录</div>
+</header>
+</body>
+<script>
+	apiready = function(){
+		onerror       = error_handel;
+		var header    = $api.byId('header');
+		var width     = getWinWidth();
+		var headerPos = $api.offset(header);
+		var height    = getWinHight() - headerPos.h;
+		openFrame({
+			name: 'crowd_detail_log',
+			url: aurl('html/app_crowd/crowd_detail_log'),
+			allowEdit : true,
+			bounces: false,
+			opaque: true,
+			reload: true,
+			vScrollBarEnabled: true,
+			hScrollBarEnabled:false,
+			rect: {
+				x: 0,
+				y: headerPos.h,
+				w: width,
+				h: height
+			},
+			pageParam:{
+				"id": iv('id'),
+			},
+		});
+	}
+</script>
+</html>

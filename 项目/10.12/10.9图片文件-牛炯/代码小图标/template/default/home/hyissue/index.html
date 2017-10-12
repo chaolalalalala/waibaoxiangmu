@@ -1,0 +1,92 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('持涨认购')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('持涨认购')}
+					</span>
+	                <span>
+                        <a href="{#url('hyissue/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('认购列表')}</a>
+                        <a href="{#url('hyissue/log')}" id="step2" class="step fz_12 ml20 pd6">{#lang('认购记录')}</a>
+                        <a href="{#url('hyissue/invit')}" id="step3" class="step fz_12 ml20 pd6">{#lang('认购赠送')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+					<script>
+						var hints = "{$hints['show']}";
+						if(hints == 1){
+							$('#hints').show();
+						}
+					</script>
+			       {$hints["value"] nofilter}
+			</div>
+
+
+
+		{#slider("hyissue")}
+	</div>
+</div>
+{foreach $pages['list'] as $k => $v}
+<div class="crowd_con crowd_con_list clear " data="{$v['id']}" onclick="goumai(this);" style="cursor:pointer;border: 4px solid #CCCED0;">
+	<div class="crowd_con_l ">
+		<ul class="crowd_subscribe clear">
+			<li style="padding-right: 30px;    width: 80px;">
+				<img src="__UP__/{$v['coin_img']}" style="width: 48px;    margin-top: -3px;">
+			</li>
+			<li style="    width: 190px;">
+				<p>{#lang('认购名称')}</p><span class="">{$v['name']}</span>
+			</li>
+			<li>
+				<p>{#lang('认购总量')}</p><span class="red">{$v['num']} {#strtoupper($v['coinname'])}</span>
+			</li>
+			<li>
+				<p>{#lang('当前认购单价')}</p>
+				<span class="red">{#num($v['newprice'])} {#strtoupper($v['buycoin'])}</span>
+			</li>
+			<li>
+				<p>{#lang('认购限量')}</p>
+				<span class="red">{if $v['limit']}{$v['limit']}{else}0.00{/if} {#strtoupper($v['coinname'])}</span>
+			</li>
+			<li>
+				<p>{#lang('开启时间')}</p><span class="red">{#addtime($v['strtime'],'Y/m/d')}</span>
+			</li>
+			<li>
+				<p>{#lang('结束时间')}</p><span class="red">{#addtime($v['sndtime'],'Y/m/d')}</span>
+			</li>
+			<li>
+				<p>{#lang('累计已认购')}</p><span class="green">{$v['deal']} {#strtoupper($v['coinname'])}</span>
+			</li>
+			<li style="margin-top: 5px;">
+				<a href="{#url('hyissue/buy/id/'.$v['id'])}" class="btns" style="padding: 10px 30px;">{#lang('立即认购')}</a>
+			</li>
+		</ul>
+	</div>
+</div>
+{/foreach}
+<div class="pages">{$pages['show'] nofilter}</div>
+</div>
+<script>
+	function goumai(_this) {
+		window.location = "/hyissue/buy/id/" + $(_this).attr('data');
+	}
+</script>
+<script>
+	if ($("#hyissue_box").length > 0) {
+		$('#hyissue_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

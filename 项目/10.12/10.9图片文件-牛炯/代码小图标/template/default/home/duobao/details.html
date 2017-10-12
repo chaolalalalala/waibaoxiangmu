@@ -1,0 +1,397 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<link rel="stylesheet" href="__CSS__/shop.css"/>
+<script type="text/javascript" src="__EXT__/jquery/jquery.jqzoom.js"></script>
+<script type="text/javascript" src="__JS__/shop.js"></script>
+<div class="autobox">
+    <div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;<a href="/duobao/index" class="">{#lang('一元夺宝')}</a> &gt;{#lang('宝贝详情')}
+    </div>
+    <div class="main-content">
+        <div class=" assets_content bg_w" style="min-height:30px;">
+            <div class="safe_center clear">
+                <h1>
+					<span>
+						{#lang('一元夺宝')}
+					</span>
+	                <span>
+                        <a href="{#url('duobao/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('宝贝列表')}</a>
+                        <a href="{#url('duobao/log')}" id="step2" class="step fz_12 ml20 pd6">{#lang('夺宝记录')}</a>
+                    </span>
+					<span>
+						{if $hints}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+                </h1>
+            </div>
+            <div id="hints" class="mytips" style="display:none;">
+                {$hints nofilter}
+            </div>
+        </div>
+        <div class="det_cen_zj mt20 bg_w">
+            <!--图片-->
+            <div class="" style="float: left;">
+                <div id="preview" class="spec-preview">
+                    <div class="tb-booth tb-pic tb-s310 jqzoom">
+                        <a href="/"><img src="__UP__/{$img['a']['img']}" rel="__UP__/{$img[0]['img']}" class="jqzoom"/></a>
+                    </div>
+                </div>
+                <div class="spec-scroll">
+                    <a class="prev">&lt;</a> <a class="next">&gt;</a>
+                    <div class="items">
+                        <ul>
+                            {foreach $img as $k => $v}
+                            <li>
+                                <img src="__UP__/{$v['img']}" mid="__UP__/{$v['img']}" big="__UP__/{$v['img']}" onmousemove="preview(this);">
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {if $duobao["endtime"]>time() && $duobao["status"]==1}
+            <!--购买部分-->
+            <div class="det_information" style="width:250px;float: left;margin-left: 10px">
+                <form action="" method="post" name="sform" id="sform">
+                    <input type="hidden" name="merchandiseId" value="3" id="merchandiseId">
+                    <input type="hidden" name="merchandiseAmount" value="41" id="merchandiseAmount">
+                    <input type="hidden" name="merchandisePrice" value="12568.00" id="merchandisePrice">
+                    <input type="hidden" name="usableSum" value="" id="usableSum">
+                    <p class="det_com_title" style="margin-top: 10px;">{$duobao['name']}</p>
+                    <p class="det_com_title1">{$duobao['title']}</p>
+                    <div class="goods_prices clearfix" style="width:200px;background-color: #ffffff">
+                        <div class="det_vipprice  mt20" style="width: 200px">
+                            <label class="det_vip">{#lang('总需')}</label> <label class="det_vip1"><i>{$duobao['mum']}</i><span class="ml20">{#lang('人次')}</span></label><br>
+                            <label class="det_vip">{#lang('已购')}</label>
+                            <label class="det_vip1"><i>{$duobao['getnum']}</i><span class="ml20">{#lang('人次')}</span></label><br>
+                            <label class="det_vip">{#lang('还需')}</label>
+                            <label class="det_vip1"><i>{$duobao['neednum']}</i><span class="ml20">{#lang('人次')}</span></label>
+                        </div>
+                    </div>
+                    <div class="det_vipprice det_vipprice2" style="height:25px;margin-top: 50px">
+                        <input type="hidden" value="0" id="user_login"> <input type="hidden" value="3" id="goods_id">
+                        <input type="hidden" value="" id="bathSpecial">
+                        <label class="det_vip det_vip3">{#lang('数量')}</label>
+                        <div class="num-picker float-l">
+                            <input type="button" class="minus-btn" value="-">
+                            <input type="text" class="num-ipt texts ml5 mr5" value="1" name="number">
+                            <input type="button" class="plus-btn " value="+">
+                        </div>
+                    </div>
+                    <div class="det_vipprice det_vipprice2">
+                        <label class="det_vip det_vip3">{#lang('支付方式')}</label>
+                        <div class="num-picker float-l coinpay">
+                            {foreach $coinpay as $k => $v}
+                            <input type="radio" name="coinpay" class="coinpay mr2" value="{$v}" style="vertical-align: -2px;">{$v} {/foreach}
+                        </div>
+                    </div>
+                    <div class="det_vipprice det_vipprice3 det_vipprice4" style="margin-top: 50px">
+                        <a href="javascript:;" class="det_vipprice3_a" id="submitBuy">{#lang('立即购买')}</a>
+                    </div>
+                </form>
+            </div>
+            <!--计时部分-->
+            <div class="crowd_time" style="width:500px;float: right;margin-right: 30px;margin-top: 90px;">
+                <div class="dowebok_move">
+                    <p class="crowd_con_lp" id="cdstatus">{#lang('距离预定夺宝结束还有')}：</p>
+                    <div class="crowd_time_all dowebok">
+                        <div id="t_d" class="days "></div>
+                        <em>天</em>
+                        <div id="t_h" class="hours "></div>
+                        <em>时</em>
+                        <div id="t_m" class="minutes"></div>
+                        <em>分</em>
+                        <div id="t_s" class="seconds "></div>
+                        <em>秒</em>
+                    </div>
+                    <div class="crowd_pro" style="width: 500px;margin-left: -10px">
+                        <progress style="width: 450px;" value="{$duobao['getnum']/$duobao['mum']*100}" max="100"></progress>
+                        {#round($duobao['getnum']/$duobao['mum']*100,2)}%
+                    </div>
+                    <div class="crowd_xq">
+                        <span class=" mr10 fz_14">{#lang('开启时间')}：<b class="red">{#addtime($duobao['addtime'], 'Y/m/d')}</b></span>
+                        <span class=" mr10 fz_14">{#lang('预定结束时间')}：<b class="red">{#addtime($duobao['endtime'], 'Y/m/d')}</b></span>
+                    </div>
+                    <script src="__EXT__/jquery/jquery.flipTimer.js"></script>
+                    <script>
+                        $(function () {
+                            $('.dowebok').flipTimer({
+                                direction: 'down',
+                                date: "{#addtime($duobao['endtime'])}",
+                                callback: function () {
+                                    window.location.reload();
+                                }
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+            <!--规则说明部分-->
+            <div class="m-detail-main-calculation f-clear" style="float: right;margin-top:  90px;margin-right: 145px;width: 370px">
+                <div style="font-size: 12px;color: #ff623b;font-weight: bold">{#lang('如何计算？(该部分为演示内容)')}</div>
+                <div style="width: 100%;margin-top: 5px">
+                    <span class="num">10001406</span> <span class="tip">{#lang('本期幸运号码')}</span> =
+                    <span class="num">10000001</span> <span class="tip">{#lang('固定数值')}</span> +
+                    <span class="num">1405</span> <span class="tip">{#lang('变化数值')}</span>
+                </div>
+            </div>
+            <div class="m-detail-main-calculation f-clear" style="float: right;margin-right: 65px;width: 450px;margin-top: 10px">
+                <div style="font-size: 12px;color: #ff623b;font-weight: bold"><strong>{#lang('变化数值')}</strong>{#lang('是取下面公式的余数')}
+                </div>
+                <div style="width: 100%;margin-top: 5px">
+                    <span class="num">(4731748663</span> <span class="tip">{#lang('50个时间戳求和')}</span> +
+                    <span class="num">55657</span> <span class="tip">{#lang('“老时时彩”幸运号码')})</span> ÷
+                    <span class="num">1999</span> <span class="tip">{#lang('总需人次')}</span>
+                </div>
+            </div>
+            {else if $duobao["endtime"]<= time() ||$duobao["status"]>=2}
+            <div>
+                <p class="det_com_title" style="margin-top: 10px;">&nbsp;&nbsp;{$duobao['name']}</p>
+                <p class="det_com_title1">&nbsp;&nbsp;{$duobao['title']}</p>
+            </div>
+            <div class="crowd_con_l " style="margin-left: 10px">
+                <div class="crowd_time">
+                    <div class="dowebok_move">
+                        <p class="crowd_con_lp " style="text-align: center;font-size: 22px;letter-spacing: 1px;line-height: 70px;">{#lang('当前夺宝已经结束')}</p>
+                    </div>
+                </div>
+                <div class="crowd_pro">
+                    <progress value="{$duobao['getnum']/$duobao['mum']*100}" max="100"></progress>
+                    {#round($duobao['getnum']/$duobao['mum']*100,2)}% <span></span></div>
+                <div class="crowd_xq">
+                    <span class=" mr10 fz_14">{#lang('开启时间')}：<b class="red">{#addtime($duobao['addtime'], 'Y/m/d')}</b></span>
+                    <span class=" mr10 fz_14">{#lang('结束时间')}：<b class="red">{#addtime($duobao['endtime'], 'Y/m/d')}</b></span>
+                </div>
+                <div class="crowd_xq">
+                    <span class=" mr10 fz_14">{#lang('开奖时间')}：<b class="red"> {if $duobao["status"]==2 } {#lang('请耐心等候')} {else if $duobao["status"]==3 } {#addtime($duobao['kaitime'], 'Y/m/d')} {/if} </b></span>
+                    <span class=" mr10 fz_14">{#lang('幸运号码')}：<b class="red"> {if $duobao["status"]==2 } {#lang('等待开奖')} {else if $duobao["status"]==3 } {$duobao["jianghao"]} {/if} </b></span>
+                    <span class=" mr10 fz_14">{#lang('幸运用户')}：<b class="red"> {$duobao_log["userid"]} </b></span>
+                </div>
+            </div>
+            <!--解析中奖-->
+            <div  style="float: left;margin-top:  15px;margin-left: 12px;width: 500px">
+                <div style="font-size: 12px;color: #ff623b;font-weight: bold">{#lang('如何计算')}</div>
+                <div class="m-detail-main-calculation-parameter m-detail-main-calculation-luckyCode">
+                        <span class="num">
+                            {if !$duobao["jianghao"]}
+                            {#lang('未开奖')}
+                            {else}
+                            {$duobao["jianghao"]}
+                            {/if}
+                        </span> <span class="tip">{#lang('本期幸运号码')}</span> = <span class="num">10000001</span>
+                    <span class="tip">{#lang('固定数值')}</span> +
+                         <span class="num">{if !$duobao["changenum"]}
+                            {#lang('未开奖')}
+                            {else}
+                           {$duobao["changenum"]}
+                            {/if}
+                        </span> <span class="tip"> {#lang('变化数值')}</span>
+                </div>
+            </div>
+            <div style="float: left;margin-top:  15px;margin-left: 12px">
+                <div style="font-size: 12px;color: #ff623b;font-weight: bold"> {#lang('变化数值')} {#lang('是取下面公式的余数')}</div>
+                <div>
+                    <span class="num">({$duobao["timesum"]}</span> <span class="tip">{#lang('50个时间求和')}</span>
+                        <span class="more">
+                            <i class="ico ico-detail-main-calculation-tipBox"></i>
+                            <span class="more-content">{#lang('商品的最后一个号码分配完毕，公示截止该时间点本站全部商品的')}<strong>{#lang('最后50个参与时间')}</strong>，{#lang('并求和')}。</span>
+                        </span> + <span class="num">{$duobao["caihao"]}</span>
+                    <span class="tip">{#lang('“老时时彩”幸运号码')})</span>
+                        <span class="more">
+                            <i class="ico ico-detail-main-calculation-tipBox"></i>
+                            <span class="more-content">{#lang('取最近一期“老时时彩” (第20161129024期) 揭晓结果')}</span>
+                        </span> ÷ <span class="num">{$duobao["mum"]}</span> <span class="tip">{#lang('总需人次')}</span>
+                </div>
+            </div>
+            {/if}
+        </div>
+    </div>
+    <!--下方商品详情-->
+    <div class="det_down_cen mt20 bg_w">
+        <ul class="det_down_title" style="width: 1200px;background-color: #ffffff">
+            <li class="t-center active">{#lang('夺宝详情')}</li>
+        </ul>
+        <div style="width: 800px;float: left;margin-top: -20px">
+            <ul class="det_down_ul" style="width: 800px">
+                <li class="active">
+                    <div class="det_down_div" id="goods_detail_content" style="background-color: #ffffff;width: 800px;height: 895px">
+                        {$duobao['content'] nofilter}
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="cnyin_record" style="background-color: #ffffff;width: 400px;float: right;height: 895px">
+            <div class="f_body">
+                <div class="f_body_main">
+                    {if $duobao["status"]==1}
+                    <div class="f_tab_body">
+                        <span style="font-size: large;margin-left:140px;color:slategrey;font-weight: bold">{#lang('宝贝争夺记录')}</span>
+                        <div>
+                            <table class="f_table" id="investLog_content">
+                                <thead>
+                                <tr>
+                                    <th>{#lang('购买时间')}</th>
+                                    <th>{#lang('用户名')}</th>
+                                    <th>{#lang('购买数')}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {foreach $pages['list'] as $k => $v}
+                                <tr>
+                                    <td>{#addtime($v['addtime'])}</td>
+                                    <td>{$v['userid']}</td>
+                                    <td>{$v['num']}</td>
+                                </tr>
+                                {/foreach}
+                                </tbody>
+                            </table>
+                            <div class="pages">{$pages['show'] nofilter}</div>
+                        </div>
+                    </div>
+                    {else if $duobao["status"]>1}
+                    <div class="f_tab_body">
+                        <span style="font-size: large;margin-left:140px;color:slategrey;font-weight: bold">{#lang('全站最后50条夺宝记录')}</span>
+                        <div>
+                            <table class="f_table" id="content">
+                                <thead>
+                                <tr>
+                                    <th>{#lang('购买时间')}</th>
+                                    <th>{#lang('用户名')}</th>
+                                    <th>{#lang('购买数')}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {foreach $pages['list'] as $k => $v}
+                                <tr>
+                                    <td>{#addtime($v['addtime'])}</td>
+                                    <td>{$v['userid']}</td>
+                                    <td>{$v['num']}</td>
+                                </tr>
+                                {/foreach}
+                                </tbody>
+                            </table>
+                            <div class="pages">{$pages['show'] nofilter}</div>
+                        </div>
+                    </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function initListInfo(param) {
+        param["paramMap.id"] = $("#merchandiseId").val();
+        $.post("goodsDetailList", param, function (data) {
+            $("#detail-list").html(data);
+        });
+    }
+
+
+    function addToCart(id, num, cb) {
+        var res = true;
+        cb(res);
+    }
+
+    function tab(banner, control) {
+        control.hover(function () {
+            var index = $(this).index();
+            banner.hide();
+            banner.eq(index).show();
+            control.removeClass('active');
+            $(this).addClass('active');
+        });
+    }
+    $(function () {
+
+        $(".float-r .meun_li1").removeClass("focus");
+        $(".float-r .meun_li1:eq(3)").addClass("focus");
+        $(".lanren_nav  li").removeClass("focus");
+        $(".lanren_nav  li:eq(3)").addClass("focus");
+
+
+        // 图片切换
+        tab($('.mall_dt_ul li'), $('.mall_dt_ul1 li'));
+
+
+        // 数量选择器
+        $('.minus-btn').click(function () {
+            var max = $('.num-ipt').val();
+            if (parseInt(max) > 1) {
+                $('.num-ipt').val(parseInt(max) - 1);
+            }
+
+        });
+        $('.plus-btn').click(function () {
+            var max = $('.num-ipt').val();
+            var mrz = parseInt("{#num($duobao['limit'],0)}");
+            if (parseInt(max) < mrz) {
+                $('.num-ipt').val(parseInt(max) + 1);
+            } else {
+                $('.num-ipt').val(mrz);
+            }
+        });
+
+        // 默认选中单选框的第一个
+        $(".coinpay input:first").attr("checked", true);
+
+        $("#submitBuy").click(function () {
+            var neednum = "{$duobao['neednum']}";
+            var id = "{$duobao['id']}";
+            var num = parseInt($('.num-ipt').val());
+            var coinpay = $("input[name='coinpay']:checked").val();
+            if (num == "" || num == null) {
+                layer.tips("{#lang('请输入数量')}", '.num-ipt', {tips: 3});
+                return false;
+            }
+            if (num > neednum) {
+                layer.tips("{#lang('购买数大于剩余需求数')}", '.num-ipt', {tips: 3});
+                return false;
+            }
+            if (coinpay == "" || coinpay == null) {
+                layer.tips("{#lang('请选择支付方式')}", '.coinpay', {tips: 3});
+                return false;
+            }
+            layer.config({
+                extend: 'extend/layer.ext.js'
+            });
+            layer.ready(function () {
+                layer.prompt({
+                    title: "{#lang('请输入交易密码')}",
+                    formType: 1
+                }, function (val) {
+                    if (val) {
+                        $.post("{#url('duobao/buy')}", {
+                            id: id,
+                            num: num,
+                            coinpay: coinpay,
+                            paypassword: val
+                        }, function (data) {
+                            if (data.status == 1) {
+                                layer.msg(data.info, {icon: 1});
+                                window.setTimeout("location.reload()", 1000);
+                            } else {
+                                layer.msg(data.info, {icon: 2});
+                                if (data.url) {
+                                    window.location = data.url;
+                                }
+                            }
+                        }, "json");
+                    }
+                    ;
+                });
+            });
+        });
+
+
+    });
+</script>
+<script>
+    if ($("#duobao_box").length > 0) {
+        $('#duobao_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}

@@ -1,0 +1,99 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="{#url('fenhong/index')}" class="orange">分红中心</a> &gt; {#lang('立即分红')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('立即分红')}
+					</span>
+	                <span>
+                        <a href="{#url('fenhong/index')}" id="step1" class="step fz_12 ml50 pd6 active">{#lang('分红列表')}</a>
+                        <a href="{#url('fenhong/log')}" id="step2" class="step fz_12 ml20 pd6 ">{#lang('分红记录')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="crowd_con clear">
+				<div class="crowd_con_l ">
+					<div class="crowd_bi clear">
+						<h2><a href="#" style="" class="left">{$fenhong['name']}</a></h2>
+					</div>
+					<ul class="crowd_subscribe clear">
+
+						<li>
+							<p>{#lang('分红币种')}</p>
+							<span class="red">
+								{$fenhong['coinname']}
+							</span>
+						</li>
+						<li>
+							<p>{#lang('奖励币种')}</p>
+							<span class="red">
+								{$fenhong['coinjian']}
+							</span>
+						</li>
+
+						<li style="width:320px">
+							<p>{#lang('分红总量')}</p>
+							<span class="red">
+                                {$fenhong['num']} {$fenhong['coinjian']}
+							</span>
+						</li>
+						<li style="width:100px">
+							<p>{#lang('持币用户')}</p>
+							<span class="red">
+								{$fenhong['yonghu']}
+							</span>
+						</li>
+						<li style="width:250px">
+							<p>{#lang('持币总额')}</p>
+							<span class="red">
+								{$fenhong['chiyou']} {$fenhong['coinname']}
+							</span>
+						</li>
+						<li>
+							<p>{#lang('每个分红')}</p>
+							<span class="red">
+								{$fenhong['dange']}
+							</span>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+			<div class="crowd_list clear">
+				<span class="crowd_rule_t fz_20">{#lang('分红介绍')}</span>
+				<div class="crowd_list_state mt10">
+					{$fenhong['content'] nofilter}
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<script>
+	if ($("#fenhong_box").length > 0) {
+		$('#fenhong_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

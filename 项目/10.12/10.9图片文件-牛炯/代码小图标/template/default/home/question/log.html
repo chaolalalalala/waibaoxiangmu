@@ -1,0 +1,196 @@
+{include file="public:header"}
+
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="{#url('question/index')}" class="orange">问答任务</a> &gt; {#lang('问答记录')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('问答任务')}
+					</span>
+	                <span>
+                        <a href="{#url('question/index')}" id="step21" class="step fz_12 ml50 pd6 ">{#lang('问答中心')}</a>
+                        <a href="{#url('question/log')}" id="step22" class="step fz_12 ml20 pd6 active">{#lang('提问记录')}</a>
+                    </span>
+					<span>
+						{if $hints}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="cnyin_record">
+				<div class="f_body">
+					<div class="f_body_main">
+						<div class="f_tab_body">
+							<div>
+								<table class="f_table" id="investLog_content">
+									<thead>
+									<tr>
+										<th id="sublist-grid_c0">回答时间</th>
+										<th id="sublist-grid_c1">问题详情</th>
+										<th id="sublist-grid_c7">问题内容</th>
+										<th id="sublist-grid_c8">问题状态</th>
+										<th id="sublist-grid_c9">操作</th>
+									</tr>
+									</thead>
+									<tbody>
+									{if $pages['list']}
+                                    {foreach $pages['list'] as $v}
+									<tr>
+										<td>{#addtime($v['addtime'])}</td>
+										<td><a class="move unlock"  href="/home/question/details/id/{$v['id']}" target="_blank">查看详情</a></td>
+										<td>  <a onclick='showA("{$v['content']}")' href="javascript:void(0)" class="cancel"> {#mb_substr($v['content'],0,4,"UTF8")."...."}</a> </td>
+										<td> {if $v['status']==2}
+                                             审核中
+                                             {else if $v['status']==1}
+										     审核通过
+                                             {else if $v['status']==0}
+                                             审核未通过
+                                             {/if}
+                                        </td>
+                                        {if $v["status"]==0}
+                                        <td>
+	                                        <a  style="width:140px;color:#1a81d6"  onclick="showC('{$v['id']}');" href="javascript:void(0)" >修改提问</a>
+                                        </td>
+                                        {else}
+                                        <td> ------</td>
+                                        {/if}
+                                    </tr>
+									{/foreach}
+									{/if}
+									</tbody>
+								</table>
+								{if $pages['show']}
+								<div class="pages">{$pages['show'] nofilter}</div>{/if}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="all_mask_loginbox" id="step1" style="display: none;">
+	<div class="login_title pl20">{#lang('问题回复')}</div>
+	<div class="zin90 ml15" style="width: 475px;height: 150px;margin-right: 15px;margin-bottom: -20px;overflow-y: scroll;">
+		<span id="plipala" style="min-width: 400px;min-height: 80px;font-size: 15px; text-align:center"></span>
+	</div>
+	<div class="mask_wrap_close " onclick="showB()"><i class="fa fa-times fz_20 move" aria-hidden="true"></i></div>
+</div>
+
+<div class="all_mask_loginbox" id="step3" style="display: none;">
+	<div class="login_title pl20">修改问题</div>
+	<form id="form-login" class="mask_wrap login-fb">
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">我的问题：</div>
+			<input id="question" class="texts"   type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">提问密码：</div>
+			<input id="paypassword" class="texts"   type="password"><a href="/findpwd/paypassword" class="move ml5">忘记?</a>
+		</div>
+		<div class="login_button">
+			<input type="button" class="btns2" value="立即提问" onclick="buy();">
+		</div>
+	</form>
+	<div class="mask_wrap_close " onclick="showB()"><i class="fa fa-close fa-2x move"></i></div>
+</div>
+<div id="step4" class="all_mask" style="height: 0px;display: none;"></div>
+
+
+<script>
+	$('.unlock').click(function () {
+		$.post("{#url('weike/jd')}", {id: $(this).attr('id')}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout('location.reload()',1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	});
+</script>
+
+<script type="text/javascript">
+	var eleID = 0;
+	function showA() {
+		eleID = arguments[0];
+		var content = arguments[0];
+		$("#plipala").html(content);
+		$("#step1").show();
+		$("#step2").show();
+	}
+	function showB() {
+		$("#step1").hide();
+		$("#step2").hide();
+	}
+	function showC() {
+		eleID = arguments[0];
+		$("#step3").show();
+		$("#step4").show();
+	}
+	function showD() {
+		$("#step3").hide();
+		$("#step4").hide();
+	}
+
+
+	function buy() {
+		var question       = $('#question').val();
+		var paypassword = $('#paypassword').val();
+		if (question == "" || question == null) {
+			layer.tips('请输入问题', '#question', {tips: 2});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips('请输入交易密码', '#paypassword', {tips: 2});
+			return false;
+		}
+		$.post("{#url('question/edits')}", {
+			id: eleID,
+			question:question,
+			paypassword: paypassword,
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout('location.reload()',1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+</script>
+
+
+
+
+
+
+
+<script>
+	if ($("#qus_box").length > 0) {
+		$('#qus_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

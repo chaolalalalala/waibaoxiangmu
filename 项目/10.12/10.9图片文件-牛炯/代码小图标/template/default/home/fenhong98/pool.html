@@ -1,0 +1,227 @@
+{include file="public:header"}
+<div class="autobox">
+	<style>
+		.mask_wrap_title{
+			margin-right:10px;
+		}
+		.login_button{
+			margin-left:10px;
+		}
+	</style>
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="{#url('fenhong/index')}" class="orange">分红中心</a> &gt; {#lang('分红池')}
+	</div>
+	<div class="main-content">
+		<div class="assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('分红中心')}
+					</span>
+	                <span>
+                        <a href="{#url('fenhong98/index')}" id="step1" class="step fz_12 ml50 pd6">{#lang('分红列表')}</a>
+                        <a href="{#url('fenhong98/pool')}" id="step2" class="step fz_12 ml20 pd6 active">{#lang('分红池')}</a>
+                        <a href="{#url('fenhong98/poollog')}" id="step3" class="step fz_12 ml20 pd6">{#lang('分红池记录')}</a>
+                        <a href="{#url('fenhong98/fenhonglog')}" id="step4" class="step fz_12 ml20 pd6">{#lang('分红记录')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="cnyin_record">
+				<div class="f_body">
+					<div class="f_body_main">
+						<div class="f_tab_body">
+							<div class="step1  pwtrade  pw  mt30 mb20">
+								<div class="mytable-body pwtrade" style="margin-left: 500px">
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">可用<span id="coinname"></span>数量:  </div>
+										<div style=" line-height: 40px; height:40px" id="coinval">
+										</div>
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('分红池名称')}:  </div>
+										<div class="weituo_bizhong" style="padding-top: 1px;">
+											<div class="bizhong_select" style="    width: 200px;">
+												<div class="bz_btn">
+								<span id="coin-default">
+									<select name="type" id="coin-select" style="margin-top: 6px;" onchange="coin_change()">
+
+										{if $fenhong_poolconfig}
+										{foreach $fenhong_poolconfig as $k => $v}
+										<option value="{$v['id']}" coinname="{$v['coin']}" total="{$v['total']}"  bili="{$v['fee']}"  min="{$v['min']}"  info="{$v['coinCanUse']}"  {if $coin == $v['name']} selected="selected"{/if}>
+
+										{#strtoupper($v['name'])}</option>
+
+										{/foreach}
+										{/if}
+									</select>
+								</span></div>
+											</div>
+										</div>
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('当前分红池总量')}:  </div>
+										<div style=" line-height: 40px;height:40px" id="poolTotal">{$list[0]['total']} </div>
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('存入数量')}:  </div>
+										<input id="num" class="texts" type="text">
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('取出手续费')}: </div>
+										<div style=" line-height: 40px;height:40px" id="bili">
+										</div>
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('最低限额')}: </div>
+										<div style=" line-height: 40px;height:40px" id="min">
+										</div>
+									</div>
+									<div class="login_text zin80">
+										<div class="mask_wrap_title">{#lang('交易密码')}:  </div>
+										<input id="paypassword" class="texts" type="password">
+									</div>
+									<div class="login_button">
+										<input type="button" class="btns2" value="提交信息" onclick="up()">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	coin_change();
+
+	function  coin_change() {
+		$("#coinval").html($("#coin-select option:selected").attr('info'));
+		$("#min").html($("#coin-select option:selected").attr('min'));
+		$("#coinname").html($("#coin-select option:selected").attr('coinname'));
+		$("#bili").html($("#coin-select option:selected").attr('bili')+'%');
+		$("#poolTotal").html($("#coin-select option:selected").attr('total') + $("#coin-select option:selected").attr('coinname'));
+	}
+
+
+	function send_new() {
+		$(".step6").hide();
+		$(".step5").show();
+	}
+
+	function push_verify_ups() {
+		$('#push_verify_up').attr('src', "{#url('verify/code')}?t=" + Math.random());
+	}
+
+
+	function send_moble_coinout(type) {
+		$.post("{#url('verify/moble_push')}", {
+			verify:$('#push_verify').val(),
+			type: type,
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				$(".step5").hide();
+				$(".step6").show();
+				$("#cnyout_moble_verify").focus();
+				$('#moble_new').attr("disabled", "disabled");
+				var obj      = $('#reg_moble_new');
+				var wait     = 60;
+				var interval = setInterval(function () {
+					obj.html(wait + "{#lang('秒可再次发送')}");
+					wait--;
+					if (wait < 0) {
+						clearInterval(interval);
+						$(".reloadverify_new").click();
+						$("#verify_new").val('');
+						obj.html('<a class="move" onclick="send_new()">{#lang("没有收到？重新发送")}</a>');
+					}
+					;
+				}, 1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+	var commiting = false;
+	function up() {
+		var id=$("#coin-select option:selected").val();
+		var num          = $("#num").val();
+		var paypassword  = $("#paypassword").val();
+
+
+		if (id == "" || id == null) {
+			layer.tips('请选择分红池', '#uid', {
+				tips: 2
+			});
+			return false;
+		}
+
+		if (num == "" || num == null) {
+			layer.tips('请输入存入数量', '#num', {
+				tips: 2
+			});
+			return false;
+		}
+
+
+		if (paypassword == "" || paypassword == null) {
+			layer.tips('请输入交易密码', '#paypassword', {
+				tips: 2
+			});
+			return false;
+		}
+
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+
+		//防止重复提交
+		if(commiting){
+			return;
+		}
+		$.post("/fenhong98/put_in", {
+		     id: id,
+			num: num,
+			paypassword: paypassword,
+
+		}, function (data) {
+			commiting = false;
+			if (data.status == 1) {
+				layer.msg(data.info, {
+					icon: 1
+				});
+				setTimeout(function(){
+					window.location = "{#url('fenhong98/poollog')}";
+				},1000)
+			} else {
+				layer.msg(data.info, {
+					icon: 2
+				});
+				if (data.url) {
+					setTimeout(function(){
+						window.location = data.url;
+					},1000)
+				}
+			}
+		}, "json");
+	}
+</script>
+{include file="public:footer"}

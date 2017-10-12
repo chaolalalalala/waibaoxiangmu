@@ -1,0 +1,575 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>我的记录 ICO项目  -  币火网 -  www.bihuo168.com </title>
+<meta name="Keywords" content="{$seos['keywords']}">
+<meta name="Description" content=" {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+
+
+<link rel="stylesheet" href="/static/default/home/css/issue.css" />
+<link rel="stylesheet" href="/static/style/issueadd.css" />
+<div class="autobox">
+    <div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/"  class="">首页</a> &gt;
+        <a href="myico.jsp"  class="orange">ICO项目认购</a> &gt; 我的记录    </div>
+    <div class="main-content mb20">
+        <div class=" assets_content bg_w" style="    min-height: 610px;">
+            <div class="safe_center clear">
+                <h1>
+		<span><a href="/myico_log.jsp" id="step2" class="step fz_12 ml20 pd6 active"><img src="/static/style/img/weituotu.png" alt="">我的记录</a></span>
+	    <span><a href="/myico.jsp" id="step1" class="step fz_12 ml50 pd6 "><img src="/static/style/img/weituotu.png" alt="">ICO项目</a>
+        </span>
+		<span></span>
+                </h1>
+            </div>
+            <div id="hints" class="mytips" style="display:none;">
+                <script>
+                    var hints = "";
+                    if (hints == 1) {
+                        $('#hints').show();
+                    }
+                </script>
+                            </div>
+            <div class="cnyin_record">
+                <div class="f_body">
+                    <div class="f_body_main">
+                        <div class="f_tab_body">
+                            <div>
+                                <table class="f_table" id="investLog_content">
+                                    <thead>
+                                    <tr>
+                                        <th>项目名称</th>
+                                        <th>认购价格</th>
+                                        <th id="sublist-grid_c3">认购数量</th>
+                                        <th id="sublist-grid_c4">认购总价</th>
+                                        <th id="sublist-grid_c0">认购时间</th>
+                                        <th id="sublist-grid_c1">上次解冻</th>
+                                        <th id="sublist-grid_c8">解冻次数</th>
+                                        <th id="sublist-grid_c5">剩余冻结</th>
+                                        <th id="sublist-grid_c9">状态</th>
+                                        <th id="sublist-grid_c6">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {foreach $pages['list'] as $k => $v}
+                                    <tr>
+                                        <td>
+                                            <!--img src="__UP__/{$v['img']}" class="mr5" style="margin-bottom: -5px; width: 22px;"/-->
+											{$v['name']}
+                                        </td>
+                                        <td>{$v['price']}</td>
+                                        <td>{$v['num']}</td>
+                                        <td>{$v['mum']}</td>
+                                        <td>{#addtime($v['addtime'])}</td>
+                                        <td>{#addtime($v['endtime'])}</td>
+                                        <td>{$v['jd']}/{$v['ci']}</td>
+                                        <td>{$v['shen']}</td>
+                                        <td>
+                                            {if $v['status'] == 0}
+                                            <font class="move">{#lang('解冻中')}</font> {else if $v['status'] == 1}
+                                            <font class="buy">{#lang('已完成')}</font> {else}
+                                            <font class="sell">{#lang('异常')}</font> {/if}
+                                        </td>
+                                        <td>
+                                            {if $v['status'] == 0}
+                                            <a class="move unlock" id="{$v['id']}" href="javascript:void(0)">{#lang('解冻')}</a> {/if}
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                    </tbody>
+                                </table>
+                                <div class="pages">{$pages['show'] nofilter}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.unlock').click(function () {
+        $.post("/issue/jiedong.html", {id: $(this).attr('id')}, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                setTimeout('location.reload()',1000);
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    });
+</script>
+<script>
+    if ($("#issue_box").length > 0) {
+        $('#issue_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+<div class="clear">
+</div>
+
+
+
+
+
+<!--底部-->
+{include file="aaapublic:footer"}
+
+
+
+
+<script>
+    $(function () {
+        var waring = $.cookies.get('move_waring');
+        if (!waring) {
+            var web_tc_close = "";
+            if (web_tc_close == 1) {
+                layer.open({
+                    type: 2,
+                    btn: ['我已了解以上风险'],
+                    skin: 'layui-layer-rim', // 边框
+                    area: ['60%', '80%'], // 宽高
+                    title: '风险警告', // 标题
+                    content: "../index/waring.html"/*tpa=http://bihuo168.movesay.cn/index/waring.html*/,
+                    yes: function (index, layero) {
+                        $.cookies.set('move_waring', 1);
+                        layer.close(index);
+                    },
+                    cancel: function (index, layero) {
+                        $.cookies.set('move_waring', 1);
+                        layer.close(index);
+                    }
+                });
+            }
+        }
+    });
+</script>
+<script>
+
+	box();
+	function box(){
+		var boxs=$('.all_mask_loginbox');
+			for(var i=0;i<boxs.length;i++){// 弹窗位置居中设置
+				var width=$(boxs[i]).outerWidth();
+				var height=$(boxs[i]).outerHeight();
+				$(boxs[i]).css({
+					'top':'50%',
+					'left':'50%',
+					'margin-left':'-'+(width/2)+'px',
+					'margin-top':'-'+(height/2)+'px'
+				})
+			}
+	}
+
+
+    $(function () {
+        var userid = "";
+        if (window.location.hash == '#login') {
+            if (!userid) {
+                loginpop();
+            }
+        }
+
+        check_zzc();
+
+        if (window.location.hash == '#goole') {
+            goolepop();
+        }
+
+        if (window.location.hash == '#yidi') {
+            yidipop();
+        }
+
+
+        var move_moble = $.cookies.get('move_moble');
+        if (move_moble != '' && move_moble != null) {
+            $("#login_moble").val(move_moble);
+        }
+    });
+    function check_zzc() {
+        $.getJSON("/ajax/check_zzc/t=" + Math.random(), function () {
+
+            setTimeout('check_zzc()', 5000);
+        });
+    }
+
+    function login_verify_ups() {
+        $('#login_verify_up').attr('src', "/verify/code.html?t=" + Math.random());
+    }
+
+    function loginpop() {
+        var height = $(document).height();
+	    var width  = $(document).width();
+        if (height < 1000) {
+            height = 1000;
+        }
+
+        $('.all_mask').css({'height': height,'width':width});
+        $('.all_mask').show();
+        $('#all_mask_loginbox').show();
+    }
+
+    function goolepop() {
+        var height = $(document).height();
+	    var width  = $(document).width();
+
+        if (height < 1000) {
+            height = 1000;
+        }
+	    $('.all_mask').css({'height': height,'width':width});
+        $('.all_mask').show();
+        $('#all_mask_goolebox').show();
+    }
+
+
+    function yidipop() {
+        var height = $(document).height();
+	    var width  = $(document).width();
+        if (height < 1000) {
+            height = 1000;
+        }
+	    $('.all_mask').css({'height': height,'width':width});
+        $('.all_mask').show();
+        $('#all_mask_yidibox').show();
+    }
+
+
+    function moble_yidi(type) {
+        $.post("../verify/yidi.html"/*tpa=http://bihuo168.movesay.cn/verify/yidi.html*/, {
+            type: type,
+        }, function (data) {
+            if (data.status == 1) {
+
+                layer.msg(data.info, {icon: 1});
+                $('#yidi1').hide();
+                $('#yidi2').show();
+
+
+                var obj = $('#yidi3');
+                var wait = 30;
+                var interval = setInterval(function () {
+                    obj.html("<a class='movesay'>" + wait + "秒可再次发送" + "</a>");
+                    wait--;
+                    if (wait < 0) {
+                        clearInterval(interval);
+                        $("#verify").val('');
+                        $('#yidi2').hide();
+                        $('#yidi1').show();
+
+                    }
+                    ;
+                }, 1000);
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+
+    function wrapClose() {
+        $('.all_mask').hide();
+        $('.all_mask_loginbox').hide();
+    }
+
+    function footer_login() {
+        var moble = $("#login_moble").val();
+        var mobles = $("#login_mobles").val();
+        var password = $("#login_password").val();
+        var verify = $("#login_verify").val();
+
+        if (moble == "" || moble == null) {
+            layer.tips('请输入手机号', '#login_moble', {tips: 2});
+            return false;
+        }
+        if (password == "" || password == null) {
+            layer.tips('请输入登录密码', '#login_password', {tips: 2});
+            return false;
+        }
+        if (verify == "" || verify == null) {
+            layer.tips('请输入验证码', '#login_verify', {tips: 2});
+            return false;
+        }
+
+        $.post("../login/up_login.html"/*tpa=http://bihuo168.movesay.cn/login/up_login.html*/, {
+            moble: moble,
+            mobles: mobles,
+            password: password,
+            verify: verify,
+            login_token: "",
+        }, function (data) {
+            if (data.status == 1) {
+                $.cookies.set('move_moble', moble);
+                layer.msg(data.info, {icon: 1});
+                if (data.url) {
+                    window.location = data.url;
+                } else {
+                    window.location.reload();
+                }
+            } else {
+                $("#login_verify_up").click();
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+
+    function footer_goole() {
+        var password = $("#goole_password").val();
+
+
+        if (password == "" || password == null) {
+            layer.tips('请输入谷歌密码', '#goole_password', {tips: 2});
+            return false;
+        }
+
+        $.post("../login/goole.html"/*tpa=http://bihuo168.movesay.cn/login/goole.html*/, {
+            password: password,
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                if (data.url) {
+                    window.location = data.url;
+                } else {
+                    window.location = '../index.htm'/*tpa=http://bihuo168.movesay.cn/*/;
+                }
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+
+    function footer_yidi() {
+        var password = $("#yidi_password").val();
+
+
+        if (password == "" || password == null) {
+            layer.tips('请输入短信验证码', '#yidi_password', {tips: 2});
+            return false;
+        }
+
+        $.post("../login/yidi.html"/*tpa=http://bihuo168.movesay.cn/login/yidi.html*/, {
+            password: password,
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                if (data.url) {
+                    window.location = data.url;
+                } else {
+                    window.location = '../index.htm'/*tpa=http://bihuo168.movesay.cn/*/;
+                }
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+</script>
+</body>
+<script>
+    $(document).ready(function () {
+        $.each($(".mv-hide"), function () {
+            eval($(this).html());
+        });
+    });
+</script>
+
+
+<script src="../static/extend/lazyload/jquery.lazyload.js" tppabs="http://bihuo168.movesay.cn/static/extend/lazyload/jquery.lazyload.js" type="text/javascript"></script>
+<script>
+    $("http://bihuo168.movesay.cn/issue/img.lazy").lazyload({
+        effect: "fadeIn",
+        threshold: 200
+    });
+</script>
+<script>
+    /* 登录 关闭*/
+    $(".mask_wrap_close").click(function () {
+        $(".all_mask").hide();
+        $(".all_mask_loginbox").hide();
+    });
+    function loginpop() {
+        $(".all_mask").show();
+        $(".all_mask_loginbox").show();
+
+    }
+    var bhei = $("body").height();
+    $(".all_mask").height(bhei);
+    $(".nav_hover").hover(function () {
+        console.log(666);
+        $(this).find(".nav_xiala").show()
+        $(this).find(".nav_xiala2").show()
+    }, function () {
+
+        $(this).find(".nav_xiala").hide()
+        $(this).find(".nav_xiala2").hide()
+    });
+    /**/
+    $(".nav_hover").hover(function () {
+
+        $(this).find(".nav_xiala").show()
+    }, function () {
+
+        $(this).find(".nav_xiala").hide()
+    });
+    $(".xiugai1 .col-xs-3").hover(function () {
+        var src = $(this).find("img")[0].src;
+//            var src = $(this).find("img")[0].src;
+        $(this).css("background-color", "#ff6000");
+        $(this).css("color", "white");
+//            $(".xiugai1 .col-xs-3").
+        src = src.split("-1.png");
+        src = src[0] + ".png";
+//        console.log(src);
+
+        $(this).find("img").attr("src", src);
+    }, function () {
+        var src1 = $(this).find("img")[0].src;
+        $(this).css("background-color", "white");
+        $(this).css("color", "black");
+        src1 = src1.split(".png");
+        src1 = src1[0];
+//        console.log(src);
+
+        $(this).find("img").attr("src", src1 + "-1.png")
+    });
+    $(".xiugai2 .col-xs-3").hover(function () {
+        var src = $(this).find("img")[0].src;
+//            var src = $(this).find("img")[0].src;
+        $(this).css("background-color", "#ff6000");
+        $(this).css("color", "white");
+//            $(".xiugai1 .col-xs-3").
+        src = src.split("-1.png");
+        src = src[0] + ".png";
+//        console.log(src);
+
+        $(this).find("img").attr("src", src);
+    }, function () {
+        var src1 = $(this).find("img")[0].src;
+        $(this).css("background-color", "white");
+        $(this).css("color", "black");
+        src1 = src1.split(".png");
+        src1 = src1[0];
+//        console.log(src);
+
+        $(this).find("img").attr("src", src1 + "-1.png")
+    });
+
+    /*dongtai */
+    //    $(".line35 .text-left").hover(function () {
+    //
+    //    })
+
+    /*nav*/
+    var item = 0;
+    $(".nav-btn").click(function () {
+        if (item == 0) {
+            $(".nav-btn-show").show();
+            $(".sanjiao").show();
+            item = 1;
+        } else {
+            $(".nav-btn-show").hide();
+            $(".sanjiao").hide();
+            item = 0;
+        }
+    });
+    $(".nav-btn-show").mouseleave(function () {
+        $(".sanjiao").hide();
+        $(".nav-btn-show").hide();
+        item = 0;
+    });
+
+    /*bottomshijian*/
+    $(".bmouse1 li").hover(function () {
+        var index = $(this).index();
+        var src = $(this).find("img")[0].src;
+        src = src.split(".png");
+        src = src[0];
+        console.log(index);
+        $(this).find("img").attr("src", src + "-1.png");
+        $(this).find(".hide").show();
+//        $(".hide").eq(index).show();
+    }, function () {
+        var index = $(this).index();
+        var src = $(this).find("img")[0].src;
+        src = src.split("-1.png");
+        src = src[0] + ".png";
+        $(this).find("img").attr("src", src);
+        $(this).find(".hide").hide();
+//        $(".hide").eq(index).hide();
+    });
+
+    //    $(".bjuzhong2 img").hover(function () {
+    //        var src = $(this)[0].src;
+    //        src = src.split(".png");
+    //        src = src[0];
+    //        $(this).attr("src",src + "-1.png");
+    //    },function () {
+    //        var src = $(this)[0].src;
+    //        src = src.split("-1.png");
+    //        src = src[0] + ".png";
+    //        $(this).attr("src",src);
+    //    });
+    $(".china").hover(function () {
+        $(".eng").show()
+    }, function () {
+        $(".eng").hide()
+    });
+
+    /**/
+    $(".bjuzhong2 li").click(function () {
+        $(".tanchu").hide()
+        var index2 = $(this).index();
+        $(".tanchu").eq(index2).show();
+
+
+    });
+    $(".close").click(function () {
+        $(".tanchu").hide();
+
+    })
+</script>
+</html>

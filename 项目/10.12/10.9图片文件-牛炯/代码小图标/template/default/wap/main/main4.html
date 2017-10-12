@@ -1,0 +1,214 @@
+{include file="public:header"}
+<title>个人中心</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/fontawesome/font-awesome.min.css">
+</head>
+<style>
+	.iconfont{
+		padding: 0.25rem 0.35rem;
+		border-radius: 0.2rem;
+		color: white;
+		font-size: 0.8rem !important;
+	}
+	.icon-home{
+		background-color: #49afcd;
+	}
+	.icon-gift{
+		background-color: #5BB75B;
+	}
+	.icon-money{
+		background-color: #FAA732;
+	}
+	.icon-credit-card{
+		background-color: #DA4F49;
+	}
+	.icon-download-alt{
+		background-color: #FFB6C1;
+	}
+	.icon-upload-alt{
+		background-color: #6495ED;
+	}
+	.icon-bar-chart{
+		background-color: #BDB76B;
+	}
+	.icon-calendar{
+		background-color: #B0C4DE;
+	}
+</style>
+<body style="padding-bottom:46px">
+<div class="aui-content">
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">基本信息</li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">账号:</div>
+                <div class="aui-list-item-text" id = "user_username"></div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">手机号:</div>
+                <div class="aui-list-item-text" id="user_uid"></div>
+            </div>
+        </li>
+    </ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">资产管理</li>
+		<li class="aui-list-item"  tapmod onclick="show_user_coin()">
+			<div class="aui-list-item-label-icon">
+				<i class="iconfont icon-home"></i>
+			</div>
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				<div class="aui-list-item-title">总资产 </div>
+				<div class="aui-list-item-right">
+					<div id="all-money-badge" class="aui-label aui-label-info"></div>
+				</div>
+			</div>
+		</li>
+        <li class="aui-list-item"  tapmod onclick="show_charge()">
+            <div class="aui-list-item-label-icon">
+                <i class="iconfont icon-money"></i>
+            </div>
+            <div class="aui-list-item-inner  aui-list-item-arrow">
+                <div class="aui-list-item-title">人民币充值 </div>
+            </div>
+        </li>
+        <li class="aui-list-item"  tapmod onclick="show_withdraw()">
+            <div class="aui-list-item-label-icon">
+                <i class="iconfont  icon-credit-card"></i>
+            </div>
+            <div class="aui-list-item-inner  aui-list-item-arrow">
+                人民币提现
+            </div>
+        </li>
+	</ul>
+	<ul class="aui-list aui-list-in">
+		<li class="aui-list-header">交易管理</li>
+		<li class="aui-list-item"  tapmod onclick="import_coin()">
+			<div class="aui-list-item-label-icon">
+				<i class="iconfont icon-download-alt"></i>
+			</div>
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				<div class="aui-list-item-title">转入虚拟币 </div>
+			</div>
+		</li>
+		<li class="aui-list-item"  tapmod onclick="export_coin()">
+			<div class="aui-list-item-label-icon">
+				<i class="iconfont icon-upload-alt"></i>
+			</div>
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				转出虚拟币
+			</div>
+		</li>
+		<li class="aui-list-item"  tapmod onclick="show_guadan()">
+			<div class="aui-list-item-label-icon">
+				<i class="iconfont icon-bar-chart"></i>
+			</div>
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				委托管理
+			</div>
+		</li>
+		<li class="aui-list-item"  tapmod onclick="show_tradelog()">
+			<div class="aui-list-item-label-icon">
+				<i class="iconfont  icon-calendar"></i>
+			</div>
+			<div class="aui-list-item-inner  aui-list-item-arrow">
+				成交记录
+			</div>
+		</li>
+	</ul>
+    <ul class="aui-list aui-list-in">
+        <li class="aui-list-header">其他</li>
+        <li class="aui-list-item"  tapmod onclick="show_invit()">
+            <div class="aui-list-item-label-icon">
+                <i class="iconfont icon-gift"></i>
+            </div>
+            <div class="aui-list-item-inner  aui-list-item-arrow">
+                邀请管理
+            </div>
+        </li>
+    </ul>
+</div>
+</body >
+<script type = "text/javascript" >
+    apiready = function () {
+        onerror = error_handel;
+	    flashUserInfo();
+    }
+
+    function show_user_coin() {
+        open_win('user_coin_h', 'finace');
+    }
+
+    function show_invit() {
+        open_win('invit_h', 'invit');
+    }
+
+    function show_charge() {
+        open_win('charge_h', 'finace');
+    }
+
+    function show_withdraw() {
+	    open_win('withdraw_h', 'finace');
+    }
+
+    function show_bank() {
+        open_win('bank_h', 'setting');
+    }
+
+    //转入虚拟币
+    function import_coin(){
+        openWinWithParams('coinIn_h','coin',{
+            'title' : '转入虚拟币',
+            'target':'import_h'
+        });
+    }
+
+    //转出虚拟币
+    function export_coin(){
+        openWinWithParams('coinOut_h','coin',{
+            'title' : '转出虚拟币',
+            'target':'export_h'
+        });
+    }
+
+    //委托管理
+    function show_guadan(){
+        openWinWithParams('entrustManage_h','person',{
+            'title' : '我的委托管理',
+            'target':'guadan_h'
+        });
+    }
+
+    //成交记录
+    function show_tradelog(){
+        openWinWithParams('transactionLog_h','person',{
+            'title' : '成交记录查询',
+            'target':'tradelog_h'
+        });
+    }
+
+    function show_text(ret) {
+        $api.html($api.byId('user_username'), ret.baseinfo.username);
+        $api.html($api.byId('user_uid'), ret.baseinfo.moble);
+        $api.html($api.byId('all-money-badge'),'￥' + ret.baseinfo.finan.zzc);
+    }
+
+    function flashUserInfo() {
+        if (!chkLogin()) return false;
+        var ret_mem = memObj('userinfo');
+        if (ret_mem) {
+            show_text(ret_mem);
+        }
+        UserAjax('user/userinfo', 'get', '', function (ret) {
+            if (ret.status == 1) {
+                ret = ret.info;
+                show_text(ret);
+                //存储mem
+                memObj('userinfo', ret);
+            } else {
+            }
+        });
+    }
+</script >
+</html >

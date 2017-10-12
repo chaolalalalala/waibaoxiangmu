@@ -1,0 +1,85 @@
+{include file="public:top"}
+
+<style>
+    .move_gao{
+        background-color: #796e6e;
+        display: block;
+        width: 33px;
+        height: 33px;
+        color: #fff;
+        margin: 0 auto;
+        border-radius: 50%;
+        line-height: 33px;
+        font-size: 18px;
+        margin-top: 10px;
+    }
+    .s_table tr:hover{
+        background-color:#E9FEE9;
+    }
+</style>
+
+
+<div class="autobox" style="width:100%;    background-color: #d34422;">
+    <div class=" assets_content bg_w" style="background-image:url('__HOME__/img/paiming/paihang.jpg'); -moz-background-size:100% 100%;background-size:100% 100%;">
+        <div class="cnyin_record" style="height:auto;">
+        </div>
+    </div>
+    <div style="     padding-bottom: 40px;">
+        <div>
+            <table style="top:20px;font-size: 24px;       height: 50px; width: 1200px;margin: 0 auto; background-color: #fff;margin-top: 30px;   border-bottom: 1px solid #e6e6e6;" >
+                <tr>
+                    <th>
+                        {if $img} <img src="{$img}" style="width: 18px;vertical-align: -4px;margin-right: 5px;"> {/if}
+                        <select name="type" id="coin-select" style="margin-top: 6px;    border: 1px solid rgb(213, 213, 213);">
+                            <option value="0" >总资产</option>
+                            {foreach $coin_list as $k => $v}
+                            <option value="{$v.id}" {if $type == $v.id} selected="selected" {/if} >
+                            {$v.title} ({#strtoupper($v['name'])})
+	                        </option>{/foreach} </select>
+                    </th>
+                    <th width="20%">{#lang(用户名)}</th>
+                    <th width="20%">{#lang(总额)}</th>
+                    <th width="20%">{#lang(可用)}</th>
+                    <th width="20%">{#lang(冻结)}</th>
+                </tr>
+            </table>
+        </div>
+        {foreach $lists as $k=>$v}
+        <div>
+            <table style="   width: 1200px;margin: 0 auto;    background-color: #fff; border-bottom: 1px solid #e6e6e6;"class="s_table">
+                <tr style=" height: 50px;     ">
+                    <th class="move_gao"  {if $k=="0"} style="background-color: #d34422;"{/if}{if $k=="1"} style="background-color: #cb573c;"{/if}{if $k=="2"} style="background-color: #b56957;"{/if}>{$k+1}</th>
+                    <th width="20%">{$v['username']}</th>
+                    <th width="20%">{$v['zzc']}</th>
+                    <th width="20%">{$v['keyong']}</th>
+                    <th width="20%">{$v['dongjie']}</th>
+                </tr>
+            </table>
+        </div>
+        {/foreach}
+    </div>
+</div>
+<style>
+    .mt40 {
+        margin-top: 0px;
+    }
+</style>
+<script>
+    $("#coin-select").change(function () {
+        var coin = $("#coin-select option:selected").val();
+        window.location = '/paiming/index/type/' + coin;
+    });
+
+
+    if ($("#paiming_box").length > 0) {
+        $('#paiming_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}
+
+
+
+
+

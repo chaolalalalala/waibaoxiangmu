@@ -1,0 +1,241 @@
+{include file="public:header"}
+<title>更多交易</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/fontawesome/font-awesome.min.css">
+<script type="text/javascript" src="__WAP__/js/aui/aui-tab.js"></script>
+	<style>
+		body {
+			overflow-x:hidden;
+			overflow-y:hidden;
+		}
+		#trade_header{
+			position: absolute;
+		}
+		#header2{
+			z-index: 99999;
+			position: relative !important;
+			float:left;
+			/*position: fixed;*/
+		}
+		#subheader{
+			/*z-index: 99999;*/
+			/*margin-top:2.25rem;*/
+			position: relative !important;
+			float:left;
+		}
+		.coin-header{
+			background-color: #fff !important;
+			border-bottom: 1px solid whitesmoke;
+			height: 2rem;
+		}
+		.coin-header-img{
+			width: 1rem;
+			height: 1rem;
+		}
+		.coin-header-title{
+			height: 1rem;
+			line-height: 1rem;
+			margin-left: 0.5rem;
+            font-size: 15px;
+		}
+		.coin-header-right{
+			height: 1rem;
+			color: red;
+			float: right;
+		}
+	</style>
+</head>
+<body>
+<div  id="trade_header">
+	<header  id="header2"   class="aui-bar aui-bar-nav aui-bar-dark">
+		<a class="aui-pull-left" tapmod="" onclick="back();">
+			<span class="aui-iconfont aui-icon-left"></span>返回
+		</a>
+		<div id="title" class="aui-title">更多交易</div>
+	</header>
+	<div id="subheader" style="background-color:#fff !important;" >
+		<div class="aui-content aui-margin-b-5">
+			<ul class="aui-list aui-media-list" >
+				<li class="aui-list-header coin-header">
+					<div class="aui-col-xs-2 coin-header-img">
+						<img style="display: inline-block;position: relative;top:0px;"  id="market_img" class="aui-img-round aui-list-img-sm">
+					</div>
+					<div style="position: relative;top:2px;" class="aui-col-xs-8  coin-header-title" id="market_name"></div>
+
+				</li>
+				<li class="aui-list-item aui-list-item-middle">
+					<div class="aui-media-list-item-inner">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-text">
+								<div class="aui-list-item-title aui-font-size-14">
+									<div>最高价</div>
+									<div id="max_price_lab">0.9</div>
+								</div>
+								<div class="aui-list-item-title aui-font-size-14">
+									<div>最低价</div>
+									<div id="min_price_lab">0.1</div>
+								</div>
+								<div class="aui-list-item-title aui-font-size-14">
+									<div>成交量</div>
+									<div id="volume_lab">3123</div>
+								</div>
+								<div class="aui-list-item-title aui-font-size-14">
+									<div><img style="height:2rem;" src="http://demo.movesay.com/app/chart/showP/market_id/11" onerror="nofind()" </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="aui-bar aui-bar-btn aui-bar-btn-full" id="tab">
+			<div class="aui-bar-btn-item aui-active">买入盘</div>
+			<div class="aui-bar-btn-item">卖出盘</div>
+			<div class="aui-bar-btn-item">最近成交</div>
+		</div>
+	</div>
+</div>
+</body>
+
+<script>
+	var ctab_id = 1;
+    var pageParam;
+    var respondData;
+	var tab = new auiTab({
+		element:document.getElementById("tab"),
+	},function(ret){
+		if(chk_dev()){
+			ctab_id=ret.index
+			more_body.window.change_type(ctab_id);
+		}else{
+			api.execScript({
+				frameName: 'more_body',
+				script: 'change_type('+ret.index+');'
+			});
+		}
+	});
+
+
+	apiready = function(){
+		onerror = error_handel;
+
+
+       var params =  localStorage.getItem('market_param');
+        alog(params);
+        params = JSON.parse(params);
+
+
+		var market_name = "dsc_cny";
+            market_name = !isNull(params.market_name) ? params.market_name : market_name;
+
+        pageParam = params;
+
+
+        //设置市场的图标和市场名字
+        var imgUrl = pageParam.img;
+        var market_title = pageParam.title;
+        $("#market_img").attr("src",imgUrl);
+        $("#market_name").html(market_title);
+
+
+        requestInitData(market_name);
+
+
+//		setinfo(market_id);
+		open_trade_body(market_name);
+	}
+
+    function requestInitData (market_name) {
+
+        Ajax('trade/json', 'get', {'market':market_name} , function (ret) {
+
+            alog(JSON.stringify(ret));
+            if (ret.status == 1)
+            {
+                var market_msg = ret.info.top;
+                $('#max_price_lab').html(market_msg.max_price);
+                $('#min_price_lab').html(market_msg.min_price);
+                $('#volume_lab').html(market_msg.volume);
+
+                respondData = ret.info;
+
+            }
+            else {
+                art("获取市场数据失败");
+            }
+        });
+    }
+
+    var coin_detail_id = 0;
+    var coin_detail_name = 0;
+    //设置相关数据
+    function setinfo(market_id){
+        var coin_info = memObj('coininfo');
+	    if(!coin_info){
+		    alog("coininfo null");
+		    return;
+	    }
+        coin_info = coin_info.market;
+        for(var i in coin_info){
+            if(coin_info[i]['id'] == market_id){
+                data = coin_info[i];
+                coin_detail_id = market_id;
+                coin_detail_name = data['name'];
+                $api.html($api.byId('title'),data['name'] + '交易');
+                $api.html($api.byId('new_price'),'¥' + data['new_price']);
+                $api.html($api.byId('buy1'),'买一价:¥' + data['sell_price']);
+                $api.html($api.byId('sale1'),'卖一价:¥' + data['buy_price']);
+                $api.html($api.byId('coin_name'),"<img src=\""+data['ico']+"\">" + data['name']);
+            }
+        }
+    }
+
+
+	//打开行情图
+	function open_chart(){
+		openWinWithParams('ordinary_h','trade', {'market':pageParam.market_name});
+	}
+    //打开交易主窗口
+    function open_trade_body(market_name){
+        var header = $api.byId('trade_header');
+	    var width     = getWinWidth();
+        var headerPos = $api.offset(header);
+        var height =  getWinHight()  - headerPos.h ;
+
+	    var y = headerPos.h  + 5;
+
+	    openFrame({
+            name: 'more_body',
+            url: aurl('html/trade/more'),
+            allowEdit : true,
+            bounces: false,
+            opaque: true,
+            reload: true,
+            vScrollBarEnabled: true,
+            hScrollBarEnabled:false,
+            rect: {
+                x: 0,
+                y: y,
+                w: width,
+                h: height
+            },
+            pageParam: {
+                "market_name": market_name,
+            },
+        });
+    }
+
+    function flashInfo(new_price,sell_price,buy_price){
+        alog('TH flashInfo');
+        alog(data);
+        $api.html($api.byId('new_price'),'¥' + new_price);
+        $api.html($api.byId('buy1'),'买一价:¥' + sell_price);
+        $api.html($api.byId('sale1'),'卖一价:¥' + buy_price);
+    }
+
+	function openMoreTrade(){
+
+	}
+
+</script>
+</html>

@@ -1,0 +1,199 @@
+{include file="public:header"}
+<div class="autobox">
+    <div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="movesay">{#lang('首页')}</a> &gt; <a href="{#url('guoji/index')}" class="movesay">{#lang('国际充值')} </a> &gt; {#lang('账户充值')}
+    </div>
+    <div class="main-content">
+        {include file="guoji:left"}
+        <div class="tag-list-content assets_content bg_w">
+            <div class="safe_center clear">
+                <h1>
+					<span>
+						{#lang('人民币充值')}
+					</span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+                </h1>
+            </div>
+            <div id="hints" class="mytips" style="display:none;">
+	            <script>
+		            var hints = "{$hints['show']}";
+		            if(hints == 1){
+			            $('#hints').show();
+		            }
+	            </script>
+	            {$hints["value"] nofilter}
+            </div>
+            <div class="mytable-body ">
+                <div class="step1   pwtrade  pw  mt50">
+                    <dl>
+                        <dt>{#lang('可用人民币')}：</dt>
+                        <dd>
+                            <div class="w2">
+                                <i class="fa fa-cny fa-lg mr5 move"></i><span><font class="coin-balance fz_14">{#num($user_coin['cny'])}</font></span>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>{#lang('充值金额')}：</dt>
+                        <dd style="position: relative;">
+                            <input type="text" class="texts" id="cnyin_num" maxlength="12" value="">
+
+                            <div style="position: absolute;right: 15px;top: -3px;">
+                                <span id="random" class="random">.{$random}</span></div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt class="cnyin_type">{#lang('充值方式')}：</dt>
+                        <dd class="payment-icon-list payment-list ">
+                            <ul style="width:600px;">
+                                {foreach $cnyin_type as $k => $v}
+                                <li class="wx" data="{$v['name']}"><img src="__UP__/{$v['img']}" width="100"></li>
+                                {/foreach}
+                            </ul>
+                            <input type="hidden" id="cnyin_type" value="">
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt></dt>
+                        <dd>
+                            <input type="button" class="btns2" value="{#lang('立即充值')}" onclick="cnyin_up()">
+                        </dd>
+                    </dl>
+                </div>
+                <div class="step2 f_body">
+                    <table class="f_table" id="investLog_content">
+                        <thead>
+                        <tr>
+                            <th width="">{#lang('充值时间')}</th>
+                            <th width="">{#lang('充值订单')}</th>
+                            <th width="">{#lang('充值方式')}</th>
+                            <th width="">{#lang('充值金额')}</th>
+                            <th width="">{#lang('赠送数量')}</th>
+
+                            <th width="">{#lang('实际到账')}</th>
+                            <th width="">
+								<span>
+									<select id="status-select">
+                                        <option value="">{#lang('全部状态')}</option>
+                                        <option value="1">{#lang('未付款')}</option>
+                                        <option value="2">{#lang('充值成功')}</option>
+                                        <option value="3">{#lang('人工到账')}</option>
+                                        <option value="4">{#lang('处理中')}</option>
+                                    </select>
+								</span>
+                            </th>
+                            <th width="">{#lang('操作')}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $("#status-select").val("{$status}");
+
+    $("#status-select").change(function () {
+        var status = $("#status-select option:selected").val();
+        var url = '/finan/pay';
+        if (status) {
+            url += '/status/' + status;
+        }
+        window.location = url;
+    });
+
+
+    function cnyin_huikuan(_this) {
+        var id = $(_this).attr('data');
+        $.post("{#url('finan/pay_huikuan')}", {id: id}, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+               setTimeout('location.reload()',1000);
+            } else {
+                layer.msg(data.info, {icon: 2});
+            }
+        }, "json");
+    }
+
+    function cnyin_chakan(_this) {
+        var id = $(_this).attr('data');
+        layer.open({
+            title: '{#lang("人民币充值")}',
+            type: 2,
+            area: ['650px', '500px'],
+            content: ["/pay/index?id=" + id, 'no'],
+        });
+    }
+
+
+    $(".payment-list li").first().addClass("curr");
+    $('#cnyin_type').val($(".payment-list li").first().attr('data'));
+    $('.payment-list li').click (function () {
+        $(this).addClass ('curr').siblings ('li').removeClass ('curr');
+        $('#cnyin_type').val($(this).attr('data'));
+    });
+
+	var lock = 0;
+    function cnyin_up() {
+	    //加锁 防止重复点击
+        var type = $('#cnyin_type').val();
+        var num = $("#cnyin_num").val();
+
+        if (type == "" || type == null) {
+            layer.tips('{#lang("请选择充值方式")}', '.cnyin_type', {tips: 2});
+            return false;
+        }
+        if (num == "" || num == null) {
+            layer.tips('{#lang("请输入充值金额")}', '#cnyin_num', {tips: 2});
+            return false;
+        } else {
+            num = num + $('#random').html();
+        }
+
+	    if(lock){
+		    layer.msg('{#lang("加载中,请勿重复点击")}...');
+		    return;
+	    }
+	    lock = 1;
+        $.post("{#url('finan/pay_up')}", {
+            type: type,
+            num: num
+        }, function (data) {
+	        lock = 0;//解除锁
+            if (data.status == 1) {
+                layer.open({
+                    title: "{#lang('人民币充值')}",
+                    type: 2,
+                    area: ['650px', '500px'],
+                    content: ["/pay/index/ty/1/id/" + data.url, 'no'],
+                    cancel: function () {
+                        window.location = "{#url('finan/pay')}";
+                    }
+                });
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                   setTimeout(function(){
+	                   window.location=data.url;
+                   },1000);
+                }
+            }
+        }, "json");
+    }
+</script>
+<script>
+    $('.finan_pay').addClass('active');
+</script>
+
+
+{include file="public:footer"}

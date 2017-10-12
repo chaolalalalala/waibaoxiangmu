@@ -1,0 +1,58 @@
+﻿*{padding:0;margin:0;list-style:none;}
+a {
+color:#fff;
+text-decoration:none;
+outline:none;
+blr:expression(this.onFocus=this.blur());
+}
+.sort .sort-ti,.sort .sort-list li a span,.sort .sort-list li.hover,.sort .sort-list ul li.hover ul li a,.sort .hr{background:url(../images/bg-index-sort-v211.png) no-repeat}
+.sort{width:100%;height:auto;float:left;position:relative;z-index:20}
+.sort .sort-ti{height:37px;background-position:0 0;background-repeat:repeat-x;font:14px/35px \5fae\8f6f\96c5\9ed1;color:#fff;}
+.sort .sort-list{border-top:0;height:207px;padding:0 1px;}
+.sort .sort-list ul{height:195px;}
+.sort .sort-list  ul li{width:74%;float:left;height:34px;line-height:34px; padding-top:12px;}
+/*.sort .sort-list   ul  li a{display:block;cursor:pointer; font:16px  'Source Han Sans'; }*/
+.sort .sort-list   ul  li a{display:block;cursor:pointer; font: 17px/1.65em "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+
+.sort .sort-list li a span{display:block;height:32px; color:#80d2a6;}
+.sort .sort-list li.hover{background-position:0 -32px;background-repeat:repeat-x}
+.sort .sort-list li.hover a{color:#fff}
+.sort .sort-list li a.sort-list-1{background-position:15px 4px;}
+.sort .sort-list li.hover a.sort-list-1{background-position:15px -46px}
+.sort .sort-list li a.sort-list-2{background-position:15px -96px}
+.sort .sort-list li.hover a.sort-list-2{background-position:15px -146px}
+.sort .sort-list li a.sort-list-3{background-position:15px -196px}
+.sort .sort-list li.hover a.sort-list-3{background-position:15px -246px}
+.sort .sort-list li a.sort-list-4{background-position:15px -296px}
+.sort .sort-list li.hover a.sort-list-4{background-position:15px -346px}
+.sort .sort-list li a.sort-list-5{background-position:15px -396px}
+.sort .sort-list li.hover a.sort-list-5{background-position:15px -446px}
+.sort .sort-list li a.sort-list-6{background-position:15px -496px}
+.sort .sort-list li.hover a.sort-list-6{background-position:15px -546px}
+.sort .sort-list li a.sort-list-7{background-position:15px -596px}
+.sort .sort-list li.hover a.sort-list-7{background-position:15px -646px}
+.sort .sort-list li a.sort-list-8{background-position:15px -696px;border-bottom:0}
+.sort .sort-list li.hover a.sort-list-8{background-position:15px -746px}
+.sort .sort-list li a.sort-list-8 span{background:0}
+.sort .sort-list ul ul{display:none}
+.sort .sort-list ul li.hover ul{background-color:#00a54d;border:1px solid #e1e1e1;left:160px;margin-top:-43px;width:206px;z-index:30;position:absolute;height:auto;overflow:hidden;}
+
+@media only screen and (max-width: 989px){
+.sort .sort-list ul li.hover ul{left:140px;}
+}
+
+
+
+
+
+.sort .sort-list ul li.hover ul li{height:42px;padding:0; line-height:42px;}
+.sort .sort-list ul li.hover ul{display:block}
+.sort .sort-list ul li.hover ul li a{height:37px;line-height:37px;border-top:0;border-bottom:0;padding-left:16px;color:#e1e1e1;background-position:15px -134px; padding-top:5px; font-size:13px;}
+.sort .sort-list ul li.hover ul li a:hover{background-position:15px -174px; background-color:#f8f8f8; color:#00a54d;width:206px;}
+.sort dl{height:18px;line-height:18px;margin:0 0 18px 0;overflow:hidden;zoom:1}
+.sort dt{width:65px;height:18px;float:left;font-family:\5b8b\4f53;background:url(../images/bg-index-sort.png) 0 -4px no-repeat;color:#e51a45;padding:0 0 0 4px}
+.sort dt a:hover{text-decoration:underline}
+.sort dd{float:left;margin:0 0 0 8px}
+.sort .hr{display:block;height:4px;background-position:0 -76px;background-repeat:repeat-x;border:0;overflow:hidden;margin:0 5px}
+.sort .more{display:block;height:37px;line-height:37px;font-size:14px;margin:6px 5px 0 5px;padding-left:50px}

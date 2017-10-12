@@ -1,0 +1,304 @@
+{include file="public:header"}
+<style>
+	.mybtn{
+		width:auto;
+		height:25px;
+		line-height:25px;
+		padding:0 10px;
+		font-size:12px;
+	}
+</style>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;<a href="/egg/" class=""> {#lang('我的鸡场')}</a>&gt; {#lang('我的鸡场')}
+	</div>
+	<!--<div style="color:#343434;font-size:16px;text-align:left">-->
+		<!--<th >鸡蛋:{$egg_user["egg"]}个</th> </br>-->
+		<!--<th>鸡:{$egg_user["chicken"]}只</th>  </br>-->
+		<!--<th>我的财产:{$user_coin["dsc"]}</th>-->
+	<!--</div>-->
+	<div class=" assets_content bg_w" style="min-height:30px;">
+		<div class="safe_center clear">
+			<h1>
+					<span>
+						{#lang('我的鸡场')}
+					</span>
+	                <span>
+                         <a href="{#url('egg/index')}" id="step1" class="step fz_12 ml50 pd6  ">{#lang('蛋鸡市场')}</a>
+                         <a href="{#url('egg/market')}" id="step2" class="step fz_12 ml20 pd6 active">{#lang('我的鸡场')}</a>
+                         <a href="{#url('egg/log')}" id="step3" class="step fz_12 ml20 pd6 ">{#lang('交易记录')}</a>
+		                 <a href="{#url('egg/egg')}" id="step4" class="step fz_12 ml20 pd6 ">{#lang('鸡场记录')}</a>
+
+		                <input type="button" class="btns2 mybtn" onclick="egg_str(this)" value="{#lang('点击孵化')}">
+                    </span>
+                    <span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+			</h1>
+		</div>
+		<div id="hints" class="mytips" style="display:none;">
+			<script>
+				var hints = "{$hints['show']}";
+				if(hints == 1){
+					$('#hints').show();
+				}
+			</script>
+			{$hints["value"] nofilter}
+		</div>
+
+		<div class="cnyin_record">
+			<div class="f_body">
+				<div class="f_body_main">
+					<div class="f_tab_body">
+						<div>
+							<table class="f_table" id="investLog_content">
+								<tr>
+									<th>{#lang('序号')}</th>
+									<th>{#lang('购买时间')}</th>
+									<th>{#lang('开始时间')}</th>
+									<th>{#lang('结束时间')}</th>
+									<th>{#lang('内容')}</th>
+									<!--<th>周期奖励</th>-->
+									<!--<th>其它时间收益衰减%</th>-->
+									<!--<th>过期产收益衰减%</th>-->
+									<!--<th>最小收益%</th>-->
+									<!--<th>剩余寿命</th>-->
+									<th>
+										<!--<select id="status-select">-->
+											<option value="">{#lang('分类')}</option>
+											<!--<option value="1">空闲</option>-->
+											<!--<option value="2">下蛋中</option>-->
+											<!--<option value="0">禁用</option>-->
+										</th>
+									<th>{#lang('操作')}</th>
+								</tr>
+								{if $pages["list"]}
+								<!--矿工-->{foreach $pages["list"] as $v}
+								<tr>
+									<td>{#lang('编号')}:{$v["id"]}</td>
+									<td>{#addtime($v["buytime"])}</td>
+									<td>{if $v["strtime"]==0} ----------- {else} {#addtime($v["strtime"])} {/if}
+									</td>
+									<td>{if $v["gettime"]==0 } ------------ {else} {#addtime($v["gettime"]) } {/if}
+									</td>
+									<td>{$v["content"]}</td>
+									<td>
+										{if $v["sort"]==5 }
+										<img src="__IMG__/egg/chicken2.gif" alt="test" height="100px" width="100px" margin="12"/>
+										{else if $v["sort"]==4 }
+										<img src="__IMG__/egg/chicken1.jpg" alt="test" height="100px" width="100px" margin="12"/>
+										{else if $v["sort"]==2 }
+										<img src="__IMG__/egg/chicken.gif" alt="test" height="100px" width="100px" margin="12"/>
+										<span id="press_{$v['id']}"></span>
+										{else if $v["sort"]==1}
+										<img src="__IMG__/egg/egg.jpg" alt="test" height="100px" width="100px" margin="12"/>
+										{else if $v["sort"]==3 } {#lang('寿命用完了')}
+										{/if}
+									</td>
+									<td>{if $v["status"]==2}
+										<input type="button" class="btns2 mybtn" data-align="{$v['id']}" onclick="get(this)" value="{#lang('获取收成')}">
+									    {else if $v["status"]==1}
+										<input type="button" style="color:royalblue" ata-align="{$v['id']}" value="正在孵化中...............">
+									    {else if $v["status"]==3}
+										<input type="button" class="btns2 mybtn" data-align="{$v['id']}" onclick="str(this)" value="{#lang('开始下蛋')}">
+										<input type="button" class="btns2 mybtn"style="width:65px" id="{$v['id']}" onclick="egg_sell(this)" value="{#lang('卖出')}">
+									    {else if $v["status"]==4}
+										<input type="button" class="btns2 mybtn" data-align="{$v['id']}" onclick="get(this)" value="{#lang('收获鸡蛋')}">
+									    {else if $v["status"]==0 } {/if}
+									</td>
+								</tr>
+								{/foreach}{/if}
+							</table>
+							{if $pages['show']}
+							<div class="pages" style="height:40px">{$pages['show'] nofilter}</div>{/if}
+						</div>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$("#status-select").val("{$status}");
+	$("#status-select").change(function () {
+		var status = $("#status-select option:selected").val();
+		var url    = '/egg/index';
+		if (status) {
+			url += '/status/' + status;
+		}
+		window.location = url;
+	});
+</script>
+<script type="text/javascript">
+	function str(o) {
+		var id = $(o).attr('data-align');
+
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '{#lang("输入交易密码，并确认")}',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('egg/str')}", {id: id, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							window.setTimeout("location.reload()", 1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+
+	}
+
+	function end(o) {
+		var id = $(o).attr('data-align');
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '{#lang("输入交易密码，并确认")}',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('egg/end')}", {id: id, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							window.setTimeout("location.reload()", 1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+
+	}
+
+	function get(o) {
+		var id = $(o).attr('data-align');
+
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '{#lang("输入交易密码，并确认")}',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('egg/get')}", {id: id, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							window.setTimeout("location.reload()", 1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+
+	}
+	function egg_sell(o) {
+		var id = $(o).attr('id');
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '{#lang("输入交易密码，并确认")}',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('egg/sell')}", {id: id, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							window.setTimeout("location.reload()", 1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+
+	}
+	function egg_str(o) {
+		var id = $(o).attr('id');
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '{#lang("输入交易密码，并确认")}',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('egg/egg_str')}", {id: id, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							window.setTimeout("location.reload()", 1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+
+	}
+</script>
+<script>
+	if ($("#pool_box").length > 0) {
+		$('#pool_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+</div>
+{include file="public:footer"}
+
+
+
+
+

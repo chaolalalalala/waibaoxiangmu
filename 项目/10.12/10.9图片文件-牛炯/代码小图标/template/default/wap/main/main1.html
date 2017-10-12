@@ -1,0 +1,593 @@
+{include file="public:header"}
+<title>首页</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-slide.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+
+    <style type="text/css">
+        body {
+            background: #eaedf4;
+        }
+        .aui-slide-wrap {
+            z-index: 9999;
+        }
+        .aui-slide-node img {
+            width: 100%;
+            height: 100%;
+        }
+        .aui-iconfont {
+            padding: 12px;
+            border-radius: 100px;
+            color: white;
+            font-size: 1.2rem !important;
+        }
+        .aui-grid-label {
+            font-size: 0.6rem !important;
+            margin-top: 0.8rem !important;
+        }
+        .aui-icon-date {
+            background-color: #ffb23e;
+        }
+        .aui-icon-cert {
+            background-color: #44d85d;
+        }
+        .aui-icon-lock {
+            background-color: #f96c6c;
+        }
+        .aui-icon-my {
+            background-color: #3d7aea;
+        }
+        .aui-grid [class*=aui-col-] {
+            padding: 1rem 0 0.5rem 0;
+        }
+        .aui-grid [class*=aui-col-xs-]:active {
+            background-color: #FFF;
+        }
+        .notice-header-span1 {
+            color: #0ea70e;
+            font-weight: bold;
+            float: left;
+            margin-right: 0.4rem;
+            font-size: 0.7rem !important;
+        }
+        .notice-header-span2 {
+            color: white;
+            border-radius: 0.1rem;
+            background-color: #fd6655;
+            padding: 0 0.2rem 0 0.3rem;
+            font-weight: bold;
+            font-size: 0.7rem !important;
+            float: left;
+            position: relative;
+        }
+        .notice-header-span2 i {
+            position: absolute;
+            left: -0.16rem;
+            top: 0rem;
+            background-color: transparent;
+            border-top: 0.3rem solid transparent;
+            border-right: 0.2rem solid #fd6655;
+            border-bottom: 0.3rem solid transparent;
+        }
+        .aui-list:before {
+            background-color: #fff;
+        }
+        .notice-body {
+            height: 6rem;
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .notice-body-left {
+            margin-right: 0.5rem;
+            position: relative;
+            width: 5rem;
+            border-right: 0.01rem solid #eaedf4;
+            color: #545454 !important;
+        }
+        .notice-body-left-m {
+            line-height: 3rem;
+            font-size: 0.5rem;
+            float: right;
+            margin-right: 0.3rem
+        }
+        .notice-body-left-d {
+            line-height: 2.5rem;
+            font-size: 1rem;
+            float: right;
+        }
+        .notice-body-left-dot {
+            background-color: #eaedf4;
+            width: 0.1rem;
+            height: 0.1rem;
+            border-radius: 0.3rem;
+            position: absolute;
+            top: 1.4rem;
+            right: -0.06rem;
+            z-index: 999;
+        }
+        .notice-right-img img {
+            width: 2rem !important;
+            height: 2rem !important;
+        }
+        .notice-right {
+            height: 3rem;
+        }
+        .aui-list .aui-list-item-media {
+            width: auto;  !important;
+        }
+        .aui-list .aui-list-item-title {
+            font-size: 0.7rem;
+        }
+        .notice-right-buttom {
+            padding: 0
+        }
+        .notice-right-buttom span, .notice-right-buttom .aui-info-item {
+            font-size: 0.6rem;
+        }
+        .aui-list-item-inner-notice {
+            padding-top: 0.55rem !important;
+        }
+        #rollText {
+            position: absolute;
+            width: 100%;
+            padding-right: 1rem;
+        }
+        .aui-icon-display:before {
+            font-size: 0.7rem;
+            color: #bcbdc1 !important;
+        }
+        .aui-icon-display {
+            height: 0.2rem !important;
+            padding: 0px !important;
+            top: -0.35rem !important;
+        }
+        .notice-right-buttom-view span {
+            font-size: 0.5rem !important;
+            margin-left: 0.2rem;
+            color: #bcbdc1 !important;
+            margin-top: 0.2rem;
+        }
+        .aui-info {
+            color: #bcbdc1 !important;
+        }
+        .market-header {
+            position: relative;
+            text-align: center;
+            background-color: #fff;
+            font-size: 0.6rem;
+            border-bottom: 1px solid #44d85d;
+        }
+        .market-header-oth {
+            font-size: 0.6rem;
+            position: absolute;
+            right: 0;
+            padding-right: 0.8rem;
+        }
+        .market-header-np {
+            font-size: 0.6rem;
+            color: #ffb23e;
+        }
+        .market-body-oth {
+            margin-left: 5px;
+            line-height: 1rem;
+            font-size: 0.8rem;
+            height: 1rem;
+            position: relative;
+        }
+        .line_04 {
+            width: 80%;
+            margin: auto;
+        }
+        .line_04 {
+            overflow: hidden;
+            _zoom: 1;
+        }
+        .line_04 b {
+            background: #ddd;
+            margin-top: 1.2rem;
+            float: left;
+            width: 30%;
+            height: 1px;
+            _overflow: hidden;
+        }
+        .line_04 span {
+            padding: 0 0.5rem;
+            width: 40%;
+            float: left;
+            text-align: center;
+            font-size: 0.5rem;
+            line-height: 2.5rem;
+        }
+        .cript {
+            margin: 1rem 0 -2rem 0;
+            background-color: #f3f3f3;
+            height: 2rem;
+            width: 100%;
+            text-align: center;
+            line-height: 2rem;
+            font-size: 0.5rem;
+            color: #a5a3a3;
+        }
+        .footer {
+            background-color: #f3f3f3 !important;
+        }
+        .footer img {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            height: 10rem;
+            bottom: -8rem;
+        }
+    </style>
+</head>
+<body style="padding-bottom:46px">
+<div id="aui-slide">
+    <div class="aui-slide-wrap" id="banner-container">
+	    <div class="aui-slide-node aui-slide-node-middle aui-slide-node-center">
+		    <img />
+	    </div>
+<!--	    <div class="aui-slide-node aui-slide-node-middle aui-slide-node-center">-->
+<!--		    <img />-->
+<!--	    </div>-->
+    </div>
+    <div class="aui-slide-page-wrap"><!--分页容器--></div>
+</div>
+<section class="aui-refresh-content">
+    <div class="aui-content">
+        <section class="aui-grid aui-margin-b-5">
+            <div class="aui-row">
+                <div class="aui-col-xs-3" tapmod onclick="open_art_list()">
+                    <i class="aui-iconfont aui-icon-date"></i>
+	                <div class="aui-grid-label">资讯</div>
+                </div>
+                <div class="aui-col-xs-3" tapmod onclick="openFinance()">
+                    <i class="aui-iconfont aui-icon-cert"></i>
+                    <div class="aui-grid-label">财务</div>
+                </div>
+                <div class="aui-col-xs-3" tapmod onclick="show_set()">
+                    <i class="aui-iconfont aui-icon-lock"></i>
+                    <div class="aui-grid-label">安全</div>
+                </div>
+                <div class="aui-col-xs-3" tapmod onclick="randomSwitchBtn(this,4,1)">
+                    <i class="aui-iconfont aui-icon-my"></i>
+                    <div class="aui-grid-label">个人</div>
+                </div>
+            </div>
+        </section>
+	    <div class="aui-content aui-margin-b-5">
+		    <ul class="aui-list aui-list-in market">
+			    <li class="aui-list-header market-header" style="background-color: #fff;">
+				    <span>交易市场</span>
+				<span class="market-header-oth">
+					<font class="market-header-np">●</font>最新价
+				</span>
+			    </li>
+			    <div id="coin_block">
+			    </div>
+		    </ul>
+	    </div>
+        <div class="aui-content aui-margin-b-5">
+            <ul class="aui-list aui-media-list">
+                <li class="aui-list-header" style="background-color: white;height: 1.2rem;padding-bottom: 1rem;">
+                    <span class="notice-header-span1">系统</span> <span class="notice-header-span2"><i></i>资讯</span>
+                </li>
+                <li class="notice-body aui-list-item">
+                    <div id="rollText">
+                        <!--新闻公告内容-->
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!--轮播图-->
+    <script id="banner-template" type="text/x-dot-template">
+        {{? it.length > 0 }}
+        {{~it:value:index }}
+        <div class="aui-slide-node aui-slide-node-middle aui-slide-node-center">
+	        <a target="_blank" href="{{=value.href}}">
+		        <img src="{{=value.src}}"/>
+	        </a>
+        </div>
+        {{~}}
+        {{?}}
+    </script>
+    <!--系统公告-->
+    <script id="news-template" type="text/x-dot-template">
+        {{? it.length>0}}
+        {{ for(var i in it) { }}
+        <div class="aui-media-list-item-inner notice-right" tapmod
+             onclick="open_art('{{=it[i].title}}','{{=it[i].id}}')">
+            <div class="notice-body-left">
+                <span class="notice-body-left-m">{{=it[i].time_m}}月</span> <span class="notice-body-left-d">{{=it[i].time_d}}</span>
+                <i class="notice-body-left-dot"></i>
+            </div>
+            <div class="aui-list-item-media notice-right-img">
+                <img src="{{=it[i].img}}" onerror="nofind()">
+            </div>
+            <div class="aui-list-item-inner aui-list-item-inner-notice">
+                <div class="aui-list-item-text">
+                    <div class="aui-list-item-title">{{=it[i].title}}</div>
+                </div>
+                <div class="aui-info aui-margin-t-5 notice-right-buttom">
+                    <div class="aui-info-item">
+                        # <span class="aui-margin-l-5">{{=it[i].type}}</span>
+                    </div>
+                    <div class="aui-info-item notice-right-buttom-view">
+                        <i class="aui-iconfont aui-icon-display"></i>
+                        <span>{{=it[i].view}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ } }}
+        {{??}}
+        <li class="aui-list-item aui-list-item-middle">
+            <div class="aui-media-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    <div class="aui-list-item-text">
+                        <div class="aui-list-item-title aui-font-size-14">暂无内容</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        {{? }}
+    </script>
+    <!--币种信息-->
+    <script id="coin-template" type="text/x-dot-template">
+        {{? it.length>0}}
+        {{ for(var i in it) { }}
+        <li class="aui-list-item" onclick="openTrade('{{=it[i].title}}','{{=it[i].name}}','{{=it[i].ico}}')">
+            <div class="aui-list-item-media" style="width: 2rem;">
+                <img src="{{=it[i].ico}}" class="aui-img-round aui-list-img-sm">
+            </div>
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-title">
+                    {{=it[i].title}}
+                    <label class="market-body-oth" style="margin-left:0.3rem;display: inline-table">
+                        <font class="market-header-np" style="display: table-cell;vertical-align: middle">●</font>
+                        <span style="margin-left: 0.3rem">{{=it[i].new_price}} </span>
+                    </label>
+                </div>
+                <div class="aui-list-item-right" tapmod>
+                    <div class="aui-label aui-label-info">去交易</div>
+                </div>
+            </div>
+        </li>
+        {{ } }}
+        {{??}}
+        <li class="aui-list-item aui-list-item-middle">
+            <div class="aui-media-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    <div class="aui-list-item-text">
+                        <div class="aui-list-item-title aui-font-size-14">暂无内容</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        {{? }}
+    </script>
+</section>
+</body>
+<script type="text/javascript" src="__WAP__/js/index.js"></script>
+<script src="__WAP__/js/aui/aui-slide.js"></script>
+<script src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script src="__WAP__/js/ext/doT.min.js"></script>
+
+<script type="text/javascript">
+    apiready = function () {
+        onerror = error_handel;
+        flash();
+        getCoinInfo();
+    }
+
+    //set
+    function show_set() {
+	    if (!chkLogin()) {
+		    art("请先登录");
+		    return;
+	    }
+        openWin({
+            name: 'set_h',
+            url: aurl('html/setting/set_h'),
+            slidBackEnabled: false,
+            delay: 0
+        });
+    }
+
+    //open finance
+    function openFinance() {
+        if (!chkLogin(1)) {
+            //未登录
+            return;
+        }
+        open_win('user_coin_h', 'finace');
+    }
+
+    var bannerData;
+    var coinFinished = false;
+    var initFinished = false;
+    function flash(callback) {
+
+	    var newsRollType = '';
+	    try{
+		    newsRollType = privateConfigData().homeRollType;
+	    }
+	    catch (e){
+
+	    }
+
+        Ajax('index/initinfo', 'get', {homeRollType:newsRollType}, function (ret) {
+
+            if (ret.status == 1) {
+	            //web config
+	            var webInfo = ret.info.web_info;
+	            setWebConfig(webInfo);
+
+		            //banner
+	            bannerData = ret.info.banner;
+	            initFinished = true;
+	            readyBanner();
+
+                //News
+                var news = ret.info.News;
+	            if (news) {
+		            var tempFn = doT.template($api.byId('news-template').text);
+		            $api.html($api.byId('rollText'), tempFn(news));
+		            runrollText();
+	            }
+                if (typeof callback == "function") {
+                    setTimeout(function () {
+                        callback("刷新完成");
+                    }, 1000)
+                }
+                parseTapmode();
+            } else {
+                if (typeof callback == "function") {
+                    setTimeout(function () {
+                        callback("刷新失败");
+                    }, 1000)
+                }
+            }
+        });
+    }
+
+    function getCoinInfo() {
+        Ajax('index/coininfo', 'get', '', function (ret) {
+	        coinFinished = true;
+	        readyBanner();
+            if (ret.status == 1) {
+                //market
+                var market = ret.info.market;
+               if(market) {
+	               memObj("market", market);
+	               var tempFn = doT.template($api.byId('coin-template').text);
+	               $api.html($api.byId('coin_block'), tempFn(market));
+               }
+                //coinType
+	            var coinType = ret.info.coins;
+	            if(coinType) {
+		            memObj("coinTypeList", coinType);
+		            alog(ret);
+		            art("刷新成功");
+	            }
+            } else {
+                art("刷新失败");
+            }
+        });
+    }
+
+    function readyBanner(){
+	    //两个ajax请求结束才可以setbanner,否则chrome会取消request
+	    if( coinFinished && initFinished ){
+		    setBanner();
+	    }
+    }
+
+    function setBanner() {
+	    //轮播图
+//                bannerData = ret.info.banner;
+	    if (typeof bannerData != 'undefined') {
+		    var tempFn = doT.template($("#banner-template").html());
+		    $("#banner-container").html(tempFn(bannerData));
+		    setSlidePlay();
+	    }
+    }
+    //	//轮播图
+    function setSlidePlay() {
+//        var height =
+        slide = new auiSlide({
+            container: document.getElementById("aui-slide"),
+            "height":180,
+            "speed": 500,
+            "autoPlay": 3000, //自动播放
+            "pageShow": true,
+            "loop": true,
+            "pageStyle": 'dot',
+            'dotPosition': 'center'
+        });
+    }
+
+    //下拉刷新
+    var pullRefresh = new auiPullToRefresh({
+        container: document.querySelector('.aui-refresh-content'),
+        triggerDistance: 100
+    }, function (ret) {
+        if (ret.status == "success") {
+            if (getScrollTop() < 10) {
+                flash(function (msg) {
+                    art(msg);
+                    pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+                });
+            }
+            else {
+                pullRefresh.cancelLoading();
+            }
+        }
+    });
+
+    var minTime, maxTime;
+    var rollTextFlag = 1;
+    //新闻滚动
+    function runrollText() {
+        if (!rollTextFlag) {
+            //清除之前循环
+            clearInterval(minTime);
+            clearInterval(maxTime);
+        }
+        rollTextFlag = 0;
+        var divTop, newTop = 0, textDiv, textList, textDatH, divHeight, MaxRoll, MinRoll;
+        //公告轮播
+        textDiv = document.getElementById("rollText");
+        textList = textDiv.getElementsByTagName("div");
+        if (textList.length > 2) {
+            textDat = textDiv.innerHTML;
+            br = textDat.toLowerCase().indexOf("<br", textDat.toLowerCase().indexOf("<br") + 3);
+            textDiv.innerHTML = textDat + textDat + textDat.substr(0, br);
+            textDiv.style.cssText = "top:0";
+            textDatH = textDiv.offsetHeight;
+            divHeight = textList[0].offsetHeight;
+        }
+        MaxRoll = function () {
+            divTop = Math.abs(parseInt(textDiv.style.top));
+            if (divTop >= 0 && divTop < textDatH - divHeight * 2) {
+                minTime = setInterval(MinRoll, 1);
+            } else {
+                textDiv.style.top = 0;
+                divTop = 0;
+                newTop = 0;
+                MaxRoll();
+            }
+        }
+        MinRoll = function () {
+            newTop++;
+            if (newTop <= divTop + divHeight) {
+                textDiv.style.top = "-" + newTop + "px";
+            } else {
+                clearInterval(minTime);
+                maxTime = setTimeout(MaxRoll, 2000);
+            }
+        }
+        maxTime = setTimeout(MaxRoll, 2000);
+    }
+
+
+    //设置手机版的标题,关键字
+	function setWebConfig(data){
+
+		if(isNull(data)) return;
+
+		memObj('webInfo',data);
+
+		parent.$('title').html(data.web_title.value);
+		parent.$('meta').filter(function(index){return this.name == 'Keyworaads'}).attr('content',data.web_keywords.value);
+		parent.$('meta').filter(function(index){return this.name == 'Description'}).attr('content',data.web_description.value);
+	}
+
+</script>
+</html>

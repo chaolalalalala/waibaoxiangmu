@@ -1,0 +1,251 @@
+{include file="public:header"}
+
+<link media="all" type="text/css" rel="stylesheet" href="__CSS__/weike/taskindex.css">
+<link rel="stylesheet" href="__CSS__/money.css"/>
+<link rel="stylesheet" href="__CSS__/shop.css"/>
+<style>
+</style>
+<div class="autobox">
+    <div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; {#lang('问答任务')}
+    </div>
+    <div class="main-content mb20">
+        <div class=" assets_content bg_w" style="min-height:30px;">
+            <div class="safe_center clear">
+                <h1>
+					<span>
+					{#lang('问答中心')}
+					</span>
+	                <span>
+                        <a href="{#url('question/index')}" id="step11" class="step fz_12 ml50 pd6 active">{#lang('问答中心')}</a>
+                        <a href="{#url('question/log')}" id="step12" class="step fz_12 ml20 pd6 ">{#lang('提问记录')}</a>
+                    </span>
+					<span>
+						{if $hints}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+                </h1>
+            </div>
+            <div id="hints" class="mytips" style="display:none;">
+                <script>
+                    var hints = "{$hints['show']}";
+                    if(hints == 1){
+                        $('#hints').show();
+                    }
+                </script>
+                {$hints["value"] nofilter}
+            </div>
+	      <!--  {#slider("question")}-->
+        </div>
+    </div>
+    <div class="mall_list_all ">
+        <div class="mall_screen  bg_w mb20">
+            <div class="mall_two_list mall_two_list1 clearfix" id="mall_types_list">
+                <em>问题分类：</em>
+                <ul class="clearfix">
+                    {if $type=="0"}
+                    <li class="active" style="margin-left:20px;width: 60px" >
+                        {else}
+                    <li style="margin-left:20px;width: 60px">
+                        {/if} <a href="{#url('question/index/type/0/sort/'.$sort.'/keyword/'.$keyword)}">全部</a>
+                    </li>
+
+                    {if $typelist}
+                    {foreach $typelist as $k => $v}
+                    {if $type==$v['id']}
+                    <li class="active" style="width: 80px">
+                        {else}
+                    <li style="width: 80px">
+                        {/if} <a href="{#url('question/index/type/'.$v['id'].'/sort/'.$sort.'/keyword/'.$keyword)}">{$v['type']}</a>
+                    </li>
+                    {/foreach}
+
+                    {/if}
+                </ul>
+            </div>
+            <div class="mall_sort">
+                <em>问题排序：</em>
+                <ul id="sort_list">
+                    {if !$sort}
+                    <li class="active">
+                        {else}
+                    <li >
+                        {/if} <a href="{#url('question/index/type/'.$type)}">综合排序<i class="fa fa-angle-down"></i></a></li>
+                    {if $sort==1}
+                    <li class="active">
+                        {else}
+                    <li >
+                        {/if} <a href="{#url('question/index/type/'.$type.'/sort/1')}">热门<i class="fa fa-angle-down"></i></a></li>
+                    {if $sort=="2"}
+                    <li class="active" >
+                        {else}
+                    <li >
+                        {/if} <a href="{#url('question/index/type/'.$type.'/sort/2')}">新发布<i class="fa fa-angle-down"></i></a></li>
+                </ul>
+                <form action="/question/index" method="get" >
+                    <div class="pull-left g-taskmaininp hidden-xs" style="margin-left: -600px">
+                        <input type="text" name="keyword" placeholder="请输入关键字">
+                    </div>
+                    <button type="submit"style="margin-left: -475px">
+                        <i class="ace-icon fa fa-search icon-on-right bigger-110"></i>
+                    </button>
+                </form>
+                <div style="margin-top: -50px"><input style="width: 120px;" type="button" class="btns2" onclick="showA()" value="我要提问"></div>
+
+            </div>
+        </div>
+
+        <div class="mall_all_lieb mall_list_shopp clearfix bg_w" >
+            <div class="mall_shopp mall_shopp1 mall_list_shopp1 mb20" id="goods_list" style="overflow: hidden; display: block;    width: 1200px;">
+                {foreach $pages['list'] as $k => $v}
+                <a href="{#url('question/details/id/'.$v['id'])}"  >
+                    <div class="project_list">
+                        <table border="0" cellspacing="0" cellpadding="0">
+                            <tbody>
+                            <tr>
+                                <td rowspan="3" class="list_tu" style="width:120px">
+                                    <img src="__IMG__/weike/qus.jpg">
+                                </td>
+                                <td class="list_td11" style="width:650px;">
+                                    <span ><font>编号：</font>{$v['id']}</span>
+                                <span style="font-weight: bold"><img src="__IMG__/money/ayind.png">
+                                    标题:{$v["title"]}
+                                </span>
+                                <span style="margin-left: 50px"><img src="__IMG__/money/listicon_06.png">
+                                    问题类型:{$v["type"]}
+                                </span>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="list_td21">
+                                    <span><img src="__IMG__/money/listicon_03.png"> <b class="blue"> 问题内容: </b>{$v["content"]}</span>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="list_td31">
+                                          <span><img src="__IMG__/hongbao/user.png" style="margin-left:0;"> 发布人:{if !$v["userid"]}
+                                                                                                              系统管理员
+                                                                                                        {else}
+                                                                                                        {$v["userid"]}
+                                                                                                        {/if}
+                                          </span>
+                                          <span><img src="__IMG__/hongbao/eye.png">
+                                              {$v["view"]}人浏览/{$v["ans"]}人回答   </span>
+                                    <span><img src="__IMG__/hongbao/Clock.png"> {#addtime($v['addtime'])} </span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </a>
+                {/foreach}
+            </div>
+            <div class="mall_pager mt20">
+                <div class="main_c_list_page">
+                    <div class="pages">{$pages['show'] nofilter}</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="all_mask_loginbox" id="step1" style="display: none;">
+	<div class="login_title pl20">我要提问</div>
+	<form id="form-login" class="mask_wrap login-fb">
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">提问类型：</div>
+		<select class="prov texts" id="type"  style="width: 200px;">
+			<option value=""  selected>提问类型</option>
+			{foreach $typelist  as $v}
+			<option value="{$v['id']}">{$v["type"]}</option>
+			{/foreach}
+		</select>
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">我的标题：</div>
+			<input id="title" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">我的问题：</div>
+			<input id="question" class="texts" type="text">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">输入密码：</div>
+			<input id="paypassword" class="texts" type="password"><a href="/findpwd/paypassword" class="move ml5">忘记?</a>
+		</div>
+		<div class="login_button">
+			<input type="button" class="btns2" value="立即提问" onclick="buy();">
+		</div>
+	</form>
+	<div class="mask_wrap_close " onclick="showB()"><i class="fa fa-close fa-2x move"></i></div>
+</div>
+<div id="step2" class="all_mask" style="height: 0px;display: none;"></div>
+<script type="text/javascript">
+	function showA() {
+		$("#step1").show();
+		$("#step2").show();
+	}
+	function showB() {
+		$("#step1").hide();
+		$("#step2").hide();
+	}
+
+	//立即提问
+	function buy() {
+		var type     = $('#type option:selected').val();
+		var question         = $('#question').val();
+		var paypassword = $('#paypassword').val();
+		var title         = $('#title').val();
+		if (question == "" || question == null) {
+			layer.tips('请输入我的问题', '#question', {tips: 2});
+			return false;
+		}
+		if (type == "" || type == null) {
+			layer.tips('请输入问题类型', '#type', {tips: 2});
+			return false;
+		}
+		if (title  == "" || title  == null) {
+			layer.tips('请输入我的标题', '#title', {tips: 2});
+			return false;
+		}
+		if (title.length > 4) {
+			layer.tips('长度小于4', '#title', {tips: 2});
+			return false;
+		}
+
+		if (paypassword == "" || paypassword == null) {
+			layer.tips('请输入交易密码', '#paypassword', {tips: 2});
+			return false;
+		}
+		$.post("{#url('question/up')}", {
+			type:type,
+			question:question,
+			title:title,
+			paypassword: paypassword,
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout('location.reload()',1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+</script>
+
+
+<script>
+    if ($("#qus_box").length > 0) {
+        $('#qus_box').addClass('active');
+    } else {
+        $('#index_box').addClass('active');
+    }
+</script>
+{include file="public:footer"}

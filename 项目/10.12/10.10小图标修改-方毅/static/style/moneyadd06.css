@@ -1,0 +1,10 @@
+.assets_content h1>span:last-child{
+	background-image: url(../style/img/icon22.png);
+}
+#type-select,
+#market-select{
+	width: 200px!important;
+}
+.f_table tr{
+	height: 70px!important;
+}

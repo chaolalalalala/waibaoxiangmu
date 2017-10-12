@@ -1,0 +1,309 @@
+{include file="public:header"}
+<title>理财记录</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+	.my_body{
+		margin: 10px 10px 10px 10px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background-color: #FFF;
+	}
+	.bank_title{
+		margin: 0 0 0 1rem;
+		height: 3rem;
+		line-height: 3rem;
+	}
+	.bank_title img{
+		height: 1.6rem;
+		margin: 0.7rem 1rem 0 0;
+		vertical-align: middle;
+		float: right;
+	}
+	.bank_body{
+		margin: 0 0 0 1rem;
+	}
+	.bank_body span{
+		display: block;
+	}
+	.bank_body .g{
+		color: gray;
+	}
+	.r{
+		float: right;
+		margin-right: 1rem;
+	}
+	.red{
+		color: #e55600;
+	}
+	.green{
+		color:green;
+	}
+	select{
+		color: darkgrey;
+		display: block;
+		outline: none;
+		/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+
+		/*很关键：将默认的select选择框样式清除*/
+		appearance:none;
+		-moz-appearance:none;
+		-webkit-appearance: listbox;
+		/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+		padding-right: 14px;
+
+		background-color: #FFF;
+		/*height:4rem;*/
+		/*line-height: 4rem;*/
+		text-align: left;
+		border: 0;
+
+		display: inline-block;
+		width: 100%;
+		margin-top: 10px;
+
+	}
+	.licaiItem {
+		padding-bottom: .625rem;
+	}
+	.gray{
+		color:gray;
+	}
+</style>
+<body>
+<section class="aui-refresh-content">
+<div class="wrap">
+	<div class="my_body">
+		<div id="LC_log">
+		</div>
+  </div>
+</div>
+</section>
+<script id="LC_log_temp" type="text/x-dot-template">
+	{{? it.length>0 }}
+	{{ for (var i in it){ }}
+    <ul class="aui-border licaiItem">
+        <li class="bank_title aui-border-b">
+            <span class="red">{{=it[i].name}}</span>
+            {{? it[i].status == 0 }}
+            <span class="r green">收益中</span>
+            {{?? it[i].status == 1 }}
+            <span class="r gray">已完成</span>
+            {{?? it[i].status == 2 }}
+	        <span class="r green">待提取</span>
+	        {{??}}
+            <span class="r red">错误状态</span>
+            {{?}}
+        </li>
+        <li class="bank_body">
+            <span class="g">创建时间	:<em>{{=it[i].addtime}}</em></span>
+            <span class="g">上次收益时间:<em>{{=it[i].endtime}}</em></span>
+            <span class="g">理财数量:<em>{{=it[i].num}}</em></span>
+            <span class="g">理财币种:<em>{{=it[i].coinname}}</em></span>
+            <span class="g">收益币种:<em>{{=it[i].feecoin}}</em></span>
+            <span class="g">理财周期:<em>{{=it[i].tian}}天</em></span>
+            <span class="g">收益次数:<em>{{=it[i].ci}}</em></span>
+            <span class="g">日化利率:<em>{{=it[i].fee}}</em></span>
+        </li>
+	    {{? it[i].status==0}}
+	    <li>
+		    <div class="aui-content-padded"  onclick="tiqian('{{=it[i].id}}')">
+			    <p><div class="aui-btn aui-btn-info" onclick="" style="width: 100%;line-height: 1.5rem">提前收回本金</div></p>
+		    </div>
+	    </li>
+	    {{?? it[i].status==2}}
+	    <li>
+		    <div class="aui-content-padded"  onclick="benjin('{{=it[i].id}}')">
+			    <p><div class="aui-btn aui-btn-info" onclick="" style="width: 100%;line-height: 1.5rem">提取本金</div></p>
+		    </div>
+	    </li>
+	    {{?}}
+    </ul>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{?}}
+
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-dialog.js"></script>
+<script type="text/javascript">
+    var pid = 1;
+    apiready = function () {
+        onerror = error_handel;
+        requestData();
+    }
+
+    function requestData(callback) {
+	    if (!chkLogin()) {
+		    art("您目前未登录,请先登录");
+		    emptyData($("#LC_log"))
+		    return false;
+	    }
+        loading();
+        var params = {"pid":pid };
+        UserAjax('money/log', 'get', params, function (ret) {
+            toast.hide();
+            if( typeof callback == "function" ){
+                callback("刷新完成");
+            }
+            alog(ret);
+            if (ret.status == 1)
+            {
+                alog("理财记录返回结果");
+                alog(ret.info);
+                createView(ret.info);
+            }
+            else {
+                art('ajax错误！');
+            }
+        });
+    }
+
+    function createView () {
+        alog("更新界面");
+        var data = arguments[0];
+        if (typeof data == 'undefined') {
+            art("createView参数错误");
+            return;
+        }
+        alog(data);
+        var licaiList_temp = doT.template($("#LC_log_temp").html());
+        if (pid == 1)
+        {
+            //第一页 -- 覆盖
+            $('#LC_log').html(licaiList_temp(data.list));
+        }
+        else if( data.list.length > 0){
+            //非第一页且有数据 -- 追加
+            $('#LC_log').html(  $('#LC_log').html() + licaiList_temp(data.list));
+        }
+        if( pid > Math.ceil( parseInt(data.count)/parseInt(data.pageSize) ) ){
+            art("没有更多数据了");
+        }else {
+            art('第'+pid+'页');
+            pid++;
+        }
+    }
+
+    //提前回收本金
+    function tiqian(id){
+	    if(!id){
+		    art('订单id获取错误')
+		    return
+	    }
+	    var dialog = new auiDialog();
+	    dialog.alert({
+		    title: "需要扣除15%的违约金，请输入交易密码",
+			    buttons: ['确定', '取消'],
+		    input: true,
+		    textType: "password",
+	    }, function (ret) {
+		    if (ret.buttonIndex == 1) {
+			    paypassword = $("#aui-password").val()
+			    loading("操作中……")
+			    UserAjax(
+					    'money/tiqian',
+					    'post',
+					    {
+						    'id': id,
+						    'paypassword': paypassword,
+					    },
+					    function (ret) {
+						    toast.hide();
+						    art(ret.info);
+						    if (ret.status == 1) {
+							    setTimeout(function () {
+								    pid = 1;
+								    requestData();
+							    }, 500);
+						    }
+					    }, "json");
+		    }
+	    });
+    }
+
+    //提取本金
+    function benjin(id){
+	    if(!id){
+		    art('订单id获取错误')
+		    return
+	    }
+	    var dialog = new auiDialog();
+	    dialog.alert({
+		    title: "请输入交易密码",
+		    buttons: ['确定', '取消'],
+		    input: true,
+		    textType: "password",
+	    }, function (ret) {
+		    if (ret.buttonIndex == 1) {
+			    paypassword = $("#aui-password").val()
+			    loading("操作中……")
+			    UserAjax(
+					    'money/benjin',
+					    'post',
+					    {
+						    'id': id,
+						    'paypassword': paypassword,
+					    },
+					    function (ret) {
+						    toast.hide();
+						    art(ret.info);
+						    if (ret.status == 1) {
+							    setTimeout(function () {
+								    pid = 1;
+								    requestData();
+							    }, 500);
+						    }
+					    }, "json");
+		    }
+	    });
+    }
+
+    //上拉加载
+    window.onscroll = function () {
+        if (isScrollToBottom())
+        {
+            requestData();
+        }
+    };
+
+    //下拉刷新
+    var pullRefresh = new auiPullToRefresh({
+        container: document.querySelector('.aui-refresh-content'),
+        triggerDistance: 100
+    }, function (ret) {
+        if (ret.status == "success") {
+            if(getScrollTop() < 10)
+            {
+                pid = 1;
+                requestData(function (msg) {
+                    art(msg);
+                    pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+                });
+            }
+            else {
+                pullRefresh.cancelLoading();
+            }
+        }
+    });
+</script>
+</html>

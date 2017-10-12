@@ -1,0 +1,245 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/common.css">
+	<style>
+		span{
+			color:#a59494;
+		}
+		.my_body{
+			margin: 20px;
+			border-radius: 8px;
+			padding: 0 10px;
+			line-height: 30px;
+		}
+		.my_body ul,.my_title ul{
+			position: relative;
+			padding-left: 0;
+			margin-top: 0;
+			list-style: none;
+			-moz-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+		}
+		.my_body li input{
+			display: block;
+			-webkit-box-flex: 1;
+			background-color: rgba(255, 255, 255, 0);
+			outline: none;
+			color: #666;
+			height: 3rem;
+		}
+		select{
+			color: #666;
+			display: block;
+			outline: none;
+			/*很关键：将默认的select选择框样式清除*/
+			appearance:none;
+			-moz-appearance:none;
+			-webkit-appearance: listbox;
+			/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+			padding-right: 14px;
+			background-color: #FFF;
+			height:4rem;
+			line-height: 4rem;
+			text-align: left;
+			border: 0;
+		}
+		.btn{
+			display: block;
+			color: #FFFFFF;
+			margin: 0 30px;
+			text-align: center;
+			border-radius: 8px;
+			height: 5rem;
+			line-height: 5rem;
+			background-color: #e55600;
+		}
+		.my_body{
+            margin: 20px;
+            border-radius: 8px;
+            padding: 0 10px;
+            line-height: 30px;
+        }
+        .my_body ul,.my_title ul{
+            position: relative;
+            padding-left: 0;
+            margin-top: 0;
+            list-style: none;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+        }
+        .my_body li{
+            border-radius: 2px;
+            margin: 1rem 0;
+            display: -webkit-box;
+            height: 2.2rem;
+            padding:0 0 0 0.5rem;
+            background-color: white;
+        }
+        .my_body li input{
+            display: block;
+            -webkit-box-flex: 1;
+            background-color: rgba(255, 255, 255, 0);
+            outline: none;
+            color: #666;
+            height: 2.2rem;
+            line-height:2.2rem;
+        }
+        .btn{
+            display: block;
+            color: #FFFFFF;
+            margin: 0 30px;
+            text-align: center;
+            border-radius: 8px;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            background-color: #e55600;
+        }
+        select{
+            color: #666;
+            display: block;
+            outline: none;
+            /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+            /*很关键：将默认的select选择框样式清除*/
+            appearance:none;
+            -moz-appearance:none;
+            -webkit-appearance: listbox;
+            /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+            /*padding-left:0.5rem;*/
+
+            background-color: #FFF;
+            height:2rem;
+            line-height: 2rem;
+            text-align: left;
+            border: 0;
+            width:100%;
+        }
+	</style>
+</head>
+<body>
+<div class="wrap">
+	<div id="show1">
+		<div class="my_body">
+			<ul>
+				<li>
+					<input tapmod="" onclick="_focus(this)" name="moble" id="moble"
+					       type="text" placeholder="输入充值号码">
+				</li>
+				<li>
+			<select name="fee" id="select_fee" tapmod="">
+				<option value="">--选择充值金额--</option>
+			</select>
+				</li>
+			<!--提现-->
+			<li><select name="coin" id="select_coin" tapmod="">
+				<option value="">--选择充值币种--</option>
+			</select>
+			</li>
+				<li>
+					<input tapmod="" onclick="_focus(this)" name="paypassword" id="paypassword"
+					       type="password" placeholder="输入交易密码">
+				</li>
+			</ul>
+		</div>
+		<div class="btn" tapmode="" onclick="up()">提交充值</div>
+</div>
+<script id="fee_type_template" type="text/x-dot-template">
+	<option value="0">--选择充值金额--</option>
+	{{?it.length>0}}
+	{{for(var i in it){ }}
+	 <option value='{{=it[i].id}}'>{{=it[i].title}}(价格:{{=it[i].price}}元)</option>
+	 {{ } }}
+	{{?}}
+</script>
+	<script id="coin_type_template" type="text/x-dot-template">
+		<option value="0">--选择充值币种--</option>
+		{{?it.length>0}}
+		{{for(var i in it){ }}
+		  {{?it[i].bili == 0}}
+		    <option value='{{=it[i].id}}'>{{=it[i].coinpay}}(依最新行情)</option>
+		  {{??}}
+		  <option value='{{=it[i].id}}'>{{=it[i].coinpay}}(人民币:{{=it[i].name}}={{=it[i].bili}}:1)</option>
+		   {{?}}
+		{{ } }}
+		{{?}}
+	</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script>
+	var coin_id = '';
+	var coin_name='';
+	apiready = function() {
+		onerror = error_handel;
+		loading("信息加载中……")
+		get_data()
+	}
+
+	function get_data() {
+		Ajax("huafei/index", "get", {}, function (ret) {
+			 toast.hide();
+			if (ret.status==1) {
+				var fee=doT.template($("#fee_type_template").text());
+				$("#select_fee").html(fee(ret.info.type));
+				var  coin=doT.template($("#coin_type_template").text());
+				$("#select_coin").html(coin(ret.info.coinpay));
+			}else{
+				art(ret.info);
+			}
+		}, "json")
+	   }
+
+	function up(){
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			return false;
+		}
+		var moble=$('#moble').val()
+		var fee = $('#select_fee option').not(function(){ return !this.selected }).val();
+		var coin= $('#select_coin option').not(function(){ return !this.selected }).val();
+		var paypassword = $('#paypassword').val();
+		if(!moble){
+			art('请填写充值号码');
+			return;
+		}
+		if(!fee){
+			art('请选择充值金额');
+			return;
+		}
+		if(!coin){
+			art('请选择充值币种');
+			return;
+		}
+		if(!paypassword){
+			art('请输入交易密码');
+			return;
+		}
+		loading("提交中……")
+		UserAjax('huafei/up','post',
+			{
+				'price': fee,
+				'cointype': coin,   
+				'moble' : moble,
+				'paypassword':  paypassword,
+			},
+			function(ret){
+				toast.hide();
+				if(ret.status==1){
+					art(ret.info)
+					clean_view();
+				}else{
+					art(ret.info)
+				}
+			});
+	}
+
+	//清空页面
+	function clean_view(){
+		$('#moble').val(null);
+		$('#select_fee option').first().prop('selected','selected')
+		 $('#select_coin option').first().prop('selected','selected')
+		$('#paypassword').val(null);
+	}
+</script>
+</html>

@@ -1,0 +1,164 @@
+{include file="public:header"}
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="/article/index/typeid/{$type['id']}" class=""> {$type['title']} </a> &gt; {$doc['title']}
+	</div>
+	<div class="assets_center clear po_re ">
+		<style>
+			.nav-tab-list .nav-tab-hover{
+				width:100%;
+				top:60px;
+				height:50px;
+				line-height:50px;
+				background:#EAEDF4;
+				position:absolute;
+				box-sizing:content-box;
+
+				z-index:1;
+				transition:all 0.5s;
+				-webkit-transition:all 0.5s;
+				display:none;
+			}
+		</style>
+		<script type="text/javascript">
+			// 左边tab切换&浮动导航
+			$(function () {
+				// 左边tab切换&浮动导航
+				(function () {
+					var tab   = $('.nav-tab-list dd');
+					var hover = $('.nav-tab-hover');
+					var pos   = 0;
+					tab.each(function (index) {
+						var $this = $(this);
+						if ($this.hasClass('active')) {
+							pos = index;
+						}
+						$this.hover(function () {
+							_moveTo(index);
+						}, function () {
+							_moveTo(pos);
+						});
+					});
+					_moveTo(pos);
+					$('.nav-tab-hover').show();
+
+					function _moveTo(index) {
+						hover.css("top", 60 + 50 * index);
+						tab.removeClass('active');
+						tab.eq(index).addClass('active');
+					}
+				})();
+			});
+
+			$(window).on('scroll resize', function () {
+				if (document.body.scrollTop < 100) {
+					$('#left-nav-bar').css("top", 0);
+				} else if (document.body.scrollTop > ($('.tag-list-content').height() - $('#left-nav-bar').height() + 100)) {
+					$('#left-nav-bar').css("top", ($('.tag-list-content').height() - $('#left-nav-bar').height()));
+				} else {
+					$('#left-nav-bar').css("top", document.body.scrollTop - 100);
+				}
+			});
+		</script>
+		<div class="left-nav-bar" id="left-nav-bar">
+			<div class="left-nav-slider">
+				<dl class="nav-tab-list">
+
+
+
+
+					<dt>
+						<a href="/article/index/typeid/{$type['id']}"><i class="fa fa-support mr10"></i> {$type['title']}</a>
+					</dt>
+					<dt class="nav-tab-hover hover1"></dt>
+
+					{foreach $type_arr as $k => $v}
+					{if $v['id'] == $type['id']}
+					<dd class="active">
+						{else}
+					<dd>
+						{/if}
+						<a href="/article/index/typeid/{$v['id']}">
+							<i class="fa fa-tasks fa-lg fa-fw mr5"></i>{$v.title}
+							<i class="fa fa-angle-right fa-lg right mr10 mt17"></i> </a>
+					</dd>
+					{/foreach}
+
+
+				</dl>
+			</div>
+		</div>
+
+		<div class="coin_menu">
+
+
+		</div>
+		<!--右侧内容-->
+		<div class="assets_content w900 right bg_w mh1500">
+			<h1 class="h1news">{$doc['title']}</h1>
+			<div class="new_list">
+				<div class="rightcontent">
+					<div class="articletime mt20 mb20">
+						<span>{#lang('发布时间')}：{#addtime($doc['addtime'])}</span> <!--<span>发布人：{$doc['username']}</span>-->
+					</div>
+					<div class="articletext " id="zt_navi_tree" style="max-width: 900px;overflow: hidden;">{$doc['value'] nofilter}</div>
+				</div>
+			</div>
+			<div class="pren pbm cl" style="    margin-left: 28px;width: 900px;margin-top: 10px;padding-bottom: 20px;">
+				<em style="float: right;">下一篇：<a href="/article/detail/id/{$xia['id']}.html" title="{$xia['title']}">{$xia['title']}</a>
+				</em>
+				<em >上一篇：<a href="/article/detail/id/{$shang['id']}.html" title="{$shang['title']}">{$shang['title']}</a>
+				</em>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="__EXT__/marked-master/lib/marked.js"></script>
+
+<script>
+
+
+	var marked = require('marked');
+
+	var markdownString = '```js\n console.log("hello"); \n```';
+
+	// Async highlighting with pygmentize-bundled
+	marked.setOptions({
+		highlight: function (code, lang, callback) {
+			require('pygmentize-bundled')({ lang: lang, format: 'html' }, code, function (err, result) {
+				callback(err, result.toString());
+			});
+		}
+	});
+
+	// Using async version of marked
+	marked(markdownString, function (err, content) {
+		if (err) throw err;
+		console.log(content);
+	});
+
+	// Synchronous highlighting with highlight.js
+	marked.setOptions({
+		highlight: function (code) {
+			return require('highlight.js').highlightAuto(code).value;
+		}
+	});
+
+	console.log(marked(markdownString));
+
+</script>
+
+<script>
+	if ($("#article_box").length > 0) {
+		$('#article_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+<script>
+
+	$(document).attr("title",$(document).attr("title")+"|"+"{$doc['title']}");//修改title值
+
+</script>
+{include file="public:footer"}

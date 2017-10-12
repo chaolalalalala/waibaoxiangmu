@@ -1,0 +1,178 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/issue.css" xmlns="http://www.w3.org/1999/html"/>
+<div class="autobox">
+	<div class="now">
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="{#url('hongli/index')}" class="orange">增值计划</a> &gt;{#lang('个人中心')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('增值计划')}
+					</span>
+	                <span>
+                        <a href="{#url('hongli/index')}" id="step1" class="step fz_12 ml50 pd6 ">{#lang('增值计划')}</a>
+                        <a href="{#url('hongli/log')}" id="step2" class="step fz_12 ml20 pd6 active">{#lang('个人中心')}</a>
+                    </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="crowd_list clear">
+				<span class="crowd_rule_t fz_20">我的增值计划</span>
+                <div>
+                    <table class="f_table" id="investLog_content2" style="margin-top: 10px">
+                        <thead>
+                        <tr>
+                            <th>交易编号</th>
+                            <th>名称</th>
+                            <th>增值计划币种</th>
+                            <th>增值计划数量</th>
+                            <th>收益币种</th>
+                            <th>利率</th>
+                            <th>周期</th>
+                            <th>违约赔率</th>
+                            <th>购买时间</th>
+                            <th>上次收益时间</th>
+                            <th>提取数量</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {if $pages["list"]}
+                        {foreach $pages["list"] as $k =>$v}
+                        <tr>
+                            <td>{$v['id']}</td>
+                            <td>{$v['name']}</td>
+                            <td>{#strtoupper($v['coinname'])}</td>
+                            <td>{$v['num']}</td>
+                            <td>{#strtoupper($v['feecoin'])}</td>
+                            <td>{$v['fee']}%</td>
+                            <td>{$v['tian']}天</td>
+                            <td>{$v['tiqian']}%</td>
+                            <td>{#addtime($v['addtime'])}</td>
+                            <td>{if $v["endtime"]!=0}
+                                {#addtime($v['endtime'])}
+                                {else}
+                                ----
+                                {/if}
+                            </td>
+                            <td>{if $v["status"]==1}
+                                {$v['back']}{#strtoupper($v['coinname'])}
+                                {else}
+                                ----
+                                {/if}
+                            </td>
+
+                            <td>{if $v['status']==0}
+                                收益中
+                                {else if $v['status']==1}
+                                已提取
+                                {else}
+                                状态错误
+                                {/if}
+                            </td>
+                            <td>
+	                            {if $v['status']==0}
+                                <input type="button" class="btns"  style="width: 80px"onclick="down('{$v['id']}')"  class="green" value="{#lang('提前取回')}">
+                                {/if}
+                            </td>
+                        </tr>
+                        {/foreach}
+                        {/if}
+                        </tbody>
+                    </table>
+                </div>
+                {if $pages['show']}
+                <div class="pages">{$pages['show'] nofilter}</div>{/if}
+			</div>
+            <div class="  crowd_list clear">
+                <span class="crowd_rule_t fz_20 " >我的收益</span>
+                <div class="f_tab_body" >
+                    <table class="f_table" id="investLog_content" style="margin-top: 10px">
+                        <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>增值计划</th>
+                            <th>收益类型</th>
+                            <th>收益币种</th>
+                            <th>收益</th>
+                            <th>收益时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {if $pages1['list']}
+                        {foreach $pages1['list'] as $k => $v}
+                        <tr>
+                            <td>{$v['id']}</td>
+                            <td>{$v['title']}期{$v["hongli_log_id"]}号交易</td>
+                            <td>{$v['name']}</td>
+                            <td>{#strtoupper($v['feecoin'])}</td>
+                            <td>{#num($v['lixi'])}</td>
+                            <td>{#addtime($v['addtime'])}</td>
+                        </tr>
+                        {/foreach}
+                        {/if}
+                        </tbody>
+                    </table>
+                    {if $pages1['show']}
+                    <div class="pages">{$pages1['show'] nofilter}</div>{/if}
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+<script>
+   function down(id){
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        layer.ready(function () {
+            layer.prompt({
+                title: "请输入交易密码",
+                formType: 1
+            }, function (val) {
+                if (val) {
+                    $.post("{#url('/home/hongli/down')}", {
+                        id:id,
+                        paypassword:val,
+                        token: "{$token}"
+                    }, function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            window.setTimeout("location.reload()", 1000);
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, "json");
+                }
+                ;
+            });
+        });
+    }
+</script>
+<script>
+	if ($("#hongli_box").length > 0) {
+		$('#hongli_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

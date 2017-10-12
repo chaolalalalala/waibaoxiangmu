@@ -1,0 +1,296 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>{$issue['name']} ICO项目详情 -  币火网 -  www.bihuo168.com </title>
+<meta name="Keywords" content="{$seos['keywords']}">
+<meta name="Description" content=" {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+<style>.dowebok_move{padding-left:30px; }</style>
+
+
+
+<link rel="stylesheet" href="__CSS__/issue.css"/>
+<link rel="stylesheet" href="/static/style/voteadd.css">
+<link rel="stylesheet" href="/static/style/issueadd.css">
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt; <a href="/myico.jsp" class="orange">{#lang('ICO项目认购')}</a> &gt; {#lang('ICO项目详情')}
+	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span><a  id="step0" class="step fz_12   pd6 active"><img src="/static/style/img/weituotu.png" alt="">{#lang('项目详情')}</a></span>
+	                <span><a href="/myico.jsp" id="step1" class="step fz_12 ml50 pd6 "><img src="/static/style/img/weituotu.png" alt="">{#lang('ICO项目')}</a>
+                        <a href="/myico_log.jsp" id="step2" class="step fz_12 ml20 pd6 "><img src="/static/style/img/weituotu.png" alt="">{#lang('我的记录')}</a>
+	                </span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="crowd_con clear" style="padding: 35px 30px 30px 30px;">
+				<div class="crowd_con_l ">
+					<div class="crowd_bi clear">
+						<img src="__UP__/{$issue['img']}" style="width: 30px;margin-top: 10px;" class="left">
+						<h2><a href="#" style="" class="left"><p style="font-size:30px;">{$issue['name']}</p></a></h2>
+					</div>
+					<ul class="crowd_subscribe_buy clear">
+						<li style="width:180px; padding-left:30px; font-size:16px;">
+							<p>{#lang('认购总量')}</p>
+							<span class="red">
+                                {$issue['num']} {#strtoupper($issue['coinname'])}
+							</span>
+						</li>
+						<li style="width:140px; font-size:16px;">
+							<p>{#lang('认购单价')}</p>
+							<span class="red">
+								0.00001667<!--{#num($issue['price'],$issue['coininfo']['round'])}--> {#strtoupper($issue['buycoin'])}
+							</span>
+						</li>
+						<li style="font-size:16px;">
+							<p>{#lang('认购限量')}</p>
+							<span class="red">
+								5000000<!--{$issue['limit']} {#strtoupper($issue['coinname'])}-->
+							</span>
+						</li>
+						<li style="padding-left: 50px; font-size:16px;">
+							<p>{#lang('已认购')}</p>
+							<span class="green">
+								{$issue['deal']} {#strtoupper($issue['coinname'])}
+							</span>
+						</li>
+					</ul>
+					<div class="crowd_time">
+						<div class="dowebok_move">
+							{if $issue['kaishi']==1}
+							<p class="crowd_con_lp" id="cdstatus" style="font-size:16px;">{#lang('距离认购开始还有')}：</p>
+							<div class="crowd_time_all dowebok">
+								<div id="t_d" class="days "></div>
+								<em>{#lang('天')}</em>
+								<div id="t_h" class="hours "></div>
+								<em>{#lang('时')}</em>
+								<div id="t_m" class="minutes"></div>
+								<em>{#lang('分')}</em>
+								<div id="t_s" class="seconds "></div>
+								<em>{#lang('秒')}</em>
+							</div>
+							<script src="__EXT__/jquery/jquery.flipTimer.js"></script>
+							<script>
+								$(function () {
+									$('.dowebok').flipTimer({
+										direction: 'down',
+										date: "{#addtime($issue['strtime'])}",
+										callback: function () {
+											window.location.reload();
+										}
+									});
+								});
+							</script>
+
+
+							{elseif $issue['jieshu']==1}
+
+
+							<p class="crowd_con_lp" id="cdstatus" style="font-size:16px;">{#lang('距离认购结束还有')}：</p>
+							<div class="crowd_time_all dowebok">
+								<div id="t_d" class="days "></div>
+								<em>{#lang('天')}</em>
+								<div id="t_h" class="hours "></div>
+								<em>{#lang('时')}</em>
+								<div id="t_m" class="minutes"></div>
+								<em>{#lang('分')}</em>
+								<div id="t_s" class="seconds "></div>
+								<em>{#lang('秒')}</em>
+							</div>
+							<script src="__EXT__/jquery/jquery.flipTimer.js"></script>
+							<script>
+								$(function () {
+									$('.dowebok').flipTimer({
+										direction: 'down',
+										date: "{#addtime($issue['sndtime'])}",
+										callback: function () {
+											window.location.reload();
+										}
+									});
+								});
+							</script>
+							{else}
+							<p class="crowd_con_lp " style="text-align: center;font-size: 22px;letter-spacing: 1px;line-height: 70px;">{#lang('当前认购已经结束')}</p>
+							{/if}
+						</div>
+					</div>
+					<div class="crowd_pro">
+						<progress value="{$issue['bili']}" max="100"></progress>
+						<span>{$issue['bili']}%</span></div>
+					<div class="crowd_xq">
+						<span class="mr10" style="font-size:16px;">{#lang('开始时间')}：<b class="red">{#addtime($issue['strtime'])}</b></span> <span class="mr10" style="font-size:16px;">{#lang('结束时间')}：<b class="red">{#addtime($issue['sndtime'])}</b></span> <span class="mr10" style="font-size:16px;">{#lang('付款币种')}：<b class="green">{#strtoupper($issue['buycoininfo']["name"])}</b>  </span>
+					</div>
+				</div>
+				<div class="crowd_con_r" style="width:430px;">
+					{if $user}
+					<div class="crowd_my" style="width:420px; padding-left:60px;">
+						<h2><span style="font-size:20px;">{#lang('我要认购')}</span></h2>
+						<div class="login_button mt10">
+							<p class="crowd_con_lp crowd_con_lp2" style="font-size:17px;">{#lang('您目前可用')}{#strtoupper($issue['buycoininfo']["name"])}：<span id="finance_span" class="green" style="font-weight:bold; font-size:20px;">{#num($user_coin[$issue['buycoin']]*1,6)}</span>
+							</p>
+						</div>
+						<div class="login_text  clear mt10" style="width:365px;">
+							<span style="font-size:17px;">{#lang('股份数量')}:<font  class="green" style="font-size:14px;   color:#000000; /*font-weight:bold;*/ "><a style="color:#ff7519; font-size:19px;">60000</a>币火股(BHG) = <a style=" font-size:19px;" class="green">1</a>个比特币(BTC)</font></span> 
+							<input type="text" id="num" class="texts" style="width:366px; height:50px; font-size:20px;" onkeyup="getTokenAmount(this.value, 0.00001667, 'BTC')" autocomplete="off"> <span style="font-size: 13px; font-weight:bold;" id="tokenAmountBTC"></span>
+						</div>
+						<div class="login_text clear mt10">
+							<span style="font-size:17px;">{#lang('交易密码')}:</span> <input type="password" id="paypassword" class="texts" style="width:366px; height:50px;">
+						</div>
+						<div class="login_button">
+							<input type="button" value={#lang("立即认购")} class="btns2" onclick="buy_up()" style="width:366px; margin-left: 0px; height: 50px!important;">
+						</div>
+					</div>
+					{else}
+					<div  style="margin-left: 210px; margin-top: 100px;  margin-bottom:70px; ">
+						<h2><span style="font-size:40px;">{#lang('请先登录')}</span></h2>
+					</div>
+					<div class="">
+						<input type="button" href="javascript:;" style="margin-left: 150px; height: 50px!important;"  onclick="loginpop()" class="btns2" value="立即登录" >
+					</div>
+					{/if}
+				</div>
+			</div>
+			<div class="crowd_list clear">
+				<span class="crowd_rule_t fz_20" style="font-size:40px;">{#lang('ICO项目认购介绍')}</span>
+				<div class="crowd_list_state mt10" style="font-size:18px; line-height:35px; ">
+					{$issue['content'] nofilter}
+				</div>
+			</div>
+
+			{if $issue["buy_log_show"] == 1}
+
+			<div class="crowd_list clear">
+				<span class="crowd_rule_t fz_20">{#lang('认购记录')}</span>
+				<div class="f_tab_body mt20">
+					<table class="f_table" id="investLog_content">
+						<thead>
+						<tr>
+							<th id="sublist-grid_c0">{#lang('用户')}</th>
+							<th id="sublist-grid_c1">{#lang('购买数量')}</th>
+							<th id="sublist-grid_c2">{#lang('购买时间')}</th>
+						</tr>
+						</thead>
+						<tbody>
+						{foreach $pages['list'] as $k => $v}
+						<tr>
+							<td>{$v['username']}</td>
+							<td>{$v['num']}</td>
+							<td>{#addtime($v['addtime'])}</td>
+						</tr>
+						{/foreach}
+						</tbody>
+					</table>
+					<div class="pages">{$pages['show'] nofilter}</div>
+				</div>
+			</div>
+			{/if}
+
+
+		</div>
+	</div>
+</div>
+<script>
+    function getTokenAmount(value, ratio, currency) {
+        var calcResult = (value * ratio).toFixed(8);
+        if (isNaN(calcResult)) {
+            return;
+        }
+        $("#tokenAmount" + currency).html('购买<font style="color:#ff7519;">'+value+'</font>份币火股,需要投资<font style="color:#1eae58;">'+calcResult.toString() + '</font> BTC');
+    }
+	
+	
+
+	function buy_up() {
+		var id          = "{$issue['id']}";
+		var num         = $('#num').val();
+		var paypassword = $('#paypassword').val();
+		if (num == "" || num == null) {
+			layer.tips('请输入认购数量', '#num', {tips: 3});
+			return false;
+		}
+		
+		if (num < 100){
+        layer.tips('币火股(BGH) 认购数量最低100份', '#num', {tips: 3});
+        return false;
+		}
+	
+	
+		if (paypassword == "" || paypassword == null) {
+			layer.tips('请输入交易密码', '#paypassword', {tips: 3});
+			return false;
+		}
+		$.post("{#url('issue/up')}", {
+			id: id,
+			num: num,
+			paypassword: paypassword,
+			token:"{$token}"
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout(function(){
+					window.location = "/myico_log.jsp";
+				},1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+</script>
+<script>
+	if ($("#issue_box").length > 0) {
+		$('#issue_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+
+
+{include file="aaapublic:footer"}
+

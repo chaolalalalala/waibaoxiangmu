@@ -1,0 +1,141 @@
+{include file="public:header"}
+<title>记录</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+	.green{
+		color:green;
+	}
+	.aui-list-item-title{
+		text-align:center;
+	}
+	.aui-list{
+		margin:0.2rem 0;
+	}
+</style>
+<body>
+<section class="aui-refresh-content">
+		<div id="pool-log">
+		</div>
+	</section>
+		<script id="pool-log-template" type="text/x-dot-template">
+			{{? it.length>0}}
+			{{ for(var i in it) { }}
+			<ul class="aui-list aui-media-list">
+				<li class="aui-list-item aui-list-item-middle">
+					<div class="aui-media-list-item-inner">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-text">
+								<div class="aui-list-item-title aui-font-size-14 aui-col-xs-2">
+									<div>序号</div>
+									<div>{{=it[i].id}}</div>
+								</div>
+								<div class="aui-list-item-title aui-font-size-14 aui-col-xs-2">
+									<div>工具ID</div>
+									<div>{{=it[i].workerid}}</div>
+								</div>
+								<div class="aui-list-item-title aui-font-size-14 aui-col-xs-4">
+									<div>获取收益时间</div>
+									<div>{{=it[i].gettime}}</div>
+								</div>
+								<div class="aui-list-item-title aui-font-size-14 aui-col-xs-2">
+									<div>收益</div>
+									<div class="green">{{=it[i].pd}}{{=it[i].pd_type}}</div>
+								</div>
+								<div class="aui-list-item-title aui-font-size-14 aui-col-xs-2">
+									<div>付税</div>
+									<div>{{=it[i].pdshui}}{{=it[i].pd_type}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+			{{ } }}
+			{{??}}
+			<div style="padding: 10px 0"><ul style="text-align: center;color: #535C6F">暂无内容 </ul></div>
+			{{? }}
+		</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-dialog.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	var callback;
+	var pid=1;
+	apiready = function(){
+		onerror = error_handel;
+		flash_wtlog(callback)
+	}
+
+	//获取数据
+	function flash_wtlog(callback){
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			return false;
+		}
+		loading("努力加载中……")
+		UserAjax('poolgbw/log','get', {
+			'pid':pid,
+		},
+			function (ret) {
+			toast.hide()
+			if (ret.status == 1)
+			{
+				var temp = doT.template($("#pool-log-template").text());
+				if(pid==1){
+					art('第'+pid+'页')
+					$("#pool-log").html(temp(ret.info.list))
+				}
+				else if(pid>Math.ceil(Number(ret.info.count)/Number(ret.info.pageSize))){
+					art("没有更多数据了")
+				}
+				else{
+					art('第'+pid+'页')
+					$("#pool-log").html($("#pool-log").html()+temp(ret.info.list))};
+				if(typeof callback == "function"){
+					setTimeout(function () {
+						callback("刷新完成");
+					}, 1000)
+				}
+				parseTapmode();
+			}else {
+				art(ret.info);
+				if (typeof callback == "function") {
+					setTimeout(function () {
+						callback("刷新失败");
+					}, 1000)
+				}
+			}
+		},'json');
+	}
+
+	 //上拉加载
+	window.onscroll = function() {
+		if (getScrollTop() + getWindowHeight() == getScrollHeight()) {
+			++pid;
+			flash_wtlog(callback);
+		}
+	}
+	//下拉刷新
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			if(getScrollTop()<10) {
+				pid=1
+				flash_wtlog(function (msg) {
+					art(msg);
+					pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+				})
+			}
+			else {
+				pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+			}
+		}
+	})
+</script>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>充值 - 财务中心 - 币火网 -  www.bihuo168.com </title>
+<meta name="Keywords" content="{$seos['keywords']}">
+<meta name="Description" content=" {$seos['description']}">
+<meta name="author" content="bihuo168.com">
+<meta name="coprright" content="bihuo168.com">
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+<link rel="stylesheet" href="__CSS__/common.css?v="/>
+<script type="text/javascript" src="__EXT__/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+<!--轮播图主体-->
+<link rel="stylesheet" href="/static/style/css/clear-css.css">
+<link rel="stylesheet" href="/static/style/css/css1.css">
+<link rel="stylesheet" href="/static/style/css/lunbo.css">
+<link rel="stylesheet" href="/static/style/css/denglu.css">
+<link rel="stylesheet" href="/static/style/css/css2.css">
+<script src="/static/style/js/denglu.js"></script>
+<script src="/static/style/js.js"></script>
+<link rel="stylesheet" href="/static/style/css.css">
+<link rel="stylesheet" href="/static/style/signinadd.css">
+</head>
+<body>
+
+{include file="aaapublic:header"}
+
+
+
+<link rel="stylesheet" href="/static/style/safeadd.css">
+<link rel="stylesheet" href="/static/style/moneyadd02.css">
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="movesay">{#lang('首页')}</a> &gt; <a href="/u/asset.jsp" class="movesay">{#lang('财务中心')} </a> &gt; {#lang('账户充值')}
+	</div>
+	<div class="main-content">
+		{include file="finan:left"}
+		<div class="tag-list-content assets_content bg_w">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						{#lang('账户充值')}
+					</span>
+					<span>
+						{if $hints["value"]}
+						<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">{#lang('查看介绍')}</span></a>
+						{/if}
+					</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "{$hints['show']}";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+				{$hints["value"] nofilter}
+			</div>
+			<div class="mytable-body ">
+				<div class="step1   pwtrade  pw  mt50">
+
+<!--div style="padding:0px 20px 20px 100px; font-size:16px; color:#ea5514; font-weight: bold; line-height:25px;">
+温馨提示：充值人民币 系统自动为会员入金： 支付宝/微信(秒到秒入)、网银转账(10分钟); 后续会开发支持信用卡付款； <br>
+最新研发的自动收款和自动入金的机器人功能还在对接调试中，正式上线以后可确保秒到秒入！
+公测调试期间也许会出现入金延时，如有遇到延时的问题 请及时联系本站工作人员，谢谢支持！
+</div-->
+
+					<div class="weituo_bizhong" style="margin-left: 149px;    margin-bottom: 10px;">
+						<div class="bizhong_select">
+							<div class="bz_btn">
+								{if $coin}
+
+								<img src="__UP__/{$coin_select[$coin]['img']}" alt="" style=" width: 22px;float: left;margin-top: 7px; margin-right: 5px;"/>
+								{/if}
+
+								<span id="coin-default">
+									<select name="type" id="coin-select" style="margin-top: 6px;">
+										{foreach $coin_select as $k => $v}
+										<option value="{$k}" {if $coin == $k} selected="selected" {/if} >{$v.title} ({#strtoupper($v['name'])})</option>
+										{/foreach}
+									</select>
+								</span>
+							</div>
+						</div>
+						<script>
+							$("#coin-select").change(function () {
+								var coin        = $("#coin-select option:selected").val();
+								window.location = '/finan/pay/coin/' + coin;
+							});
+						</script>
+
+
+						<div class="bizhong_type" style="width: 220px;">
+							<span>{#lang('可用')}<em class="coin-name"></em>：<font class="coin-balance">{#num($user_coin[$coin])}</font></span>
+						</div>
+					</div>
+					<br>
+
+
+
+
+					<dl>
+						<dt>{#lang('充值金额')}：</dt>
+						<dd style="position: relative;">
+							<input type="text" class="texts" id="cnyin_num" maxlength="12" value="">
+
+							<div style="position: absolute;right: 15px;top: 3px;">
+								<span id="random" class="random">.{$random}</span></div>
+						</dd>
+					</dl>
+					<dl>
+						<dt>{#lang('真实姓名')}：</dt>
+						<dd style="position: relative;">
+							<input type="text" class="texts" id="truename" maxlength="12" value="{$truename}" disabled="true" />
+							<span><br />政策监管要求：只允许用会员本人姓名的银行卡/支付宝/微信进行转账，否则充值失败！</span>
+						</dd>
+					</dl>
+					{if $cnyin_type}
+					<dl>
+						<dt class="cnyin_type">{#lang('充值方式')}：</dt>
+						<dd class="payment-icon-list payment-list ">
+							<ul style="width:600px;">
+								{foreach $cnyin_type as $k => $v}
+								<li class="wx" data="{$v['name']}"><img src="__UP__/{$v['img']}" width="100"></li>
+								{/foreach}
+							</ul>
+							<input type="hidden" id="cnyin_type" value="">
+						</dd>
+					</dl>
+					{/if}
+					<dl>
+						<dt></dt>
+						<dd>
+							<input type="button" class="btns2" value="{#lang('立即充值')}" onclick="cnyin_up()">
+						</dd>
+					</dl>
+				</div>
+				<div class="step2 f_body">
+					<table class="f_table" id="investLog_content">
+						<thead>
+						<tr>
+							<th width="">{#lang('充值时间')}</th>
+							<th width="">{#lang('充值币种')}</th>
+							<th width="">{#lang('充值订单')}</th>
+							<th width="">{#lang('充值方式')}</th>
+							<th width="">{#lang('充值金额')}</th>
+							<th width="">{#lang('赠送数量')}</th>
+
+							<th width="">{#lang('实际到账')}</th>
+							<th width="">
+								<span>
+									<select id="status-select">
+										<option value="">{#lang('全部状态')}</option>
+										<option value="1">{#lang('未付款')}</option>
+										<option value="2">{#lang('充值成功')}</option>
+										<option value="3">{#lang('人工到账')}</option>
+										<option value="4">{#lang('会员催单中')}</option>
+									</select>
+								</span>
+							</th>
+							<th width="">{#lang('操作')}</th>
+						</tr>
+						</thead>
+						<tbody>
+						{foreach $pages['list'] as $k => $v}
+						<tr>
+							<td>{#addtime($v['addtime'])}</td>
+							<td>{$v.coinname}</td>
+							<td>{$v.tradeno}</td>
+							<td>{$v.type}</td>
+							<td>{$v['num']}</td>
+							<td>{$v['fee']} {#strtoupper($v['feecoin'])}</td>
+							<td>{$v['mum']}</td>
+							{if $v['online']}
+								<td>
+									{if $v['status'] == 0}
+										<div>{#lang('未完成')}</div>
+									{else if $v['status'] == 1}
+										<div>{#lang('充值成功')}</div>
+									{else if $v['status'] == 2}
+										<div>{#lang('入账成功1')}</div>
+									{else if $v['status'] == 3|| $v['status'] == 4}
+									<div>{#lang('订单已取消')}</div>
+									{else }
+										<div color="red">{#lang('异常')}</div>
+									{/if}
+								</td>
+								<td>
+									<div>
+										{if $v['status'] == 0}
+											<a data="{$v['id']}" onclick="cnyin_chakan(this)" href="javascript:void(0)" class="cur" style="    color: #E55600!important;">{#lang('继续付款')}</a>
+										{else}
+											<a data="{$v['id']}" onclick="cnyin_chakan(this)" href="javascript:void(0)" class="cur" style="    color: #E55600!important;">{#lang('查看')}</a>
+										{/if}
+									</div>
+								</td>
+							{else}
+								<td>
+									{if $v['status'] == 0}
+										<div>{#lang('未付款')} <a data="{$v['id']}" data-action="{$v['types']}"  onclick="cnyin_huikuan(this)" href="javascript:void(0)" style="    color: #2674FF!important;"> {#lang('我要加急')} </a></div>
+									{else if $v['status'] == 1}
+										<div>{#lang('充值成功')}</div>
+									{else if $v['status'] == 2}
+										<div>{#lang('入账成功')}</div>
+									{else if $v['status'] == 3}
+										<div>{#lang('会员催单中')}</div>
+									{else if $v['status'] == 4}
+									<div>{#lang('已撤销')}</div>
+									{else}
+										<div color="red">{#lang('异常')}</div>
+									{/if}
+								</td>
+								<td>
+									<div>
+										<a data="{$v['id']}" onclick="cnyin_chakan(this)" href="javascript:void(0)" class="cur" style="    color: #E55600!important;">{#lang('查看')}</a>
+									</div>
+								</td>
+							{/if}
+						</tr>
+						{/foreach}
+						</tbody>
+					</table>
+					<div class="pages">{$pages['show'] nofilter}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+
+	$("#status-select").val("{$status}");
+
+	$("#status-select").change(function () {
+		var status = $("#status-select option:selected").val();
+		var url = '/u/asset/payin_cny';   //.jsp
+		if (status) {
+			url += '_s' + status;
+		}
+		url += '.jsp';
+		window.location = url;
+	});
+
+
+	function cnyin_huikuan(_this) {
+		var id = $(_this).attr('data');
+		var type = $(_this).attr('data-action');
+
+		layer.confirm('转账付款以后可插队加急，请确认是否转账成功？<br />未付款点击确认的用户会列入黑名单 请谨慎操作！', {
+			title : ' ',
+			btn: ['确定','取消'], //按钮
+		}, function(){
+			if(type == 'tenpay'){
+				layer.config({
+					extend: 'extend/layer.ext.js'
+				});
+				layer.ready(function () {
+					//默认prompt
+					layer.prompt({
+						title: "{#lang('输入充值成功订单后4位，并确认')}",
+						formType: 0
+					}, function (val) {
+						if (val) {
+							//需要执行的方法
+							$.post("{#url('finan/pay_huikuan')}", {id: id,type:type, remark: val}, function (data) {
+								if (data.status == 1) {
+									layer.msg(data.info, {icon: 1});
+									location.reload();
+								} else {
+									layer.msg(data.info, {icon: 2});
+									if (data.url) {
+										window.location = data.url;
+									}
+								}
+							}, "json");
+
+
+						}
+
+					});
+				});
+			}else{
+				$.post("{#url('finan/pay_huikuan')}", {id: id,type:type}, function (data) {
+					if (data.status == 1) {
+						layer.msg(data.info, {icon: 1});
+						setTimeout('location.reload()',1000);
+					} else {
+						layer.msg(data.info, {icon: 2});
+					}
+				}, "json");
+			}
+		}, function(){
+		});
+		$('.layui-layer-title').hide();
+	}
+
+	function cnyin_chakan(_this) {
+		var id = $(_this).attr('data');
+		layer.open({
+			title: '账户充值',
+			type: 2,
+			area: ['699px', '550px'],
+			content: ["/u/asset/payin_cny_cha"+id+".jsp", 'no'],
+		});
+	}
+
+
+	$(".payment-list li").first().addClass("curr");
+	$('#cnyin_type').val($(".payment-list li").first().attr('data'));
+	$('.payment-list li').click (function () {
+		$(this).addClass ('curr').siblings ('li').removeClass ('curr');
+		$('#cnyin_type').val($(this).attr('data'));
+	});
+
+	var lock = 0;
+	function cnyin_up() {
+		//加锁 防止重复点击
+		var type = $('#cnyin_type').val();
+		var num = $("#cnyin_num").val();
+		var truename = $("#truename").val();
+
+		if(truename == '' || truename == null) {
+			layer.msg('请先实名，否则无法冲值！');
+			return;
+		}
+
+		if (type == "" || type == null) {
+			layer.tips('请选择充值方式', '.cnyin_type', {tips: 2});
+			return false;
+		}
+
+		if (num == "" || num == null) {
+			layer.tips('请输入充值金额', '#cnyin_num', {tips: 2});
+			return false;
+		} else {
+			num = num + $('#random').html();
+		}
+
+		if(lock){
+			layer.msg('加载中,请勿重复点击...');
+			return;
+		}
+		lock = 1;
+		$.post("{#url('finan/pay_up')}", {
+			type: type,
+			num: num,
+			truename:truename
+		}, function (data) {
+			lock = 0;//解除锁
+			if (data.status == 1) {
+				layer.open({
+					title: "账户充值",
+					type: 2,
+					area: ['699px', '550px'],
+					content: ["/u/asset/payin_cny_content"+data.url+".jsp", 'no'],
+					cancel: function () {
+						window.location = "/u/asset/payin_cny.jsp";
+					}
+				});
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+</script>
+<script>
+	$('.finan_pay').addClass('active');
+</script>
+
+
+{include file="aaapublic:footer"}

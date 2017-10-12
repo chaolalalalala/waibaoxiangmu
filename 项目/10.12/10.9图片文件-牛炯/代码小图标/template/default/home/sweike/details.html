@@ -1,0 +1,514 @@
+{include file="sweike:header"}
+
+<link rel="stylesheet" href="/static/default/home/css/sweike/sweikedetails.css">
+<script type="text/javascript" src="__EXT__/jquery/jquery.jqzoom.js"></script>
+<script src="/static/default/home/js/sweike/sweikedetail.js"></script>
+<div class="wrapper1">
+	<div class="navlink">
+		<!--<div class="wrapper navlink_pos">-->
+		<!--当前位置： <a href="/" title="首页">首页</a> &gt;&gt; <a href="/sweike/index" title="威客任务">威客任务</a> &gt;&gt;-->
+		<!--威客详情-->
+		<!--</div>-->
+		<div class="now">
+			<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;
+			<a href="{#url('sweike/index')}" class="orange">{#lang('威客任务')}</a> &gt; {#lang('威客详情')}
+		</div>
+	</div>
+	<div class="main_container">
+		<div id="item_info" class="zhaobiao_item2">
+			<div class="it-con">
+				<div class="itc-l">
+					<!--item base info-->
+					<div class="it-top yahei">
+						<div class="jp_item_basei">
+							<div class="item_price_fav">
+								<div class="fl item_price">
+									<div class="fl price_n">
+										<a style="pointer-events:none;"
+										   target="_blank" title="{#lang('招标项目')}"><span class="fl price_n_t">{#lang('价格')}</span></a>
+										<span class="fl price_n_v" style="pointer-events:none;">{#round($sweike['price'],2)} {#strtoupper($sweike["price_type"])} </span>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<!--<div class="fr item_fav"><a href="javascript:void(0);" class="m-sc favstar" onclick="setSc(420692);">收藏</a></div>-->
+								<div class="clear"></div>
+								<div class="item_name">{$sweike["title"]}</div>
+							</div>
+							<div class="item_name"></div>
+							<div class="crowd_time">
+								<div class="dowebok_move">
+									{if $sweike["step"]<=2}
+									<p class="crowd_con_lp" id="cdstatus">{#lang('距离竞标结束还有')}：</p>
+									<div class="crowd_time_all dowebok">
+										<div id="t_d" class="days "></div>
+										<em>{#lang('天')}</em>
+										<div id="t_h" class="hours "></div>
+										<em>{#lang('时')}</em>
+										<div id="t_m" class="minutes"></div>
+										<em>{#lang('分')}</em>
+										<div id="t_s" class="seconds "></div>
+										<em>{#lang('秒')}</em>
+									</div>
+									<script src="__EXT__/jquery/jquery.flipTimer.js"></script>
+									<script>
+										$(function () {
+											$('.dowebok').flipTimer({
+												direction: 'down',
+												date: "{#addtime($sweike['endtime'])}",
+												callback: function () {
+													window.location.reload();
+												}
+											});
+										});
+									</script>
+									{else if $sweike["step"]>2 }
+									<div class="crowd_con_lp " style="text-align: center;font-size: 22px;letter-spacing: 1px;line-height: 70px">{#lang('竞标已经结束')}</div>
+									<p class="crowd_con_lp "></p>
+									{/if}
+								</div>
+							</div>
+							<div class="clear" style="height:10px;"></div>
+							<div class="item_process zhaobiao_process">
+								<!--时间轴开始-->
+								<div class="jinduline">
+									<div class="fl jindu_item">
+										{if $sweike['step'] >=1}
+										<div class="jindu_y_line jindu_out" style="background: url(/static/default/home/img/sweike/process_red.jpg) left 15px repeat-x;">
+											<div class="jindu_y_q_blue_s" style="background: url(/static/default/home/img/sweike/process_cr_red.jpg) center center no-repeat;text-align:center;font-size:24px;color: #FFF;
+	width: 29px;
+	height: 34px;
+	margin: 0 auto;"></div>
+										</div>
+										<div class="jindu_y_text" data="{$sweike['step']}">{#lang('新发布')}</div>
+										{else}
+										<div class="jindu_y_line jindu_out" style="background: url(/static/default/home/img/sweike/process_gray.jpg) left 15px repeat-x;">
+											<div class="jindu_y_q_blue_s" style="background: url(/static/default/home/img/sweike/process_cr_gray.jpg) center center no-repeat;
+	text-align: center;
+	font-size: 22px;
+	color: #FFF;
+	width: 29px;
+	height: 34px;
+	margin: 0 auto;"></div>
+										</div>
+										<div class="jindu_y_text" data="{$sweike['step']}">{#lang('新发布')}</div>
+										{/if}
+									</div>
+									<div class="fl jindu_item">
+										{if $sweike['step']>=2}
+										<div class="jindu_y_line jindu_out" style="background: url(/static/default/home/img/sweike/process_red.jpg) left 15px repeat-x;">
+											<div class="jindu_y_q_blue_s" style="background: url(/static/default/home/img/sweike/process_cr_red.jpg) center center no-repeat;text-align:center;font-size:24px;color: #FFF;
+	width: 29px;
+	height: 34px;
+	margin: 0 auto;"></div>
+										</div>
+										<div class="jindu_y_text" data="{$sweike['step']}">{#lang('进行中')}</div>
+										{else}
+										<div class="jindu_y_line jindu_out" style="background: url(/static/default/home/img/sweike/process_gray.jpg) left 15px repeat-x;">
+											<div class="jindu_y_q_blue_s" style="background: url(/static/default/home/img/sweike/process_cr_gray.jpg) center center no-repeat;
+										text-align: center;
+										font-size: 22px;
+										color: #FFF;
+										width: 29px;
+										height: 34px;
+										margin: 0 auto;"></div>
+										</div>
+										<div class="jindu_y_text" data="{$sweike['step']}">{#lang('进行中')}</div>
+										{/if}
+									</div>
+									<div class="fl jindu_item">
+										{if $sweike['step']>=3}
+										<div class="jindu_y_line jindu_out" style="background: url(/static/default/home/img/sweike/process_red.jpg) left 15px repeat-x;">
+											<div class="jindu_y_q_blue_s" style="background: url(/static/default/home/img/sweike/process_cr_red.jpg) center center no-repeat;text-align:center;font-size:24px;color: #FFF;
+	width: 29px;
+	height: 34px;
+	margin: 0 auto;"></div>
+										</div>
+										<div class="jindu_y_text" data="{$sweike['step']}">{#lang('已结束')}</div>
+										{else}
+										<div class="jindu_y_line jindu_out" style="background: url(/static/default/home/img/sweike/process_gray.jpg) left 15px repeat-x;">
+											<div class="jindu_y_q_blue_s" style="background: url(/static/default/home/img/sweike/process_cr_gray.jpg) center center no-repeat;
+										text-align: center;
+										font-size: 22px;
+										color: #FFF;
+										width: 29px;
+										height: 34px;
+										margin: 0 auto;"></div>
+										</div>
+										<div class="jindu_y_text" data="{$sweike['step']}">{#lang('已结束')}</div>
+										{/if}
+									</div>
+									<div class="fl jindu_item" style="height:auto">
+										{if $sweike['step']>=4}
+										<div class="jindu_y_line jindu_out" style="background: url(/static/default/home/img/sweike/process_red.jpg) left 15px repeat-x;">
+											<div class="jindu_y_q_blue_s" style="background: url(/static/default/home/img/sweike/process_cr_red.jpg) center center no-repeat;text-align:center;font-size:24px;color: #FFF;
+	width: 29px;
+	height: 34px;
+	margin: 0 auto;"></div>
+										</div>
+										<div class="jindu_y_text" data="{$sweike['step']}">{#lang('已关闭')}</div>
+										{else}
+										<div class="jindu_y_line jindu_out" style="background: url(/static/default/home/img/sweike/process_gray.jpg) left 15px repeat-x;">
+											<div class="jindu_y_q_blue_s" style="background: url(/static/default/home/img/sweike/process_cr_gray.jpg) center center no-repeat;
+										text-align: center;
+										font-size: 22px;
+										color: #FFF;
+										width: 29px;
+										height: 34px;
+										margin: 0 auto;"></div>
+										</div>
+										<div class="jindu_y_text" data="{$sweike['step']}">{#lang('已关闭')}</div>
+										{/if}
+									</div>
+									<!--<div class="fl jindu_item">-->
+									<!--<div class="jindu_y_line jindu_next"><div class="jindu_y_q_gray"></div></div>-->
+									<!--<div class="jindu_y_text">威客工作</div>-->
+									<!--</div>-->
+									<!--<div class="fl jindu_item">-->
+									<!--<div class="jindu_y_line jindu_next"><div class="jindu_y_q_gray"></div></div>-->
+									<!--<div class="jindu_y_text">验收付款</div>-->
+									<!--</div>-->
+									<!--<div class="fl jindu_item">-->
+									<!--<div class="jindu_y_line jindu_next"><div class="jindu_y_q_gray"></div></div>-->
+									<!--<div class="jindu_y_text">双方评价</div>-->
+									<!--</div>-->
+									<div class="clear"></div>
+								</div>
+								<!--时间轴结束-->
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<!--<div class="ht15"></div>-->
+					<div class="itc_container">
+						<!--<div class="itc_desc_t"> <div class="fl jp_desct">任务详情</div><div class="clear"></div></div>-->
+						<div class="itc-con">
+							<p>
+								{$sweike['content']}
+							</p>
+						</div>
+						<div class="itc-fj">
+						</div>
+						<div class="ht20"></div>
+					</div>
+					<div class="ht20" style="background:#F1F2F7"></div>
+					<div class="lb">
+						<div class="taitou" style="height:auto;">
+							<div class="fl tab">{#lang('所有参与')}({$count})</div>
+							<div class="clear"></div>
+							<div class="tab_bt"></div>
+							<div class="shadow"></div>
+							<div class="cy-list">
+								{foreach $pages['list'] as $k=>$v}
+								<div class="table">
+									<div class="lb_1">
+										<div class="lb_no">
+											<div class="fl lb_l_no">{#lang('用户名')}：<b>{$v['userid']}</b></div>
+											<!--<a style="margin-left: 150px" class="lxw" href="javascript:;" uid="10429124" uin="软件园二期">联系我</a>-->
+											<div class="clear"></div>
+											<div class="tijiao">{#lang('提交于')}{#addtime($v['addtime'])}</div>
+											<div class="clear"></div>
+										</div>
+										<div class="lb_1a jbuser_7805371">
+											<div class="head" style="pointer-events:none;">
+												<a style="pointer-events:none;" target="_blank"><img src="/static/default/home/img/sweike/nohead.jpg" width="80" height="80" uid="10429124"></a>
+											</div>
+											<div class="lb_cc">
+												<div class="namebj utip" uid="10429124">
+													<a target="_blank" style="pointer-events:none;"
+													>{$v['content']}</a>
+												</div>
+												<div class="dj">
+													{if $v["status"]==1}
+													<div class="dj1">{#lang('稿件状态: 恭喜你,中标')}!
+													</div>
+													{else if $v["status"]==2}
+													<div class="dj1">{#lang('稿件状态: 待审核')}
+													</div>
+													{/if}
+													<div style="clear:both"></div>
+												</div>
+												<div class="clear"></div>
+												<!--<div class="lb_area">广东 - 广州</div>-->
+											</div>
+											<!--<div class="baoj">-->
+											<!--竞标报价：<span class="jiage">{$v['price']}</span><br>-->
+											<!--开发周期：<span class="kfzhouqi">{$v['endtime']}</span>-->
+											<!--</div>-->
+											<div class="szdq">
+												{if session("userid")==$sweike["userid"] && $v["status"]==1}
+                                                <a class="lxw"  href="javascript:void(0)" data-align="{$v['id']}" onclick="pay(this)">{#lang('支付酬劳')}</a>
+												<!--<a class="lxw" href="/sweike/pay/id/{$v['id']}" >支付酬劳</a>-->
+                                                {else if session("userid")==$sweike["userid"] && $v["status"]==2}
+												<a class="lxw"  href="javascript:void(0)" data-align="{$v['id']}" onclick="makesure(this)">{#lang('确认中标')}</a>
+                                                {/if}
+												<div style="clear:both"></div>
+											</div>
+											<div style="clear:both"></div>
+										</div>
+										<div style="clear:both"></div>
+										<!--<div class="xq zb_bj_con"> <span class="arrzb">◆</span>-->
+										<!--报价内容暂不公开-->
+										<!--</div>-->
+										<div style="clear:both"></div>
+										<div class="lb_1c">
+										</div>
+									</div>
+								</div>
+								{/foreach}
+								<div class="pages">{$pages['show'] nofilter}</div>
+							</div>
+						</div>
+						<!--<div class="pages">{$pages['show'] nofilter}</div>-->
+						<!----列表1------>
+						<!--<div class="cy-list">-->
+						<!--<div class="table"><div class="lb_1"><div style="font-size:14px;color:#777;padding:40px">暂时还没有报价哦</div></div></div>-->
+						<!--</div>-->
+						<div style="clear:both"></div>
+					</div>
+					<div style="clear:both"></div>
+				</div>
+				<div class="itc-r">
+					<ul class="gz-box">
+						<li class="gz-img"><a style="pointer-events:none;"
+						                      target="_blank" title="{#lang('雇主')}：haizhong2017">
+							<img src="/static/default/home/img/sweike/nohead.jpg" width="80" height="80" onerror="this.src='/static/default/home/img/sweike/nohead.jpg';"></a>
+						</li>
+						<li class="gz-info">
+							<ul>
+								<li class="jp_guzhu_n">
+									<a style="pointer-events:none;"
+									   class="b f14 tip" target="_blank" title="{#lang('雇主')}：haizhong2017"> {$sweike['username']['username']}</a>
+								</li>
+								<!--<li class="jp_guzhu_area">所在地区：浙江-杭州-->
+								<!--</li>-->
+								<!--<li class="gz-dj jp_guzhu_xy">信用等级：<img src="/" alt="一星级-->
+								<!--积分：15分" title="一星级-->
+								<!--积分：15" class="tip" align="absmiddle"></li>-->
+							</ul>
+						</li>
+						<li class="jp_guzhu_favr yahei">
+							<a href="mailto" class="fl contact" uid="10434430" uin="haizhong2017" id="send">{#lang('联系雇主')}</a>
+							<!--<a href="javascript:void(0);" class="fl contact" uid="10434430" uin="haizhong2017">联系雇主</a>-->
+							<!--<a href="mailto" id="send">联系雇主</a>-->
+							<div class="clear"></div>
+						</li>
+					</ul>
+					<div class="clear"></div>
+					<div class="r_iteminfo">
+						<div class="r_itemf_sum">
+							<div class="fl r_itemf_hits">
+								<span>{#lang('浏览数量')}</span><b class="item_hits_obj" data="420692">{$sweike['view']}</b></div>
+							<div class="fr r_itemf_cys"><span>{#lang('竞标数量')}</span><b class="item_gjnum_obj">{$sweike['num']}</b>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<!--<div class="r_itemf_share">-->
+						<!--<div class="r_itemf_sharet">分享可赚钱，赶快告诉您的朋友吧</div>-->
+						<!--<div class="r_itemf_share_link">-->
+						<!--<div class="bdsharebuttonbox bdshare-button-style0-32" data-bd-bind="1486361008439"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div><script>                	                                                                                                                                                                                                                                                                                                                                                                                                                        window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "32" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>-->
+						<!--</div>-->
+						<!--<div class="clear"></div>-->
+						<!--</div>-->
+						<div class="r_itemf_toubiao">
+						<div class="r_itemf_cy_state_text">{#lang('此任务正在接受竞标中')}</div>
+						<div class="r_itemf_cy_act">
+						<a href="javascript:void(0);" class="bj_btn itemf_cy_btn hereright" onclick="showC()" title="{#lang('我要竞标')}">{#lang('我要竞标')}</a>
+						</div>
+						<div class="r_itemf_cy_otherdo">
+						</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+					<script>
+						function showC() {
+							$("#step5").show();
+							$("#step6").show();
+						}
+						function showD() {
+							$("#step5").hide();
+							$("#step6").hide();
+						}
+
+						function sendEmail() {
+							$("#send").attr("href", "mailto:{$sweike['username']['email']}");
+							document.getElementById("send").click();
+						}
+							$(document).load(
+									$(".contact").click(sendEmail)
+						);
+					</script>
+					<div class="r_itemf_likes">
+						<div class="r_itemf_like_t">{#lang('类似需求')}</div>
+						<div class="r_itemf_like_list">
+							{foreach $data as $k=>$v}
+							<div class="r_itemf_likei">
+								<div class="r_itemf_lk_vm">{#strtoupper($v["price_type"])} {#round($v['price'])}</div>
+								<div class="r_itemf_lk_title">
+									<a href="/sweike/details/id/{$v['id']}" target="_blank">{$v['title']}</a>
+									<span>{$v['num']}{#lang('人投标')}</span></div>
+							</div>
+							{/foreach}
+						</div>
+						{if !$data}
+						<div class="need">{#lang('暂无需求')}</div>
+						{/if}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="all_mask_loginbox" id="step5" style="display: none;">
+	<div class="login_title pl20">{#lang('竞标投稿')}</div>
+	<form id="form-login" class="mask_wrap login-fb">
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">{#lang('投稿描述')}：</div>
+			<textarea id="contents" class="texts" type="text" style="height: 130px;width: 250px"></textarea>
+		</div>
+		<div class="login_text zin80" style="width:300px">
+			<div class="mask_wrap_title">{#lang('交易密码')}：</div>
+			<input id="paypasswords" class="texts" type="password" style="width: 250px"><a href="/findpwd/paypassword" class="move ml5">{#lang('忘记')}?</a>
+		</div>
+		<div class="login_button">
+			<input type="button" class="btns2" value="{#lang('提交')}" onclick="submit_data();">
+		</div>
+	</form>
+	<div class="mask_wrap_close " onclick="showD()"><i class="fa fa-close fa-2x move"></i></div>
+</div>
+<div id="step6" class="all_mask" style="height: 0px;display: none;"></div>
+<input type="hidden" id="itemjindushowstate" value="2">
+<div style="clear:both"></div>
+<script language="javascript" type="text/javascript" src="/task/js/item_zb_new_info_v2.js?v"></script>
+<div class="tip-yellow">
+	<div class="tip-inner tip-bg-image"></div>
+	<div class="tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left"></div>
+</div>
+<div class="tip-yellow">
+	<div class="tip-inner tip-bg-image"></div>
+	<div class="tip-arrow tip-arrow-top tip-arrow-right tip-arrow-bottom tip-arrow-left"></div>
+</div>
+<div class="ht30"></div>
+<style>
+	@media screen and (max-width:1200px){
+		.mt40{
+			margin-left:-723px;
+		}
+
+		#footer{
+			padding-left:726px;
+		}
+
+		.footer_bottom{
+			padding-left:688px;
+		}
+	}
+</style>
+<script type="text/javascript">
+    //  支付酬劳
+    function pay(o) {
+        var id = $(o).attr('data-align');
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        layer.ready(function () {
+            //默认prompt
+            layer.prompt({
+                title: '{#lang("输入交易密码，并确认")}',
+                formType: 1
+            }, function (val) {
+                if (val) {
+                    //需要执行的方法
+                    $.post("{#url('sweike/pay')}", {
+                        id: id,
+                        paypassword: val
+                    }, function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            window.setTimeout("location.reload()", 1000);
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, "json");
+                };
+            });
+        });
+
+    }
+    //  确认中标
+    function makesure(o) {
+        var id = $(o).attr('data-align');
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        layer.ready(function () {
+            //默认prompt
+            layer.prompt({
+	            title: '{#lang("输入交易密码，并确认")}',
+                formType: 1
+            }, function (val) {
+                if (val) {
+                    //需要执行的方法
+                    $.post("{#url('sweike/check')}", {id: id, paypassword: val}, function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            window.setTimeout("location.reload()", 1000);
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, "json");
+                };
+            });
+        });
+
+    }
+	function submit_data() {
+		var url         = "/sweike/tender_add";
+		var id          = "{$sweike['id']}";
+        var content     = $("#contents").val();
+		var paypasswords = $("#paypasswords").val();
+
+
+		$.post(url,
+				{
+                    weikeid:id,
+					content: content,
+					paypassword: paypasswords
+				},
+				function (data) {
+					if (data.status == 1) {
+						layer.msg(data.info, {icon: 1});
+						window.setTimeout("location.reload()", 1000);
+					} else {
+						layer.msg(data.info, {icon: 2});
+						if (data.url) {
+							window.location = data.url;
+						}
+					}
+				}, "json");
+
+	}
+	// 头部多级菜单
+	var nav = $('.mainbav');
+
+		$(".mainmenu").append(nav);
+
+		$(".mainmenu").hover(function () {
+			$(".mainbav").show();
+		}, function () {
+			$(".mainbav").hide();
+		});
+</script>
+<script>
+	if ($("#sweike_box").length > 0) {
+		$('#sweike_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+{include file="public:footer"}

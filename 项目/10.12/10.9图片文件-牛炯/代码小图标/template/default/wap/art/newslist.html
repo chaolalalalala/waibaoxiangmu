@@ -1,0 +1,126 @@
+{include file="public:header"}
+<title>手机版</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+	<style type="text/css">
+		.aui-list .aui-list-item-media{
+			width:6rem;
+		}
+	</style>
+<body>
+<section class="aui-refresh-content">
+<div class="aui-content">
+	<ul class="aui-list aui-media-list" id="list">
+	</ul>
+	<script id="news-template" type="text/x-dot-template">
+		{{? it.length>0}}
+		{{ for(var i in it) { }}
+			{{? it[i].img}}
+				<li class="aui-list-item"  tapmod onclick="open_art('{{=it[i].title}}','{{=it[i].id}}')">
+					<div class="aui-media-list-item-inner">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-inner">
+								<div class="aui-list-item-title aui-font-size-18">{{=it[i].title}}</div>
+								<div class="aui-list-item-text">
+									<p class="aui-ellipsis-2">{{=it[i].content}}</p>
+								</div>
+							</div>
+							<div class="aui-info aui-padded-b-0" style="    padding-top: 0;">
+								<div class="aui-info-item aui-font-size-12">
+									<span class="aui-margin-l-5">{{=it[i].username}}</span>
+								</div>
+								<div class="aui-info-item aui-font-size-12">{{=it[i].addtime}}</div>
+							</div>
+						</div>
+						<div class="aui-list-item-media">
+							<img src="{{=it[i].img}}">
+						</div>
+					</div>
+				</li>
+			{{??}}
+				<li class="aui-list-item"   tapmod onclick="open_art('{{=it[i].title}}','{{=it[i].id}}')">
+					<div class="aui-media-list-item-inner">
+						<div class="aui-list-item-inner">
+							<div class="aui-list-item-title aui-font-size-18">{{=it[i].title}}</div>
+							<div class="aui-list-item-text">
+								<p class="aui-ellipsis-2">{{=it[i].content}}</p>
+							</div>
+						</div>
+					</div>
+					<div class="aui-info">
+						<div class="aui-info-item aui-font-size-12">
+							<span class="aui-margin-l-5">{{=it[i].username}}</span>
+						</div>
+						<div class="aui-info-item aui-font-size-12">{{=it[i].addtime}}</div>
+					</div>
+				</li>
+			{{?}}
+		{{ } }}
+		{{??}}
+		<li class="aui-list-item aui-list-item-middle">
+			<div class="aui-media-list-item-inner">
+				<div class="aui-list-item-inner aui-list-item-arrow">
+					<div class="aui-list-item-text">
+						<div class="aui-list-item-title aui-font-size-14">暂无内容</div>
+					</div>
+				</div>
+			</div>
+		</li>
+		{{? }}
+	</script>
+</section>
+</div>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript">
+	apiready = function () {
+			onerror = error_handel;
+			flash();
+	}
+	//下拉刷新
+	var callback;
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			if ( getScrollTop() < 10)
+			{
+				flash(function (msg) {
+					art(msg);
+					pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+				});
+			}
+			else {
+				pullRefresh.cancelLoading();
+			}
+		}
+	})
+	function flash(callback){
+        loading('加载中...');
+		Ajax('art/ArtList', 'get', '', function (ret) {
+            toast.hide();
+			if (ret.status == 1) {
+				//News
+				var news = ret.info;
+				var tempFn = doT.template($api.byId('news-template').text);
+				$api.html($api.byId('list'), tempFn(news));
+				if(typeof callback == "function"){
+					setTimeout(function () {
+						callback("刷新完成");
+					}, 1000)
+				}
+				parseTapmode();
+			}else{
+				if (typeof callback == "function") {
+					setTimeout(function () {
+						callback("刷新失败");
+					}, 1000)
+				}
+			}
+		});
+	}
+</script>
+</html>

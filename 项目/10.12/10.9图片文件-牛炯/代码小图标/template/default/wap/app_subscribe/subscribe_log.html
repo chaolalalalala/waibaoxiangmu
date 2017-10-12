@@ -1,0 +1,221 @@
+{include file="public:header"}
+<title>委托管理</title>
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui.2.0.css">
+<link type="text/css" rel="stylesheet" href="__WAP__/css/aui/aui-pull-refresh.css">
+</head>
+<style>
+	.coin-header-img{
+		width: 1.5rem;
+		padding:0.25rem;
+		height: 1.5rem;
+		float:left;
+	}
+	.coin-header-img img{
+		width:100%;
+		height:100%;
+	}
+	.my_body{
+		margin: 10px 10px 10px 10px;
+		border-radius: 8px;
+		padding: 0 10px;
+		line-height: 30px;
+	}
+	.my_body ul{
+		position: relative;
+		padding-left: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		list-style: none;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background-color: #FFF;
+	}
+	.bank_title{
+		margin: 0 0 0 1rem;
+		height: 2rem;
+		line-height: 2rem;
+	}
+	.bank_body{
+		margin: 0 0 0 1rem;
+	}
+	.bank_body span{
+		display: block;
+	}
+	.bank_body .g{
+		color: gray;
+	}
+	.r{
+		float: right;
+		margin-right: 1rem;
+	}
+	.red{
+		color: #e55600;
+	}
+	.green{
+		color:green;
+	}
+     .blue{
+	     color:blue;
+     }
+	.gray {
+		color: gray;
+	}
+</style>
+<body>
+<section class="aui-refresh-content">
+<div class="wrap">
+	<div class="my_body">
+		<div id="subscribe-log">
+		</div>
+  </div>
+</div>
+	</section>
+<script id="subscribe-log-temp" type="text/x-dot-template">
+	{{? it.length>0 }}
+	{{ for (var i in it){ }}
+	<ul class="aui-border">
+		<li class="bank_title aui-border-b">
+					<span class="coin-header-img">
+						<img src="{{=it[i].coin.img}}" class="">
+					</span>
+			<span class="red"><em>{{=it[i].name}}</em></span>
+			{{? it[i].status==0}}
+			<span class="r green">解冻中 | <em class="red" onclick="jiedong('{{=it[i].id}}')">解冻</em></span>
+            {{?? it[i].status==1}}
+			<span class="r gray">已完成</span>
+            {{??}}
+            <span class="r blue">状态异常</span>
+	        {{?}}
+		</li>
+		<li>
+			<ul>
+				<li class="bank_body">
+			          <span class="g">认购价格: <em>{{=it[i].price}}</em></span>
+			          <span class="g">认购数量: <em>{{=it[i].num}}</em></span>
+			          <span class="g">认购总价: <em>{{=it[i].mum}}</em></span>
+			          <span class="g">认购时间: <em>{{=it[i].addtime}}</em></span>
+			          <span class="g">上次解冻: <em>{{?it[i].status==2}}----{{??}}{{=it[i].endtime}}{{?}}</em></span>
+			          <span class="g">解冻次数: <em>{{=it[i].jd}}/{{=it[i].ci}}</em></span>
+			          <span class="g">剩余冻结: <em>{{=it[i].shen}}</em></span>
+		          </li>
+		        </ul>
+		</li>
+	</ul>
+	{{ } }}
+	{{??}}
+	<div style="padding: 10px 0">
+		<ul style="text-align: center;color: #535C6F">
+			暂无内容
+		</ul>
+	</div>
+	{{?}}
+</script>
+</body>
+<script type="text/javascript" src="__WAP__/js/ext/doT.min.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-pull-refresh.js"></script>
+<script type="text/javascript" src="__WAP__/js/aui/aui-toast.js"></script>
+<script type="text/javascript">
+	var callback;
+	var pid=1;
+	apiready = function() {
+		onerror = error_handel;
+		flash(callback);
+	}
+
+	window.onscroll = function() {
+		if (getScrollTop() + getWindowHeight() == getScrollHeight()) {
+			++pid;
+			flash(callback)
+		}
+	}
+
+
+	function flash(callback){
+		if (!chkLogin()) {
+			art("您目前未登录,请先登录");
+			emptyData($("#subscribe-log"))
+			return false;
+		}
+		loading("加载中……")
+		Ajax('issue/log', 'get', {
+			'pid':pid,
+		} , function (ret) {
+			if (ret.status == 1){
+				toast.hide()
+				var temp = doT.template($("#subscribe-log-temp").text());
+				if(pid==1){
+					art('第' + pid + '页')
+					$("#subscribe-log").html(temp(ret.info.list))
+				}
+				else if(pid>Math.ceil(Number(ret.info.count)/Number(ret.info.pageSize))){
+					art("没有更多数据了")
+				}
+				else{
+					art('第' + pid + '页')
+					$("#subscribe-log").html($("#subscribe-log").html()+temp(ret.info.list));}
+				if(typeof callback == "function"){
+					setTimeout(function () {
+						callback("刷新完成");
+					}, 1000)
+				}
+				parseTapmode();
+			}else{
+				toast.hide();
+				art(ret.info)
+				if(typeof callback == "function"){
+					setTimeout(function () {
+						callback("刷新失败");
+					}, 1000)
+				}
+			}
+		},'json');
+	}
+
+	//解冻
+	function jiedong(id){
+		loading('解冻中……')
+        UserAjax('issue/jiedong','post',{'id':id},function(ret){
+	        toast.hide();
+	        if(ret.status==1){
+		        art(ret.info);
+		        setTimeout(function(){
+			        scrollTo(0,0)
+			        pid=1;
+			        flash(callback);
+		        },2000);
+	        }else{
+		        art_long(ret.info);
+	        }
+        },'json');
+	}
+
+function art_long(msg) {
+	if ($(".move_dialog")) {
+		$(".move_dialog").remove();
+	}
+	$(document.body).append('<div class="move_dialog" style="position:fixed !important;margin:auto;top:50%;z-index:999999;background: #0E0E0E;width: auto;color: #9A9A9A;left: 40%;line-height: 1.5rem;padding: 0.5rem 1rem;filter: alpha(opacity=80);-moz-opacity: 0.8;opacity: 0.8;">' + msg + '</div>');
+	var height = screen.height > $(window).height() ? $(window).height() : screen.height;
+	$('.move_dialog').css("top", (height - $('.move_dialog').height()) / 2);
+	$('.move_dialog').css("left", ($(window).width() - $('.move_dialog').width()) / 2);
+	if (Debug) {
+		setTimeout('$(".move_dialog").remove();', 10000);
+	} else {
+		setTimeout('$(".move_dialog").remove();', 3000);
+	}
+     }
+
+	//下拉刷新
+	var pullRefresh = new auiPullToRefresh({
+		container: document.querySelector('.aui-refresh-content'),
+		triggerDistance: 100
+	}, function (ret) {
+		if (ret.status == "success") {
+			flash(function (msg) {
+				art(msg);
+				pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+			});
+		}
+	})
+</script>
+</html>

@@ -1,0 +1,98 @@
+<style>
+.nav-tab-list .nav-tab-hover{width:100%;top:60px;height:50px;line-height:50px;background:#EAEDF4;position:absolute;box-sizing:content-box;z-index:1;transition:all .5s;-webkit-transition:all .5s;display:none}
+</style>
+<script type="text/javascript">
+	// 左边tab切换&浮动导航
+	$(function () {
+		// 左边tab切换&浮动导航
+		(function () {
+			var tab   = $('.nav-tab-list dd');
+			var hover = $('.nav-tab-hover');
+			var pos   = 0;
+			tab.each(function (index) {
+				var $this = $(this);
+				if ($this.hasClass('active')) {
+					pos = index;
+				}
+				$this.hover(function () {
+					_moveTo(index);
+				}, function () {
+					_moveTo(pos);
+				});
+			});
+			_moveTo(pos);
+			$('.nav-tab-hover').show();
+
+			function _moveTo(index) {
+				hover.css("top", 60 + 50 * index);
+				tab.removeClass('active');
+				tab.eq(index).addClass('active');
+			}
+		})();
+	});
+
+	$(window).on('scroll resize', function () {
+		if (document.body.scrollTop < 100) {
+			$('#left-nav-bar').css("top", 0);
+		} else if (document.body.scrollTop > ($('.tag-list-content').height() - $('#left-nav-bar').height() + 100)) {
+			$('#left-nav-bar').css("top", ($('.tag-list-content').height() - $('#left-nav-bar').height()));
+		} else {
+			$('#left-nav-bar').css("top", document.body.scrollTop - 100);
+		}
+	});
+</script>
+<div class="left-nav-bar" id="left-nav-bar">
+	<div class="left-nav-slider">
+		<dl class="nav-tab-list">
+			<dt>
+				<a href="/u/asset.jsp"><i class="fa fa-support mr10"></i>{#lang('财务中心')}</a>
+			</dt>
+			<dt class="nav-tab-hover hover1"></dt>
+
+
+			<dd class="finan_index">
+				<a href="/u/asset.jsp"> <i class="fa fa-tasks fa-lg fa-fw mr5"></i> {#lang('我的财产')} <i class="fa fa-angle-right fa-lg right mr10 mt17"></i> </a>
+			</dd>
+			<dd class="finan_consum">
+				<a href="/bihuo.jsp"> <i class="fa fa-archive fa-lg fa-fw mr5"></i> {#lang('便民工程')} <i class="fa fa-angle-right fa-lg right mr10 mt17"></i> </a>
+			</dd>
+
+			<!--dd class="finan_pay">
+				<a href="/u/asset/payin_cny.jsp"> <i class="fa fa-mail-forward fa-lg fa-fw mr5"></i> {#lang('充值人民币')} <i class="fa fa-angle-right fa-lg right mr10 mt17"></i> </a>
+			</dd-->
+			<dd class="finan_out">
+				<a href="/u/asset/payout_cny.jsp"> <i class="fa fa-mail-reply fa-lg fa-fw mr5"></i> {#lang('提现人民币')} <i class="fa fa-angle-right fa-lg right mr10 mt17"></i> </a>
+			</dd>
+			<dd class="finan_coinin">
+				<a href="/u/asset/payin.jsp"> <i class="fa fa-arrow-right fa-lg fa-fw mr5"></i> {#lang('充币 转入')} <i class="fa fa-angle-right fa-lg right mr10 mt17"></i> </a>
+			</dd>
+			<dd class="finan_coinout">
+				<a href="/u/asset/payout.jsp"> <i class="fa fa-arrow-left fa-lg fa-fw mr5"></i> {#lang('提币 转出')} <i class="fa fa-angle-right fa-lg right mr10 mt17"></i> </a>
+			</dd>
+
+			<dd class="finan_order">
+				<a href="/u/asset/bill.jsp"> <i class="fa fa-random fa-lg fa-fw mr5"></i> {#lang('我的交易')} <i class="fa fa-angle-right fa-lg right mr10 mt17"></i> </a>
+			</dd>
+			<dd class="finan_invit">
+				<a href="/u/asset/invitation.jsp"> <i class="fa fa-users fa-lg fa-fw mr5"></i> {#lang('推荐有奖')} <i class="fa fa-angle-right fa-lg right mr10 mt17"></i> </a>
+			</dd>
+			<dd class="finan_invitlog">
+				<a href="/u/asset/my_invitation.jsp"> <i class="fa fa-credit-card fa-lg fa-fw mr5"></i> {#lang('我的下级')} <i class="fa fa-angle-right fa-lg right mr10 mt17"></i> </a>
+			</dd>
+			<dd class="finan_award">
+				<a href="/u/asset/aw.jsp"> <i class="fa fa-archive fa-lg fa-fw mr5"></i> {#lang('我的奖金')} <i class="fa fa-angle-right fa-lg right mr10 mt17"></i> </a>
+			</dd>
+
+
+			<!-- {if $userid == 98} 98可见 {/if} -->
+		</dl>
+	</div>
+</div>
+<script>
+	if ($("#finan_box").length > 0) {
+		$('#finan_box').addClass('active');
+	} else {
+		$('#index_box').addClass('active');
+	}
+</script>
+
